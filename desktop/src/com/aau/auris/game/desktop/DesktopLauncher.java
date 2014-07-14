@@ -1,12 +1,14 @@
 package com.aau.auris.game.desktop;
 
+import com.aau.auris.game.AURIS_Game;
 import com.badlogic.gdx.backends.lwjgl.LwjglApplication;
 import com.badlogic.gdx.backends.lwjgl.LwjglApplicationConfiguration;
-import com.aau.auris.game.Game;
 
-public class DesktopLauncher {
-	public static void main (String[] arg) {
+public class DesktopLauncher
+{
+	public static void main(String[] arg)
+	{
 		LwjglApplicationConfiguration config = new LwjglApplicationConfiguration();
-		new LwjglApplication(new Game(), config);
+		new LwjglApplication(new AURIS_Game(), config);
 	}
 }
