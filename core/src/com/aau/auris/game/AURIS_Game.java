@@ -1,18 +1,27 @@
 package com.aau.auris.game;
 
+import com.aau.auris.game.userdata.Player;
+import com.aau.auris.game.userdata.UserData;
 import com.badlogic.gdx.Game;
 
 public class AURIS_Game extends Game
 {
-
-	private GamePreferences preferences;
+	private UserData userdata = null;
+	private Player player = null;
 
 	@Override
 	public void create()
 	{
-		this.preferences = new GamePreferences();
+		userdata = new UserData();
+		userdata.load();
 
 		this.setScreen(new LoginScreen(this));
+	}
+
+	public void setPlayer(Player player)
+	{
+		this.player = player;
+		System.out.println("player logged in: " + player);
 	}
 
 	@Override
@@ -21,8 +30,16 @@ public class AURIS_Game extends Game
 		super.render();
 	}
 
-	public GamePreferences getGamePreferences()
+	public UserData getUserData()
 	{
-		return preferences;
+		return userdata;
 	}
+
+	@Override
+	public void dispose()
+	{
+		super.dispose();
+		userdata.save();
+	}
+
 }
