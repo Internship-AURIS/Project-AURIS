@@ -1,5 +1,6 @@
-package com.aau.auris.game;
+package com.aau.auris.game.screens;
 
+import com.aau.auris.game.AURIS_Game;
 import com.aau.auris.game.userdata.Player;
 import com.aau.auris.game.userdata.UserData;
 import com.badlogic.gdx.Gdx;

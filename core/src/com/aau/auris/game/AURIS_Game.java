@@ -1,13 +1,22 @@
 package com.aau.auris.game;
 
+import java.awt.Dimension;
+
+import com.aau.auris.game.screens.LevelScreen;
+import com.aau.auris.game.screens.LoginScreen;
 import com.aau.auris.game.userdata.Player;
 import com.aau.auris.game.userdata.UserData;
 import com.badlogic.gdx.Game;
 
 public class AURIS_Game extends Game
 {
+	public static final Dimension SIZE = new Dimension(880, 480);
+
 	private UserData userdata = null;
 	private Player player = null;
+
+	private LoginScreen loginScreen;
+	private LevelScreen levelScreen;
 
 	@Override
 	public void create()
@@ -15,7 +24,10 @@ public class AURIS_Game extends Game
 		userdata = new UserData();
 		userdata.load();
 
-		this.setScreen(new LoginScreen(this));
+		loginScreen = new LoginScreen(this);
+		levelScreen = new LevelScreen(this);
+
+		this.setScreen(levelScreen);
 	}
 
 	public void setPlayer(Player player)
@@ -40,6 +52,16 @@ public class AURIS_Game extends Game
 	{
 		super.dispose();
 		userdata.save();
+	}
+
+	public int getWidth()
+	{
+		return SIZE.width;
+	}
+
+	public int getHeight()
+	{
+		return SIZE.height;
 	}
 
 }
