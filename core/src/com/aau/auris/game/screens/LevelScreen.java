@@ -1,6 +1,6 @@
 package com.aau.auris.game.screens;
 
-import com.aau.auris.game.AURIS_Game;
+import com.aau.auris.game.AURISGame;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.Color;
@@ -17,13 +17,13 @@ import com.badlogic.gdx.scenes.scene2d.utils.Align;
 
 public class LevelScreen implements Screen
 {
-	private AURIS_Game game;
+	private AURISGame game;
 
 	private Stage stage;
 	private HorizontalGroup hGroupAchievements;
 	private HorizontalGroup hGroupLevelDif1, hGroupLevelDif2, hGroupLevelDif3;
 
-	public LevelScreen(AURIS_Game game)
+	public LevelScreen(AURISGame game)
 	{
 		this.game = game;
 	}

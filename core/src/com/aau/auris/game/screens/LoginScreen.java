@@ -1,6 +1,6 @@
 package com.aau.auris.game.screens;
 
-import com.aau.auris.game.AURIS_Game;
+import com.aau.auris.game.AURISGame;
 import com.aau.auris.game.userdata.Player;
 import com.aau.auris.game.userdata.UserData;
 import com.badlogic.gdx.Gdx;
@@ -25,7 +25,7 @@ import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 public class LoginScreen implements Screen
 {
 
-	private AURIS_Game game;
+	private AURISGame game;
 	private UserData userdata;
 
 	private Stage stage;
@@ -34,7 +34,7 @@ public class LoginScreen implements Screen
 	private TextField txtName;
 	private TextButton tbStart;
 
-	public LoginScreen(AURIS_Game game)
+	public LoginScreen(AURISGame game)
 	{
 		this.game = game;
 		this.userdata = this.game.getUserData();

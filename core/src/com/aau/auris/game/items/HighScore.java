@@ -4,15 +4,15 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 
-import com.aau.auris.game.AURIS_Game;
+import com.aau.auris.game.AURISGame;
 import com.aau.auris.game.userdata.Player;
 
 public class HighScore
 {
-	private AURIS_Game game;
+	private AURISGame game;
 	private ArrayList<Player> scoreList;
 
-	public HighScore(AURIS_Game game)
+	public HighScore(AURISGame game)
 	{
 		this.game = game;
 		this.scoreList = this.game.getUserData().getPlayers();
