@@ -9,9 +9,9 @@ import com.aau.auris.game.screens.MainMenu;
 import com.aau.auris.game.userdata.Player;
 import com.aau.auris.game.userdata.UserData;
 import com.badlogic.gdx.Game;
+import com.badlogic.gdx.Screen;
 
-public class AURISGame extends Game
-{
+public class AURISGame extends Game {
 	public static final Dimension SIZE = new Dimension(848, 480);
 
 	private UserData userdata;
@@ -25,8 +25,7 @@ public class AURISGame extends Game
 	private Player player = null;
 
 	@Override
-	public void create()
-	{
+	public void create() {
 		userdata = new UserData();
 
 		highscore = new HighScore(this);
@@ -36,33 +35,36 @@ public class AURISGame extends Game
 		levelScreen = new LevelScreen(this);
 
 		this.setScreen(menuScreen);
-		
+
 	}
 
 	@Override
-	public void render()
-	{
+	public void render() {
 		super.render();
 	}
 
-	public UserData getUserData()
-	{
+	public UserData getUserData() {
 		return userdata;
 	}
 
-	public void setPlayer(Player player)
-	{
+	public void setPlayer(Player player) {
 		this.player = player;
 		System.out.println("player logged in: " + player);
 	}
 
-	public int getWidth()
-	{
+	public int getWidth() {
 		return SIZE.width;
 	}
 
-	public int getHeight()
-	{
+	public int getHeight() {
 		return SIZE.height;
+	}
+
+	public void changeScreen(String name, Screen screen) {
+		screen.dispose();
+		if (name.toLowerCase().equals("login")) {
+			this.setScreen(loginScreen);
+		}
+
 	}
 }

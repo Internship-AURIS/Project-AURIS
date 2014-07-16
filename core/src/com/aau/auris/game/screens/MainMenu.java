@@ -1,5 +1,11 @@
 package com.aau.auris.game.screens;
 
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.Random;
+
+import com.aau.auris.game.AURISGame;
+import com.aau.auris.game.items.MenuBall;
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
@@ -15,20 +21,25 @@ import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
+import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
+import com.badlogic.gdx.scenes.scene2d.ui.Label.LabelStyle;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton.TextButtonStyle;
+import com.badlogic.gdx.scenes.scene2d.utils.Align;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
+import com.badlogic.gdx.utils.TimeUtils;
 
 public class MainMenu implements Screen {
 
-	private Texture region = new Texture(Gdx.files.internal("zeile1.png"));
+	private Texture region = new Texture(Gdx.files.internal("SpriteFly.png"));
 	private Animation parachuteAnimation;
 
 	public float runTime;
@@ -39,14 +50,22 @@ public class MainMenu implements Screen {
 	private static final float BUTTON_SPACING = 10f;
 	private static final float BUTTON_POS_X = 240f;
 	private static final float BUTTON_POS_Y = 300f;
+
 	// DESIGN:
-	Stage stage;
-	SpriteBatch batch;
-	Skin skin;
-	BitmapFont font;
-	TextureAtlas atlas;
-	Table scoreTable;
-	private Game menugame;
+	private Stage stage;
+	private SpriteBatch batch;
+	private Skin skin;
+	private BitmapFont font;
+	private TextureAtlas atlas;
+	private Table scoreTable;
+	private AURISGame game;
+	private ArrayList<MenuBall> menuballs = new ArrayList<MenuBall>();
+	private Rectangle fallingBall;
+	private long lastBallTime;
+	private Label lblName;
+	private Label lblScore;
+	// Animation:
+	private TextureRegion[][] tmp;
 
 	// SOUNNDS:
 	private TextButton btnStart;
@@ -62,8 +81,8 @@ public class MainMenu implements Screen {
 			.internal("click.wav"));
 
 	// MUSIC:
-	public MainMenu(Game menugame) {
-		this.menugame = menugame;
+	public MainMenu(AURISGame game) {
+		this.game = game;
 		stage = new Stage();
 		Gdx.input.setInputProcessor(stage);
 
@@ -74,14 +93,40 @@ public class MainMenu implements Screen {
 	private void initAnimation() {
 		runTime = 0;
 		final int COLS = 7, ROWS = 4;
-		TextureRegion[][] tmp = TextureRegion.split(region, region.getWidth()
-				/ COLS, region.getHeight() / ROWS);
+		tmp = TextureRegion.split(region, region.getWidth() / COLS,
+				region.getHeight() / ROWS);
 		TextureRegion[] swing = new TextureRegion[COLS];
+
 		for (int i = 0; i < COLS; i++) {
-			swing[i] = tmp[0][i];
+			swing[i] = tmp[1][i];
 		}
 		parachuteAnimation = new Animation(0.1f, swing);
 		parachuteAnimation.setPlayMode(Animation.PlayMode.LOOP_PINGPONG);
+	}
+
+	private void spawnBall() {
+		Random r = new Random();
+		TextureRegion[] keyFrames = new TextureRegion[7];
+		int row = r.nextInt(2);
+		MenuBall ball;
+		if(r.nextInt(10)<=2){
+			 ball = new MenuBall(r.nextInt(121),
+					game.getHeight(), new Animation(0.10f, keyFrames));
+		}
+		else
+		{
+			 ball = new MenuBall(360+r.nextInt(440),
+					game.getHeight(), new Animation(0.10f, keyFrames));
+		}
+		
+		for (int i = 0; i < keyFrames.length; i++) {
+			keyFrames[i] = tmp[row][i];
+		}
+		
+				
+		ball.getAnimation().setPlayMode(Animation.PlayMode.LOOP_PINGPONG);
+		menuballs.add(ball);
+		lastBallTime = TimeUtils.millis();
 	}
 
 	@Override
@@ -96,10 +141,32 @@ public class MainMenu implements Screen {
 		stage.draw();
 
 		runTime += delta;
+		// MenuBall logic
+		updateMenuBalls(delta);
+
 		batch.begin();
+		// draw sample ball
 		batch.draw(parachuteAnimation.getKeyFrame(runTime, true), 100, 100);
+		// draw menuballs
+		for (MenuBall ball : menuballs) {
+			batch.draw(ball.getKeyFrame(runTime), ball.getX(), ball.getY());
+		}
 		batch.end();
 
+		if (TimeUtils.millis() - lastBallTime > 5000)
+			spawnBall();
+
+	}
+
+	public void updateMenuBalls(float deltaTime) {
+		Iterator<MenuBall> iter = menuballs.iterator();
+		while (iter.hasNext()) {
+			MenuBall ball = iter.next();
+			ball.setY((ball.getY() - 50 * deltaTime));
+			if (ball.getY() < -120) {
+				iter.remove();
+			}
+		}
 	}
 
 	@Override
@@ -177,6 +244,16 @@ public class MainMenu implements Screen {
 		TextureRegion backTextRegion = new TextureRegion(backgroundTexture,
 				848, 480);
 		Image img = new Image(backTextRegion);
+		
+		LabelStyle lStyle = new LabelStyle();
+		lStyle.font = new BitmapFont();
+		lStyle.fontColor = Color.WHITE;
+		lStyle.background = skin.newDrawable("white", Color.BLACK);
+		lblName = new Label("NAME:", lStyle);
+		lblName.setAlignment(Align.center);
+		lblName.setSize(200, 30);
+		lblName.setPosition(350 , 200);
+		stage.addActor(lblName);
 		stage.addActor(img);
 		stage.addActor(btnCredits);
 		stage.addActor(btnStart);
@@ -189,8 +266,8 @@ public class MainMenu implements Screen {
 					int button) {
 				clickSound.play();
 				btnStart.setText("Starting...");
-				//TODO: Verbindung mit LOGINSCREEN!
-//				menugame.setScreen(loginScreen);
+				// TODO: Verbindung mit LOGINSCREEN!
+				 game.changeScreen("login", MainMenu.this);
 			}
 
 		});
@@ -230,6 +307,7 @@ public class MainMenu implements Screen {
 			}
 
 		});
+		spawnBall();
 	}
 
 	@Override
@@ -254,6 +332,10 @@ public class MainMenu implements Screen {
 	public void dispose() {
 		stage.dispose();
 		skin.dispose();
+		batch.dispose();
+		hoverSound.dispose();
+		hoverSound2.dispose();
+		hoverSound3.dispose();
 
 	}
 
