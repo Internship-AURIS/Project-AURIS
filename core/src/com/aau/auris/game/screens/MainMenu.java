@@ -37,7 +37,8 @@ import com.badlogic.gdx.scenes.scene2d.utils.Align;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.TimeUtils;
 
-public class MainMenu implements Screen {
+public class MainMenu implements Screen
+{
 
 	private Texture region = new Texture(Gdx.files.internal("SpriteFly.png"));
 	private Animation parachuteAnimation;
@@ -69,20 +70,17 @@ public class MainMenu implements Screen {
 
 	// SOUNNDS:
 	private TextButton btnStart;
-	private Sound hoverSound = Gdx.audio.newSound(Gdx.files
-			.internal("hover.wav"));
-	private Sound hoverSound2 = Gdx.audio.newSound(Gdx.files
-			.internal("hover2.wav"));
-	private Sound hoverSound3 = Gdx.audio.newSound(Gdx.files
-			.internal("hover3.wav"));
-	private Music menuMusic = Gdx.audio.newMusic(Gdx.files
-			.internal("Theme2.wav"));
-	private Sound clickSound = Gdx.audio.newSound(Gdx.files
-			.internal("click.wav"));
+	private Sound hoverSound = Gdx.audio.newSound(Gdx.files.internal("hover.wav"));
+	private Sound hoverSound2 = Gdx.audio.newSound(Gdx.files.internal("hover2.wav"));
+	private Sound hoverSound3 = Gdx.audio.newSound(Gdx.files.internal("hover3.wav"));
+	private Music menuMusic = Gdx.audio.newMusic(Gdx.files.internal("Theme2.wav"));
+	private Sound clickSound = Gdx.audio.newSound(Gdx.files.internal("click.wav"));
 
 	// MUSIC:
+
 	public MainMenu(AURISGame game) {
 		this.game = game;
+
 		stage = new Stage();
 		Gdx.input.setInputProcessor(stage);
 
@@ -90,18 +88,22 @@ public class MainMenu implements Screen {
 
 	}
 
-	private void initAnimation() {
+	private void initAnimation()
+	{
 		runTime = 0;
 		final int COLS = 7, ROWS = 4;
+
 		tmp = TextureRegion.split(region, region.getWidth() / COLS,
 				region.getHeight() / ROWS);
-		TextureRegion[] swing = new TextureRegion[COLS];
-
-		for (int i = 0; i < COLS; i++) {
-			swing[i] = tmp[1][i];
-		}
-		parachuteAnimation = new Animation(0.1f, swing);
-		parachuteAnimation.setPlayMode(Animation.PlayMode.LOOP_PINGPONG);
+		
+//		TextureRegion[] swing = new TextureRegion[COLS];
+//		for (int i = 0; i < COLS; i++)
+//		{
+//			swing[i] = tmp[0][i];
+//
+//		}
+//		parachuteAnimation = new Animation(0.1f, swing);
+//		parachuteAnimation.setPlayMode(Animation.PlayMode.LOOP_PINGPONG);
 	}
 
 	private void spawnBall() {
@@ -130,7 +132,8 @@ public class MainMenu implements Screen {
 	}
 
 	@Override
-	public void render(float delta) {
+	public void render(float delta)
+	{
 		Gdx.gl.glClearColor(0, 0, 0, 1);
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
@@ -146,7 +149,7 @@ public class MainMenu implements Screen {
 
 		batch.begin();
 		// draw sample ball
-		batch.draw(parachuteAnimation.getKeyFrame(runTime, true), 100, 100);
+		//batch.draw(parachuteAnimation.getKeyFrame(runTime, true), 100, 100);
 		// draw menuballs
 		for (MenuBall ball : menuballs) {
 			batch.draw(ball.getKeyFrame(runTime), ball.getX(), ball.getY());
@@ -170,12 +173,14 @@ public class MainMenu implements Screen {
 	}
 
 	@Override
-	public void resize(int width, int height) {
+	public void resize(int width, int height)
+	{
 		stage.getViewport().update(width, height);
 	}
 
 	@Override
-	public void show() {
+	public void show()
+	{
 		menuMusic.setLooping(true);
 		menuMusic.play();
 		batch = new SpriteBatch();
@@ -199,8 +204,7 @@ public class MainMenu implements Screen {
 		TextButtonStyle textbuttonStyleExit = new TextButtonStyle();
 		textbuttonStyleExit.up = skin.getDrawable("btnExit");
 		textbuttonStyleExit.down = skin.getDrawable("btnExit");
-		textbuttonStyleExit.checked = skin.newDrawable("white",
-				Color.LIGHT_GRAY);
+		textbuttonStyleExit.checked = skin.newDrawable("white", Color.LIGHT_GRAY);
 		textbuttonStyleExit.over = skin.getDrawable("btnExitOver");
 		textbuttonStyleExit.font = skin.getFont("default");
 		skin.add("default", textbuttonStyleExit);
@@ -210,8 +214,7 @@ public class MainMenu implements Screen {
 		TextButtonStyle textbuttonStyleStart = new TextButtonStyle();
 		textbuttonStyleStart.up = skin.getDrawable("btnStart");
 		textbuttonStyleStart.down = skin.newDrawable("white", Color.MAROON);
-		textbuttonStyleStart.checked = skin.newDrawable("white",
-				Color.LIGHT_GRAY);
+		textbuttonStyleStart.checked = skin.newDrawable("white", Color.LIGHT_GRAY);
 		textbuttonStyleStart.over = skin.getDrawable("btnStartOver");
 		textbuttonStyleStart.font = skin.getFont("default");
 		skin.add("start", textbuttonStyleStart);
@@ -221,8 +224,7 @@ public class MainMenu implements Screen {
 		TextButtonStyle textbuttonStyleCredits = new TextButtonStyle();
 		textbuttonStyleCredits.up = skin.getDrawable("btnCredits");
 		textbuttonStyleCredits.down = skin.newDrawable("white", Color.MAROON);
-		textbuttonStyleCredits.checked = skin.newDrawable("white",
-				Color.LIGHT_GRAY);
+		textbuttonStyleCredits.checked = skin.newDrawable("white", Color.LIGHT_GRAY);
 		textbuttonStyleCredits.over = skin.getDrawable("btnCreditsOver");
 		textbuttonStyleCredits.font = skin.getFont("default");
 		skin.add("start", textbuttonStyleCredits);
@@ -239,10 +241,8 @@ public class MainMenu implements Screen {
 		btnExit.setPosition(BUTTON_POS_X, BUTTON_POS_Y - 200);
 		btnExit.setSize(BUTTON_WIDTH, BUTTON_HEIGHT);
 
-		Texture backgroundTexture = new Texture(
-				Gdx.files.internal("testback.png"));
-		TextureRegion backTextRegion = new TextureRegion(backgroundTexture,
-				848, 480);
+		Texture backgroundTexture = new Texture(Gdx.files.internal("testback.png"));
+		TextureRegion backTextRegion = new TextureRegion(backgroundTexture, 848, 480);
 		Image img = new Image(backTextRegion);
 		
 		LabelStyle lStyle = new LabelStyle();
@@ -261,48 +261,55 @@ public class MainMenu implements Screen {
 
 		// LISTENER:
 
-		btnStart.addListener(new ClickListener() {
-			public void touchUp(InputEvent event, float x, float y, int point,
-					int button) {
+		btnStart.addListener(new ClickListener()
+		{
+			public void touchUp(InputEvent event, float x, float y, int point, int button)
+			{
 				clickSound.play();
 				btnStart.setText("Starting...");
+
 				// TODO: Verbindung mit LOGINSCREEN!
 				 game.changeScreen("login", MainMenu.this);
+
 			}
 
 		});
 
-		btnStart.addListener(new InputListener() {
+		btnStart.addListener(new InputListener()
+		{
 			@Override
-			public void enter(InputEvent event, float x, float y, int pointer,
-					Actor fromActor) {
+			public void enter(InputEvent event, float x, float y, int pointer, Actor fromActor)
+			{
 				hoverSound.play();
 				super.enter(event, x, y, pointer, fromActor);
 			}
 		});
 
-		btnCredits.addListener(new InputListener() {
+		btnCredits.addListener(new InputListener()
+		{
 			@Override
-			public void enter(InputEvent event, float x, float y, int pointer,
-					Actor fromActor) {
+			public void enter(InputEvent event, float x, float y, int pointer, Actor fromActor)
+			{
 				hoverSound2.play();
 				super.enter(event, x, y, pointer, fromActor);
 			}
 		});
 
-		btnExit.addListener(new InputListener() {
+		btnExit.addListener(new InputListener()
+		{
 			@Override
-			public void enter(InputEvent event, float x, float y, int pointer,
-					Actor fromActor) {
+			public void enter(InputEvent event, float x, float y, int pointer, Actor fromActor)
+			{
 				hoverSound3.play();
 				super.enter(event, x, y, pointer, fromActor);
 			}
 
 		});
 
-		btnExit.addListener(new ClickListener() {
-			public void touchUp(InputEvent event, float x, float y, int point,
-					int button) {
+		btnExit.addListener(new ClickListener()
+		{
+			public void touchUp(InputEvent event, float x, float y, int point, int button)
+			{
 				System.exit(1);
 			}
 
@@ -311,25 +318,29 @@ public class MainMenu implements Screen {
 	}
 
 	@Override
-	public void hide() {
+	public void hide()
+	{
 		// TODO Auto-generated method stub
 
 	}
 
 	@Override
-	public void pause() {
+	public void pause()
+	{
 		// TODO Auto-generated method stub
 
 	}
 
 	@Override
-	public void resume() {
+	public void resume()
+	{
 		// TODO Auto-generated method stub
 
 	}
 
 	@Override
-	public void dispose() {
+	public void dispose()
+	{
 		stage.dispose();
 		skin.dispose();
 		batch.dispose();
