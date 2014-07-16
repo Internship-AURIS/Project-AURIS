@@ -10,17 +10,23 @@ import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
+import com.badlogic.gdx.graphics.g2d.TextureAtlas;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Label.LabelStyle;
+import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton.TextButtonStyle;
 import com.badlogic.gdx.scenes.scene2d.ui.TextField;
 import com.badlogic.gdx.scenes.scene2d.ui.TextField.TextFieldStyle;
 import com.badlogic.gdx.scenes.scene2d.utils.Align;
+import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
+import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener.ChangeEvent;
 
 public class LoginScreen implements Screen
 {
@@ -33,6 +39,8 @@ public class LoginScreen implements Screen
 	private Label lblName;
 	private TextField txtName;
 	private TextButton tbStart;
+	private TextButton tbBack;
+	private TextureAtlas atlas;
 
 	public LoginScreen(AURISGame game)
 	{
@@ -59,46 +67,50 @@ public class LoginScreen implements Screen
 	{
 		stage = new Stage();
 		Gdx.input.setInputProcessor(stage);
-
-		skin = new Skin();
+		atlas = new TextureAtlas("newbuttons.atlas");
+		skin = new Skin(atlas);
 		Pixmap pixmap = new Pixmap(100, 100, Pixmap.Format.RGBA8888);
-		pixmap.setColor(Color.GREEN);
+//		pixmap.setColor(Color.WHITE);
 		pixmap.fill();
 		skin.add("white", new Texture(pixmap));
 
 		LabelStyle lStyle = new LabelStyle();
 		lStyle.font = new BitmapFont();
 		lStyle.fontColor = Color.WHITE;
-		lStyle.background = skin.newDrawable("white", Color.BLACK);
-		lblName = new Label("NAME", lStyle);
+		lStyle.background = skin.getDrawable("btnName");
+		lblName = new Label("", lStyle);
 		lblName.setAlignment(Align.center);
-		lblName.setSize(200, 30);
-		lblName.setPosition(Gdx.graphics.getWidth() / 2 - lblName.getWidth() / 2, Gdx.graphics.getHeight() / 2 - lblName.getHeight() / 2 + 120);
-		stage.addActor(lblName);
+		lblName.setSize(200, 80);
+		lblName.setPosition(Gdx.graphics.getWidth() / 2 - lblName.getWidth() / 2, Gdx.graphics.getHeight() / 2 - lblName.getHeight() / 2 + 150);
+	
 
-		BitmapFont bFont = new BitmapFont();
-		bFont.scale(1);
+		BitmapFont bfont = new BitmapFont(Gdx.files.internal("menufont.fnt"));
 
 		TextFieldStyle tfStyle = new TextFieldStyle();
 		tfStyle.fontColor = Color.WHITE;
-		tfStyle.font = bFont;
-		tfStyle.background = skin.newDrawable("white", Color.BLACK);
+		tfStyle.font = bfont;
+		tfStyle.background = skin.newDrawable("white", Color.WHITE);
 		txtName = new TextField("", tfStyle);
 		txtName.setSize(200, 30);
 		txtName.setPosition(Gdx.graphics.getWidth() / 2 - txtName.getWidth() / 2, Gdx.graphics.getHeight() / 2 - txtName.getHeight() + 100);
-		stage.addActor(txtName);
+		
 
-		skin.add("default", bFont);
-		TextButtonStyle tbStyle = new TextButtonStyle();
-		tbStyle.up = skin.newDrawable("white", Color.DARK_GRAY);
-		tbStyle.down = skin.newDrawable("white", Color.DARK_GRAY);
-		tbStyle.checked = skin.newDrawable("white", Color.BLUE);
-		tbStyle.over = skin.newDrawable("white", Color.LIGHT_GRAY);
-		tbStyle.font = skin.getFont("default");
-		skin.add("default", tbStyle);
+		skin.add("default", bfont);
+		TextButtonStyle tbStartStyle = new TextButtonStyle();
+		tbStartStyle.up = skin.getDrawable("btnLoginStart");
+		tbStartStyle.down = skin.getDrawable("btnLoginStartSmall");
+		tbStartStyle.over = skin.getDrawable("btnLoginStartOver");
+		tbStartStyle.font = skin.getFont("default");
+		skin.add("default", tbStartStyle);
+		TextButtonStyle tbBackStyle = new TextButtonStyle();
+		tbBackStyle.up = skin.getDrawable("btnBack");
+		tbBackStyle.down = skin.getDrawable("btnBackSmall");
+		tbBackStyle.over = skin.getDrawable("btnBackOver");
+		tbBackStyle.font = skin.getFont("default");
+		skin.add("default", tbStartStyle);
 
-		tbStart = new TextButton("START", skin);
-		tbStart.setSize(200, 60);
+		tbStart = new TextButton("", tbStartStyle);
+		tbStart.setSize(200, 80);
 		tbStart.setPosition(Gdx.graphics.getWidth() / 2 - tbStart.getWidth() / 2, Gdx.graphics.getHeight() / 2 - tbStart.getHeight() / 2);
 		tbStart.addListener(new ClickListener()
 		{
@@ -133,7 +145,26 @@ public class LoginScreen implements Screen
 			}
 		});
 
+		tbBack = new TextButton("", tbBackStyle);
+		tbBack.setSize(200, 80);
+		tbBack.setPosition(10, 10);
+		tbBack.addListener(new ChangeListener() {	
+			@Override
+			public void changed(ChangeEvent event, Actor actor) {
+				game.changeScreen("menu", LoginScreen.this);
+			}
+		});
+		Texture backgroundTexture = new Texture(
+				Gdx.files.internal("backBlank.png"));
+		TextureRegion backTextRegion = new TextureRegion(backgroundTexture,
+				848, 480);
+		Image img = new Image(backTextRegion);
+
+		stage.addActor(img);
 		stage.addActor(tbStart);
+		stage.addActor(tbBack);
+		stage.addActor(txtName);
+		stage.addActor(lblName);
 	}
 
 	@Override

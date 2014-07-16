@@ -3,44 +3,128 @@ newbuttons.png
 format: RGBA8888
 filter: Nearest,Nearest
 repeat: none
+btnBack
+  rotate: false
+  xy: 0, 400
+  size: 200, 80
+  orig: 200, 80
+  offset: 0, 0
+  index: -1
+btnBackOver
+  rotate: false
+  xy: 0, 320
+  size: 200, 80
+  orig: 200, 80
+  offset: 0, 0
+  index: -1
+btnBackSmall
+  rotate: false
+  xy: 200, 400
+  size: 200, 80
+  orig: 200, 80
+  offset: 0, 0
+  index: -1
 btnCredits
   rotate: false
-  xy: 0, 160
+  xy: 0, 240
   size: 200, 80
   orig: 200, 80
   offset: 0, 0
   index: -1
 btnCreditsOver
   rotate: false
-  xy: 0, 80
+  xy: 200, 320
+  size: 200, 80
+  orig: 200, 80
+  offset: 0, 0
+  index: -1
+btnCreditsSmall
+  rotate: false
+  xy: 400, 400
   size: 200, 80
   orig: 200, 80
   offset: 0, 0
   index: -1
 btnExit
   rotate: false
-  xy: 200, 160
+  xy: 0, 160
   size: 200, 80
   orig: 200, 80
   offset: 0, 0
   index: -1
 btnExitOver
   rotate: false
-  xy: 0, 0
+  xy: 200, 240
+  size: 200, 80
+  orig: 200, 80
+  offset: 0, 0
+  index: -1
+btnExitSmalll
+  rotate: false
+  xy: 400, 320
+  size: 200, 80
+  orig: 200, 80
+  offset: 0, 0
+  index: -1
+btnLoginStart
+  rotate: false
+  xy: 600, 400
+  size: 200, 80
+  orig: 200, 80
+  offset: 0, 0
+  index: -1
+btnLoginStartOver
+  rotate: false
+  xy: 0, 80
+  size: 200, 80
+  orig: 200, 80
+  offset: 0, 0
+  index: -1
+btnLoginStartSmall
+  rotate: false
+  xy: 200, 160
+  size: 200, 80
+  orig: 200, 80
+  offset: 0, 0
+  index: -1
+btnName
+  rotate: false
+  xy: 400, 240
   size: 200, 80
   orig: 200, 80
   offset: 0, 0
   index: -1
 btnStart
   rotate: false
-  xy: 200, 80
+  xy: 600, 320
   size: 200, 80
   orig: 200, 80
   offset: 0, 0
   index: -1
 btnStartOver
   rotate: false
-  xy: 200, 0
+  xy: 800, 400
+  size: 200, 80
+  orig: 200, 80
+  offset: 0, 0
+  index: -1
+btnStartSmall
+  rotate: false
+  xy: 0, 0
+  size: 200, 80
+  orig: 200, 80
+  offset: 0, 0
+  index: -1
+score
+  rotate: false
+  xy: 200, 80
+  size: 200, 80
+  orig: 200, 80
+  offset: 0, 0
+  index: -1
+txtBox
+  rotate: false
+  xy: 400, 160
   size: 200, 80
   orig: 200, 80
   offset: 0, 0

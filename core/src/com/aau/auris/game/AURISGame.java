@@ -27,6 +27,7 @@ public class AURISGame extends Game {
 	@Override
 	public void create() {
 		userdata = new UserData();
+		userdata.load();
 
 		highscore = new HighScore(this);
 
@@ -64,6 +65,9 @@ public class AURISGame extends Game {
 		screen.dispose();
 		if (name.toLowerCase().equals("login")) {
 			this.setScreen(loginScreen);
+		}
+		if (name.toLowerCase().equals("menu")) {
+			this.setScreen(menuScreen);
 		}
 
 	}
