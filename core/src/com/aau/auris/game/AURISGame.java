@@ -36,7 +36,7 @@ public class AURISGame extends Game
 		levelScreen = new LevelScreen(this);
 
 		this.setScreen(menuScreen);
-		
+
 	}
 
 	@Override
