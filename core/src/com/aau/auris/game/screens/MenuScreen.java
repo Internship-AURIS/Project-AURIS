@@ -254,7 +254,7 @@ public class MenuScreen implements Screen, Asset {
 		textbuttonStyleExit.down = skin.getDrawable("btnExitSmalll");
 		textbuttonStyleExit.over = skin.getDrawable("btnExitOver");
 		textbuttonStyleExit.font = skin.getFont("default");
-		skin.add("default", textbuttonStyleExit);
+		skin.add("btnExit", textbuttonStyleExit);
 
 		TextButton btnExit = new TextButton("", textbuttonStyleExit);
 		btnExit.setPosition(BUTTON_POS_X, BUTTON_POS_Y - 200);
