@@ -9,12 +9,19 @@ import com.aau.auris.game.screens.MenuScreen;
 import com.aau.auris.game.userdata.Player;
 import com.aau.auris.game.userdata.UserData;
 import com.badlogic.gdx.Game;
+<<<<<<< HEAD
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 
 public class AURISGame extends Game
 {
 	public static final Dimension PROJECTOR_SIZE = new Dimension(848, 480);
+=======
+import com.badlogic.gdx.Screen;
+
+public class AURISGame extends Game {
+	public static final Dimension SIZE = new Dimension(848, 480);
+>>>>>>> 51fe514afe5ffa3b24d5a5a784cb76dd77d092a3
 
 	public static final int MENU_SCREEN = 0;
 	public static final int LOGIN_SCREEN = 1;
@@ -29,9 +36,13 @@ public class AURISGame extends Game
 	private Player player = null;
 
 	@Override
+<<<<<<< HEAD
 	public void create()
 	{
 		AssetLoader.load();
+=======
+	public void create() {
+>>>>>>> 51fe514afe5ffa3b24d5a5a784cb76dd77d092a3
 		userdata = new UserData();
 		userdata.load();
 
@@ -43,23 +54,21 @@ public class AURISGame extends Game
 	}
 
 	@Override
-	public void render()
-	{
+	public void render() {
 		super.render();
 	}
 
-	public UserData getUserData()
-	{
+	public UserData getUserData() {
 		return userdata;
 	}
 
-	public void setPlayer(Player player)
-	{
+	public void setPlayer(Player player) {
 		this.player = player;
 		//TODO: debugging
 		System.out.println("player logged in: " + player);
 	}
 
+<<<<<<< HEAD
 	public void changeScreen(int screenIndex, Screen screen)
 	{
 		screen.hide();
@@ -102,4 +111,21 @@ public class AURISGame extends Game
 		AssetLoader.dispose();
 	}
 
+=======
+	public int getWidth() {
+		return SIZE.width;
+	}
+
+	public int getHeight() {
+		return SIZE.height;
+	}
+
+	public void changeScreen(String name, Screen screen) {
+		screen.dispose();
+		if (name.toLowerCase().equals("login")) {
+			this.setScreen(loginScreen);
+		}
+
+	}
+>>>>>>> 51fe514afe5ffa3b24d5a5a784cb76dd77d092a3
 }
