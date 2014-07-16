@@ -33,6 +33,7 @@ public class LoginScreen implements Screen
 	private Label lblName;
 	private TextField txtName;
 	private TextButton tbStart;
+	private TextButton tbBack;
 
 	public LoginScreen(AURISGame game)
 	{
@@ -133,7 +134,21 @@ public class LoginScreen implements Screen
 			}
 		});
 
+		tbBack = new TextButton("BACK", skin);
+		tbBack.setSize(100, 60);
+		tbBack.setPosition(10, 10);
+		tbBack.addListener(new ClickListener()
+		{
+			@Override
+			public void touchUp(InputEvent event, float x, float y, int pointer, int button)
+			{
+				super.touchUp(event, x, y, pointer, button);
+				//TODO: implements back to menu screen
+			}
+		});
+
 		stage.addActor(tbStart);
+		stage.addActor(tbBack);
 	}
 
 	@Override

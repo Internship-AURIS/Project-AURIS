@@ -13,25 +13,25 @@ import com.badlogic.gdx.scenes.scene2d.ui.HorizontalGroup;
 import com.badlogic.gdx.scenes.scene2d.ui.ImageTextButton;
 import com.badlogic.gdx.scenes.scene2d.ui.ImageTextButton.ImageTextButtonStyle;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
-import com.badlogic.gdx.scenes.scene2d.utils.Align;
+import com.badlogic.gdx.scenes.scene2d.ui.Table;
+import com.badlogic.gdx.utils.viewport.Viewport;
 
 public class LevelScreen implements Screen
 {
 	private AURISGame game;
 
 	private Stage stage;
-	private HorizontalGroup hGroupAchievements;
-	private HorizontalGroup hGroupLevelDif1, hGroupLevelDif2, hGroupLevelDif3;
+	private HorizontalGroup horizontalGroup;
 
 	public LevelScreen(AURISGame game)
 	{
 		this.game = game;
+		stage = new Stage();
 	}
 
 	@Override
 	public void render(float delta)
 	{
-		//TODO: implement parachute balls
 		Gdx.gl.glClearColor(0, 0, 1, 1);
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
@@ -46,15 +46,7 @@ public class LevelScreen implements Screen
 	@Override
 	public void show()
 	{
-		stage = new Stage();
-
 		final int width = 50, height = 50;
-
-		hGroupAchievements = new HorizontalGroup();
-		hGroupAchievements.setBounds(0, game.getHeight() - height - 30, game.getWidth(), height);
-		hGroupAchievements.space(50);
-		hGroupAchievements.pad(10);
-		hGroupAchievements.center();
 
 		final Skin skin = new Skin();
 		Pixmap pixmap = new Pixmap(50, 50, Pixmap.Format.RGBA8888);
@@ -62,47 +54,49 @@ public class LevelScreen implements Screen
 		pixmap.fill();
 		skin.add("skin", new Texture(pixmap));
 
-		final BitmapFont font = new BitmapFont();
+		horizontalGroup = new HorizontalGroup();
+		horizontalGroup.setPosition(10, game.getHeight() - 150);
+		horizontalGroup.setSize(game.getWidth(), 100);
+		horizontalGroup.space(10);
 
-		ImageTextButtonStyle itbStyle = new ImageTextButtonStyle();
+		final BitmapFont font = new BitmapFont();
+		final ImageTextButtonStyle itbStyle = new ImageTextButtonStyle();
 		itbStyle.font = font;
 		itbStyle.fontColor = Color.WHITE;
 		itbStyle.imageUp = skin.newDrawable("skin", Color.GREEN);
 
 		ImageTextButton itb1 = new ImageTextButton("text", itbStyle);
-		itb1.setBounds(0, 0, width, height);
 		itb1.setSize(width, height);
 		itb1.add(itb1.getImage()).row();
 		itb1.add(itb1.getLabel());
-		hGroupAchievements.addActor(itb1);
 
-		//		ImageTextButton itb2 = new ImageTextButton("text", itbStyle);
-		//		itb1.setBounds(0, 0, width, height);
-		//		itb2.setSize(width, height);
-		//		itb2.add(itb1.getImage()).row();
-		//		itb2.add(itb1.getLabel());
-		//		hGroupAchievements.addActor(itb2);
+		ImageTextButton itb2 = new ImageTextButton("text", itbStyle);
+		itb2.setSize(width, height);
+		itb2.add(itb1.getImage()).row();
+		itb2.add(itb1.getLabel());
 
-		//		ImageTextButton itb3 = new ImageTextButton("text", itbStyle);
-		//		itb1.setBounds(0, 0, width, height);
-		//		itb3.setSize(width, height);
-		//		itb3.add(itb1.getImage()).row();
-		//		itb3.add(itb1.getLabel());
-		//		hGroupAchievements.addActor(itb3);
+		ImageTextButton itb3 = new ImageTextButton("text", itbStyle);
+		itb1.setSize(width, height);
+		itb3.add(itb1.getImage()).row();
+		itb3.add(itb1.getLabel()).row();
 
-		//		ImageTextButton itb4 = new ImageTextButton("text", itbStyle);
-		//		itb4.setBounds(0, 0, width, height);
-		//		itb4.add(itb1.getImage()).row();
-		//		itb4.add(itb1.getLabel());
-		//		hGroupAchievements.addActor(itb4);
-		//
-		//		ImageTextButton itb5 = new ImageTextButton("text", itbStyle);
-		//		itb5.setBounds(0, 0, width, height);
-		//		itb5.add(itb1.getImage()).row();
-		//		itb5.add(itb1.getLabel());
-		//		hGroupAchievements.addActor(itb5);
+		ImageTextButton itb4 = new ImageTextButton("text", itbStyle);
+		itb4.setSize(width, height);
+		itb4.add(itb1.getImage()).row();
+		itb4.add(itb1.getLabel());
 
-		stage.addActor(hGroupAchievements);
+		ImageTextButton itb5 = new ImageTextButton("text", itbStyle);
+		itb5.setSize(width, height);
+		itb5.add(itb1.getImage()).row();
+		itb5.add(itb1.getLabel());
+
+		horizontalGroup.addActor(itb1);
+		horizontalGroup.addActor(itb2);
+		horizontalGroup.addActor(itb3);
+		horizontalGroup.addActor(itb4);
+		horizontalGroup.addActor(itb5);
+
+		stage.addActor(horizontalGroup);
 	}
 
 	@Override
@@ -119,6 +113,8 @@ public class LevelScreen implements Screen
 
 	@Override
 	public void dispose()
-	{}
+	{
+		stage.dispose();
+	}
 
 }

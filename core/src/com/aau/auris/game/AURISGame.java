@@ -35,7 +35,7 @@ public class AURISGame extends Game
 		loginScreen = new LoginScreen(this);
 		levelScreen = new LevelScreen(this);
 
-		this.setScreen(menuScreen);
+		this.setScreen(loginScreen);
 
 	}
 
