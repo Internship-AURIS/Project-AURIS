@@ -12,7 +12,7 @@ import com.badlogic.gdx.Game;
 
 public class AURISGame extends Game
 {
-	public static final Dimension SIZE = new Dimension(880, 480);
+	public static final Dimension SIZE = new Dimension(848, 480);
 
 	private UserData userdata;
 
