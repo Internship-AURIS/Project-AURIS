@@ -19,6 +19,7 @@ public class AssetLoader
 	public static Texture menu_background;
 	public static TextureRegion[][] tmp;
 	public static TextureAtlas menu_buttons;
+	public static Texture menu_background_blank;
 
 	// Animations
 	public static Animation parachuteBallAnimation1;
@@ -39,6 +40,7 @@ public class AssetLoader
 		// Textures
 		spritesheet = new Texture(Gdx.files.internal("spriteFly.png"));
 		menu_background = new Texture(Gdx.files.internal("menu_background.png"));
+		menu_background_blank=new Texture(Gdx.files .internal("backBlank2.png"));
 		tmp = TextureRegion.split(spritesheet, spritesheet.getWidth() / COLS, spritesheet.getHeight() / ROWS);
 		menu_buttons = new TextureAtlas(Gdx.files.internal("menuButtons.atlas"));
 

@@ -37,8 +37,7 @@ import com.badlogic.gdx.scenes.scene2d.utils.Align;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.TimeUtils;
 
-public class MenuScreen implements Screen, Asset
-{
+public class MenuScreen implements Screen, Asset {
 	// Asset
 	private TextureRegion[][] tmp;
 	private Animation parachuteBallAnimation1;
@@ -46,7 +45,7 @@ public class MenuScreen implements Screen, Asset
 	private Sound hoverSound1, hoverSound2, hoverSound3;
 	private Sound menuMusic, clickSound;
 	private Texture background;
-	private TextureAtlas buttonAtlas;
+	private TextureAtlas menuButtons;
 	private BitmapFont bFont;
 
 	// Button Properties
@@ -69,8 +68,7 @@ public class MenuScreen implements Screen, Asset
 	private ArrayList<MenuBall> menuballs;
 	private long lastBallTime;
 
-	public MenuScreen(AURISGame game)
-	{
+	public MenuScreen(AURISGame game) {
 		this.game = game;
 		this.highscore = new HighScore(this.game);
 		this.menuballs = new ArrayList<MenuBall>();
@@ -79,11 +77,13 @@ public class MenuScreen implements Screen, Asset
 		this.stage = new Stage();
 
 		loadAsset();
+
+		menuMusic.play();
+		menuMusic.setLooping(0, true);
 	}
 
 	@Override
-	public void loadAsset()
-	{
+	public void loadAsset() {
 		// Textures
 		tmp = AssetLoader.tmp;
 		// Animation
@@ -97,15 +97,14 @@ public class MenuScreen implements Screen, Asset
 		menuMusic = AssetLoader.menuMusic1;
 		clickSound = AssetLoader.clickSound;
 		background = AssetLoader.menu_background;
-		buttonAtlas = AssetLoader.menu_buttons;
+		menuButtons = AssetLoader.menu_buttons;
 
 		// Font
 		bFont = AssetLoader.bFont;
 	}
 
 	@Override
-	public void disposeAsset()
-	{
+	public void disposeAsset() {
 		tmp = null;
 		parachuteBallAnimation1 = null;
 		parachuteBallAnimation2 = null;
@@ -115,12 +114,11 @@ public class MenuScreen implements Screen, Asset
 		menuMusic = null;
 		clickSound = null;
 		background = null;
-		buttonAtlas = null;
+		menuButtons = null;
 	}
 
 	@Override
-	public void render(float delta)
-	{
+	public void render(float delta) {
 		Gdx.gl.glClearColor(0, 0, 0, 1);
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
@@ -133,67 +131,59 @@ public class MenuScreen implements Screen, Asset
 		updateMenuBalls(delta);
 
 		batch.begin();
-		for (MenuBall ball : menuballs)
-		{
+		for (MenuBall ball : menuballs) {
 			batch.draw(ball.getKeyFrame(runTime), ball.getX(), ball.getY());
 		}
 		batch.end();
 
-		if (TimeUtils.millis() - lastBallTime > 5000)
-		{
+		if (TimeUtils.millis() - lastBallTime > 5000) {
 			spawnBall();
 		}
 	}
 
-	private void spawnBall()
-	{
+	private void spawnBall() {
 		Random r = new Random();
-		TextureRegion[] keyFrames = r.nextInt(2) == 0 ? parachuteBallAnimation1.getKeyFrames() : parachuteBallAnimation2.getKeyFrames();
-		MenuBall ball = new MenuBall(r.nextInt(10) <= 2 ? r.nextInt(121) : (440 + r.nextInt(370)), game.getHeight(), new Animation(0.10f, keyFrames));
+		TextureRegion[] keyFrames = r.nextInt(2) == 0 ? parachuteBallAnimation1
+				.getKeyFrames() : parachuteBallAnimation2.getKeyFrames();
+		MenuBall ball = new MenuBall(r.nextInt(10) <= 2 ? r.nextInt(121)
+				: (440 + r.nextInt(370)), game.getHeight(), new Animation(
+				0.10f, keyFrames));
 		ball.getAnimation().setPlayMode(Animation.PlayMode.LOOP_PINGPONG);
 
 		menuballs.add(ball);
 		lastBallTime = TimeUtils.millis();
 	}
 
-	public void updateMenuBalls(float deltaTime)
-	{
+	public void updateMenuBalls(float deltaTime) {
 		Iterator<MenuBall> iter = menuballs.iterator();
-		while (iter.hasNext())
-		{
+		while (iter.hasNext()) {
 			MenuBall ball = iter.next();
 			ball.setY((ball.getY() - 50 * deltaTime));
-			if (ball.getY() < -120)
-			{
+			if (ball.getY() < -120) {
 				iter.remove();
 			}
 		}
 	}
 
 	@Override
-	public void resize(int width, int height)
-	{
+	public void resize(int width, int height) {
 		stage.getViewport().update(width, height);
 	}
 
 	@Override
-	public void show()
-	{
+	public void show() {
 		Gdx.input.setInputProcessor(stage);
 
-		menuMusic.setLooping(0, true);
-		menuMusic.play();
-
 		batch = new SpriteBatch();
-		skin = new Skin(buttonAtlas);
+		skin = new Skin(menuButtons);
 
 		Pixmap pixmap = new Pixmap(100, 100, Format.RGBA8888);
-		pixmap.setColor(Color.MAROON);
+		// pixmap.setColor(Color.MAROON);
 		pixmap.fill();
 		skin.add("white", new Texture(pixmap));
 
 		BitmapFont bfont = bFont;
-		//		bfont.scale(1);
+		// bfont.scale(1);
 		skin.add("default", bfont);
 
 		// HighScore List
@@ -213,10 +203,11 @@ public class MenuScreen implements Screen, Asset
 
 		ArrayList<Player> playerList = highscore.getScoreList();
 		String[] scoreList = new String[3];
-		for (int i = 0; i < scoreList.length; i++)
-		{
+		for (int i = 0; i < scoreList.length; i++) {
 			Player player = playerList.size() > i ? playerList.get(i) : null;
-			scoreList[i] = player == null ? ((i + 1) + ". --------: ---") : (i + 1) + ". " + player.getName() + ": " + player.getScore();
+			scoreList[i] = player == null ? ((i + 1) + ". --------: ---")
+					: (i + 1) + ". " + player.getName() + ": "
+							+ player.getScore();
 		}
 
 		Label lblTop1 = new Label(scoreList[0], lStylePlayers);
@@ -224,17 +215,19 @@ public class MenuScreen implements Screen, Asset
 		Label lblTop3 = new Label(scoreList[2], lStylePlayers);
 
 		lblTop1.setSize(BUTTON_WIDTH, BUTTON_HEIGHT);
-		lblTop1.setPosition(game.getWidth() / 2 + game.getWidth() / 20, game.getHeight() / 2 - game.getHeight() / 9 * 2);
+		lblTop1.setPosition(game.getWidth() / 2 + game.getWidth() / 20,
+				game.getHeight() / 2 - game.getHeight() / 9 * 2);
 		lblTop2.setSize(BUTTON_WIDTH, BUTTON_HEIGHT);
-		lblTop2.setPosition(game.getWidth() / 2 + game.getWidth() / 20, game.getHeight() / 2 - game.getHeight() / 9 * 2 - 30);
+		lblTop2.setPosition(game.getWidth() / 2 + game.getWidth() / 20,
+				game.getHeight() / 2 - game.getHeight() / 9 * 2 - 30);
 		lblTop3.setSize(BUTTON_WIDTH, BUTTON_HEIGHT);
-		lblTop3.setPosition(game.getWidth() / 2 + game.getWidth() / 20, game.getHeight() / 2 - game.getHeight() / 9 * 2 - 60);
+		lblTop3.setPosition(game.getWidth() / 2 + game.getWidth() / 20,
+				game.getHeight() / 2 - game.getHeight() / 9 * 2 - 60);
 
 		// TextButton "START"
 		TextButtonStyle textbuttonStyleStart = new TextButtonStyle();
 		textbuttonStyleStart.up = skin.getDrawable("btnStart");
-		textbuttonStyleStart.down = skin.newDrawable("white", Color.MAROON);
-		textbuttonStyleStart.checked = skin.newDrawable("white", Color.LIGHT_GRAY);
+		textbuttonStyleStart.down = skin.getDrawable("btnStartSmall");
 		textbuttonStyleStart.over = skin.getDrawable("btnStartOver");
 		textbuttonStyleStart.font = skin.getFont("default");
 		skin.add("start", textbuttonStyleStart);
@@ -246,8 +239,7 @@ public class MenuScreen implements Screen, Asset
 		// TextButton "CREDITS"
 		TextButtonStyle textbuttonStyleCredits = new TextButtonStyle();
 		textbuttonStyleCredits.up = skin.getDrawable("btnCredits");
-		textbuttonStyleCredits.down = skin.newDrawable("white", Color.MAROON);
-		textbuttonStyleCredits.checked = skin.newDrawable("white", Color.LIGHT_GRAY);
+		textbuttonStyleCredits.down = skin.getDrawable("btnCreditsSmall");
 		textbuttonStyleCredits.over = skin.getDrawable("btnCreditsOver");
 		textbuttonStyleCredits.font = skin.getFont("default");
 		skin.add("start", textbuttonStyleCredits);
@@ -259,8 +251,7 @@ public class MenuScreen implements Screen, Asset
 		// TextButton "EXIT"
 		TextButtonStyle textbuttonStyleExit = new TextButtonStyle();
 		textbuttonStyleExit.up = skin.getDrawable("btnExit");
-		textbuttonStyleExit.down = skin.getDrawable("btnExit");
-		textbuttonStyleExit.checked = skin.newDrawable("white", Color.LIGHT_GRAY);
+		textbuttonStyleExit.down = skin.getDrawable("btnExitSmalll");
 		textbuttonStyleExit.over = skin.getDrawable("btnExitOver");
 		textbuttonStyleExit.font = skin.getFont("default");
 		skin.add("default", textbuttonStyleExit);
@@ -270,52 +261,47 @@ public class MenuScreen implements Screen, Asset
 		btnExit.setSize(BUTTON_WIDTH, BUTTON_HEIGHT);
 
 		// EventListener
-		btnStart.addListener(new ClickListener()
-		{
-			public void touchUp(InputEvent event, float x, float y, int point, int button)
-			{
+		btnStart.addListener(new ClickListener() {
+			public void touchUp(InputEvent event, float x, float y, int point,
+					int button) {
 				super.touchUp(event, x, y, point, button);
 				clickSound.play();
 				game.changeScreen(AURISGame.LOGIN_SCREEN, MenuScreen.this);
 			}
 		});
 
-		btnStart.addListener(new InputListener()
-		{
+		btnStart.addListener(new InputListener() {
 			@Override
-			public void enter(InputEvent event, float x, float y, int pointer, Actor fromActor)
-			{
+			public void enter(InputEvent event, float x, float y, int pointer,
+					Actor fromActor) {
 				super.enter(event, x, y, pointer, fromActor);
 				hoverSound1.play();
 			}
 		});
 
-		btnCredits.addListener(new InputListener()
-		{
+		btnCredits.addListener(new InputListener() {
 			@Override
-			public void enter(InputEvent event, float x, float y, int pointer, Actor fromActor)
-			{
+			public void enter(InputEvent event, float x, float y, int pointer,
+					Actor fromActor) {
 				super.enter(event, x, y, pointer, fromActor);
 				hoverSound2.play();
 			}
 		});
 
-		btnExit.addListener(new ClickListener()
-		{
+		btnExit.addListener(new ClickListener() {
 			@Override
-			public void touchUp(InputEvent event, float x, float y, int pointer, int button)
-			{
+			public void touchUp(InputEvent event, float x, float y,
+					int pointer, int button) {
 				super.touchUp(event, x, y, pointer, button);
 				// TODO: implements cleaner way to exit application
 				System.exit(0);
 			}
 		});
 
-		btnExit.addListener(new InputListener()
-		{
+		btnExit.addListener(new InputListener() {
 			@Override
-			public void enter(InputEvent event, float x, float y, int pointer, Actor fromActor)
-			{
+			public void enter(InputEvent event, float x, float y, int pointer,
+					Actor fromActor) {
 				super.enter(event, x, y, pointer, fromActor);
 				hoverSound3.play();
 			}
@@ -336,22 +322,20 @@ public class MenuScreen implements Screen, Asset
 	}
 
 	@Override
-	public void hide()
-	{
-		menuMusic.stop();
+	public void hide() {
+		// menuMusic.stop();
 	}
 
 	@Override
-	public void pause()
-	{}
+	public void pause() {
+	}
 
 	@Override
-	public void resume()
-	{}
+	public void resume() {
+	}
 
 	@Override
-	public void dispose()
-	{
+	public void dispose() {
 		disposeAsset();
 		stage.dispose();
 		skin.dispose();

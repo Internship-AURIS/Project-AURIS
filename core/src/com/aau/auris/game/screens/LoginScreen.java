@@ -2,20 +2,26 @@ package com.aau.auris.game.screens;
 
 import com.aau.auris.game.AURISGame;
 import com.aau.auris.game.Asset;
+import com.aau.auris.game.AssetLoader;
 import com.aau.auris.game.userdata.Player;
 import com.aau.auris.game.userdata.UserData;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
+import com.badlogic.gdx.graphics.g2d.TextureAtlas;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
+import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Label.LabelStyle;
+import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton.TextButtonStyle;
@@ -25,8 +31,13 @@ import com.badlogic.gdx.scenes.scene2d.utils.Align;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 
-public class LoginScreen implements Screen, Asset
-{
+public class LoginScreen implements Screen, Asset {
+	// Assets
+	private TextureAtlas menuButtons;
+	private BitmapFont bFont;
+	private Texture background;
+	private Sound backMusic;
+	private Sound hoverSound1;
 
 	private AURISGame game;
 	private UserData userdata;
@@ -38,27 +49,28 @@ public class LoginScreen implements Screen, Asset
 	private TextButton tbStart;
 	private TextButton tbBack;
 
-	public LoginScreen(AURISGame game)
-	{
+	public LoginScreen(AURISGame game) {
 		this.game = game;
 		this.userdata = this.game.getUserData();
+		loadAsset();
 	}
 
 	@Override
-	public void loadAsset()
-	{
-		// TODO: load assets
+	public void loadAsset() {
+		menuButtons = AssetLoader.menu_buttons;
+		bFont = AssetLoader.bFont;
+		background = AssetLoader.menu_background_blank;
+		backMusic = AssetLoader.menuMusic1;
+		hoverSound1=AssetLoader.hoverSound1;
 	}
 
 	@Override
-	public void disposeAsset()
-	{
+	public void disposeAsset() {
 		// TODO: delete assets
 	}
 
 	@Override
-	public void render(float delta)
-	{
+	public void render(float delta) {
 		Gdx.gl.glClearColor(1, 1, 0, 1);
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
@@ -67,67 +79,83 @@ public class LoginScreen implements Screen, Asset
 	}
 
 	@Override
-	public void resize(int width, int height)
-	{}
+	public void resize(int width, int height) {
+	}
 
 	@Override
-	public void show()
-	{
+	public void show() {
+		// backMusic.play();
+		// backMusic.setLooping(0, true);
 		stage = new Stage();
 		Gdx.input.setInputProcessor(stage);
 
-		skin = new Skin();
+		skin = new Skin(menuButtons);
 		Pixmap pixmap = new Pixmap(100, 100, Pixmap.Format.RGBA8888);
 		pixmap.setColor(Color.GREEN);
 		pixmap.fill();
 		skin.add("white", new Texture(pixmap));
 
+		TextureRegion backTextRegion = new TextureRegion(background, 848, 480);
+		Image img = new Image(backTextRegion);
+		stage.addActor(img);
+
 		LabelStyle lStyle = new LabelStyle();
-		lStyle.font = new BitmapFont();
+		lStyle.font = bFont;
 		lStyle.fontColor = Color.WHITE;
-		lStyle.background = skin.newDrawable("white", Color.BLACK);
-		lblName = new Label("NAME", lStyle);
+		lStyle.background = skin.getDrawable("btnName");
+		lblName = new Label("", lStyle);
 		lblName.setAlignment(Align.center);
-		lblName.setSize(200, 30);
-		lblName.setPosition(Gdx.graphics.getWidth() / 2 - lblName.getWidth() / 2, Gdx.graphics.getHeight() / 2 - lblName.getHeight() / 2 + 120);
+		lblName.setSize(200, 80);
+		lblName.setPosition(Gdx.graphics.getWidth() / 2 - lblName.getWidth()
+				/ 2, Gdx.graphics.getHeight() / 2 - lblName.getHeight() / 2
+				+ 120);
 		stage.addActor(lblName);
 
-		BitmapFont bFont = new BitmapFont();
-		bFont.scale(1);
+		BitmapFont bFont = AssetLoader.bFont;
+		//bFont.scale(1);
 
 		TextFieldStyle tfStyle = new TextFieldStyle();
 		tfStyle.fontColor = Color.WHITE;
 		tfStyle.font = bFont;
-		tfStyle.background = skin.newDrawable("white", Color.BLACK);
+		tfStyle.cursor=skin.getDrawable("bestCursor");
+//		tfStyle.background = skin.newDrawable("white", Color.BLACK);
 		txtName = new TextField("", tfStyle);
-		txtName.setSize(200, 30);
-		txtName.setPosition(Gdx.graphics.getWidth() / 2 - txtName.getWidth() / 2, Gdx.graphics.getHeight() / 2 - txtName.getHeight() + 100);
+		txtName.setSize(160, 60);
+		txtName.setPosition(Gdx.graphics.getWidth() / 2 - txtName.getWidth()
+				/ 2, Gdx.graphics.getHeight() / 2 - txtName.getHeight() + 60);
 		stage.addActor(txtName);
 
 		skin.add("default", bFont);
-		TextButtonStyle tbStyle = new TextButtonStyle();
-		tbStyle.up = skin.newDrawable("white", Color.DARK_GRAY);
-		tbStyle.down = skin.newDrawable("white", Color.DARK_GRAY);
-		tbStyle.checked = skin.newDrawable("white", Color.BLUE);
-		tbStyle.over = skin.newDrawable("white", Color.LIGHT_GRAY);
-		tbStyle.font = skin.getFont("default");
-		skin.add("default", tbStyle);
+		TextButtonStyle tbStyleBack = new TextButtonStyle();
+		tbStyleBack.up = skin.getDrawable("btnBack");
+		tbStyleBack.down = skin.getDrawable("btnBackSmall");
+		tbStyleBack.over = skin.getDrawable("btnBackOver");
+		tbStyleBack.font = skin.getFont("default");
+		skin.add("default", tbStyleBack);
+		
+		TextButtonStyle tbStyleStart = new TextButtonStyle();
+		tbStyleStart.up = skin.getDrawable("btnLoginStart");
+		tbStyleStart.down = skin.getDrawable("btnLoginStartSmall");
+		tbStyleStart.over = skin.getDrawable("btnLoginStartOver");
+		tbStyleStart.font = skin.getFont("default");
+		skin.add("default", tbStyleStart);
 
-		tbStart = new TextButton("START", skin);
-		tbStart.setSize(200, 60);
-		tbStart.setPosition(Gdx.graphics.getWidth() / 2 - tbStart.getWidth() / 2, Gdx.graphics.getHeight() / 2 - tbStart.getHeight() / 2);
-		tbStart.addListener(new ClickListener()
-		{
-
+		tbStart = new TextButton("", tbStyleStart);
+		tbStart.setSize(200, 80);
+		tbStart.setPosition(Gdx.graphics.getWidth() / 2 - tbStart.getWidth()
+				/ 2, Gdx.graphics.getHeight() / 2 - tbStart.getHeight() / 3 *4);
+		
+		tbStart.addListener(new ClickListener() {
 			@Override
-			public void touchUp(InputEvent event, float x, float y, int pointer, int button)
-			{
+			public void touchUp(InputEvent event, float x, float y,
+					int pointer, int button) {
 				super.touchUp(event, x, y, pointer, button);
 				String inputName = txtName.getText();
-				if (inputName == null || inputName.length() == 0)
-				{
-					System.out.println("...invalid player name!!! try again...");
+				if (inputName == null || inputName.length() == 0) {
+					System.out
+							.println("...invalid player name!!! try again...");
 					event.cancel();
+
 					return;
 				}
 				/*
@@ -135,51 +163,60 @@ public class LoginScreen implements Screen, Asset
 				 */
 				Player loginPlayer = null;
 
-				if (userdata.containsPlayerName(inputName))//username exists, use this player
+				if (userdata.containsPlayerName(inputName))// username exists,
+															// use this player
 				{
 					loginPlayer = userdata.getPlayerViaName(inputName);
-				} else
-				{//no player exists with the given inputName, create new one
+				} else {// no player exists with the given inputName, create new
+						// one
 
 					loginPlayer = new Player(inputName, 0);
 					userdata.createPlayer(loginPlayer);
 					System.out.println("new player created: " + loginPlayer);
 				}
 				game.setPlayer(loginPlayer);
+				game.changeScreen(AURISGame.LEVEL_SCREEN, LoginScreen.this);
 			}
 		});
 
-		tbBack = new TextButton("BACK", skin);
-		tbBack.setSize(100, 60);
+		tbBack = new TextButton("", tbStyleBack);
+		tbBack.setSize(200, 80);
 		tbBack.setPosition(10, 10);
-		tbBack.addListener(new ChangeListener()
-		{
+		tbBack.addListener(new ChangeListener() {
 			@Override
-			public void changed(ChangeEvent event, Actor actor)
-			{
+			public void changed(ChangeEvent event, Actor actor) {
+				
 				game.changeScreen(AURISGame.MENU_SCREEN, LoginScreen.this);
 			}
 		});
 
+		tbBack.addListener(new InputListener() {
+			@Override
+			public void enter(InputEvent event, float x, float y, int pointer,
+					Actor fromActor) {
+				super.enter(event, x, y, pointer, fromActor);
+				hoverSound1.play();
+			}
+		});
 		stage.addActor(tbBack);
 		stage.addActor(tbStart);
 	}
 
 	@Override
-	public void hide()
-	{}
+	public void hide() {
+//		backMusic.stop();
+	}
 
 	@Override
-	public void pause()
-	{}
+	public void pause() {
+	}
 
 	@Override
-	public void resume()
-	{}
+	public void resume() {
+	}
 
 	@Override
-	public void dispose()
-	{
+	public void dispose() {
 		stage.dispose();
 		skin.dispose();
 	}
