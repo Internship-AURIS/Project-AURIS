@@ -110,6 +110,10 @@ public class MainMenu implements Screen
 	@Override
 	public void show()
 	{
+
+		stage = new Stage();
+		Gdx.input.setInputProcessor(stage);
+
 		menuMusic.setLooping(true);
 		menuMusic.play();
 		batch = new SpriteBatch();

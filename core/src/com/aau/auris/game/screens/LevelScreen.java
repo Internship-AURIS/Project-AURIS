@@ -26,7 +26,6 @@ public class LevelScreen implements Screen
 	public LevelScreen(AURISGame game)
 	{
 		this.game = game;
-		stage = new Stage();
 	}
 
 	@Override
@@ -46,6 +45,8 @@ public class LevelScreen implements Screen
 	@Override
 	public void show()
 	{
+		stage = new Stage();
+		Gdx.input.setInputProcessor(stage);
 		final int width = 50, height = 50;
 
 		final Skin skin = new Skin();
