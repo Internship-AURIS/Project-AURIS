@@ -9,8 +9,8 @@ public class DesktopLauncher
 	public static void main(String[] arg)
 	{
 		LwjglApplicationConfiguration config = new LwjglApplicationConfiguration();
-				config.width = AURISGame.SIZE.width;
-				config.height = AURISGame.SIZE.height;
+				config.width = AURISGame.PROJECTOR_SIZE.width;
+				config.height = AURISGame.PROJECTOR_SIZE.height;
 		new LwjglApplication(new AURISGame(), config);
 	}
 }

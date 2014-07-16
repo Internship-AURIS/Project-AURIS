@@ -1,6 +1,7 @@
 package com.aau.auris.game.screens;
 
 import com.aau.auris.game.AURISGame;
+import com.aau.auris.game.Asset;
 import com.aau.auris.game.userdata.Player;
 import com.aau.auris.game.userdata.UserData;
 import com.badlogic.gdx.Gdx;
@@ -10,6 +11,7 @@ import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
+import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
@@ -20,9 +22,10 @@ import com.badlogic.gdx.scenes.scene2d.ui.TextButton.TextButtonStyle;
 import com.badlogic.gdx.scenes.scene2d.ui.TextField;
 import com.badlogic.gdx.scenes.scene2d.ui.TextField.TextFieldStyle;
 import com.badlogic.gdx.scenes.scene2d.utils.Align;
+import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 
-public class LoginScreen implements Screen
+public class LoginScreen implements Screen, Asset
 {
 
 	private AURISGame game;
@@ -33,11 +36,24 @@ public class LoginScreen implements Screen
 	private Label lblName;
 	private TextField txtName;
 	private TextButton tbStart;
+	private TextButton tbBack;
 
 	public LoginScreen(AURISGame game)
 	{
 		this.game = game;
 		this.userdata = this.game.getUserData();
+	}
+
+	@Override
+	public void loadAsset()
+	{
+		// TODO: load assets
+	}
+
+	@Override
+	public void disposeAsset()
+	{
+		// TODO: delete assets
 	}
 
 	@Override
@@ -133,6 +149,19 @@ public class LoginScreen implements Screen
 			}
 		});
 
+		tbBack = new TextButton("BACK", skin);
+		tbBack.setSize(100, 60);
+		tbBack.setPosition(10, 10);
+		tbBack.addListener(new ChangeListener()
+		{
+			@Override
+			public void changed(ChangeEvent event, Actor actor)
+			{
+				game.changeScreen(AURISGame.MENU_SCREEN, LoginScreen.this);
+			}
+		});
+
+		stage.addActor(tbBack);
 		stage.addActor(tbStart);
 	}
 
