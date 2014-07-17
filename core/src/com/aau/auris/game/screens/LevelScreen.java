@@ -73,12 +73,12 @@ public class LevelScreen extends AbstractScreen
 		final float factor = 1.5f;
 		final float x = width * 1.3f;
 
-		final float achiev_w = width+10;
+		final float achiev_w = width + 10;
 		final float achiev_h = height;
 
 		// Achievements
 		ImageTextButton itbAchiev1 = new ImageTextButton("", itbStyleAch1);
-		itbAchiev1.setBounds(x+50, (s_height - (height))-55, achiev_w, achiev_h);
+		itbAchiev1.setBounds(x + 50, (s_height - (height)) - 55, achiev_w, achiev_h);
 		itbAchiev1.add(itbAchiev1.getImage()).row();
 		itbAchiev1.add(itbAchiev1.getLabel());
 
@@ -88,7 +88,7 @@ public class LevelScreen extends AbstractScreen
 		itbAchiev2.add(itbAchiev2.getLabel());
 
 		ImageTextButton itbAchiev3 = new ImageTextButton("", itbStyle);
-		itbAchiev3.setBounds(itbAchiev2.getX() + (itbAchiev2.getWidth() * factor)-15, itbAchiev2.getY(), itbAchiev1.getWidth(), itbAchiev1.getHeight());
+		itbAchiev3.setBounds(itbAchiev2.getX() + (itbAchiev2.getWidth() * factor) - 15, itbAchiev2.getY(), itbAchiev1.getWidth(), itbAchiev1.getHeight());
 		itbAchiev3.add(itbAchiev3.getImage()).row();
 		itbAchiev3.add(itbAchiev3.getLabel());
 
@@ -98,15 +98,15 @@ public class LevelScreen extends AbstractScreen
 		diff1Lvl1Style.down = skin.getDrawable("1diff1Small");
 		diff1Lvl1Style.over = skin.getDrawable("1diff1Over");
 		diff1Lvl1Style.font = skin.getFont("default");
-		TextButton diffLvl1Button=new TextButton("", diff1Lvl1Style);
-		diffLvl1Button.setBounds(x+60, (s_height - (height) - (height * factor)-35), width, height);
-		
+		TextButton diffLvl1Button = new TextButton("", diff1Lvl1Style);
+		diffLvl1Button.setBounds(x + 60, (s_height - (height) - (height * factor) - 35), width, height);
+
 		TextButtonStyle diff1Lvl2Style = new TextButtonStyle();
 		diff1Lvl2Style.up = skin.getDrawable("1diff2");
 		diff1Lvl2Style.down = skin.getDrawable("1diff2Small");
 		diff1Lvl2Style.over = skin.getDrawable("1diff2Over");
 		diff1Lvl2Style.font = skin.getFont("default");
-		TextButton diff1Lvl2Button=new TextButton("", diff1Lvl2Style);
+		TextButton diff1Lvl2Button = new TextButton("", diff1Lvl2Style);
 		diff1Lvl2Button.setBounds(diffLvl1Button.getX() + (width * factor), diffLvl1Button.getY(), width, height);
 
 		TextButtonStyle diff1Lvl3Style = new TextButtonStyle();
@@ -114,7 +114,7 @@ public class LevelScreen extends AbstractScreen
 		diff1Lvl3Style.down = skin.getDrawable("1diff3Small");
 		diff1Lvl3Style.over = skin.getDrawable("1diff3Over");
 		diff1Lvl3Style.font = skin.getFont("default");
-		TextButton diff1Lvl3Button=new TextButton("", diff1Lvl3Style);
+		TextButton diff1Lvl3Button = new TextButton("", diff1Lvl3Style);
 		diff1Lvl3Button.setBounds(diff1Lvl2Button.getX() + (width * factor), diffLvl1Button.getY(), width, height);
 
 		// Level Difficulty 2
@@ -197,6 +197,36 @@ public class LevelScreen extends AbstractScreen
 			}
 		});
 
+		// Button "SHOP"
+		TextButtonStyle tbStyleShop = new TextButtonStyle();
+		tbStyleShop.up = skin.getDrawable("btnBack");
+		tbStyleShop.down = skin.getDrawable("btnBackSmall");
+		tbStyleShop.over = skin.getDrawable("btnBackOver");
+		tbStyleShop.font = bFont;
+		skin.add("btnBack", tbStyleShop);
+		TextButton tbShop = new TextButton("SHOP", tbStyleShop);
+		tbShop.setPosition(tbBack.getX(), tbBack.getY() + tbBack.getWidth() / 2);
+		tbShop.setSize(160, 60);
+		tbShop.addListener(new ClickListener()
+		{
+			@Override
+			public void touchUp(InputEvent event, float x, float y, int pointer, int button)
+			{
+				super.touchUp(event, x, y, pointer, button);
+				clickSound.play();
+				game.changeScreen(AURISGame.SHOP_SCREEN, LevelScreen.this);
+			}
+		});
+		tbShop.addListener(new InputListener()
+		{
+			@Override
+			public void enter(InputEvent event, float x, float y, int pointer, Actor fromActor)
+			{
+				super.enter(event, x, y, pointer, fromActor);
+				hoverSound.play();
+			}
+		});
+
 		stage.addActor(itbAchiev1);
 		stage.addActor(itbAchiev2);
 		stage.addActor(itbAchiev3);
@@ -214,6 +244,7 @@ public class LevelScreen extends AbstractScreen
 		stage.addActor(diff3Lvl3Button);
 
 		stage.addActor(tbBack);
+		stage.addActor(tbShop);
 	}
 
 	@Override
