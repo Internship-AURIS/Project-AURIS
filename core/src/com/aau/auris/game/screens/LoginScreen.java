@@ -121,11 +121,9 @@ public class LoginScreen extends AbstractScreen
 				{
 					txtName.setText(txtName.getText().substring(0, MAX_NAME_LENGTH));
 					txtName.setCursorPosition(MAX_NAME_LENGTH);
-
 				}
 				return super.keyTyped(event, character);
 			}
-
 		});
 
 		// TextButton "BACK"
@@ -193,7 +191,7 @@ public class LoginScreen extends AbstractScreen
 				} else
 				{
 					// no player exists with the given inputName, create new  one
-					loginPlayer = new Player(inputName, 0, 0, null, null);//TODO:
+					loginPlayer = Player.generateNewPlayer(inputName);
 					userdata.createPlayer(loginPlayer);
 					System.out.println("new player created: " + loginPlayer);
 				}

@@ -6,14 +6,14 @@ import com.badlogic.gdx.graphics.g2d.Animation;
 
 public class BallSkin implements Asset, Unlockable
 {
-	private transient static final int BALL_SKIN_1 = 0;
-	private transient static final int BALL_SKIN_2 = 1;
-	private transient static final int BALL_SKIN_3 = 2;
-	private transient static final int BALL_SKIN_4 = 3;
-	private transient static final int BALL_SKIN_1_COST = 0;
-	private transient static final int BALL_SKIN_2_COST = 100;
-	private transient static final int BALL_SKIN_3_COST = 100;
-	private transient static final int BALL_SKIN_4_COST = 100;
+	private static final transient int BALL_SKIN_1 = 0;
+	private static final transient int BALL_SKIN_2 = 1;
+	private static final transient int BALL_SKIN_3 = 2;
+	private static final transient int BALL_SKIN_4 = 3;
+	private static final transient int BALL_SKIN_1_COST = 0;
+	private static final transient int BALL_SKIN_2_COST = 100;
+	private static final transient int BALL_SKIN_3_COST = 100;
+	private static final transient int BALL_SKIN_4_COST = 100;
 
 	// Asset
 	private transient Animation ballSkinAnimation_1;
@@ -27,10 +27,10 @@ public class BallSkin implements Asset, Unlockable
 	public BallSkin()
 	{}
 
-	public BallSkin(int id)
+	public BallSkin(int id, boolean locked)
 	{
 		this.id = id;
-		this.locked = true;
+		this.locked = locked;
 	}
 
 	@Override
@@ -48,19 +48,43 @@ public class BallSkin implements Asset, Unlockable
 
 	public int getCost()
 	{
-		if (id == BALL_SKIN_1) { return BALL_SKIN_1_COST; }
-		if (id == BALL_SKIN_2) { return BALL_SKIN_2_COST; }
-		if (id == BALL_SKIN_3) { return BALL_SKIN_3_COST; }
-		if (id == BALL_SKIN_4) { return BALL_SKIN_4_COST; }
+		if (id == BALL_SKIN_1)
+		{
+			return BALL_SKIN_1_COST;
+		}
+		if (id == BALL_SKIN_2)
+		{
+			return BALL_SKIN_2_COST;
+		}
+		if (id == BALL_SKIN_3)
+		{
+			return BALL_SKIN_3_COST;
+		}
+		if (id == BALL_SKIN_4)
+		{
+			return BALL_SKIN_4_COST;
+		}
 		return BALL_SKIN_1_COST;
 	}
 
 	public Animation getSkin()
 	{
-		if (id == BALL_SKIN_1) { return ballSkinAnimation_1; }
-		if (id == BALL_SKIN_2) { return ballSkinAnimation_2; }
-		if (id == BALL_SKIN_3) { return ballSkinAnimation_3; }
-		if (id == BALL_SKIN_4) { return ballSkinAnimation_4; }
+		if (id == BALL_SKIN_1)
+		{
+			return ballSkinAnimation_1;
+		}
+		if (id == BALL_SKIN_2)
+		{
+			return ballSkinAnimation_2;
+		}
+		if (id == BALL_SKIN_3)
+		{
+			return ballSkinAnimation_3;
+		}
+		if (id == BALL_SKIN_4)
+		{
+			return ballSkinAnimation_4;
+		}
 		return ballSkinAnimation_1;
 	}
 
@@ -73,5 +97,11 @@ public class BallSkin implements Asset, Unlockable
 	public void setLocked(boolean locked)
 	{
 		this.locked = locked;
+	}
+
+	@Override
+	public int getScore()
+	{
+		return 0;
 	}
 }

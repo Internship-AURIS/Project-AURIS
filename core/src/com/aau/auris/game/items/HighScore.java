@@ -28,8 +28,8 @@ public class HighScore
 				final int score1 = p1.getScore();
 				final int score2 = p2.getScore();
 
-				if (score1 > score2) { return 1; }
-				if (score1 < score2) { return -1; }
+				if (score1 > score2) { return -1; }
+				if (score1 < score2) { return 1; }
 				return 0;
 			}
 		});

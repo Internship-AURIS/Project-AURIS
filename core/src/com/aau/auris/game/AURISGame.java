@@ -41,7 +41,7 @@ public class AURISGame extends Game
 	// Data
 	private UserData userdata;
 
-	// 
+	//
 	private Player player = null;
 	private Level level = null;
 
@@ -60,7 +60,7 @@ public class AURISGame extends Game
 		creditsScreen = new CreditsScreen(this);
 
 		initLevels();
-		
+
 		this.setScreen(menuScreen);
 	}
 
@@ -72,9 +72,9 @@ public class AURISGame extends Game
 
 	public void initLevels()
 	{
-		lvl1 = new Level(this, Level.DIFFICULTY_1, 1);
-		lvl2 = new Level(this, Level.DIFFICULTY_1, 2);
-		lvl3 = new Level(this, Level.DIFFICULTY_1, 3);
+		lvl1 = new Level(1, true);
+		lvl2 = new Level(2, true);
+		lvl3 = new Level(3, true);
 	}
 
 	public UserData getUserData()
@@ -147,6 +147,7 @@ public class AURISGame extends Game
 	@Override
 	public void dispose()
 	{
+		userdata.save();
 		super.dispose();
 		AssetLoader.dispose();
 	}

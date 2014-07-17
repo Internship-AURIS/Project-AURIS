@@ -13,31 +13,53 @@ public class Player
 	private ArrayList<Level> levels;
 
 	private String name;// player name
-	private int score;// composed of maxCredits + achievements, etc.
-	private int maxCredits;// maximal credits the player ever reached
+	private int achievPoints;// get points for unlocking achievements
 	private int credits;// current credits, used for bills
+	private int maxCredits;// maximal credits the player ever reached
+	private int score;// composed of maxCredits + achievements, etc.
 
 	public Player()
 	{}
 
-	public Player(String name, int credits, int score, ArrayList<Achievement> achievements, ArrayList<Level> levels)
+	public Player(String name, int credits, int maxCredits, int score, ArrayList<Achievement> achievements, ArrayList<Level> levels)
 	{
 		this.name = name;
-		this.score = score;
+		this.achievPoints = score - maxCredits;
 		this.credits = credits;
+		this.maxCredits = maxCredits;
+		this.score = score;
 		this.achievements = achievements;
 		this.levels = levels;
-		calcMaxScore();
 	}
 
-	private void calcMaxScore()
+	public static Player generateNewPlayer(String name)
 	{
-		// TODO: implement calculation of maximal score
+		ArrayList<Achievement> achievements = Achievement.getList();
+		ArrayList<Level> levels = Level.getList();
+		Player player = new Player(name, 0, 0, 0, achievements, levels);
+		player.unlock(achievements.get(0));
+		return player;
+	}
+
+	private void unlock(Unlockable item)
+	{
+		achievPoints += item.getScore();
+		item.setLocked(false);
+	}
+
+	private void calcScore()
+	{
+		this.score = maxCredits + achievPoints;
 	}
 
 	public ArrayList<Achievement> getAchievements()
 	{
 		return achievements;
+	}
+
+	public void addAchievement(Achievement a)
+	{
+		achievPoints += a.getScore();
 	}
 
 	public ArrayList<Level> getLevels()
@@ -58,6 +80,10 @@ public class Player
 	public void setCredits(int credits)
 	{
 		this.credits = credits;
+		if (credits > maxCredits)
+		{
+			maxCredits = credits;
+		}
 	}
 
 	public int getMaxCredits()
@@ -65,20 +91,21 @@ public class Player
 		return maxCredits;
 	}
 
-	public void setMaxCredits(int maxCredits)
-	{
-		this.maxCredits = maxCredits;
-	}
-
 	public int getScore()
 	{
+		calcScore();
 		return score;
 	}
 
 	public void setScore(int score)
 	{
+		achievPoints = 0;// TODO: debugging
+		maxCredits = score;
 		this.score = score;
 	}
+
+	public void setMaxScore(int mScore)
+	{}
 
 	@Override
 	public String toString()
