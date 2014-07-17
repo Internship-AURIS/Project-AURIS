@@ -1,11 +1,11 @@
-package com.aau.auris.game.levels;
+package com.aau.auris.game.level;
 
 import java.util.ArrayList;
 
 import com.aau.auris.game.AURISGame;
-import com.aau.auris.game.Asset;
-import com.aau.auris.game.entity.Obstacle;
-import com.aau.auris.game.userdata.Player;
+import com.aau.auris.game.Asset.Asset;
+import com.aau.auris.game.data.Player;
+import com.aau.auris.game.level.entity.Obstacle;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.World;

@@ -5,10 +5,10 @@ import java.util.Iterator;
 import java.util.Random;
 
 import com.aau.auris.game.AURISGame;
-import com.aau.auris.game.AssetLoader;
+import com.aau.auris.game.Asset.AssetLoader;
+import com.aau.auris.game.data.Player;
 import com.aau.auris.game.items.HighScore;
 import com.aau.auris.game.items.MenuBall;
-import com.aau.auris.game.userdata.Player;
 import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
@@ -48,9 +48,12 @@ public class MenuScreen extends AbstractScreen
 
 	// Local variables
 	private SpriteBatch batch;
-	private HighScore highscore;
-
 	private float runTime;
+
+	// Variables for HighScoreList
+	private HighScore highscore;
+	private ArrayList<Player> playerList;
+	private Label lblTop1, lblTop2, lblTop3;
 
 	// Decoration
 	private ArrayList<MenuBall> menuballs;
@@ -59,7 +62,7 @@ public class MenuScreen extends AbstractScreen
 	public MenuScreen(AURISGame game)
 	{
 		super(game);
-
+		updateHighScoreList();
 		menuMusic.play();
 		menuMusic.setLooping(0, true);
 	}
@@ -101,6 +104,7 @@ public class MenuScreen extends AbstractScreen
 	protected void initComponents()
 	{
 		this.highscore = new HighScore(this.game);
+		this.playerList = highscore.getScoreList();
 		this.menuballs = new ArrayList<MenuBall>();
 		this.lastBallTime = 0;
 
@@ -124,17 +128,9 @@ public class MenuScreen extends AbstractScreen
 		lStylePlayers.font = bFont;
 		lStylePlayers.fontColor = Color.BLACK;
 
-		ArrayList<Player> playerList = highscore.getScoreList();
-		String[] scoreList = new String[3];
-		for (int i = 0; i < scoreList.length; i++)
-		{
-			Player player = playerList.size() > i ? playerList.get(i) : null;
-			scoreList[i] = player == null ? ((i + 1) + ". --------: ---") : (i + 1) + ". " + player.getName() + ": " + player.getScore();
-		}
-
-		Label lblTop1 = new Label(scoreList[0], lStylePlayers);
-		Label lblTop2 = new Label(scoreList[1], lStylePlayers);
-		Label lblTop3 = new Label(scoreList[2], lStylePlayers);
+		lblTop1 = new Label("", lStylePlayers);
+		lblTop2 = new Label("", lStylePlayers);
+		lblTop3 = new Label("", lStylePlayers);
 
 		lblTop1.setSize(BUTTON_WIDTH, BUTTON_HEIGHT);
 		lblTop1.setPosition(game.getWidth() / 2 + game.getWidth() / 20, game.getHeight() / 2 - game.getHeight() / 9 * 2);
@@ -293,6 +289,20 @@ public class MenuScreen extends AbstractScreen
 		}
 	}
 
+	private void updateHighScoreList()
+	{
+
+		String[] scoreList = new String[3];
+		for (int i = 0; i < scoreList.length; i++)
+		{
+			Player player = playerList.size() > i ? playerList.get(i) : null;
+			scoreList[i] = player == null ? ((i + 1) + ". --------: ---") : (i + 1) + ". " + player.getName() + ": " + player.getScore();
+		}
+		lblTop1.setText(scoreList[0]);
+		lblTop2.setText(scoreList[1]);
+		lblTop3.setText(scoreList[2]);
+	}
+
 	@Override
 	public void resize(int width, int height)
 	{
@@ -303,7 +313,7 @@ public class MenuScreen extends AbstractScreen
 	public void show()
 	{
 		super.show();
-
+		updateHighScoreList();
 	}
 
 	@Override

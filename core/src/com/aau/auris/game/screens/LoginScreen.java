@@ -1,9 +1,9 @@
 package com.aau.auris.game.screens;
 
 import com.aau.auris.game.AURISGame;
-import com.aau.auris.game.AssetLoader;
-import com.aau.auris.game.userdata.Player;
-import com.aau.auris.game.userdata.UserData;
+import com.aau.auris.game.Asset.AssetLoader;
+import com.aau.auris.game.data.Player;
+import com.aau.auris.game.data.UserData;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Color;
@@ -155,7 +155,7 @@ public class LoginScreen extends AbstractScreen
 				} else
 				{
 					// no player exists with the given inputName, create new  one
-					loginPlayer = new Player(inputName, 0);
+					loginPlayer = new Player(inputName, 0, null);
 					userdata.createPlayer(loginPlayer);
 					System.out.println("new player created: " + loginPlayer);
 				}

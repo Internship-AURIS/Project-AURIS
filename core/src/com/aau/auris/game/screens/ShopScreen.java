@@ -1,9 +1,16 @@
 package com.aau.auris.game.screens;
 
 import com.aau.auris.game.AURISGame;
+import com.aau.auris.game.Asset.AssetLoader;
+import com.badlogic.gdx.audio.Sound;
+import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 
 public class ShopScreen extends AbstractScreen
 {
+	// Asset
+	private TextureAtlas menuButtons;
+	private Sound clickSound;
+	private Sound hoverSound;
 
 	public ShopScreen(AURISGame game)
 	{
@@ -18,6 +25,9 @@ public class ShopScreen extends AbstractScreen
 	public void loadAsset()
 	{
 		super.loadAsset();
+		menuButtons = AssetLoader.menu_buttons;
+		clickSound = AssetLoader.clickSound;
+		hoverSound = AssetLoader.hoverSound1;
 	}
 
 	@Override

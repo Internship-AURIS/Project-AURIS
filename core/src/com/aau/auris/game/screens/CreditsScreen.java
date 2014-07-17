@@ -1,7 +1,7 @@
 package com.aau.auris.game.screens;
 
 import com.aau.auris.game.AURISGame;
-import com.aau.auris.game.AssetLoader;
+import com.aau.auris.game.Asset.AssetLoader;
 import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.scenes.scene2d.Actor;

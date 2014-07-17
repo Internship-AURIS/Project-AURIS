@@ -1,7 +1,7 @@
 package com.aau.auris.game.screens;
 
 import com.aau.auris.game.AURISGame;
-import com.aau.auris.game.levels.Level;
+import com.aau.auris.game.level.Level;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
@@ -9,6 +9,13 @@ import com.badlogic.gdx.scenes.scene2d.ui.Label.LabelStyle;
 
 public class GameScreen extends AbstractScreen
 {
+	/*
+	 * Main Game Screen
+	 * 
+	 * first step:
+	 * 
+	 * move ball and generate random obstacles
+	 */
 	private Level level;
 
 	public GameScreen(AURISGame game)

@@ -1,4 +1,4 @@
-package com.aau.auris.game.userdata;
+package com.aau.auris.game.data;
 
 import java.util.ArrayList;
 
@@ -63,6 +63,7 @@ public class UserData
 			//overwrite last player_stats because max amount of stats is reached
 			players.set(MAX_PLAYERS - 1, player);
 		}
+		save();
 	}
 
 	public void save()

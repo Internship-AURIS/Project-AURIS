@@ -1,4 +1,4 @@
-package com.aau.auris.game.entity;
+package com.aau.auris.game.level.entity;
 
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.BodyDef;

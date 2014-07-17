@@ -1,8 +1,8 @@
 package com.aau.auris.game.screens;
 
 import com.aau.auris.game.AURISGame;
-import com.aau.auris.game.Asset;
-import com.aau.auris.game.AssetLoader;
+import com.aau.auris.game.Asset.Asset;
+import com.aau.auris.game.Asset.AssetLoader;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
