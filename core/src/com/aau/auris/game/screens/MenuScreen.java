@@ -34,6 +34,7 @@ public class MenuScreen extends AbstractScreen
 	// Asset
 	private Animation parachuteBallAnimation1;
 	private Animation parachuteBallAnimation2;
+	private Animation parachuteBallAnimation3;
 	private Sound hoverSound1, hoverSound2, hoverSound3;
 	private Sound menuMusic, clickSound;
 	private Texture background;
@@ -58,6 +59,7 @@ public class MenuScreen extends AbstractScreen
 	// Decoration
 	private ArrayList<MenuBall> menuballs;
 	private long lastBallTime;
+	private boolean showPyramid = false;
 
 	public MenuScreen(AURISGame game)
 	{
@@ -74,6 +76,7 @@ public class MenuScreen extends AbstractScreen
 		// Animation
 		parachuteBallAnimation1 = AssetLoader.parachuteBallAnimation1;
 		parachuteBallAnimation2 = AssetLoader.parachuteBallAnimation2;
+		parachuteBallAnimation3 = AssetLoader.parachuteBallAnimation3;
 
 		// Sound
 		hoverSound1 = AssetLoader.hoverSound1;
@@ -91,6 +94,7 @@ public class MenuScreen extends AbstractScreen
 		super.disposeAsset();
 		parachuteBallAnimation1 = null;
 		parachuteBallAnimation2 = null;
+		parachuteBallAnimation3 = null;
 		hoverSound1 = null;
 		hoverSound2 = null;
 		hoverSound3 = null;
@@ -100,14 +104,41 @@ public class MenuScreen extends AbstractScreen
 		menuButtons = null;
 	}
 
-	@Override
+	private void spawnBall() {
+		Random r = new Random();
+		TextureRegion[] keyFrames = r.nextInt(2) == 0 ? parachuteBallAnimation1
+				.getKeyFrames() : parachuteBallAnimation2.getKeyFrames();
+		if (showPyramid == true) {
+			if (r.nextInt(10) == 5) {
+				keyFrames = parachuteBallAnimation3.getKeyFrames();
+			}
+		}
+		MenuBall ball = new MenuBall(r.nextInt(10) <= 2 ? r.nextInt(121)
+				: (440 + r.nextInt(370)), game.getHeight(), new Animation(
+				0.10f, keyFrames));
+		ball.getAnimation().setPlayMode(Animation.PlayMode.LOOP_PINGPONG);
+
+		menuballs.add(ball);
+		lastBallTime = TimeUtils.millis();
+	}
+
+	public void updateMenuBalls(float deltaTime) {
+		Iterator<MenuBall> iter = menuballs.iterator();
+		while (iter.hasNext()) {
+			MenuBall ball = iter.next();
+			ball.setY((ball.getY() - 50 * deltaTime));
+			if (ball.getY() < -120) {
+				iter.remove();
+			}
+		}
+	}
+
 	protected void initComponents()
 	{
 		this.highscore = new HighScore(this.game);
 		this.playerList = highscore.getScoreList();
 		this.menuballs = new ArrayList<MenuBall>();
 		this.lastBallTime = 0;
-
 		skin = new Skin(menuButtons);
 		batch = new SpriteBatch();
 
@@ -138,7 +169,19 @@ public class MenuScreen extends AbstractScreen
 		lblTop2.setPosition(game.getWidth() / 2 + game.getWidth() / 20, game.getHeight() / 2 - game.getHeight() / 9 * 2 - 30);
 		lblTop3.setSize(BUTTON_WIDTH, BUTTON_HEIGHT);
 		lblTop3.setPosition(game.getWidth() / 2 + game.getWidth() / 20, game.getHeight() / 2 - game.getHeight() / 9 * 2 - 60);
+		
+		// TextButton "PYRAMID"
+		TextButtonStyle textbuttonStylePyramid = new TextButtonStyle();
+		textbuttonStylePyramid.up = skin.getDrawable("trans");
+		textbuttonStylePyramid.down = skin.getDrawable("trans");
+		textbuttonStylePyramid.over = skin.getDrawable("trans");
+		textbuttonStylePyramid.font = skin.getFont("default");
+		skin.add("start", textbuttonStylePyramid);
 
+		TextButton btnPyramid = new TextButton("", textbuttonStylePyramid);
+		btnPyramid.setSize(20, 50);
+		btnPyramid.setPosition(game.getWidth()/2-game.getWidth()/3-btnPyramid.getWidth(), game.getHeight()/2);	
+		
 		// TextButton "START"
 		TextButtonStyle textbuttonStyleStart = new TextButtonStyle();
 		textbuttonStyleStart.up = skin.getDrawable("btnStart");
@@ -226,6 +269,16 @@ public class MenuScreen extends AbstractScreen
 				hoverSound3.play();
 			}
 		});
+		btnPyramid.addListener(new ClickListener(){
+			@Override
+			public void touchUp(InputEvent event, float x, float y,
+					int pointer, int button) {
+				super.touchUp(event, x, y, pointer, button);
+				// TODO: implements cleaner way to exit application
+				showPyramid=true;
+			}
+		});
+		
 
 		// Background Image
 		TextureRegion backTextRegion = new TextureRegion(background, 848, 480);
@@ -239,6 +292,7 @@ public class MenuScreen extends AbstractScreen
 		stage.addActor(lblTop1);
 		stage.addActor(lblTop2);
 		stage.addActor(lblTop3);
+		stage.addActor(btnPyramid);
 	}
 
 	@Override
@@ -257,35 +311,9 @@ public class MenuScreen extends AbstractScreen
 			batch.draw(ball.getKeyFrame(runTime), ball.getX(), ball.getY());
 		}
 		batch.end();
-
 		if (TimeUtils.millis() - lastBallTime > 5000)
 		{
 			spawnBall();
-		}
-	}
-
-	private void spawnBall()
-	{
-		Random r = new Random();
-		TextureRegion[] keyFrames = r.nextInt(2) == 0 ? parachuteBallAnimation1.getKeyFrames() : parachuteBallAnimation2.getKeyFrames();
-		MenuBall ball = new MenuBall(r.nextInt(10) <= 2 ? r.nextInt(121) : (440 + r.nextInt(370)), game.getHeight(), new Animation(0.10f, keyFrames));
-		ball.getAnimation().setPlayMode(Animation.PlayMode.LOOP_PINGPONG);
-
-		menuballs.add(ball);
-		lastBallTime = TimeUtils.millis();
-	}
-
-	public void updateMenuBalls(float deltaTime)
-	{
-		Iterator<MenuBall> iter = menuballs.iterator();
-		while (iter.hasNext())
-		{
-			MenuBall ball = iter.next();
-			ball.setY((ball.getY() - 50 * deltaTime));
-			if (ball.getY() < -120)
-			{
-				iter.remove();
-			}
 		}
 	}
 

@@ -94,7 +94,7 @@ public class LoginScreen extends AbstractScreen
 		// Label "NAME"
 		LabelStyle lStyle = new LabelStyle();
 		lStyle.font = bFont;
-		lStyle.fontColor = Color.WHITE;
+		lStyle.fontColor = Color.BLACK;
 		lStyle.background = skin.getDrawable("btnName");
 		Label lblName = new Label("", lStyle);
 		lblName.setAlignment(Align.center);

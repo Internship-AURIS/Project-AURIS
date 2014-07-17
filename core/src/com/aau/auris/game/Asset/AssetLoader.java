@@ -26,6 +26,7 @@ public class AssetLoader
 	// Animations
 	public static Animation parachuteBallAnimation1;
 	public static Animation parachuteBallAnimation2;
+	public static Animation parachuteBallAnimation3;
 
 	// Sounds
 	public static Sound hoverSound1;
@@ -40,7 +41,7 @@ public class AssetLoader
 	public static void load()
 	{
 		// Textures
-		spritesheet = new Texture(Gdx.files.internal("spriteFly.png"));
+		spritesheet = new Texture(Gdx.files.internal("spriteFly2.png"));
 		menu_background = new Texture(Gdx.files.internal("menu_background.png"));
 		menu_background_blank=new Texture(Gdx.files .internal("backBlank2.png"));
 		menu_background_blank2=new Texture(Gdx.files .internal("backLevels.png"));
@@ -51,16 +52,19 @@ public class AssetLoader
 		// Animations
 		TextureRegion[] parachuteFrames1 = new TextureRegion[COLS];
 		TextureRegion[] parachuteFrames2 = new TextureRegion[COLS];
+		TextureRegion[] parachuteFrames3 = new TextureRegion[COLS];
 		for (int i = 0; i < COLS; i++)
 		{
 			parachuteFrames1[i] = tmp[0][i];
 			parachuteFrames2[i] = tmp[1][i];
+			parachuteFrames3[i] = tmp[2][i];
 		}
 		parachuteBallAnimation1 = new Animation(0.08f, parachuteFrames1);
 		parachuteBallAnimation1.setPlayMode(Animation.PlayMode.LOOP_PINGPONG);
 		parachuteBallAnimation2 = new Animation(0.08f, parachuteFrames2);
 		parachuteBallAnimation2.setPlayMode(Animation.PlayMode.LOOP_PINGPONG);
-
+		parachuteBallAnimation3 = new Animation(0.08f, parachuteFrames3);
+		parachuteBallAnimation3.setPlayMode(Animation.PlayMode.LOOP_PINGPONG);
 		// Sounds
 		hoverSound1 = Gdx.audio.newSound(Gdx.files.internal("hover1.wav"));
 		hoverSound2 = Gdx.audio.newSound(Gdx.files.internal("hover2.wav"));
