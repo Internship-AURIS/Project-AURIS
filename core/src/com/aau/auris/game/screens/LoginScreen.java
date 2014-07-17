@@ -1,13 +1,20 @@
 package com.aau.auris.game.screens;
 
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.Random;
+
 import com.aau.auris.game.AURISGame;
 import com.aau.auris.game.Asset.AssetLoader;
 import com.aau.auris.game.data.Player;
 import com.aau.auris.game.data.UserData;
+import com.aau.auris.game.items.MenuBall;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.Animation;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.scenes.scene2d.Actor;
@@ -24,6 +31,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.TextField.TextFieldStyle;
 import com.badlogic.gdx.scenes.scene2d.utils.Align;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
+import com.badlogic.gdx.utils.TimeUtils;
 
 public class LoginScreen extends AbstractScreen
 {
@@ -32,9 +40,17 @@ public class LoginScreen extends AbstractScreen
 	private Texture background;
 	private Sound clickSound;
 	private Sound hoverSound;
+	private Animation parachuteBallAnimation2;
+	private Animation parachuteBallAnimation1;
+	private SpriteBatch batch;
 
 	// Other Variables
 	private UserData userdata;
+
+	// Decoration
+	private ArrayList<MenuBall> menuballs;
+	private long lastBallTime;
+	private float runTime;
 
 	public LoginScreen(AURISGame game)
 	{
@@ -49,6 +65,8 @@ public class LoginScreen extends AbstractScreen
 		background = AssetLoader.menu_background_blank;
 		clickSound = AssetLoader.clickSound;
 		hoverSound = AssetLoader.hoverSound1;
+		parachuteBallAnimation1 = AssetLoader.parachuteBallAnimation1;
+		parachuteBallAnimation2 = AssetLoader.parachuteBallAnimation2;
 	}
 
 	@Override
@@ -60,6 +78,9 @@ public class LoginScreen extends AbstractScreen
 	@Override
 	protected void initComponents()
 	{
+		this.menuballs = new ArrayList<MenuBall>();
+		batch = new SpriteBatch();
+		lastBallTime = 0;
 		this.userdata = this.game.getUserData();
 
 		skin = new Skin(menuButtons);
@@ -172,6 +193,45 @@ public class LoginScreen extends AbstractScreen
 	public void render(float delta)
 	{
 		super.render(delta);
+
+		runTime += delta;
+		updateMenuBalls(delta);
+
+		batch.begin();
+		for (MenuBall ball : menuballs)
+		{
+			batch.draw(ball.getKeyFrame(runTime), ball.getX(), ball.getY());
+		}
+		batch.end();
+		if (TimeUtils.millis() - lastBallTime > 5000)
+		{
+			spawnBall();
+		}
+	}
+
+	public void updateMenuBalls(float deltaTime)
+	{
+		Iterator<MenuBall> iter = menuballs.iterator();
+		while (iter.hasNext())
+		{
+			MenuBall ball = iter.next();
+			ball.setY((ball.getY() - 50 * deltaTime));
+			if (ball.getY() < -120)
+			{
+				iter.remove();
+			}
+		}
+	}
+
+	private void spawnBall()
+	{
+		Random r = new Random();
+		TextureRegion[] keyFrames = r.nextInt(2) == 0 ? parachuteBallAnimation1.getKeyFrames() : parachuteBallAnimation2.getKeyFrames();
+		MenuBall ball = new MenuBall(r.nextInt(10) <= 2 ? r.nextInt(121) : (440 + r.nextInt(370)), game.getHeight(), new Animation(0.10f, keyFrames));
+		ball.getAnimation().setPlayMode(Animation.PlayMode.LOOP_PINGPONG);
+
+		menuballs.add(ball);
+		lastBallTime = TimeUtils.millis();
 	}
 
 	@Override
@@ -211,4 +271,5 @@ public class LoginScreen extends AbstractScreen
 		stage.dispose();
 		skin.dispose();
 	}
+
 }

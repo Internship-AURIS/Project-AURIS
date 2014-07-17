@@ -61,7 +61,11 @@ public class LevelScreen extends AbstractScreen
 		ImageTextButtonStyle itbStyle = new ImageTextButtonStyle();
 		itbStyle.font = bFont;
 		itbStyle.fontColor = Color.WHITE;
-		itbStyle.imageUp = skin.getDrawable("1diff1");
+		itbStyle.imageUp = skin.getDrawable("secret");
+		ImageTextButtonStyle itbStyleAch1 = new ImageTextButtonStyle();
+		itbStyleAch1.font = bFont;
+		itbStyleAch1.fontColor = Color.WHITE;
+		itbStyleAch1.imageUp = skin.getDrawable("achLevels");
 
 		final int s_width = Gdx.graphics.getWidth(), s_height = Gdx.graphics.getHeight();//screen dimension
 		final float width = s_width / 6.5f, height = s_height / 6.5f;//box dimension, dimension of achievement-labels and level-labels
@@ -69,22 +73,22 @@ public class LevelScreen extends AbstractScreen
 		final float factor = 1.5f;
 		final float x = width * 1.3f;
 
-		final float achiev_w = width;
+		final float achiev_w = width+10;
 		final float achiev_h = height;
 
 		// Achievements
-		ImageTextButton itbAchiev1 = new ImageTextButton("Achievement 1", itbStyle);
-		itbAchiev1.setBounds(x, s_height - (height), achiev_w, achiev_h);
+		ImageTextButton itbAchiev1 = new ImageTextButton("", itbStyleAch1);
+		itbAchiev1.setBounds(x+50, (s_height - (height))-55, achiev_w, achiev_h);
 		itbAchiev1.add(itbAchiev1.getImage()).row();
 		itbAchiev1.add(itbAchiev1.getLabel());
 
-		ImageTextButton itbAchiev2 = new ImageTextButton("Achievement 2", itbStyle);
+		ImageTextButton itbAchiev2 = new ImageTextButton("", itbStyle);
 		itbAchiev2.setBounds(itbAchiev1.getX() + (itbAchiev1.getWidth() * factor), itbAchiev1.getY(), itbAchiev1.getWidth(), itbAchiev1.getHeight());
 		itbAchiev2.add(itbAchiev2.getImage()).row();
 		itbAchiev2.add(itbAchiev2.getLabel());
 
-		ImageTextButton itbAchiev3 = new ImageTextButton("Achievement 3", itbStyle);
-		itbAchiev3.setBounds(itbAchiev2.getX() + (itbAchiev2.getWidth() * factor), itbAchiev2.getY(), itbAchiev1.getWidth(), itbAchiev1.getHeight());
+		ImageTextButton itbAchiev3 = new ImageTextButton("", itbStyle);
+		itbAchiev3.setBounds(itbAchiev2.getX() + (itbAchiev2.getWidth() * factor)-15, itbAchiev2.getY(), itbAchiev1.getWidth(), itbAchiev1.getHeight());
 		itbAchiev3.add(itbAchiev3.getImage()).row();
 		itbAchiev3.add(itbAchiev3.getLabel());
 
@@ -94,24 +98,24 @@ public class LevelScreen extends AbstractScreen
 		diff1Lvl1Style.down = skin.getDrawable("1diff1Small");
 		diff1Lvl1Style.over = skin.getDrawable("1diff1Over");
 		diff1Lvl1Style.font = skin.getFont("default");
-		TextButton diffLvl1Button = new TextButton("", diff1Lvl1Style);
-		diffLvl1Button.setBounds(x, itbAchiev1.getY() - (height * factor), width, height);
-
+		TextButton diffLvl1Button=new TextButton("", diff1Lvl1Style);
+		diffLvl1Button.setBounds(x+60, (s_height - (height) - (height * factor)-35), width, height);
+		
 		TextButtonStyle diff1Lvl2Style = new TextButtonStyle();
 		diff1Lvl2Style.up = skin.getDrawable("1diff2");
 		diff1Lvl2Style.down = skin.getDrawable("1diff2Small");
 		diff1Lvl2Style.over = skin.getDrawable("1diff2Over");
 		diff1Lvl2Style.font = skin.getFont("default");
-		TextButton diff1Lvl2Button = new TextButton("", diff1Lvl2Style);
-		diff1Lvl2Button.setBounds(x + (width * factor), diffLvl1Button.getY(), width, height);
+		TextButton diff1Lvl2Button=new TextButton("", diff1Lvl2Style);
+		diff1Lvl2Button.setBounds(diffLvl1Button.getX() + (width * factor), diffLvl1Button.getY(), width, height);
 
 		TextButtonStyle diff1Lvl3Style = new TextButtonStyle();
 		diff1Lvl3Style.up = skin.getDrawable("1diff3");
 		diff1Lvl3Style.down = skin.getDrawable("1diff3Small");
 		diff1Lvl3Style.over = skin.getDrawable("1diff3Over");
 		diff1Lvl3Style.font = skin.getFont("default");
-		TextButton diff1Lvl3Button = new TextButton("", diff1Lvl3Style);
-		diff1Lvl3Button.setBounds(x + (width * (factor * 2f)), diffLvl1Button.getY(), width, height);
+		TextButton diff1Lvl3Button=new TextButton("", diff1Lvl3Style);
+		diff1Lvl3Button.setBounds(diff1Lvl2Button.getX() + (width * factor), diffLvl1Button.getY(), width, height);
 
 		// Level Difficulty 2
 		TextButtonStyle diff2Lvl1Style = new TextButtonStyle();
