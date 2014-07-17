@@ -1,9 +1,6 @@
 package com.aau.auris.game.screens;
 
 import com.aau.auris.game.AURISGame;
-import com.badlogic.gdx.scenes.scene2d.Actor;
-import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
-import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 
 public class ShopScreen extends AbstractScreen
 {
@@ -15,8 +12,7 @@ public class ShopScreen extends AbstractScreen
 
 	@Override
 	protected void initComponents()
-	{
-	}
+	{}
 
 	@Override
 	public void loadAsset()
