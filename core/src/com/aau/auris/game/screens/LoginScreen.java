@@ -1,8 +1,13 @@
 package com.aau.auris.game.screens;
 
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.Random;
+
 import com.aau.auris.game.AURISGame;
 import com.aau.auris.game.Asset;
 import com.aau.auris.game.AssetLoader;
+import com.aau.auris.game.items.MenuBall;
 import com.aau.auris.game.userdata.Player;
 import com.aau.auris.game.userdata.UserData;
 import com.badlogic.gdx.Gdx;
@@ -12,7 +17,9 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.scenes.scene2d.Actor;
@@ -30,6 +37,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.TextField.TextFieldStyle;
 import com.badlogic.gdx.scenes.scene2d.utils.Align;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
+import com.badlogic.gdx.utils.TimeUtils;
 
 public class LoginScreen implements Screen, Asset {
 	// Assets
@@ -38,6 +46,10 @@ public class LoginScreen implements Screen, Asset {
 	private Texture background;
 	private Sound backMusic;
 	private Sound hoverSound1;
+	private Animation parachuteBallAnimation2;
+	private Animation parachuteBallAnimation1;
+	private SpriteBatch batch;
+	private float runTime;
 
 	private AURISGame game;
 	private UserData userdata;
@@ -48,9 +60,15 @@ public class LoginScreen implements Screen, Asset {
 	private TextField txtName;
 	private TextButton tbStart;
 	private TextButton tbBack;
+	//DECORATION:
+	private ArrayList<MenuBall> menuballs;
+	private long lastBallTime;
 
 	public LoginScreen(AURISGame game) {
 		this.game = game;
+		this.menuballs = new ArrayList<MenuBall>();
+		batch = new SpriteBatch();
+		lastBallTime = 0;
 		this.userdata = this.game.getUserData();
 		loadAsset();
 	}
@@ -62,6 +80,8 @@ public class LoginScreen implements Screen, Asset {
 		background = AssetLoader.menu_background_blank;
 		backMusic = AssetLoader.menuMusic1;
 		hoverSound1=AssetLoader.hoverSound1;
+		parachuteBallAnimation1 = AssetLoader.parachuteBallAnimation1;
+		parachuteBallAnimation2 = AssetLoader.parachuteBallAnimation2;
 	}
 
 	@Override
@@ -74,8 +94,20 @@ public class LoginScreen implements Screen, Asset {
 		Gdx.gl.glClearColor(1, 1, 0, 1);
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
+		runTime += delta;
+		
 		stage.act(delta);
 		stage.draw();
+		updateMenuBalls(delta);
+
+		batch.begin();
+		for (MenuBall ball : menuballs) {
+			batch.draw(ball.getKeyFrame(runTime), ball.getX(), ball.getY());
+		}
+		batch.end();
+		if (TimeUtils.millis() - lastBallTime > 5000) {
+			spawnBall();
+		}
 	}
 
 	@Override
@@ -219,6 +251,28 @@ public class LoginScreen implements Screen, Asset {
 	public void dispose() {
 		stage.dispose();
 		skin.dispose();
+	}
+	public void updateMenuBalls(float deltaTime) {
+		Iterator<MenuBall> iter = menuballs.iterator();
+		while (iter.hasNext()) {
+			MenuBall ball = iter.next();
+			ball.setY((ball.getY() - 50 * deltaTime));
+			if (ball.getY() < -120) {
+				iter.remove();
+			}
+		}
+	}
+	private void spawnBall() {
+		Random r = new Random();
+		TextureRegion[] keyFrames = r.nextInt(2) == 0 ? parachuteBallAnimation1
+				.getKeyFrames() : parachuteBallAnimation2.getKeyFrames();
+		MenuBall ball = new MenuBall(r.nextInt(10) <= 2 ? r.nextInt(121)
+				: (440 + r.nextInt(370)), game.getHeight(), new Animation(
+				0.10f, keyFrames));
+		ball.getAnimation().setPlayMode(Animation.PlayMode.LOOP_PINGPONG);
+
+		menuballs.add(ball);
+		lastBallTime = TimeUtils.millis();
 	}
 
 }

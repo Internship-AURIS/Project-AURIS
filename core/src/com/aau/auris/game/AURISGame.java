@@ -53,7 +53,7 @@ public class AURISGame extends Game
 		creditsScreen = new CreditsScreen(this);
 
 		player = userdata.getPlayers().get(0);// TODO: debugging for gameScreen
-		this.setScreen(levelScreen);
+		this.setScreen(menuScreen);
 	}
 
 	@Override
