@@ -5,11 +5,14 @@ import com.aau.auris.game.Asset;
 import com.aau.auris.game.AssetLoader;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
+import com.badlogic.gdx.graphics.g2d.TextureAtlas;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
@@ -18,6 +21,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.ImageTextButton;
 import com.badlogic.gdx.scenes.scene2d.ui.ImageTextButton.ImageTextButtonStyle;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Label.LabelStyle;
+import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton.TextButtonStyle;
@@ -27,6 +31,9 @@ public class LevelScreen implements Screen, Asset
 {
 	//Asset
 	private BitmapFont bFont;
+	private Texture background;
+	private TextureAtlas levelButtons;
+	private Sound hoverSound1;
 
 	private AURISGame game;
 
@@ -43,6 +50,9 @@ public class LevelScreen implements Screen, Asset
 	public void loadAsset()
 	{
 		bFont = AssetLoader.bFont;
+		background=AssetLoader.menu_background_blank2;
+		hoverSound1=AssetLoader.hoverSound1;
+		levelButtons=AssetLoader.levelButtons;
 	}
 
 	@Override
@@ -71,18 +81,22 @@ public class LevelScreen implements Screen, Asset
 	{
 		Gdx.input.setInputProcessor(stage);
 
-		Skin skin = new Skin();
+		Skin skin = new Skin(levelButtons);
 		Pixmap pixmap = new Pixmap(50, 50, Pixmap.Format.RGBA8888);
 		pixmap.setColor(Color.GREEN);
 		pixmap.fill();
 		skin.add("skin", new Texture(pixmap));
 
 		skin.add("default", bFont);
+		
+		TextureRegion backTextRegion = new TextureRegion(background, 848, 480);
+		Image img = new Image(backTextRegion);
+		stage.addActor(img);
 
 		ImageTextButtonStyle itbStyle = new ImageTextButtonStyle();
 		itbStyle.font = bFont;
 		itbStyle.fontColor = Color.WHITE;
-		itbStyle.imageUp = skin.newDrawable("skin", Color.GREEN);
+		itbStyle.imageUp = skin.getDrawable("1diff1");
 
 		final int s_width = Gdx.graphics.getWidth(), s_height = Gdx.graphics.getHeight();//screen dimension
 		final float width = s_width / 6.5f, height = s_height / 6.5f;//box dimension, dimension of achievement-labels and level-labels
@@ -99,6 +113,7 @@ public class LevelScreen implements Screen, Asset
 		itbAchiev1.add(itbAchiev1.getImage()).row();
 		itbAchiev1.add(itbAchiev1.getLabel());
 
+		System.out.println(itbAchiev1.getWidth()+";"+itbAchiev1.getHeight());
 		ImageTextButton itbAchiev2 = new ImageTextButton("Achievement 2", itbStyle);
 		itbAchiev2.setBounds(itbAchiev1.getX() + (itbAchiev1.getWidth() * factor), itbAchiev1.getY(), itbAchiev1.getWidth(), itbAchiev1.getHeight());
 		itbAchiev2.add(itbAchiev2.getImage()).row();
@@ -110,73 +125,91 @@ public class LevelScreen implements Screen, Asset
 		itbAchiev3.add(itbAchiev3.getLabel());
 
 		// Level Difficulty 1
-		LabelStyle diff1Lvl1Style = new LabelStyle();
-		diff1Lvl1Style.font = bFont;
-		diff1Lvl1Style.background = skin.newDrawable("skin", Color.ORANGE);
-		Label lblDiff1Lvl1 = new Label("", diff1Lvl1Style);
-		lblDiff1Lvl1.setBounds(x, itbAchiev1.getY() - (height * factor), width, height);
+		TextButtonStyle diff1Lvl1Style = new TextButtonStyle();
+		diff1Lvl1Style.up = skin.getDrawable("1diff1");
+		diff1Lvl1Style.down = skin.getDrawable("1diff1Small");
+		diff1Lvl1Style.over = skin.getDrawable("1diff1Over");
+		diff1Lvl1Style.font = skin.getFont("default");
+		TextButton diffLvl1Button=new TextButton("", diff1Lvl1Style);
+		diffLvl1Button.setBounds(x, itbAchiev1.getY() - (height * factor), width, height);
+	
+		TextButtonStyle diff1Lvl2Style = new TextButtonStyle();
+		diff1Lvl2Style.up = skin.getDrawable("1diff2");
+		diff1Lvl2Style.down = skin.getDrawable("1diff2Small");
+		diff1Lvl2Style.over = skin.getDrawable("1diff2Over");
+		diff1Lvl2Style.font = skin.getFont("default");
+		TextButton diff1Lvl2Button=new TextButton("", diff1Lvl2Style);
+		diff1Lvl2Button.setBounds(x + (width * factor), diffLvl1Button.getY(), width, height);
 
-		LabelStyle diff1Lvl2Style = new LabelStyle();
-		diff1Lvl2Style.font = bFont;
-		diff1Lvl2Style.background = skin.newDrawable("skin", Color.ORANGE);
-		Label lblDiff1Lvl2 = new Label("", diff1Lvl2Style);
-		lblDiff1Lvl2.setBounds(x + (width * factor), lblDiff1Lvl1.getY(), width, height);
-
-		LabelStyle diff1Lvl3Style = new LabelStyle();
-		diff1Lvl3Style.font = bFont;
-		diff1Lvl3Style.background = skin.newDrawable("skin", Color.ORANGE);
-		Label lblDiff1Lvl3 = new Label("", diff1Lvl3Style);
-		lblDiff1Lvl3.setBounds(x + (width * (factor * 2f)), lblDiff1Lvl1.getY(), width, height);
+		TextButtonStyle diff1Lvl3Style = new TextButtonStyle();
+		diff1Lvl3Style.up = skin.getDrawable("1diff3");
+		diff1Lvl3Style.down = skin.getDrawable("1diff3Small");
+		diff1Lvl3Style.over = skin.getDrawable("1diff3Over");
+		diff1Lvl3Style.font = skin.getFont("default");
+		TextButton diff1Lvl3Button=new TextButton("", diff1Lvl3Style);
+		diff1Lvl3Button.setBounds(x + (width * (factor * 2f)), diffLvl1Button.getY(), width, height);
 
 		// Level Difficulty 2
-		LabelStyle diff2Lvl1Style = new LabelStyle();
-		diff2Lvl1Style.font = bFont;
-		diff2Lvl1Style.background = skin.newDrawable("skin", Color.ORANGE);
-		Label lblDiff2Lvl1 = new Label("", diff2Lvl1Style);
-		lblDiff2Lvl1.setBounds(lblDiff1Lvl1.getX(), lblDiff1Lvl1.getY() - (height * factor), width, height);
+		TextButtonStyle diff2Lvl1Style = new TextButtonStyle();
+		diff2Lvl1Style.up = skin.getDrawable("2diff4");
+		diff2Lvl1Style.down = skin.getDrawable("2diff4Small");
+		diff2Lvl1Style.over = skin.getDrawable("2diff4Over");
+		diff2Lvl1Style.font = skin.getFont("default");
+		TextButton diff2Lvl1Button=new TextButton("", diff2Lvl1Style);
+		diff2Lvl1Button.setBounds(diffLvl1Button.getX(), diffLvl1Button.getY() - (height * factor), width, height);
 
-		LabelStyle diff2Lvl2Style = new LabelStyle();
-		diff2Lvl2Style.font = bFont;
-		diff2Lvl2Style.background = skin.newDrawable("skin", Color.ORANGE);
-		Label lblDiff2Lvl2 = new Label("", diff2Lvl2Style);
-		lblDiff2Lvl2.setBounds(lblDiff1Lvl2.getX(), lblDiff2Lvl1.getY(), width, height);
+		TextButtonStyle diff2Lvl2Style = new TextButtonStyle();
+		diff2Lvl2Style.up = skin.getDrawable("2diff5");
+		diff2Lvl2Style.down = skin.getDrawable("2diff5Small");
+		diff2Lvl2Style.over = skin.getDrawable("2diff5Over");
+		diff2Lvl2Style.font = skin.getFont("default");
+		TextButton diff2Lvl2Button=new TextButton("", diff2Lvl2Style);
+		diff2Lvl2Button.setBounds(diff1Lvl2Button.getX(), diff2Lvl1Button.getY(), width, height);
 
-		LabelStyle diff2Lvl3Style = new LabelStyle();
-		diff2Lvl3Style.font = bFont;
-		diff2Lvl3Style.background = skin.newDrawable("skin", Color.ORANGE);
-		Label lblDiff2Lvl3 = new Label("", diff2Lvl3Style);
-		lblDiff2Lvl3.setBounds(lblDiff1Lvl3.getX(), lblDiff2Lvl1.getY(), width, height);
+		TextButtonStyle diff2Lvl3Style = new TextButtonStyle();
+		diff2Lvl3Style.up = skin.getDrawable("2diff6");
+		diff2Lvl3Style.down = skin.getDrawable("2diff6Small");
+		diff2Lvl3Style.over = skin.getDrawable("2diff6Over");
+		diff2Lvl3Style.font = skin.getFont("default");
+		TextButton diff2Lvl3Button=new TextButton("", diff2Lvl3Style);
+		diff2Lvl3Button.setBounds(diff1Lvl3Button.getX(), diff2Lvl1Button.getY(), width, height);
 
 		// Level Difficulty 3
-		LabelStyle diff3Lvl1Style = new LabelStyle();
-		diff3Lvl1Style.font = bFont;
-		diff3Lvl1Style.background = skin.newDrawable("skin", Color.ORANGE);
-		Label lblDiff3Lvl1 = new Label("", diff3Lvl1Style);
-		lblDiff3Lvl1.setBounds(lblDiff1Lvl1.getX(), lblDiff2Lvl1.getY() - (height * factor), width, height);
+		TextButtonStyle diff3Lvl1Style = new TextButtonStyle();
+		diff3Lvl1Style.up = skin.getDrawable("3diff7");
+		diff3Lvl1Style.down = skin.getDrawable("3diff7Small");
+		diff3Lvl1Style.over = skin.getDrawable("3diff7Over");
+		diff3Lvl1Style.font = skin.getFont("default");
+		TextButton diff3Lvl1Button=new TextButton("", diff3Lvl1Style);
+		diff3Lvl1Button.setBounds(diffLvl1Button.getX(), diff2Lvl2Button.getY() - (height * factor), width, height);
 
-		LabelStyle diff3Lvl2Style = new LabelStyle();
-		diff3Lvl2Style.font = bFont;
-		diff3Lvl2Style.background = skin.newDrawable("skin", Color.ORANGE);
-		Label lblDiff3Lvl2 = new Label("", diff3Lvl2Style);
-		lblDiff3Lvl2.setBounds(lblDiff1Lvl2.getX(), lblDiff3Lvl1.getY(), width, height);
+		TextButtonStyle diff3Lvl2Style = new TextButtonStyle();
+		diff3Lvl2Style.up = skin.getDrawable("3diff8");
+		diff3Lvl2Style.down = skin.getDrawable("3diff8Small");
+		diff3Lvl2Style.over = skin.getDrawable("3diff8Over");
+		diff3Lvl2Style.font = skin.getFont("default");
+		TextButton diff3Lvl2Button=new TextButton("", diff3Lvl2Style);
+		diff3Lvl2Button.setBounds(diff1Lvl2Button.getX(), diff3Lvl1Button.getY(), width, height);
 
-		LabelStyle diff3Lvl3Style = new LabelStyle();
-		diff3Lvl3Style.font = bFont;
-		diff3Lvl3Style.background = skin.newDrawable("skin", Color.ORANGE);
-		Label lblDiff3Lvl3 = new Label("", diff3Lvl3Style);
-		lblDiff3Lvl3.setBounds(lblDiff1Lvl3.getX(), lblDiff3Lvl1.getY(), width, height);
+		TextButtonStyle diff3Lvl3Style = new TextButtonStyle();
+		diff3Lvl3Style.up = skin.getDrawable("3diff9");
+		diff3Lvl3Style.down = skin.getDrawable("3diff9Small");
+		diff3Lvl3Style.over = skin.getDrawable("3diff9Over");
+		diff3Lvl3Style.font = skin.getFont("default");
+		TextButton diff3Lvl3Button=new TextButton("", diff3Lvl3Style);
+		diff3Lvl3Button.setBounds(diff1Lvl3Button.getX(), diff3Lvl1Button.getY(), width, height);
 
 		// Button "BACK"
 		TextButtonStyle tbStyleBack = new TextButtonStyle();
-		//		tbStyle.up = skin.getDrawable("btnBack");
-		//		tbStyle.down = skin.getDrawable("btnBack");
-		//		tbStyle.checked = skin.newDrawable("white", Color.LIGHT_GRAY);
-		//		tbStyle.over = skin.getDrawable("btnBackOver");
+		tbStyleBack.up = skin.getDrawable("btnBack");
+		tbStyleBack.down = skin.getDrawable("btnBackSmall");
+		tbStyleBack.over = skin.getDrawable("btnBackOver");
 		tbStyleBack.font = bFont;
 		skin.add("btnBack", tbStyleBack);
 
-		TextButton tbBack = new TextButton("BACK", tbStyleBack);
-		tbBack.setBounds(10, 10, 100, 60);
+		TextButton tbBack = new TextButton("", tbStyleBack);
+		tbBack.setPosition(10, 10);
+		tbBack.setSize(160, 60);
 
 		// EventListener
 		tbBack.addListener(new ClickListener()
@@ -202,17 +235,17 @@ public class LevelScreen implements Screen, Asset
 		stage.addActor(itbAchiev2);
 		stage.addActor(itbAchiev3);
 
-		stage.addActor(lblDiff1Lvl1);
-		stage.addActor(lblDiff1Lvl2);
-		stage.addActor(lblDiff1Lvl3);
+		stage.addActor(diffLvl1Button);
+		stage.addActor(diff1Lvl2Button);
+		stage.addActor(diff1Lvl3Button);
 
-		stage.addActor(lblDiff2Lvl1);
-		stage.addActor(lblDiff2Lvl2);
-		stage.addActor(lblDiff2Lvl3);
+		stage.addActor(diff2Lvl1Button);
+		stage.addActor(diff2Lvl2Button);
+		stage.addActor(diff2Lvl3Button);
 
-		stage.addActor(lblDiff3Lvl1);
-		stage.addActor(lblDiff3Lvl2);
-		stage.addActor(lblDiff3Lvl3);
+		stage.addActor(diff3Lvl1Button);
+		stage.addActor(diff3Lvl2Button);
+		stage.addActor(diff3Lvl3Button);
 
 		stage.addActor(tbBack);
 	}
