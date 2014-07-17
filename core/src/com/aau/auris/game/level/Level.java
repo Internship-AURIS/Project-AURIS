@@ -1,91 +1,35 @@
 package com.aau.auris.game.level;
 
-import java.util.ArrayList;
-
 import com.aau.auris.game.AURISGame;
-import com.aau.auris.game.Asset.Asset;
-import com.aau.auris.game.data.Player;
-import com.aau.auris.game.level.entity.Obstacle;
-import com.badlogic.gdx.Screen;
-import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.World;
 
-public class Level implements Screen, Asset
+public class Level
 {
 	// Level Settings
-	public static final int DIFFICULTY_1 = 0;
-	public static final int DIFFICULTY_2 = 1;
-	public static final int DIFFICULTY_3 = 2;
-
-	// GameLogic Settings
-	private static final Vector2 GRAVITY = new Vector2(0, 0);
-
-	// GameWorld Settings
-	private World world;
-	private int levelDifficulty;
-	private ArrayList<Obstacle> obstacles;
+	public transient static final int DIFFICULTY_1 = 0;
+	public transient static final int DIFFICULTY_2 = 1;
+	public transient static final int DIFFICULTY_3 = 2;
 
 	// Other Variables
-	private AURISGame game;
-	private Player player;// Player Stats: score, achievements, etc.
+	private transient AURISGame game;
+	private int lvlDifficulty;
 
 	public Level(AURISGame game, int levelDiff)
 	{
 		this.game = game;
-		this.levelDifficulty = (levelDiff == DIFFICULTY_1 || levelDiff == DIFFICULTY_2 || levelDiff == DIFFICULTY_3) ? levelDiff : DIFFICULTY_1;
-		this.world = new World(GRAVITY, true);
-		this.obstacles = new ArrayList<Obstacle>();
 	}
 
-	private void initWorld()
+	public void generateWorld(World world, int lvlDifficulty)
 	{
-		if (levelDifficulty == DIFFICULTY_1)
-		{
-
-		} else if (levelDifficulty == DIFFICULTY_2)
-		{
-
-		} else if (levelDifficulty == DIFFICULTY_3)
-		{
-
-		}
+		this.lvlDifficulty = lvlDifficulty;
+		if (lvlDifficulty == DIFFICULTY_1)
+		{} else if (lvlDifficulty == DIFFICULTY_2)
+		{} else if (lvlDifficulty == DIFFICULTY_3)
+		{}
 	}
 
-	@Override
-	public void render(float delta)
-	{}
-
-	@Override
-	public void resize(int width, int height)
-	{}
-
-	@Override
-	public void show()
+	public int getLvlDifficulty()
 	{
-		initWorld();
+		return lvlDifficulty;
 	}
-
-	@Override
-	public void hide()
-	{}
-
-	@Override
-	public void pause()
-	{}
-
-	@Override
-	public void resume()
-	{}
-
-	@Override
-	public void dispose()
-	{}
-
-	@Override
-	public void loadAsset()
-	{}
-
-	@Override
-	public void disposeAsset()
-	{}
 }

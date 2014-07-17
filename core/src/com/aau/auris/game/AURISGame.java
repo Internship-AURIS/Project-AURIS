@@ -49,11 +49,11 @@ public class AURISGame extends Game
 		menuScreen = new MenuScreen(this);
 		loginScreen = new LoginScreen(this);
 		levelScreen = new LevelScreen(this);
-		gameScreen = new GameScreen(this);
+		gameScreen = new GameScreen(this, Level.DIFFICULTY_1);
 		shopScreen = new ShopScreen(this);
 		creditsScreen = new CreditsScreen(this);
 
-		//		player = userdata.getPlayers().get(0);// TODO: debugging for gameScreen
+		player = userdata.getPlayers().get(0);// TODO: debugging for gameScreen
 		this.setScreen(menuScreen);
 	}
 
