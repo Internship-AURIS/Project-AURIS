@@ -12,13 +12,15 @@ public class Level
 
 	// Other Variables
 	private transient AURISGame game;
-	private int lvlDifficulty;
+	private transient int lvlDifficulty;
 	private int index;
+	private boolean locked;
 
 	public Level(AURISGame game, int levelDiff, int index)
 	{
 		this.game = game;
 		this.index = index;
+		this.locked = true;
 	}
 
 	public void generateWorld(World world, int lvlDifficulty)
@@ -38,5 +40,15 @@ public class Level
 	public int getIndex()
 	{
 		return index;
+	}
+
+	public void setLocked(boolean locked)
+	{
+		this.locked = locked;
+	}
+
+	public boolean isLocked()
+	{
+		return locked;
 	}
 }

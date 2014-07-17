@@ -105,7 +105,7 @@ public class GameScreen extends AbstractScreen
 		lblStyle.font = bFont;
 		lblStyle.fontColor = Color.WHITE;
 
-		lblLevel = new Label("Lvl -", lblStyle);
+		lblLevel = new Label("Lvl. -", lblStyle);
 		lblLevel.setBounds(10, s_height - (height / 1.3f), width, height);
 
 		lblPlayerName = new Label("Name:-------", lblStyle);
@@ -115,7 +115,7 @@ public class GameScreen extends AbstractScreen
 		lblPlayerScore.setBounds(s_width - width, lblLevel.getY(), width, height);
 
 		lblPlayerCredits = new Label("Credits: ---", lblStyle);
-		lblPlayerCredits.setBounds(lblPlayerScore.getX() - lblPlayerScore.getWidth() - width, lblLevel.getY(), width, height);
+		lblPlayerCredits.setBounds(lblPlayerScore.getX() - lblPlayerScore.getWidth() - width / 2, lblLevel.getY(), width, height);
 
 		stage.addActor(lblLevel);
 		stage.addActor(lblPlayerName);
@@ -127,7 +127,8 @@ public class GameScreen extends AbstractScreen
 	{
 		level = game.getLevel();
 		player = game.getPlayer();
-		lblLevel.setText("Lvl " + level.getIndex());
+		
+		lblLevel.setText("Lvl. " + level.getIndex());
 		lblPlayerName.setText("Name: " + player.getName());
 		lblPlayerScore.setText("Score: " + player.getScore());
 		lblPlayerCredits.setText("Credits: " + player.getCredits());

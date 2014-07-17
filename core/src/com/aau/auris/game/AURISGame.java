@@ -60,8 +60,7 @@ public class AURISGame extends Game
 		creditsScreen = new CreditsScreen(this);
 
 		initLevels();
-
-//		player = userdata.getPlayers().get(0);// TODO: debugging for gameScreen
+		
 		this.setScreen(menuScreen);
 	}
 
@@ -91,7 +90,6 @@ public class AURISGame extends Game
 	public void setPlayer(Player player)
 	{
 		this.player = player;
-		System.out.println("AURISGame --> player logged in: " + player);//TODO: debugging
 	}
 
 	public Level getLevel()
@@ -102,7 +100,6 @@ public class AURISGame extends Game
 	public void setLevel(Level level)
 	{
 		this.level = level;
-		System.out.println("AURISGame --> level set to: " + level);// TODO: debugging
 	}
 
 	public void changeScreen(int screenIndex, Screen screen)

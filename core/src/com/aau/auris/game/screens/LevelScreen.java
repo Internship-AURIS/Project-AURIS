@@ -2,6 +2,7 @@ package com.aau.auris.game.screens;
 
 import com.aau.auris.game.AURISGame;
 import com.aau.auris.game.Asset.AssetLoader;
+import com.aau.auris.game.data.Player;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Color;
@@ -30,6 +31,14 @@ public class LevelScreen extends AbstractScreen
 	private Sound hoverWhistle2;
 	private Sound hoverWhistle3;
 
+	// Level- and Achievement-Display
+	private ImageTextButton itbAchiev1;
+	private ImageTextButton itbAchiev2;
+	private ImageTextButton itbAchiev3;
+
+	// Other
+	private Player player;
+
 	public LevelScreen(AURISGame game)
 	{
 		super(game);
@@ -57,6 +66,8 @@ public class LevelScreen extends AbstractScreen
 	@Override
 	protected void initComponents()
 	{
+		player = game.getPlayer();
+
 		skin = new Skin(levelButtons);
 		skin.add("default", bFont);
 
@@ -83,17 +94,17 @@ public class LevelScreen extends AbstractScreen
 		final float achiev_h = height;
 
 		// Achievements
-		ImageTextButton itbAchiev1 = new ImageTextButton("", itbStyleAch1);
+		itbAchiev1 = new ImageTextButton("", itbStyleAch1);
 		itbAchiev1.setBounds(x + 50, (s_height - (height)) - 55, achiev_w, achiev_h);
 		itbAchiev1.add(itbAchiev1.getImage()).row();
 		itbAchiev1.add(itbAchiev1.getLabel());
 
-		ImageTextButton itbAchiev2 = new ImageTextButton("", itbStyle);
+		itbAchiev2 = new ImageTextButton("", itbStyle);
 		itbAchiev2.setBounds(itbAchiev1.getX() + (itbAchiev1.getWidth() * factor), itbAchiev1.getY(), itbAchiev1.getWidth(), itbAchiev1.getHeight());
 		itbAchiev2.add(itbAchiev2.getImage()).row();
 		itbAchiev2.add(itbAchiev2.getLabel());
 
-		ImageTextButton itbAchiev3 = new ImageTextButton("", itbStyle);
+		itbAchiev3 = new ImageTextButton("", itbStyle);
 		itbAchiev3.setBounds(itbAchiev2.getX() + (itbAchiev2.getWidth() * factor) - 15, itbAchiev2.getY(), itbAchiev1.getWidth(), itbAchiev1.getHeight());
 		itbAchiev3.add(itbAchiev3.getImage()).row();
 		itbAchiev3.add(itbAchiev3.getLabel());
@@ -366,6 +377,12 @@ public class LevelScreen extends AbstractScreen
 		stage.addActor(tbShop);
 	}
 
+	private void update()
+	{
+		player = game.getPlayer();
+		// TODO: implement loading of unlocked things from player
+	}
+
 	@Override
 	public void render(float delta)
 	{
@@ -382,6 +399,7 @@ public class LevelScreen extends AbstractScreen
 	public void show()
 	{
 		super.show();
+		update();
 	}
 
 	@Override

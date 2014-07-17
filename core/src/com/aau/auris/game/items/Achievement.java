@@ -4,6 +4,9 @@ import com.aau.auris.game.Asset.Asset;
 
 public class Achievement implements Asset, Unlockable
 {
+	public static final int ACHIEVEMENT_1 = 3;
+	public static final int ACHIEVEMENT_2 = 4;
+	public static final int ACHIEVEMENT_3 = 5;
 
 	private int id;
 	private boolean locked;
@@ -16,15 +19,15 @@ public class Achievement implements Asset, Unlockable
 		this.locked = locked;
 	}
 
-	public Achievement getAchievent(int index, boolean locked)
+	public Achievement getAchievement(boolean locked)
 	{
-		if (index == ACHIEVEMENT_1)
+		if (id == ACHIEVEMENT_1)
 		{
 
-		} else if (index == ACHIEVEMENT_2)
+		} else if (id == ACHIEVEMENT_2)
 		{
 
-		} else if (index == ACHIEVEMENT_3)
+		} else if (id == ACHIEVEMENT_3)
 		{
 
 		}
@@ -51,9 +54,4 @@ public class Achievement implements Asset, Unlockable
 		this.locked = locked;
 	}
 
-	@Override
-	public int getID()
-	{
-		return id;
-	}
 }

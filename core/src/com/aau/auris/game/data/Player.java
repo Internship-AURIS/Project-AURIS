@@ -4,11 +4,13 @@ import java.util.ArrayList;
 
 import com.aau.auris.game.items.Achievement;
 import com.aau.auris.game.items.Unlockable;
+import com.aau.auris.game.level.Level;
 
 public class Player
 {
 	// unlocks
-	private ArrayList<Unlockable> unlocked;
+	private ArrayList<Achievement> achievements;
+	private ArrayList<Level> levels;
 
 	private String name;// player name
 	private int score;// composed of maxCredits + achievements, etc.
@@ -18,17 +20,29 @@ public class Player
 	public Player()
 	{}
 
-	public Player(String name, int credits, int score, ArrayList<Unlockable> unlocked)
+	public Player(String name, int credits, int score, ArrayList<Achievement> achievements, ArrayList<Level> levels)
 	{
 		this.name = name;
 		this.score = score;
 		this.credits = credits;
+		this.achievements = achievements;
+		this.levels = levels;
 		calcMaxScore();
 	}
 
 	private void calcMaxScore()
 	{
 		// TODO: implement calculation of maximal score
+	}
+
+	public ArrayList<Achievement> getAchievements()
+	{
+		return achievements;
+	}
+
+	public ArrayList<Level> getLevels()
+	{
+		return levels;
 	}
 
 	public String getName()
@@ -64,11 +78,6 @@ public class Player
 	public void setScore(int score)
 	{
 		this.score = score;
-	}
-
-	public ArrayList<Achievement> getAchievements()
-	{
-		return null;
 	}
 
 	@Override

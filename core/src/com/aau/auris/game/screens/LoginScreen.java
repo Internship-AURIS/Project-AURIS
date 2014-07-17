@@ -193,7 +193,7 @@ public class LoginScreen extends AbstractScreen
 				} else
 				{
 					// no player exists with the given inputName, create new  one
-					loginPlayer = new Player(inputName, 0, 0, null);
+					loginPlayer = new Player(inputName, 0, 0, null, null);//TODO:
 					userdata.createPlayer(loginPlayer);
 					System.out.println("new player created: " + loginPlayer);
 				}
