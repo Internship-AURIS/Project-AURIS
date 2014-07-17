@@ -2,10 +2,13 @@ package com.aau.auris.game;
 
 import java.awt.Dimension;
 
-import com.aau.auris.game.items.HighScore;
+import com.aau.auris.game.levels.Level;
+import com.aau.auris.game.screens.CreditsScreen;
+import com.aau.auris.game.screens.GameScreen;
 import com.aau.auris.game.screens.LevelScreen;
 import com.aau.auris.game.screens.LoginScreen;
 import com.aau.auris.game.screens.MenuScreen;
+import com.aau.auris.game.screens.ShopScreen;
 import com.aau.auris.game.userdata.Player;
 import com.aau.auris.game.userdata.UserData;
 import com.badlogic.gdx.Game;
@@ -19,14 +22,21 @@ public class AURISGame extends Game
 	public static final int MENU_SCREEN = 0;
 	public static final int LOGIN_SCREEN = 1;
 	public static final int LEVEL_SCREEN = 2;
+	public static final int CREDITS_SCREEN = 3;
+	public static final int SHOP_SCREEN = 4;
+	public static final int GAME_SCREEN = 5;
 
 	private UserData userdata;
 
 	private MenuScreen menuScreen;
 	private LoginScreen loginScreen;
 	private LevelScreen levelScreen;
+	private GameScreen gameScreen;
+	private ShopScreen shopScreen;
+	private CreditsScreen creditsScreen;
 
 	private Player player = null;
+	private Level level = null;
 
 	@Override
 	public void create()
@@ -38,8 +48,12 @@ public class AURISGame extends Game
 		menuScreen = new MenuScreen(this);
 		loginScreen = new LoginScreen(this);
 		levelScreen = new LevelScreen(this);
+		gameScreen = new GameScreen(this);
+		shopScreen = new ShopScreen(this);
+		creditsScreen = new CreditsScreen(this);
 
-		this.setScreen(levelScreen);
+		player = userdata.getPlayers().get(0);// TODO: debugging for gameScreen
+		this.setScreen(menuScreen);
 	}
 
 	@Override
@@ -60,6 +74,11 @@ public class AURISGame extends Game
 		System.out.println("player logged in: " + player);
 	}
 
+	public Player getPlayer()
+	{
+		return player;
+	}
+
 	public void changeScreen(int screenIndex, Screen screen)
 	{
 		screen.hide();
@@ -73,15 +92,22 @@ public class AURISGame extends Game
 		} else if (screenIndex == LEVEL_SCREEN)
 		{
 			newScreen = levelScreen;
+		} else if (screenIndex == CREDITS_SCREEN)
+		{
+			newScreen = creditsScreen;
+		} else if (screenIndex == SHOP_SCREEN)
+		{
+			newScreen = shopScreen;
+		} else if (screenIndex == GAME_SCREEN)
+		{
+			newScreen = gameScreen;
 		}
-
 		if (newScreen != null)
 		{
 			this.setScreen(newScreen);
 		} else
 		{
-			//TODO: debugging
-			System.out.println("...could not switch screens, no valid screenIndex!...");
+			System.out.println("...failed to switch screens!...");// TODO: debugging
 		}
 	}
 
