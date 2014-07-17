@@ -25,6 +25,7 @@ public abstract class AbstractScreen implements Screen, Asset
 		this.stage = new Stage();
 		skin = new Skin();
 
+		loadAsset();
 		initComponents();
 	}
 
@@ -60,7 +61,9 @@ public abstract class AbstractScreen implements Screen, Asset
 
 	@Override
 	public void resize(int width, int height)
-	{}
+	{
+		stage.getViewport().update(width, height);
+	}
 
 	@Override
 	public void hide()

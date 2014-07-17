@@ -70,13 +70,23 @@ public class AURISGame extends Game
 	public void setPlayer(Player player)
 	{
 		this.player = player;
-		//TODO: debugging
-		System.out.println("player logged in: " + player);
+		System.out.println("player logged in: " + player);//TODO: debugging
 	}
 
 	public Player getPlayer()
 	{
 		return player;
+	}
+
+	public void setLevel(Level level)
+	{
+		this.level = level;
+		System.out.println("level set to: " + level);// TODO: debugging
+	}
+
+	public Level getLevel()
+	{
+		return level;
 	}
 
 	public void changeScreen(int screenIndex, Screen screen)
@@ -127,5 +137,4 @@ public class AURISGame extends Game
 		super.dispose();
 		AssetLoader.dispose();
 	}
-
 }
