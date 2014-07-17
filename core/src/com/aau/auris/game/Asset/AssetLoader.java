@@ -1,4 +1,4 @@
-package com.aau.auris.game;
+package com.aau.auris.game.Asset;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.audio.Sound;

@@ -1,4 +1,4 @@
-package com.aau.auris.game.userdata;
+package com.aau.auris.game.data;
 
 import java.util.ArrayList;
 
@@ -6,19 +6,26 @@ import com.aau.auris.game.items.Achievement;
 
 public class Player
 {
-	private String name;
-	private int score;//composed of maxCredits + achievements, etc.
-	private int maxCredits;//maximal credits the player ever reached
-	private int credits;//current credits, used for bills
-	private ArrayList<Achievement> achievements;
+	private String name;// player name
+	private int score;// composed of maxCredits + achievements, etc.
+	private int maxCredits;// maximal credits the player ever reached
+	private int credits;// current credits, used for bills
+	private ArrayList<Achievement> achievements;// unlocked achievements
 
 	public Player()
 	{}
 
-	public Player(String name, int credits)
+	public Player(String name, int credits, ArrayList<Achievement> achievements)
 	{
 		this.name = name;
 		this.credits = credits;
+		this.achievements = achievements != null ? achievements : new ArrayList<Achievement>();
+		calcMaxScore();
+	}
+
+	private void calcMaxScore()
+	{
+		// TODO: implement calculation of maximal score
 	}
 
 	public String getName()

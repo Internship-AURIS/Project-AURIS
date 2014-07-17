@@ -1,11 +1,21 @@
 package com.aau.auris.game.screens;
 
 import com.aau.auris.game.AURISGame;
-import com.aau.auris.game.levels.Level;
+import com.aau.auris.game.level.Level;
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.scenes.scene2d.ui.Label;
+import com.badlogic.gdx.scenes.scene2d.ui.Label.LabelStyle;
 
 public class GameScreen extends AbstractScreen
 {
+	/*
+	 * Main Game Screen
+	 * 
+	 * first step:
+	 * 
+	 * move ball and generate random obstacles
+	 */
 	private Level level;
 
 	public GameScreen(AURISGame game)
@@ -20,7 +30,7 @@ public class GameScreen extends AbstractScreen
 	public void setLevel(Level lvl)
 	{
 		this.level = lvl;
-		System.out.println("..level set to: " + lvl);// TODO: debugging
+		System.out.println("...gamescreen level set to: " + lvl);// TODO: debugging
 	}
 
 	@Override
@@ -58,11 +68,11 @@ public class GameScreen extends AbstractScreen
 		final int height = s_height / 10;// component height
 
 		// Status Bar: PlayerName, PlayerScore, Level
-		//		LabelStyle lblStyle = new LabelStyle();
-		//		lblStyle.font = bFont;
-		//		lblStyle.fontColor = Color.WHITE;
-		//		Label lblPlayerName = new Label(game.getPlayer().getName(), lblStyle);
-		//		lblPlayerName.setBounds(width / 2, height / 2, width, height);
+		LabelStyle lblStyle = new LabelStyle();
+		lblStyle.font = bFont;
+		lblStyle.fontColor = Color.WHITE;
+		Label lblPlayerName = new Label(game.getPlayer().getName(), lblStyle);
+		lblPlayerName.setBounds(width / 2, height / 2, width, height);
 	}
 
 	@Override

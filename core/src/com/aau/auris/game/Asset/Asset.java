@@ -1,4 +1,4 @@
-package com.aau.auris.game;
+package com.aau.auris.game.Asset;
 
 public interface Asset
 {

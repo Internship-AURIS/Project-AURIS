@@ -2,15 +2,16 @@ package com.aau.auris.game;
 
 import java.awt.Dimension;
 
-import com.aau.auris.game.levels.Level;
+import com.aau.auris.game.Asset.AssetLoader;
+import com.aau.auris.game.data.Player;
+import com.aau.auris.game.data.UserData;
+import com.aau.auris.game.level.Level;
 import com.aau.auris.game.screens.CreditsScreen;
 import com.aau.auris.game.screens.GameScreen;
 import com.aau.auris.game.screens.LevelScreen;
 import com.aau.auris.game.screens.LoginScreen;
 import com.aau.auris.game.screens.MenuScreen;
 import com.aau.auris.game.screens.ShopScreen;
-import com.aau.auris.game.userdata.Player;
-import com.aau.auris.game.userdata.UserData;
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
@@ -52,7 +53,7 @@ public class AURISGame extends Game
 		shopScreen = new ShopScreen(this);
 		creditsScreen = new CreditsScreen(this);
 
-		player = userdata.getPlayers().get(0);// TODO: debugging for gameScreen
+		//		player = userdata.getPlayers().get(0);// TODO: debugging for gameScreen
 		this.setScreen(menuScreen);
 	}
 
@@ -70,13 +71,23 @@ public class AURISGame extends Game
 	public void setPlayer(Player player)
 	{
 		this.player = player;
-		//TODO: debugging
-		System.out.println("player logged in: " + player);
+		System.out.println("AURISGame --> player logged in: " + player);//TODO: debugging
 	}
 
 	public Player getPlayer()
 	{
 		return player;
+	}
+
+	public void setLevel(Level level)
+	{
+		this.level = level;
+		System.out.println("AURISGame --> level set to: " + level);// TODO: debugging
+	}
+
+	public Level getLevel()
+	{
+		return level;
 	}
 
 	public void changeScreen(int screenIndex, Screen screen)
@@ -127,5 +138,4 @@ public class AURISGame extends Game
 		super.dispose();
 		AssetLoader.dispose();
 	}
-
 }

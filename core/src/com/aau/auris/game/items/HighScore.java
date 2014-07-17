@@ -5,7 +5,7 @@ import java.util.Collections;
 import java.util.Comparator;
 
 import com.aau.auris.game.AURISGame;
-import com.aau.auris.game.userdata.Player;
+import com.aau.auris.game.data.Player;
 
 public class HighScore
 {

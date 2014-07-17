@@ -1,8 +1,8 @@
 package com.aau.auris.game.screens;
 
 import com.aau.auris.game.AURISGame;
-import com.aau.auris.game.Asset;
-import com.aau.auris.game.AssetLoader;
+import com.aau.auris.game.Asset.Asset;
+import com.aau.auris.game.Asset.AssetLoader;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
@@ -25,6 +25,7 @@ public abstract class AbstractScreen implements Screen, Asset
 		this.stage = new Stage();
 		skin = new Skin();
 
+		loadAsset();
 		initComponents();
 	}
 
@@ -60,7 +61,9 @@ public abstract class AbstractScreen implements Screen, Asset
 
 	@Override
 	public void resize(int width, int height)
-	{}
+	{
+		stage.getViewport().update(width, height);
+	}
 
 	@Override
 	public void hide()
