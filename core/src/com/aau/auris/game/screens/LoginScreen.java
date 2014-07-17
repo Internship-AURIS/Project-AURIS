@@ -41,16 +41,17 @@ public class LoginScreen extends AbstractScreen
 	private Sound clickSound;
 	private Sound hoverSound;
 	private Animation parachuteBallAnimation2;
-	private Animation parachuteBallAnimation1;
-	private SpriteBatch batch;
+	private Animation parachuteBallAnimation1;	
 
 	// Other Variables
 	private UserData userdata;
+	private final int MAX_NAME_LENGTH=8;
 
 	// Decoration
 	private ArrayList<MenuBall> menuballs;
 	private long lastBallTime;
 	private float runTime;
+	private SpriteBatch batch;
 
 	public LoginScreen(AURISGame game)
 	{
@@ -111,6 +112,18 @@ public class LoginScreen extends AbstractScreen
 		txtName.setSize(160, 60);
 		txtName.setPosition(Gdx.graphics.getWidth() / 2 - txtName.getWidth() / 2, Gdx.graphics.getHeight() / 2 - txtName.getHeight() + 60);
 		stage.addActor(txtName);
+		txtName.addListener(new InputListener(){
+			@Override
+			public boolean keyTyped(InputEvent event, char character) {
+				if (txtName.getText().length() > MAX_NAME_LENGTH){
+					txtName.setText(txtName.getText().substring(0, MAX_NAME_LENGTH));
+					txtName.setCursorPosition(MAX_NAME_LENGTH);
+					
+				}
+				return super.keyTyped(event, character);
+			}
+			
+		});
 
 		// TextButton "BACK"
 		TextButtonStyle tbStyleBack = new TextButtonStyle();
@@ -157,6 +170,7 @@ public class LoginScreen extends AbstractScreen
 			public void touchUp(InputEvent event, float x, float y, int pointer, int button)
 			{
 				super.touchUp(event, x, y, pointer, button);
+				clickSound.play();
 				String inputName = txtName.getText();
 				if (inputName == null || inputName.length() == 0)
 				{

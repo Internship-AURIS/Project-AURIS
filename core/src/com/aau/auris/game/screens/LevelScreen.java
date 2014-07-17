@@ -26,6 +26,9 @@ public class LevelScreen extends AbstractScreen
 	private TextureAtlas levelButtons;
 	private Sound clickSound;
 	private Sound hoverSound;
+	private Sound hoverWhistle1;
+	private Sound hoverWhistle2;
+	private Sound hoverWhistle3;
 
 	public LevelScreen(AURISGame game)
 	{
@@ -40,6 +43,9 @@ public class LevelScreen extends AbstractScreen
 		levelButtons = AssetLoader.levelButtons;
 		clickSound = AssetLoader.clickSound;
 		hoverSound = AssetLoader.hoverSound1;
+		hoverWhistle1=AssetLoader.hoverWhistle1;
+		hoverWhistle2=AssetLoader.hoverWhistle2;
+		hoverWhistle3=AssetLoader.hoverWhistle3;
 	}
 
 	@Override
@@ -101,6 +107,30 @@ public class LevelScreen extends AbstractScreen
 		TextButton diffLvl1Button=new TextButton("", diff1Lvl1Style);
 		diffLvl1Button.setBounds(x+60, (s_height - (height) - (height * factor)-35), width, height);
 		
+		diffLvl1Button.addListener(new ClickListener(){
+
+			@Override
+			public void touchUp(InputEvent event, float x, float y,
+					int pointer, int button) {
+				super.touchUp(event, x, y, pointer, button);
+				clickSound.play();
+			}
+			
+		});
+		diffLvl1Button.addListener(new InputListener(){
+
+			@Override
+			public void enter(InputEvent event, float x, float y, int pointer,
+					Actor fromActor) {
+				// TODO Auto-generated method stub
+				super.enter(event, x, y, pointer, fromActor);
+				hoverWhistle1.play();
+			}
+
+			
+			
+		});
+		
 		TextButtonStyle diff1Lvl2Style = new TextButtonStyle();
 		diff1Lvl2Style.up = skin.getDrawable("1diff2");
 		diff1Lvl2Style.down = skin.getDrawable("1diff2Small");
@@ -108,7 +138,21 @@ public class LevelScreen extends AbstractScreen
 		diff1Lvl2Style.font = skin.getFont("default");
 		TextButton diff1Lvl2Button=new TextButton("", diff1Lvl2Style);
 		diff1Lvl2Button.setBounds(diffLvl1Button.getX() + (width * factor), diffLvl1Button.getY(), width, height);
+		
+		diff1Lvl2Button.addListener(new InputListener(){
 
+			@Override
+			public void enter(InputEvent event, float x, float y, int pointer,
+					Actor fromActor) {
+				// TODO Auto-generated method stub
+				super.enter(event, x, y, pointer, fromActor);
+				hoverWhistle2.play();
+			}
+
+			
+			
+		});
+		
 		TextButtonStyle diff1Lvl3Style = new TextButtonStyle();
 		diff1Lvl3Style.up = skin.getDrawable("1diff3");
 		diff1Lvl3Style.down = skin.getDrawable("1diff3Small");
@@ -117,6 +161,27 @@ public class LevelScreen extends AbstractScreen
 		TextButton diff1Lvl3Button=new TextButton("", diff1Lvl3Style);
 		diff1Lvl3Button.setBounds(diff1Lvl2Button.getX() + (width * factor), diffLvl1Button.getY(), width, height);
 
+		diff1Lvl3Button.addListener(new InputListener(){
+
+			@Override
+			public void enter(InputEvent event, float x, float y, int pointer,
+					Actor fromActor) {
+				// TODO Auto-generated method stub
+				super.enter(event, x, y, pointer, fromActor);
+				hoverWhistle3.play();
+			}
+		});
+		diff1Lvl3Button.addListener(new ClickListener(){
+
+			@Override
+			public void touchUp(InputEvent event, float x, float y,
+					int pointer, int button) {
+				super.touchUp(event, x, y, pointer, button);
+				clickSound.play();
+			}
+			
+		});
+		
 		// Level Difficulty 2
 		TextButtonStyle diff2Lvl1Style = new TextButtonStyle();
 		diff2Lvl1Style.up = skin.getDrawable("2diff4");
@@ -124,8 +189,18 @@ public class LevelScreen extends AbstractScreen
 		diff2Lvl1Style.over = skin.getDrawable("2diff4Over");
 		diff2Lvl1Style.font = skin.getFont("default");
 		TextButton diff2Lvl1Button = new TextButton("", diff2Lvl1Style);
-		diff2Lvl1Button.setBounds(diffLvl1Button.getX(), diffLvl1Button.getY() - (height * factor), width, height);
+		diff2Lvl1Button.setBounds(diffLvl1Button.getX(), diffLvl1Button.getY() - (height * factor), width, height);	
+		diff2Lvl1Button.addListener(new ClickListener(){
 
+			@Override
+			public void touchUp(InputEvent event, float x, float y,
+					int pointer, int button) {
+				super.touchUp(event, x, y, pointer, button);
+				clickSound.play();
+			}
+			
+		});
+		
 		TextButtonStyle diff2Lvl2Style = new TextButtonStyle();
 		diff2Lvl2Style.up = skin.getDrawable("2diff5");
 		diff2Lvl2Style.down = skin.getDrawable("2diff5Small");
@@ -133,7 +208,17 @@ public class LevelScreen extends AbstractScreen
 		diff2Lvl2Style.font = skin.getFont("default");
 		TextButton diff2Lvl2Button = new TextButton("", diff2Lvl2Style);
 		diff2Lvl2Button.setBounds(diff1Lvl2Button.getX(), diff2Lvl1Button.getY(), width, height);
+		diff2Lvl2Button.addListener(new ClickListener(){
 
+			@Override
+			public void touchUp(InputEvent event, float x, float y,
+					int pointer, int button) {
+				super.touchUp(event, x, y, pointer, button);
+				clickSound.play();
+			}
+			
+		});
+		
 		TextButtonStyle diff2Lvl3Style = new TextButtonStyle();
 		diff2Lvl3Style.up = skin.getDrawable("2diff6");
 		diff2Lvl3Style.down = skin.getDrawable("2diff6Small");
@@ -141,7 +226,17 @@ public class LevelScreen extends AbstractScreen
 		diff2Lvl3Style.font = skin.getFont("default");
 		TextButton diff2Lvl3Button = new TextButton("", diff2Lvl3Style);
 		diff2Lvl3Button.setBounds(diff1Lvl3Button.getX(), diff2Lvl1Button.getY(), width, height);
+		diff2Lvl3Button.addListener(new ClickListener(){
 
+			@Override
+			public void touchUp(InputEvent event, float x, float y,
+					int pointer, int button) {
+				super.touchUp(event, x, y, pointer, button);
+				clickSound.play();
+			}
+			
+		});
+		
 		// Level Difficulty 3
 		TextButtonStyle diff3Lvl1Style = new TextButtonStyle();
 		diff3Lvl1Style.up = skin.getDrawable("3diff7");
@@ -150,7 +245,17 @@ public class LevelScreen extends AbstractScreen
 		diff3Lvl1Style.font = skin.getFont("default");
 		TextButton diff3Lvl1Button = new TextButton("", diff3Lvl1Style);
 		diff3Lvl1Button.setBounds(diffLvl1Button.getX(), diff2Lvl2Button.getY() - (height * factor), width, height);
+		diff3Lvl1Button.addListener(new ClickListener(){
 
+			@Override
+			public void touchUp(InputEvent event, float x, float y,
+					int pointer, int button) {
+				super.touchUp(event, x, y, pointer, button);
+				clickSound.play();
+			}
+			
+		});
+		
 		TextButtonStyle diff3Lvl2Style = new TextButtonStyle();
 		diff3Lvl2Style.up = skin.getDrawable("3diff8");
 		diff3Lvl2Style.down = skin.getDrawable("3diff8Small");
@@ -158,7 +263,17 @@ public class LevelScreen extends AbstractScreen
 		diff3Lvl2Style.font = skin.getFont("default");
 		TextButton diff3Lvl2Button = new TextButton("", diff3Lvl2Style);
 		diff3Lvl2Button.setBounds(diff1Lvl2Button.getX(), diff3Lvl1Button.getY(), width, height);
+		diff3Lvl2Button.addListener(new ClickListener(){
 
+			@Override
+			public void touchUp(InputEvent event, float x, float y,
+					int pointer, int button) {
+				super.touchUp(event, x, y, pointer, button);
+				clickSound.play();
+			}
+			
+		});
+		
 		TextButtonStyle diff3Lvl3Style = new TextButtonStyle();
 		diff3Lvl3Style.up = skin.getDrawable("3diff9");
 		diff3Lvl3Style.down = skin.getDrawable("3diff9Small");
@@ -166,7 +281,17 @@ public class LevelScreen extends AbstractScreen
 		diff3Lvl3Style.font = skin.getFont("default");
 		TextButton diff3Lvl3Button = new TextButton("", diff3Lvl3Style);
 		diff3Lvl3Button.setBounds(diff1Lvl3Button.getX(), diff3Lvl1Button.getY(), width, height);
+		diff3Lvl3Button.addListener(new ClickListener(){
 
+			@Override
+			public void touchUp(InputEvent event, float x, float y,
+					int pointer, int button) {
+				super.touchUp(event, x, y, pointer, button);
+				clickSound.play();
+			}
+			
+		});
+		
 		// Button "BACK"
 		TextButtonStyle tbStyleBack = new TextButtonStyle();
 		tbStyleBack.up = skin.getDrawable("btnBack");

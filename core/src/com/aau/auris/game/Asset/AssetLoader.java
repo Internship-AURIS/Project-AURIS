@@ -22,6 +22,7 @@ public class AssetLoader
 	public static TextureAtlas levelButtons;
 	public static Texture menu_background_blank;
 	public static Texture menu_background_blank2;
+	public static Texture background_Credits;
 
 	// Animations
 	public static Animation parachuteBallAnimation1;
@@ -34,6 +35,11 @@ public class AssetLoader
 	public static Sound hoverSound3;
 	public static Sound menuMusic1, menuMusic2;
 	public static Sound clickSound;
+	public static Sound chorusSound;
+	public static Sound hoverWhistle1;
+	public static Sound hoverWhistle2;
+	public static Sound hoverWhistle3;
+	public static Sound clickPlop;
 
 	// Font
 	public static BitmapFont bFont;
@@ -48,6 +54,7 @@ public class AssetLoader
 		tmp = TextureRegion.split(spritesheet, spritesheet.getWidth() / COLS, spritesheet.getHeight() / ROWS);
 		menu_buttons = new TextureAtlas(Gdx.files.internal("menuButtons.atlas"));
 		levelButtons=new TextureAtlas(Gdx.files.internal("levelButtons.atlas"));
+		background_Credits=new Texture(Gdx.files.internal("backCredits.png"));
 
 		// Animations
 		TextureRegion[] parachuteFrames1 = new TextureRegion[COLS];
@@ -72,7 +79,12 @@ public class AssetLoader
 		menuMusic1 = Gdx.audio.newSound(Gdx.files.internal("theme1.wav"));
 		menuMusic2 = Gdx.audio.newSound(Gdx.files.internal("theme2.wav"));
 		clickSound = Gdx.audio.newSound(Gdx.files.internal("click.wav"));
-
+		chorusSound= Gdx.audio.newSound(Gdx.files.internal("chorus.wav"));
+		hoverWhistle1=Gdx.audio.newSound(Gdx.files.internal("pfiff1.wav"));
+		hoverWhistle2=Gdx.audio.newSound(Gdx.files.internal("pfiff2.wav"));
+		hoverWhistle3=Gdx.audio.newSound(Gdx.files.internal("pfiff3.wav"));
+//		clickPlop=Gdx.audio.newSound(Gdx.files.internal("plop2.wav"));
+		
 		bFont = new BitmapFont(Gdx.files.internal("textfont.fnt"));
 	}
 
