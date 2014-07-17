@@ -42,6 +42,12 @@ public class GameScreen extends AbstractScreen
 	private Player player;// Player Stats: score, achievements, etc.
 	private Level level;
 
+	//UIComponents
+	private Label lblLevel;
+	private Label lblPlayerName;
+	private Label lblPlayerScore;
+	private Label lblPlayerCredits;
+
 	public GameScreen(AURISGame game, int levelDiff)
 	{
 		super(game);
@@ -63,6 +69,7 @@ public class GameScreen extends AbstractScreen
 	protected void initComponents()
 	{
 		player = game.getPlayer();
+		level = game.getLevel();
 		runTime = 0.0f;
 
 		// GameWorld settings
@@ -85,12 +92,45 @@ public class GameScreen extends AbstractScreen
 		obstacles.add(new Obstacle(world, 85, 150, 100, 10));
 
 		ball = new Ball(world, camera.viewportWidth / 2, camera.viewportHeight / 2);
+
+		// UIComponents
+
+		final int s_width = Gdx.graphics.getWidth();
+		final int s_height = Gdx.graphics.getHeight();
+		final int width = s_width / 8;// component width
+		final int height = s_height / 10;// component height
+
+		// Status Bar: Level, PlayerName, PlayerScore
+		LabelStyle lblStyle = new LabelStyle();
+		lblStyle.font = bFont;
+		lblStyle.fontColor = Color.WHITE;
+
+		lblLevel = new Label("Lvl -", lblStyle);
+		lblLevel.setBounds(10, s_height - (height / 1.3f), width, height);
+
+		lblPlayerName = new Label("Name:-------", lblStyle);
+		lblPlayerName.setBounds(s_width / 2f - width, lblLevel.getY(), width, height);
+
+		lblPlayerScore = new Label("Score: ---", lblStyle);
+		lblPlayerScore.setBounds(s_width - width, lblLevel.getY(), width, height);
+
+		lblPlayerCredits = new Label("Credits: ---", lblStyle);
+		lblPlayerCredits.setBounds(lblPlayerScore.getX() - lblPlayerScore.getWidth() - width, lblLevel.getY(), width, height);
+
+		stage.addActor(lblLevel);
+		stage.addActor(lblPlayerName);
+		stage.addActor(lblPlayerCredits);
+		stage.addActor(lblPlayerScore);
 	}
 
-	public void setLevel(Level lvl)
+	private void updateStatusBar()
 	{
-		this.level = lvl;
-		System.out.println("...gamescreen level set to: " + lvl);// TODO: debugging
+		level = game.getLevel();
+		player = game.getPlayer();
+		lblLevel.setText("Lvl " + level.getIndex());
+		lblPlayerName.setText("Name: " + player.getName());
+		lblPlayerScore.setText("Score: " + player.getScore());
+		lblPlayerCredits.setText("Credits: " + player.getCredits());
 	}
 
 	@Override
@@ -134,28 +174,7 @@ public class GameScreen extends AbstractScreen
 	public void show()
 	{
 		super.show();
-
-		final int s_width = Gdx.graphics.getWidth();
-		final int s_height = Gdx.graphics.getHeight();
-		final int width = s_width / 8;// component width
-		final int height = s_height / 10;// component height
-
-		// Status Bar: PlayerName, PlayerScore, Level
-		LabelStyle lblStyle = new LabelStyle();
-		lblStyle.font = bFont;
-		lblStyle.fontColor = Color.WHITE;
-		Label lblPlayerName = new Label(game.getPlayer().getName(), lblStyle);
-		lblPlayerName.setBounds(10, s_height - (height / 1.3f), width, height);
-
-		Label lblPlayerCredits = new Label("Credits: " + game.getPlayer().getCredits(), lblStyle);
-		lblPlayerCredits.setBounds(lblPlayerName.getX() + lblPlayerName.getWidth(), lblPlayerName.getY(), width, height);
-
-		Label lblPlayerScore = new Label("Score: " + game.getPlayer().getScore(), lblStyle);
-		lblPlayerScore.setBounds(lblPlayerCredits.getX() + lblPlayerCredits.getWidth(), lblPlayerCredits.getY(), width, height);
-
-		stage.addActor(lblPlayerName);
-		stage.addActor(lblPlayerCredits);
-		stage.addActor(lblPlayerScore);
+		updateStatusBar();
 	}
 
 	@Override

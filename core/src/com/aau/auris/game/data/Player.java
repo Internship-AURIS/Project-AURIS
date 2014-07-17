@@ -3,23 +3,26 @@ package com.aau.auris.game.data;
 import java.util.ArrayList;
 
 import com.aau.auris.game.items.Achievement;
+import com.aau.auris.game.items.Unlockable;
 
 public class Player
 {
+	// unlocks
+	private ArrayList<Unlockable> unlocked;
+
 	private String name;// player name
 	private int score;// composed of maxCredits + achievements, etc.
 	private int maxCredits;// maximal credits the player ever reached
 	private int credits;// current credits, used for bills
-	private ArrayList<Achievement> achievements;// unlocked achievements
 
 	public Player()
 	{}
 
-	public Player(String name, int credits, ArrayList<Achievement> achievements)
+	public Player(String name, int credits, int score, ArrayList<Unlockable> unlocked)
 	{
 		this.name = name;
+		this.score = score;
 		this.credits = credits;
-		this.achievements = achievements != null ? achievements : new ArrayList<Achievement>();
 		calcMaxScore();
 	}
 
@@ -65,12 +68,7 @@ public class Player
 
 	public ArrayList<Achievement> getAchievements()
 	{
-		return achievements;
-	}
-
-	public void addAchievement(Achievement a)
-	{
-		achievements.add(a);
+		return null;
 	}
 
 	@Override

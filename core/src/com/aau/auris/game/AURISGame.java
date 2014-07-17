@@ -20,14 +20,13 @@ public class AURISGame extends Game
 {
 	public static final Dimension PROJECTOR_SIZE = new Dimension(848, 480);
 
+	// Screens
 	public static final int MENU_SCREEN = 0;
 	public static final int LOGIN_SCREEN = 1;
 	public static final int LEVEL_SCREEN = 2;
 	public static final int CREDITS_SCREEN = 3;
 	public static final int SHOP_SCREEN = 4;
 	public static final int GAME_SCREEN = 5;
-
-	private UserData userdata;
 
 	private MenuScreen menuScreen;
 	private LoginScreen loginScreen;
@@ -36,6 +35,13 @@ public class AURISGame extends Game
 	private ShopScreen shopScreen;
 	private CreditsScreen creditsScreen;
 
+	// Levels
+	public Level lvl1, lvl2, lvl3;
+
+	// Data
+	private UserData userdata;
+
+	// 
 	private Player player = null;
 	private Level level = null;
 
@@ -53,7 +59,9 @@ public class AURISGame extends Game
 		shopScreen = new ShopScreen(this);
 		creditsScreen = new CreditsScreen(this);
 
-		player = userdata.getPlayers().get(0);// TODO: debugging for gameScreen
+		initLevels();
+
+//		player = userdata.getPlayers().get(0);// TODO: debugging for gameScreen
 		this.setScreen(menuScreen);
 	}
 
@@ -63,9 +71,21 @@ public class AURISGame extends Game
 		super.render();
 	}
 
+	public void initLevels()
+	{
+		lvl1 = new Level(this, Level.DIFFICULTY_1, 1);
+		lvl2 = new Level(this, Level.DIFFICULTY_1, 2);
+		lvl3 = new Level(this, Level.DIFFICULTY_1, 3);
+	}
+
 	public UserData getUserData()
 	{
 		return userdata;
+	}
+
+	public Player getPlayer()
+	{
+		return player;
 	}
 
 	public void setPlayer(Player player)
@@ -74,20 +94,15 @@ public class AURISGame extends Game
 		System.out.println("AURISGame --> player logged in: " + player);//TODO: debugging
 	}
 
-	public Player getPlayer()
+	public Level getLevel()
 	{
-		return player;
+		return level;
 	}
 
 	public void setLevel(Level level)
 	{
 		this.level = level;
 		System.out.println("AURISGame --> level set to: " + level);// TODO: debugging
-	}
-
-	public Level getLevel()
-	{
-		return level;
 	}
 
 	public void changeScreen(int screenIndex, Screen screen)

@@ -41,11 +41,11 @@ public class LoginScreen extends AbstractScreen
 	private Sound clickSound;
 	private Sound hoverSound;
 	private Animation parachuteBallAnimation2;
-	private Animation parachuteBallAnimation1;	
+	private Animation parachuteBallAnimation1;
 
 	// Other Variables
 	private UserData userdata;
-	private final int MAX_NAME_LENGTH=8;
+	private final int MAX_NAME_LENGTH = 8;
 
 	// Decoration
 	private ArrayList<MenuBall> menuballs;
@@ -112,17 +112,20 @@ public class LoginScreen extends AbstractScreen
 		txtName.setSize(160, 60);
 		txtName.setPosition(Gdx.graphics.getWidth() / 2 - txtName.getWidth() / 2, Gdx.graphics.getHeight() / 2 - txtName.getHeight() + 60);
 		stage.addActor(txtName);
-		txtName.addListener(new InputListener(){
+		txtName.addListener(new InputListener()
+		{
 			@Override
-			public boolean keyTyped(InputEvent event, char character) {
-				if (txtName.getText().length() > MAX_NAME_LENGTH){
+			public boolean keyTyped(InputEvent event, char character)
+			{
+				if (txtName.getText().length() > MAX_NAME_LENGTH)
+				{
 					txtName.setText(txtName.getText().substring(0, MAX_NAME_LENGTH));
 					txtName.setCursorPosition(MAX_NAME_LENGTH);
-					
+
 				}
 				return super.keyTyped(event, character);
 			}
-			
+
 		});
 
 		// TextButton "BACK"
@@ -183,14 +186,14 @@ public class LoginScreen extends AbstractScreen
 				 */
 				Player loginPlayer = null;
 
-				// UserName exists, use this Player
+				// UserName exists, use this Player 
 				if (userdata.containsPlayerName(inputName))
 				{
 					loginPlayer = userdata.getPlayerViaName(inputName);
 				} else
 				{
 					// no player exists with the given inputName, create new  one
-					loginPlayer = new Player(inputName, 0, null);
+					loginPlayer = new Player(inputName, 0, 0, null);
 					userdata.createPlayer(loginPlayer);
 					System.out.println("new player created: " + loginPlayer);
 				}

@@ -2,12 +2,10 @@ package com.aau.auris.game.items;
 
 import com.aau.auris.game.Asset.Asset;
 
-public class Achievement implements Asset
+public class Achievement implements Asset, Unlockable
 {
-	public transient static final int ALL_LEVELS_CLEARED = 0;
-	public transient static final int ACHIEVEMENT_2 = 1;
-	public transient static final int ACHIEVEMENT_3 = 2;
 
+	private int id;
 	private boolean locked;
 
 	public Achievement()
@@ -20,7 +18,7 @@ public class Achievement implements Asset
 
 	public Achievement getAchievent(int index, boolean locked)
 	{
-		if (index == ALL_LEVELS_CLEARED)
+		if (index == ACHIEVEMENT_1)
 		{
 
 		} else if (index == ACHIEVEMENT_2)
@@ -33,16 +31,6 @@ public class Achievement implements Asset
 		return null;
 	}
 
-	public boolean isLocked()
-	{
-		return locked;
-	}
-
-	public void setLocked(boolean locked)
-	{
-		this.locked = locked;
-	}
-
 	@Override
 	public void loadAsset()
 	{}
@@ -50,4 +38,22 @@ public class Achievement implements Asset
 	@Override
 	public void disposeAsset()
 	{}
+
+	@Override
+	public boolean isLocked()
+	{
+		return locked;
+	}
+
+	@Override
+	public void setLocked(boolean locked)
+	{
+		this.locked = locked;
+	}
+
+	@Override
+	public int getID()
+	{
+		return id;
+	}
 }

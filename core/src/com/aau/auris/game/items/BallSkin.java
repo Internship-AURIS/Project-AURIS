@@ -2,19 +2,24 @@ package com.aau.auris.game.items;
 
 import com.aau.auris.game.Asset.Asset;
 
-public class BallSkin implements Asset
+public class BallSkin implements Asset, Unlockable
 {
 	private transient BallSkin defaultSkin1;
 	private transient BallSkin defaultSkin2;
 	private transient BallSkin defaultSkin3;
 
-	private String name;
 	private int cost;
+	private int id;
+	private boolean locked;
 
-	public BallSkin(String name, int cost)
+	public BallSkin()
+	{}
+
+	public BallSkin(int id, int cost)
 	{
-		this.name = name;
+		this.id = id;
 		this.cost = cost;
+		locked = true;
 	}
 
 	@Override
@@ -29,8 +34,33 @@ public class BallSkin implements Asset
 	public void disposeAsset()
 	{}
 
+	public int getCost()
+	{
+		return cost;
+	}
+
 	public BallSkin getSkin()
 	{
-		return null;
+		if (id == BALL_SKIN_1) { return defaultSkin1; }
+		if (id == BALL_SKIN_2) { return defaultSkin2; }
+		if (id == BALL_SKIN_3) { return defaultSkin3; }
+		return defaultSkin1;
+	}
+
+	@Override
+	public boolean isLocked()
+	{
+		return locked;
+	}
+
+	public void setLocked(boolean locked)
+	{
+		this.locked = locked;
+	}
+
+	@Override
+	public int getID()
+	{
+		return id;
 	}
 }

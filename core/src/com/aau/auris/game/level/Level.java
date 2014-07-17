@@ -13,10 +13,12 @@ public class Level
 	// Other Variables
 	private transient AURISGame game;
 	private int lvlDifficulty;
+	private int index;
 
-	public Level(AURISGame game, int levelDiff)
+	public Level(AURISGame game, int levelDiff, int index)
 	{
 		this.game = game;
+		this.index = index;
 	}
 
 	public void generateWorld(World world, int lvlDifficulty)
@@ -31,5 +33,10 @@ public class Level
 	public int getLvlDifficulty()
 	{
 		return lvlDifficulty;
+	}
+
+	public int getIndex()
+	{
+		return index;
 	}
 }
