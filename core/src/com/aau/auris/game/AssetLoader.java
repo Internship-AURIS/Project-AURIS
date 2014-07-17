@@ -43,7 +43,7 @@ public class AssetLoader
 		spritesheet = new Texture(Gdx.files.internal("spriteFly.png"));
 		menu_background = new Texture(Gdx.files.internal("menu_background.png"));
 		menu_background_blank=new Texture(Gdx.files .internal("backBlank2.png"));
-		menu_background_blank2=new Texture(Gdx.files .internal("backBlank.png"));
+		menu_background_blank2=new Texture(Gdx.files .internal("backLevels.png"));
 		tmp = TextureRegion.split(spritesheet, spritesheet.getWidth() / COLS, spritesheet.getHeight() / ROWS);
 		menu_buttons = new TextureAtlas(Gdx.files.internal("menuButtons.atlas"));
 		levelButtons=new TextureAtlas(Gdx.files.internal("levelButtons.atlas"));
