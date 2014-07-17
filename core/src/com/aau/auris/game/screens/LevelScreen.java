@@ -6,6 +6,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.scenes.scene2d.Actor;
@@ -29,6 +30,9 @@ public class LevelScreen extends AbstractScreen
 	private Sound hoverWhistle1;
 	private Sound hoverWhistle2;
 	private Sound hoverWhistle3;
+	
+	//Local
+	private SpriteBatch batch;
 
 	public LevelScreen(AURISGame game)
 	{

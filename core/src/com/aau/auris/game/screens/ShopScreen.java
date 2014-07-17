@@ -2,16 +2,23 @@ package com.aau.auris.game.screens;
 
 import com.aau.auris.game.AURISGame;
 import com.aau.auris.game.Asset.AssetLoader;
+import com.aau.auris.game.data.Player;
 import com.aau.auris.game.items.BallSkin;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.ui.ImageTextButton;
 import com.badlogic.gdx.scenes.scene2d.ui.ImageTextButton.ImageTextButtonStyle;
+import com.badlogic.gdx.scenes.scene2d.ui.Image;
+import com.badlogic.gdx.scenes.scene2d.ui.Label;
+import com.badlogic.gdx.scenes.scene2d.ui.Label.LabelStyle;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton.TextButtonStyle;
@@ -23,9 +30,18 @@ public class ShopScreen extends AbstractScreen
 	private TextureAtlas levelButtons;
 	private Sound clickSound;
 	private Sound hoverSound;
+	private Texture background;
 
 	// ShopItemButtons
 	private ImageTextButtonStyle shopItem1Style, shopItem2Style, shopItem3Style;
+	
+	//Local
+	private Player player;
+	private final float LABEL_WIDTH=70f;
+	private final float LABEL_HEIGHT=45f;
+	private Label playerLbl;
+	private Label creditsLbl;
+	private Animation boringMoves;
 
 	public ShopScreen(AURISGame game)
 	{
@@ -39,6 +55,7 @@ public class ShopScreen extends AbstractScreen
 		levelButtons = AssetLoader.levelButtons;
 		clickSound = AssetLoader.clickSound;
 		hoverSound = AssetLoader.hoverSound1;
+		background=AssetLoader.background_Shop;
 	}
 
 	@Override
@@ -50,8 +67,12 @@ public class ShopScreen extends AbstractScreen
 	@Override
 	protected void initComponents()
 	{
+		player=game.getPlayer();
 		skin = new Skin(levelButtons);
 		skin.add("default", bFont);
+		TextureRegion backTextRegion = new TextureRegion(background, 848, 480);
+		Image img = new Image(backTextRegion);
+		stage.addActor(img);
 
 		final int s_width = Gdx.graphics.getWidth(), s_height = Gdx.graphics.getHeight();//screen dimension
 		final float width = s_width / 6.5f, height = s_height / 6.5f;//box dimension, dimension of achievement-labels and level-labels
@@ -68,7 +89,7 @@ public class ShopScreen extends AbstractScreen
 		shopItem1Style.fontColor = Color.WHITE;
 		shopItem1Style.imageUp = skin.getDrawable("secret");
 		ImageTextButton shopItem1 = new ImageTextButton("", shopItem1Style);
-		shopItem1.setBounds(x + 50, (s_height - (height)) - 55, achiev_w, achiev_h);
+		shopItem1.setBounds(x + 50, (s_height - (height)) - 50, achiev_w, achiev_h);
 		shopItem1.add(shopItem1.getImage()).row();
 		shopItem1.add(shopItem1.getLabel());
 		shopItem1.addListener(new ClickListener()
@@ -158,8 +179,8 @@ public class ShopScreen extends AbstractScreen
 		tbStyleBack.font = bFont;
 		skin.add("btnBack", tbStyleBack);
 		TextButton tbBack = new TextButton("", tbStyleBack);
-		tbBack.setPosition(10, 10);
-		tbBack.setSize(160, 60);
+		tbBack.setPosition(game.getWidth()/2-game.getWidth()/3*1.445f, game.getHeight()/4.7f);
+		tbBack.setSize(110, 45);
 		tbBack.addListener(new ClickListener()
 		{
 			@Override
@@ -179,16 +200,33 @@ public class ShopScreen extends AbstractScreen
 				hoverSound.play();
 			}
 		});
+		
+		LabelStyle lblPlayerStyle=new LabelStyle();
+		lblPlayerStyle.font=bFont;
+		playerLbl=new Label("Player: --------",lblPlayerStyle);
+		playerLbl.setSize(LABEL_WIDTH, LABEL_HEIGHT);
+		playerLbl.setPosition(game.getWidth()-game.getWidth()/4.2f, game.getHeight()/2-game.getHeight()/50);
 
+		creditsLbl=new Label("Credits: ---",lblPlayerStyle);
+		creditsLbl.setSize(LABEL_WIDTH, LABEL_HEIGHT);
+		creditsLbl.setPosition(playerLbl.getX(), playerLbl.getY()-32);
+		
 		stage.addActor(shopItem1);
 		stage.addActor(shopItem2);
 		stage.addActor(shopItem3);
-
+		
+		stage.addActor(playerLbl);
+		stage.addActor(creditsLbl);
+		
 		stage.addActor(tbBack);
 	}
 
 	private void updateShopItemButtons()
 	{
+		
+		player=game.getPlayer();
+		playerLbl.setText("Player: "+player.getName());
+		creditsLbl.setText("Credits: "+player.getCredits());
 		//		shopItem1Style.imageUp = skin.getDrawable("");
 		//		shopItem2Style.imageUp = skin.getDrawable("");
 		//		shopItem3Style.imageUp = skin.getDrawable("");
