@@ -122,16 +122,23 @@ score
   orig: 200, 80
   offset: 0, 0
   index: -1
-txtBox
+trans
   rotate: false
   xy: 400, 160
   size: 200, 80
   orig: 200, 80
   offset: 0, 0
   index: -1
+txtBox
+  rotate: false
+  xy: 600, 240
+  size: 200, 80
+  orig: 200, 80
+  offset: 0, 0
+  index: -1
 bestCursor
   rotate: false
-  xy: 600, 300
+  xy: 800, 380
   size: 10, 20
   orig: 10, 20
   offset: 0, 0

@@ -133,7 +133,7 @@ public class LoginScreen implements Screen, Asset {
 
 		LabelStyle lStyle = new LabelStyle();
 		lStyle.font = bFont;
-		lStyle.fontColor = Color.WHITE;
+		lStyle.fontColor = Color.BLACK;
 		lStyle.background = skin.getDrawable("btnName");
 		lblName = new Label("", lStyle);
 		lblName.setAlignment(Align.center);

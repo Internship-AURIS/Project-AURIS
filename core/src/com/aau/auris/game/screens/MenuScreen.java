@@ -42,6 +42,7 @@ public class MenuScreen implements Screen, Asset {
 	private TextureRegion[][] tmp;
 	private Animation parachuteBallAnimation1;
 	private Animation parachuteBallAnimation2;
+	private Animation parachuteBallAnimation3;
 	private Sound hoverSound1, hoverSound2, hoverSound3;
 	private Sound menuMusic, clickSound;
 	private Texture background;
@@ -67,6 +68,7 @@ public class MenuScreen implements Screen, Asset {
 	// Decoration
 	private ArrayList<MenuBall> menuballs;
 	private long lastBallTime;
+	private boolean showPyramid = false;
 
 	public MenuScreen(AURISGame game) {
 		this.game = game;
@@ -89,6 +91,7 @@ public class MenuScreen implements Screen, Asset {
 		// Animation
 		parachuteBallAnimation1 = AssetLoader.parachuteBallAnimation1;
 		parachuteBallAnimation2 = AssetLoader.parachuteBallAnimation2;
+		parachuteBallAnimation3 = AssetLoader.parachuteBallAnimation3;
 
 		// Sound
 		hoverSound1 = AssetLoader.hoverSound1;
@@ -108,6 +111,7 @@ public class MenuScreen implements Screen, Asset {
 		tmp = null;
 		parachuteBallAnimation1 = null;
 		parachuteBallAnimation2 = null;
+		parachuteBallAnimation3 = null;
 		hoverSound1 = null;
 		hoverSound2 = null;
 		hoverSound3 = null;
@@ -136,7 +140,7 @@ public class MenuScreen implements Screen, Asset {
 		}
 		batch.end();
 
-		if (TimeUtils.millis() - lastBallTime > 5000) {
+		if (TimeUtils.millis() - lastBallTime > 4500) {
 			spawnBall();
 		}
 	}
@@ -145,6 +149,11 @@ public class MenuScreen implements Screen, Asset {
 		Random r = new Random();
 		TextureRegion[] keyFrames = r.nextInt(2) == 0 ? parachuteBallAnimation1
 				.getKeyFrames() : parachuteBallAnimation2.getKeyFrames();
+		if (showPyramid == true) {
+			if (r.nextInt(10) == 5) {
+				keyFrames = parachuteBallAnimation3.getKeyFrames();
+			}
+		}
 		MenuBall ball = new MenuBall(r.nextInt(10) <= 2 ? r.nextInt(121)
 				: (440 + r.nextInt(370)), game.getHeight(), new Animation(
 				0.10f, keyFrames));
@@ -223,6 +232,18 @@ public class MenuScreen implements Screen, Asset {
 		lblTop3.setSize(BUTTON_WIDTH, BUTTON_HEIGHT);
 		lblTop3.setPosition(game.getWidth() / 2 + game.getWidth() / 20,
 				game.getHeight() / 2 - game.getHeight() / 9 * 2 - 60);
+		
+		// TextButton "PYRAMID"
+		TextButtonStyle textbuttonStylePyramid = new TextButtonStyle();
+		textbuttonStylePyramid.up = skin.getDrawable("trans");
+		textbuttonStylePyramid.down = skin.getDrawable("trans");
+		textbuttonStylePyramid.over = skin.getDrawable("trans");
+		textbuttonStylePyramid.font = skin.getFont("default");
+		skin.add("start", textbuttonStylePyramid);
+
+		TextButton btnPyramid = new TextButton("", textbuttonStylePyramid);
+		btnPyramid.setSize(20, 50);
+		btnPyramid.setPosition(game.getWidth()/2-game.getWidth()/3-btnPyramid.getWidth(), game.getHeight()/2);	
 
 		// TextButton "START"
 		TextButtonStyle textbuttonStyleStart = new TextButtonStyle();
@@ -306,6 +327,16 @@ public class MenuScreen implements Screen, Asset {
 				hoverSound3.play();
 			}
 		});
+		btnPyramid.addListener(new ClickListener(){
+			@Override
+			public void touchUp(InputEvent event, float x, float y,
+					int pointer, int button) {
+				super.touchUp(event, x, y, pointer, button);
+				// TODO: implements cleaner way to exit application
+				showPyramid=true;
+			}
+		});
+		
 
 		// Background Image
 		TextureRegion backTextRegion = new TextureRegion(background, 848, 480);
@@ -319,6 +350,7 @@ public class MenuScreen implements Screen, Asset {
 		stage.addActor(lblTop1);
 		stage.addActor(lblTop2);
 		stage.addActor(lblTop3);
+		stage.addActor(btnPyramid);
 	}
 
 	@Override
