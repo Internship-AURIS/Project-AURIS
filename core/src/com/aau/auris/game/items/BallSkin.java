@@ -3,9 +3,12 @@ package com.aau.auris.game.items;
 import com.aau.auris.game.Asset.Asset;
 import com.aau.auris.game.Asset.AssetLoader;
 import com.badlogic.gdx.graphics.g2d.Animation;
+import com.badlogic.gdx.scenes.scene2d.ui.Skin;
+import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
 
 public class BallSkin implements Asset, Unlockable
 {
+	// Ball Settings
 	private static final transient int BALL_SKIN_1 = 0;
 	private static final transient int BALL_SKIN_2 = 1;
 	private static final transient int BALL_SKIN_3 = 2;
@@ -20,6 +23,10 @@ public class BallSkin implements Asset, Unlockable
 	private transient Animation ballSkinAnimation_2;
 	private transient Animation ballSkinAnimation_3;
 	private transient Animation ballSkinAnimation_4;
+
+	// Other
+	private transient final String skin_PreString = "ball_skin";
+	private transient Skin skin; // to pass drawable parameter
 
 	private int id;
 	private boolean locked;
@@ -40,6 +47,9 @@ public class BallSkin implements Asset, Unlockable
 		ballSkinAnimation_2 = AssetLoader.ballskin2_animation;
 		ballSkinAnimation_3 = AssetLoader.ballskin3_animation;
 		ballSkinAnimation_4 = AssetLoader.ballskin4_animation;
+
+		// TODO: add ball skins
+		skin = new Skin();
 	}
 
 	@Override
@@ -104,4 +114,11 @@ public class BallSkin implements Asset, Unlockable
 	{
 		return 0;
 	}
+
+	@Override
+	public Drawable getDrawable()
+	{
+		return skin.getDrawable(skin_PreString + id);
+	}
+
 }

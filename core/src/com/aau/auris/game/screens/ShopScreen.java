@@ -2,7 +2,6 @@ package com.aau.auris.game.screens;
 
 import com.aau.auris.game.AURISGame;
 import com.aau.auris.game.Asset.AssetLoader;
-import com.aau.auris.game.items.BallSkin;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Color;

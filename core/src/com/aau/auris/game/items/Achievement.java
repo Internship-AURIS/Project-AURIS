@@ -3,9 +3,12 @@ package com.aau.auris.game.items;
 import java.util.ArrayList;
 
 import com.aau.auris.game.Asset.Asset;
+import com.badlogic.gdx.scenes.scene2d.ui.Skin;
+import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
 
 public class Achievement implements Asset, Unlockable
 {
+	// Achievement Settings
 	public static transient final int ACHIEVEMENT_1 = 3;
 	public static transient final int ACHIEVEMENT_2 = 4;
 	public static transient final int ACHIEVEMENT_3 = 5;
@@ -15,6 +18,11 @@ public class Achievement implements Asset, Unlockable
 
 	// Asset
 
+	// Other
+	private final transient String skin_PreString = "achiev_skin";
+	private transient Skin skin;
+
+	// Object Variables
 	private int id;
 	private boolean locked;
 
@@ -27,28 +35,31 @@ public class Achievement implements Asset, Unlockable
 		this.locked = locked;
 	}
 
-	public static Achievement getAchievement(int id)
-	{
-		if (id == ACHIEVEMENT_1)
-		{
-			return new Achievement(ACHIEVEMENT_1, true);
-		} else if (id == ACHIEVEMENT_2)
-		{
-			return new Achievement(ACHIEVEMENT_2, true);
-		} else if (id == ACHIEVEMENT_3)
-		{
-			return new Achievement(ACHIEVEMENT_2, true);
-		}
-		return null;
-	}
-
 	@Override
 	public void loadAsset()
-	{}
+	{
+		// TODO: load asset
+		skin = new Skin();
+	}
 
 	@Override
 	public void disposeAsset()
 	{}
+
+//	public static Achievement getAchievement(int id)
+//	{
+//		if (id == ACHIEVEMENT_1)
+//		{
+//			return new Achievement(ACHIEVEMENT_1, true);
+//		} else if (id == ACHIEVEMENT_2)
+//		{
+//			return new Achievement(ACHIEVEMENT_2, true);
+//		} else if (id == ACHIEVEMENT_3)
+//		{
+//			return new Achievement(ACHIEVEMENT_2, true);
+//		}
+//		return null;
+//	}
 
 	@Override
 	public boolean isLocked()
@@ -85,6 +96,12 @@ public class Achievement implements Asset, Unlockable
 		achievements.add(new Achievement(ACHIEVEMENT_2, true));
 		achievements.add(new Achievement(ACHIEVEMENT_3, true));
 		return achievements;
+	}
+
+	@Override
+	public Drawable getDrawable()
+	{
+		return skin.getDrawable(skin_PreString + id);
 	}
 
 }
