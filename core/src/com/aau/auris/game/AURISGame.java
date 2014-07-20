@@ -151,4 +151,10 @@ public class AURISGame extends Game
 		super.dispose();
 		AssetLoader.dispose();
 	}
+
+	public void exit()
+	{
+		dispose();
+		System.exit(0);
+	}
 }

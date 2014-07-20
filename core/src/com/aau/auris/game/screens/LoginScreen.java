@@ -10,6 +10,7 @@ import com.aau.auris.game.data.Player;
 import com.aau.auris.game.data.UserData;
 import com.aau.auris.game.items.MenuBall;
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
@@ -42,6 +43,9 @@ public class LoginScreen extends AbstractScreen
 	private Sound hoverSound;
 	private Animation parachuteBallAnimation2;
 	private Animation parachuteBallAnimation1;
+
+	// InputFields
+	private TextField txtName;
 
 	// Other Variables
 	private UserData userdata;
@@ -108,7 +112,7 @@ public class LoginScreen extends AbstractScreen
 		tfStyle.fontColor = Color.WHITE;
 		tfStyle.font = bFont;
 		tfStyle.cursor = skin.getDrawable("bestCursor");
-		final TextField txtName = new TextField("", tfStyle);
+		txtName = new TextField("", tfStyle);
 		txtName.setSize(160, 60);
 		txtName.setPosition(Gdx.graphics.getWidth() / 2 - txtName.getWidth() / 2, Gdx.graphics.getHeight() / 2 - txtName.getHeight() + 60);
 		stage.addActor(txtName);
@@ -172,36 +176,54 @@ public class LoginScreen extends AbstractScreen
 			{
 				super.touchUp(event, x, y, pointer, button);
 				clickSound.play();
-				String inputName = txtName.getText();
-				if (inputName == null || inputName.length() == 0)
-				{
-					System.out.println("...invalid player name!!! try again...");
-					event.cancel();
-					return;
-				}
-				/*
-				 * valid input string
-				 */
-				Player loginPlayer = null;
-
-				// UserName exists, use this Player 
-				if (userdata.containsPlayerName(inputName))
-				{
-					loginPlayer = userdata.getPlayerViaName(inputName);
-				} else
-				{
-					// no player exists with the given inputName, create new  one
-					loginPlayer = Player.generateNewPlayer(inputName);
-					userdata.createPlayer(loginPlayer);
-					System.out.println("new player created: " + loginPlayer);
-				}
-				game.setPlayer(loginPlayer);
-				game.changeScreen(AURISGame.LEVEL_SCREEN, LoginScreen.this);
+				login();
 			}
 		});
 
 		stage.addActor(tbBack);
 		stage.addActor(tbStart);
+	}
+
+	private void login()
+	{
+		String inputName = txtName.getText();
+		if (inputName == null || inputName.length() == 0)
+		{
+			System.out.println("...invalid player name!!! try again...");
+			//			event.cancel();
+			return;
+		}
+		/*
+		 * valid input string
+		 */
+		Player loginPlayer = null;
+
+		// UserName exists, use this Player 
+		if (userdata.containsPlayerName(inputName))
+		{
+			loginPlayer = userdata.getPlayerViaName(inputName);
+		} else
+		{
+			// no player exists with the given inputName, create new  one
+			loginPlayer = Player.generateNewPlayer(inputName);
+			userdata.createPlayer(loginPlayer);
+			System.out.println("new player created: " + loginPlayer);
+		}
+		game.setPlayer(loginPlayer);
+		game.changeScreen(AURISGame.LEVEL_SCREEN, LoginScreen.this);
+	}
+
+	@Override
+	protected void handleInput()
+	{
+		//		if (Gdx.input.isKeyPressed(Keys.DEL))
+		//		{
+		//			game.changeScreen(AURISGame.MENU_SCREEN, LoginScreen.this);
+		//		}
+		if (Gdx.input.isKeyPressed(Keys.ENTER))
+		{
+			login();
+		}
 	}
 
 	@Override

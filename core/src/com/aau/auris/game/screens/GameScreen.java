@@ -123,21 +123,13 @@ public class GameScreen extends AbstractScreen
 		stage.addActor(lblPlayerScore);
 	}
 
-	private void updateStatusBar()
-	{
-		level = game.getLevel();
-		player = game.getPlayer();
-		
-		lblLevel.setText("Lvl. " + level.getIndex());
-		lblPlayerName.setText("Name: " + player.getName());
-		lblPlayerScore.setText("Score: " + player.getScore());
-		lblPlayerCredits.setText("Credits: " + player.getCredits());
-	}
-
 	@Override
-	public void render(float delta)
+	protected void handleInput()
 	{
-		super.render(delta);
+		//		if (Gdx.input.isKeyPressed(Keys.DEL))
+		//		{
+		//			game.changeScreen(AURISGame.MENU_SCREEN, GameScreen.this);
+		//		}
 		if (Gdx.input.isKeyPressed(Keys.UP))
 		{
 			ball.getBody().setLinearVelocity(0, 120);
@@ -154,6 +146,23 @@ public class GameScreen extends AbstractScreen
 		{
 			ball.getBody().setLinearVelocity(120, 0);
 		}
+	}
+
+	private void updateStatusBar()
+	{
+		level = game.getLevel();
+		player = game.getPlayer();
+
+		lblLevel.setText("Lvl. " + level.getIndex());
+		lblPlayerName.setText("Name: " + player.getName());
+		lblPlayerScore.setText("Score: " + player.getScore());
+		lblPlayerCredits.setText("Credits: " + player.getCredits());
+	}
+
+	@Override
+	public void render(float delta)
+	{
+		super.render(delta);
 		spriteBatch.setProjectionMatrix(camera.combined);
 		debugRenderer.render(world, camera.combined);
 

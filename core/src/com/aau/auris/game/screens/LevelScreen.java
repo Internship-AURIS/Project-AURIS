@@ -4,6 +4,7 @@ import com.aau.auris.game.AURISGame;
 import com.aau.auris.game.Asset.AssetLoader;
 import com.aau.auris.game.data.Player;
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
@@ -394,16 +395,56 @@ public class LevelScreen extends AbstractScreen
 		stage.addActor(tbShop);
 	}
 
+	@Override
+	protected void handleInput()
+	{
+		if (Gdx.input.isKeyPressed(Keys.DEL))
+		{
+			game.changeScreen(AURISGame.MENU_SCREEN, LevelScreen.this);
+		}
+		if (Gdx.input.isKeyPressed(Keys.S))
+		{
+			game.changeScreen(AURISGame.SHOP_SCREEN, LevelScreen.this);
+		}
+		if (Gdx.input.isKeyPressed(Keys.NUM_1))
+		{
+		}
+		if (Gdx.input.isKeyPressed(Keys.NUM_2))
+		{
+		}
+		if (Gdx.input.isKeyPressed(Keys.NUM_3))
+		{
+		}
+		if (Gdx.input.isKeyPressed(Keys.NUM_4))
+		{
+		}
+		if (Gdx.input.isKeyPressed(Keys.NUM_5))
+		{
+		}
+		if (Gdx.input.isKeyPressed(Keys.NUM_6))
+		{
+		}
+		if (Gdx.input.isKeyPressed(Keys.NUM_7))
+		{
+		}
+		if (Gdx.input.isKeyPressed(Keys.NUM_8))
+		{
+		}
+		if (Gdx.input.isKeyPressed(Keys.NUM_9))
+		{
+		}
+	}
+
 	private void update()
 	{
 		player = game.getPlayer();
 		// TODO: implement loading of unlocked things from player
 
 		// Implementation of displaying locked/unlocked achievements
-//		itbAchiev1Style.imageUp = player.getAchievements().get(0).getDrawable();
-//		itbAchiev2Style.imageUp = player.getAchievements().get(1).getDrawable();
-//		itbAchiev3Style.imageUp = player.getAchievements().get(2).getDrawable();
-//		tbDiff1Lvl1Style.up = player.getLevels().get(0).getDrawable();
+		//		itbAchiev1Style.imageUp = player.getAchievements().get(0).getDrawable();
+		//		itbAchiev2Style.imageUp = player.getAchievements().get(1).getDrawable();
+		//		itbAchiev3Style.imageUp = player.getAchievements().get(2).getDrawable();
+		//		tbDiff1Lvl1Style.up = player.getLevels().get(0).getDrawable();
 	}
 
 	@Override
