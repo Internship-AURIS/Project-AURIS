@@ -1,1 +1,1 @@
-{players:[{class:com.aau.auris.game.data.Player,achievements:[],name:Peter},{class:com.aau.auris.game.data.Player,achievements:[],name:Andreas},{class:com.aau.auris.game.data.Player,achievements:[],name:Bon}]}
+{players:[{class:com.aau.auris.game.data.Player,name:Bon,score:15,maxCredits:15,credits:10},{class:com.aau.auris.game.data.Player,name:Peter,score:10,maxCredits:10,credits:10},{class:com.aau.auris.game.data.Player,name:Andreas,score:5,maxCredits:5,credits:5}]}

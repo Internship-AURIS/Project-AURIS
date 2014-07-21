@@ -20,14 +20,13 @@ public class AURISGame extends Game
 {
 	public static final Dimension PROJECTOR_SIZE = new Dimension(848, 480);
 
+	// Screens
 	public static final int MENU_SCREEN = 0;
 	public static final int LOGIN_SCREEN = 1;
 	public static final int LEVEL_SCREEN = 2;
 	public static final int CREDITS_SCREEN = 3;
 	public static final int SHOP_SCREEN = 4;
 	public static final int GAME_SCREEN = 5;
-
-	private UserData userdata;
 
 	private MenuScreen menuScreen;
 	private LoginScreen loginScreen;
@@ -36,6 +35,13 @@ public class AURISGame extends Game
 	private ShopScreen shopScreen;
 	private CreditsScreen creditsScreen;
 
+	// Levels
+	public Level lvl1, lvl2, lvl3;
+
+	// Data
+	private UserData userdata;
+
+	//
 	private Player player = null;
 	private Level level = null;
 
@@ -53,8 +59,10 @@ public class AURISGame extends Game
 		shopScreen = new ShopScreen(this);
 		creditsScreen = new CreditsScreen(this);
 
-		player = userdata.getPlayers().get(0);// TODO: debugging for gameScreen
-		this.setScreen(shopScreen);
+		initLevels();
+
+		this.setScreen(menuScreen);
+
 	}
 
 	@Override
@@ -63,15 +71,16 @@ public class AURISGame extends Game
 		super.render();
 	}
 
+	public void initLevels()
+	{
+		lvl1 = new Level(1, true);
+		lvl2 = new Level(2, true);
+		lvl3 = new Level(3, true);
+	}
+
 	public UserData getUserData()
 	{
 		return userdata;
-	}
-
-	public void setPlayer(Player player)
-	{
-		this.player = player;
-		System.out.println("AURISGame --> player logged in: " + player);//TODO: debugging
 	}
 
 	public Player getPlayer()
@@ -79,15 +88,19 @@ public class AURISGame extends Game
 		return player;
 	}
 
-	public void setLevel(Level level)
+	public void setPlayer(Player player)
 	{
-		this.level = level;
-		System.out.println("AURISGame --> level set to: " + level);// TODO: debugging
+		this.player = player;
 	}
 
 	public Level getLevel()
 	{
 		return level;
+	}
+
+	public void setLevel(Level level)
+	{
+		this.level = level;
 	}
 
 	public void changeScreen(int screenIndex, Screen screen)
@@ -135,7 +148,14 @@ public class AURISGame extends Game
 	@Override
 	public void dispose()
 	{
+		userdata.save();
 		super.dispose();
 		AssetLoader.dispose();
+	}
+
+	public void exit()
+	{
+		dispose();
+		System.exit(0);
 	}
 }

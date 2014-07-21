@@ -29,6 +29,10 @@ public class AssetLoader
 	public static Animation parachuteBallAnimation1;
 	public static Animation parachuteBallAnimation2;
 	public static Animation parachuteBallAnimation3;
+	public static Animation ballskin1_animation;
+	public static Animation ballskin2_animation;
+	public static Animation ballskin3_animation;
+	public static Animation ballskin4_animation;
 
 	// Sounds
 	public static Sound hoverSound1;
@@ -50,13 +54,16 @@ public class AssetLoader
 		// Textures
 		spritesheet = new Texture(Gdx.files.internal("spriteFly2.png"));
 		menu_background = new Texture(Gdx.files.internal("menu_background.png"));
-		menu_background_blank=new Texture(Gdx.files .internal("backBlank2.png"));
-		menu_background_blank2=new Texture(Gdx.files .internal("backLevels.png"));
+		menu_background_blank = new Texture(Gdx.files.internal("backBlank2.png"));
+		menu_background_blank2 = new Texture(Gdx.files.internal("backLevels.png"));
 		tmp = TextureRegion.split(spritesheet, spritesheet.getWidth() / COLS, spritesheet.getHeight() / ROWS);
 		menu_buttons = new TextureAtlas(Gdx.files.internal("menuButtons.atlas"));
+
 		levelButtons=new TextureAtlas(Gdx.files.internal("levelButtons.atlas"));
 		background_Credits=new Texture(Gdx.files.internal("backCredits.png"));
 		background_Shop= new Texture(Gdx.files.internal("backShop.png"));
+		background_Credits = new Texture(Gdx.files.internal("backCredits.png"));
+
 
 		// Animations
 		TextureRegion[] parachuteFrames1 = new TextureRegion[COLS];
@@ -74,6 +81,15 @@ public class AssetLoader
 		parachuteBallAnimation2.setPlayMode(Animation.PlayMode.LOOP_PINGPONG);
 		parachuteBallAnimation3 = new Animation(0.08f, parachuteFrames3);
 		parachuteBallAnimation3.setPlayMode(Animation.PlayMode.LOOP_PINGPONG);
+		ballskin1_animation = new Animation(0.08f, parachuteFrames1);
+		ballskin1_animation.setPlayMode(Animation.PlayMode.LOOP_PINGPONG);
+		ballskin2_animation = new Animation(0.08f, parachuteFrames2);
+		ballskin2_animation.setPlayMode(Animation.PlayMode.LOOP_PINGPONG);
+		ballskin3_animation = new Animation(0.08f, parachuteFrames3);
+		ballskin3_animation.setPlayMode(Animation.PlayMode.LOOP_PINGPONG);
+		ballskin4_animation = new Animation(0.08f, parachuteFrames3);
+		ballskin4_animation.setPlayMode(Animation.PlayMode.LOOP_PINGPONG);
+
 		// Sounds
 		hoverSound1 = Gdx.audio.newSound(Gdx.files.internal("hover1.wav"));
 		hoverSound2 = Gdx.audio.newSound(Gdx.files.internal("hover2.wav"));
@@ -81,12 +97,12 @@ public class AssetLoader
 		menuMusic1 = Gdx.audio.newSound(Gdx.files.internal("theme1.wav"));
 		menuMusic2 = Gdx.audio.newSound(Gdx.files.internal("theme2.wav"));
 		clickSound = Gdx.audio.newSound(Gdx.files.internal("click.wav"));
-		chorusSound= Gdx.audio.newSound(Gdx.files.internal("chorus.wav"));
-		hoverWhistle1=Gdx.audio.newSound(Gdx.files.internal("pfiff1.wav"));
-		hoverWhistle2=Gdx.audio.newSound(Gdx.files.internal("pfiff2.wav"));
-		hoverWhistle3=Gdx.audio.newSound(Gdx.files.internal("pfiff3.wav"));
-//		clickPlop=Gdx.audio.newSound(Gdx.files.internal("plop2.wav"));
-		
+		chorusSound = Gdx.audio.newSound(Gdx.files.internal("chorus.wav"));
+		hoverWhistle1 = Gdx.audio.newSound(Gdx.files.internal("pfiff1.wav"));
+		hoverWhistle2 = Gdx.audio.newSound(Gdx.files.internal("pfiff2.wav"));
+		hoverWhistle3 = Gdx.audio.newSound(Gdx.files.internal("pfiff3.wav"));
+		//		clickPlop=Gdx.audio.newSound(Gdx.files.internal("plop2.wav"));
+
 		bFont = new BitmapFont(Gdx.files.internal("textfont.fnt"));
 	}
 

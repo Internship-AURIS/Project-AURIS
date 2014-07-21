@@ -3,7 +3,6 @@ package com.aau.auris.game.screens;
 import com.aau.auris.game.AURISGame;
 import com.aau.auris.game.Asset.AssetLoader;
 import com.aau.auris.game.data.Player;
-import com.aau.auris.game.items.BallSkin;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Color;
@@ -14,9 +13,9 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
+import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.ImageTextButton;
 import com.badlogic.gdx.scenes.scene2d.ui.ImageTextButton.ImageTextButtonStyle;
-import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Label.LabelStyle;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
@@ -210,7 +209,7 @@ public class ShopScreen extends AbstractScreen
 		creditsLbl=new Label("Credits: ---",lblPlayerStyle);
 		creditsLbl.setSize(LABEL_WIDTH, LABEL_HEIGHT);
 		creditsLbl.setPosition(playerLbl.getX(), playerLbl.getY()-32);
-		
+
 		stage.addActor(shopItem1);
 		stage.addActor(shopItem2);
 		stage.addActor(shopItem3);
@@ -219,6 +218,15 @@ public class ShopScreen extends AbstractScreen
 		stage.addActor(creditsLbl);
 		
 		stage.addActor(tbBack);
+	}
+
+	@Override
+	protected void handleInput()
+	{
+//		if (Gdx.input.isKeyPressed(Keys.DEL))
+//		{
+//			game.changeScreen(AURISGame.LEVEL_SCREEN, ShopScreen.this);
+//		}
 	}
 
 	private void updateShopItemButtons()

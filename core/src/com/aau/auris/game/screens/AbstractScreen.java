@@ -30,6 +30,8 @@ public abstract class AbstractScreen implements Screen, Asset
 	}
 
 	protected abstract void initComponents();
+	
+	protected abstract void handleInput();
 
 	@Override
 	public void loadAsset()
@@ -51,6 +53,8 @@ public abstract class AbstractScreen implements Screen, Asset
 
 		stage.act(delta);
 		stage.draw();
+		
+		handleInput();
 	}
 
 	@Override
@@ -79,5 +83,9 @@ public abstract class AbstractScreen implements Screen, Asset
 
 	@Override
 	public void dispose()
-	{}
+	{
+		disposeAsset();
+		stage.dispose();
+		skin.dispose();
+	}
 }

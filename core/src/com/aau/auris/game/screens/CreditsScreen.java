@@ -7,6 +7,8 @@ import java.util.Random;
 import com.aau.auris.game.AURISGame;
 import com.aau.auris.game.Asset.AssetLoader;
 import com.aau.auris.game.items.MenuBall;
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Animation;
@@ -30,15 +32,16 @@ public class CreditsScreen extends AbstractScreen
 	private Sound clickSound;
 	private Sound hoverSound;
 	private Texture background;
-	
+
 	// Decoration
-		private ArrayList<MenuBall> menuballs;
-		private long lastBallTime;
-		private float runTime;
-		private SpriteBatch batch;
+	private ArrayList<MenuBall> menuballs;
+	private long lastBallTime;
+	private float runTime;
+	private SpriteBatch batch;
+
 	//Animation
-		private Animation parachuteBallAnimation2;
-		private Animation parachuteBallAnimation1;	
+	private Animation parachuteBallAnimation2;
+	private Animation parachuteBallAnimation1;
 
 	public CreditsScreen(AURISGame game)
 	{
@@ -55,7 +58,7 @@ public class CreditsScreen extends AbstractScreen
 		menuButtons = AssetLoader.menu_buttons;
 		clickSound = AssetLoader.clickSound;
 		hoverSound = AssetLoader.hoverSound1;
-		background=AssetLoader.background_Credits;
+		background = AssetLoader.background_Credits;
 		parachuteBallAnimation1 = AssetLoader.parachuteBallAnimation1;
 		parachuteBallAnimation2 = AssetLoader.parachuteBallAnimation2;
 	}
@@ -104,6 +107,15 @@ public class CreditsScreen extends AbstractScreen
 		});
 
 		stage.addActor(tbBack);
+	}
+
+	@Override
+	protected void handleInput()
+	{
+		if (Gdx.input.isKeyPressed(Keys.DEL))
+		{
+			game.changeScreen(AURISGame.MENU_SCREEN, CreditsScreen.this);
+		}
 	}
 
 	@Override
@@ -160,6 +172,7 @@ public class CreditsScreen extends AbstractScreen
 	{
 		super.dispose();
 	}
+
 	public void updateMenuBalls(float deltaTime)
 	{
 		Iterator<MenuBall> iter = menuballs.iterator();
@@ -173,6 +186,7 @@ public class CreditsScreen extends AbstractScreen
 			}
 		}
 	}
+
 	private void spawnBall()
 	{
 		Random r = new Random();

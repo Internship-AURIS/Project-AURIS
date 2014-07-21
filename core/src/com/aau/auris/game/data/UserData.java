@@ -28,7 +28,10 @@ public class UserData
 	{
 		for (Player p : players)
 		{
-			if (p != null && p.getName().toLowerCase().equals(inputName.toLowerCase())) { return true; }
+			if (p != null && p.getName().toLowerCase().equals(inputName.toLowerCase()))
+			{
+				return true;
+			}
 		}
 		return false;
 	}
@@ -37,7 +40,10 @@ public class UserData
 	{
 		for (Player p : players)
 		{
-			if (p != null && p.getName().toLowerCase().equals(name.toLowerCase())) { return p; }
+			if (p != null && p.getName().toLowerCase().equals(name.toLowerCase()))
+			{
+				return p;
+			}
 		}
 		return null;
 	}
@@ -76,7 +82,7 @@ public class UserData
 
 	public void load()
 	{
-		players.clear();
+//		players.clear();
 
 		if (file.exists())
 		{
