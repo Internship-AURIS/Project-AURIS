@@ -5,6 +5,7 @@ import java.util.Random;
 import com.aau.auris.game.AURISGame;
 import com.aau.auris.game.Asset.AssetLoader;
 import com.aau.auris.game.data.Player;
+import com.aau.auris.game.items.BallSkin;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Color;
@@ -50,6 +51,7 @@ public class ShopScreen extends AbstractScreen {
 	private float runTime;
 	private TextureRegion currentFrame;
 	private Random r;
+	private BallSkin ballSkin;
 
 	public ShopScreen(AURISGame game) {
 		super(game);
