@@ -9,7 +9,7 @@ import com.badlogic.gdx.utils.Json;
 public class UserData
 {
 	private transient static final String USERDATA_FILENAME = "userdata.json";
-	private transient final int MAX_PLAYERS = 10;
+	private transient int MAX_PLAYERS;
 
 	private transient final FileHandle file = Gdx.files.local(USERDATA_FILENAME);
 	private ArrayList<Player> players;
@@ -17,6 +17,7 @@ public class UserData
 	public UserData()
 	{
 		players = new ArrayList<Player>();
+		MAX_PLAYERS = 10;
 	}
 
 	public ArrayList<Player> getPlayers()
@@ -28,10 +29,7 @@ public class UserData
 	{
 		for (Player p : players)
 		{
-			if (p != null && p.getName().toLowerCase().equals(inputName.toLowerCase()))
-			{
-				return true;
-			}
+			if (p != null && p.getName().toLowerCase().equals(inputName.toLowerCase())) { return true; }
 		}
 		return false;
 	}
@@ -40,10 +38,7 @@ public class UserData
 	{
 		for (Player p : players)
 		{
-			if (p != null && p.getName().toLowerCase().equals(name.toLowerCase()))
-			{
-				return p;
-			}
+			if (p != null && p.getName().toLowerCase().equals(name.toLowerCase())) { return p; }
 		}
 		return null;
 	}
@@ -69,14 +64,14 @@ public class UserData
 	public void save()
 	{
 		Json json = new Json();
-//		json.setElementType(UserData.class, "players", ArrayList.class);
+		//		json.setElementType(UserData.class, "players", ArrayList.class);
 		final String text = json.toJson(this);
 		file.writeString(text, false);
 	}
 
 	public void load()
 	{
-//		players.clear();
+		//		players.clear();
 
 		if (file.exists())
 		{
