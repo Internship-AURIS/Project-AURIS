@@ -2,64 +2,46 @@ package com.aau.auris.game.data;
 
 import java.util.ArrayList;
 
-import com.aau.auris.game.items.Achievement;
+import com.aau.auris.game.AURISGame;
 import com.aau.auris.game.items.BallSkin;
-import com.aau.auris.game.items.Unlockable;
-import com.aau.auris.game.level.Level;
 
 public class Player
 {
 	// unlocks
-	private ArrayList<Achievement> achievements;
-	private ArrayList<Level> levels;
-	private ArrayList<BallSkin> skins;
+	private ArrayList<Integer> achievementUnlocks;
+	private ArrayList<Integer> levelUnlocks;
+	private ArrayList<Integer> skinUnlocks;
 
 	private String name;// player name
 	private int achievPoints;// get points for unlocking achievements
 	private int credits;// current credits, used for bills
 	private int maxCredits;// maximal credits the player ever reached
 	private int score;// composed of maxCredits + achievements, etc.
-	private BallSkin currentSkin;
+	private int skinID;
 
 	/*
-	 * default constructor
-	 * needed for Json serialization
+	 * default constructor needed for Json serialization
 	 */
 	public Player()
 	{}
 
-	public Player(String name, int credits, int maxCredits, int score, ArrayList<Achievement> achievements, ArrayList<Level> levels, ArrayList<BallSkin> skins, BallSkin currentSkin)
+	public Player(String name, int credits, int maxCredits, int score, ArrayList<Integer> achievementUnlocks, ArrayList<Integer> levelUnlocks, ArrayList<Integer> skinUnlocks, int skinID)
 	{
 		this.name = name;
 		this.achievPoints = score - maxCredits;
 		this.credits = credits;
 		this.maxCredits = maxCredits;
 		this.score = score;
-		this.achievements = achievements;
-		this.levels = levels;
-		this.skins = skins;
-		this.currentSkin = currentSkin;
+		this.achievementUnlocks = achievementUnlocks;
+		this.levelUnlocks = levelUnlocks;
+		this.skinUnlocks = skinUnlocks;
+		this.skinID = skinID;
 	}
 
 	public static Player generateNewPlayer(String name)
 	{
-		ArrayList<Achievement> achievements = Achievement.getList();
-		ArrayList<Level> levels = Level.getList();
-		ArrayList<BallSkin> skins = BallSkin.getList();
-		Player player = new Player(name, 0, 0, 0, achievements, levels, skins, BallSkin.getDefault());
-		player.unlock(achievements.get(0));
+		Player player = new Player(name, 0, 0, 0, AURISGame.getDefaultAchievementUnlocks(), AURISGame.getDefaultLevelUnlocks(), AURISGame.getDefaultSkinUnlocks(), BallSkin.BALL_SKIN_ID_1);
 		return player;
-	}
-
-	public void unlock(Unlockable item)
-	{
-		achievPoints += item.getScore();
-		item.setLocked(false);
-	}
-
-	public void setSkin(BallSkin skin)
-	{
-		this.currentSkin = skin;
 	}
 
 	private void calcScore()
@@ -67,19 +49,29 @@ public class Player
 		this.score = maxCredits + achievPoints;
 	}
 
-	public ArrayList<Achievement> getAchievements()
+	public void setSkin(int skinID)
 	{
-		return achievements;
+		this.skinID = skinID;
 	}
 
-	public void addAchievement(Achievement a)
+	public int getSkinID()
 	{
-		achievPoints += a.getScore();
+		return skinID;
 	}
 
-	public ArrayList<Level> getLevels()
+	public ArrayList<Integer> getAchievementUnlocks()
 	{
-		return levels;
+		return achievementUnlocks;
+	}
+
+	public ArrayList<Integer> getLevelUnlocks()
+	{
+		return levelUnlocks;
+	}
+
+	public ArrayList<Integer> getSkinUnlocks()
+	{
+		return skinUnlocks;
 	}
 
 	public String getName()
@@ -122,10 +114,28 @@ public class Player
 	public void setMaxScore(int mScore)
 	{}
 
-	@Override
-	public String toString()
+	public boolean hasLevelUnlocked(int id)
 	{
-		return "{" + Player.class.getSimpleName() + "[" + "name:" + name + ",credits:" + credits + "]}";
+		for (int i : levelUnlocks)
+		{
+			if (i == id) { return true; }
+		}
+		return false;
+	}
+
+	public void addAchievementID(int id)
+	{
+		achievementUnlocks.add(id);
+	}
+
+	public void addLevelID(int id)
+	{
+		levelUnlocks.add(id);
+	}
+
+	public void addSkinID(int id)
+	{
+		skinUnlocks.add(id);
 	}
 
 }

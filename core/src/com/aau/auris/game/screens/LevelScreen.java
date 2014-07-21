@@ -3,6 +3,7 @@ package com.aau.auris.game.screens;
 import com.aau.auris.game.AURISGame;
 import com.aau.auris.game.Asset.AssetLoader;
 import com.aau.auris.game.data.Player;
+import com.aau.auris.game.level.Level;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.audio.Sound;
@@ -142,8 +143,12 @@ public class LevelScreen extends AbstractScreen
 			{
 				super.touchUp(event, x, y, pointer, button);
 				clickSound.play();
-				game.setLevel(game.lvl1);
-				game.changeScreen(AURISGame.GAME_SCREEN, LevelScreen.this);
+				final int id = Level.LEVEL_ID_1;
+				if (player.hasLevelUnlocked(id))
+				{
+					game.setLevel(AURISGame.getLevel(id));
+					game.changeScreen(AURISGame.GAME_SCREEN, LevelScreen.this);
+				}
 			}
 		});
 		diffLvl1Button.addListener(new InputListener()
@@ -169,8 +174,12 @@ public class LevelScreen extends AbstractScreen
 			public void touchUp(InputEvent event, float x, float y, int pointer, int button)
 			{
 				super.touchUp(event, x, y, pointer, button);
-				game.setLevel(game.lvl2);
-				game.changeScreen(AURISGame.GAME_SCREEN, LevelScreen.this);
+				final int id = Level.LEVEL_ID_2;
+				if (player.hasLevelUnlocked(id))
+				{
+					game.setLevel(AURISGame.getLevel(id));
+					game.changeScreen(AURISGame.GAME_SCREEN, LevelScreen.this);
+				}
 			}
 		});
 		diff1Lvl2Button.addListener(new InputListener()
@@ -197,8 +206,12 @@ public class LevelScreen extends AbstractScreen
 			{
 				super.touchUp(event, x, y, pointer, button);
 				clickSound.play();
-				game.setLevel(game.lvl1);
-				game.changeScreen(AURISGame.GAME_SCREEN, LevelScreen.this);
+				final int id = Level.LEVEL_ID_3;
+				if (player.hasLevelUnlocked(id))
+				{
+					game.setLevel(AURISGame.getLevel(id));
+					game.changeScreen(AURISGame.GAME_SCREEN, LevelScreen.this);
+				}
 			}
 		});
 		diff1Lvl3Button.addListener(new InputListener()
@@ -226,6 +239,12 @@ public class LevelScreen extends AbstractScreen
 			{
 				super.touchUp(event, x, y, pointer, button);
 				clickSound.play();
+				final int id = Level.LEVEL_ID_4;
+				if (player.hasLevelUnlocked(id))
+				{
+					game.setLevel(AURISGame.getLevel(id));
+					game.changeScreen(AURISGame.GAME_SCREEN, LevelScreen.this);
+				}
 			}
 		});
 
@@ -243,6 +262,12 @@ public class LevelScreen extends AbstractScreen
 			{
 				super.touchUp(event, x, y, pointer, button);
 				clickSound.play();
+				final int id = Level.LEVEL_ID_5;
+				if (player.hasLevelUnlocked(id))
+				{
+					game.setLevel(AURISGame.getLevel(id));
+					game.changeScreen(AURISGame.GAME_SCREEN, LevelScreen.this);
+				}
 			}
 		});
 
@@ -260,6 +285,12 @@ public class LevelScreen extends AbstractScreen
 			{
 				super.touchUp(event, x, y, pointer, button);
 				clickSound.play();
+				final int id = Level.LEVEL_ID_6;
+				if (player.hasLevelUnlocked(id))
+				{
+					game.setLevel(AURISGame.getLevel(id));
+					game.changeScreen(AURISGame.GAME_SCREEN, LevelScreen.this);
+				}
 			}
 		});
 
@@ -278,6 +309,12 @@ public class LevelScreen extends AbstractScreen
 			{
 				super.touchUp(event, x, y, pointer, button);
 				clickSound.play();
+				final int id = Level.LEVEL_ID_7;
+				if (player.hasLevelUnlocked(id))
+				{
+					game.setLevel(AURISGame.getLevel(id));
+					game.changeScreen(AURISGame.GAME_SCREEN, LevelScreen.this);
+				}
 			}
 		});
 
@@ -295,6 +332,12 @@ public class LevelScreen extends AbstractScreen
 			{
 				super.touchUp(event, x, y, pointer, button);
 				clickSound.play();
+				final int id = Level.LEVEL_ID_8;
+				if (player.hasLevelUnlocked(id))
+				{
+					game.setLevel(AURISGame.getLevel(id));
+					game.changeScreen(AURISGame.GAME_SCREEN, LevelScreen.this);
+				}
 			}
 		});
 
@@ -312,6 +355,12 @@ public class LevelScreen extends AbstractScreen
 			{
 				super.touchUp(event, x, y, pointer, button);
 				clickSound.play();
+				final int id = Level.LEVEL_ID_9;
+				if (player.hasLevelUnlocked(id))
+				{
+					game.setLevel(AURISGame.getLevel(id));
+					game.changeScreen(AURISGame.GAME_SCREEN, LevelScreen.this);
+				}
 			}
 		});
 
@@ -407,32 +456,23 @@ public class LevelScreen extends AbstractScreen
 			game.changeScreen(AURISGame.SHOP_SCREEN, LevelScreen.this);
 		}
 		if (Gdx.input.isKeyPressed(Keys.NUM_1))
-		{
-		}
+		{}
 		if (Gdx.input.isKeyPressed(Keys.NUM_2))
-		{
-		}
+		{}
 		if (Gdx.input.isKeyPressed(Keys.NUM_3))
-		{
-		}
+		{}
 		if (Gdx.input.isKeyPressed(Keys.NUM_4))
-		{
-		}
+		{}
 		if (Gdx.input.isKeyPressed(Keys.NUM_5))
-		{
-		}
+		{}
 		if (Gdx.input.isKeyPressed(Keys.NUM_6))
-		{
-		}
+		{}
 		if (Gdx.input.isKeyPressed(Keys.NUM_7))
-		{
-		}
+		{}
 		if (Gdx.input.isKeyPressed(Keys.NUM_8))
-		{
-		}
+		{}
 		if (Gdx.input.isKeyPressed(Keys.NUM_9))
-		{
-		}
+		{}
 	}
 
 	private void update()

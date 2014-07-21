@@ -1,24 +1,20 @@
 package com.aau.auris.game.items;
 
-import java.util.ArrayList;
-
 import com.aau.auris.game.Asset.Asset;
 import com.aau.auris.game.Asset.AssetLoader;
 import com.badlogic.gdx.graphics.g2d.Animation;
-import com.badlogic.gdx.scenes.scene2d.ui.Skin;
-import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
 
-public class BallSkin implements Asset, Unlockable
+public class BallSkin implements Asset
 {
 	// Ball Settings
-	public static final transient int BALL_SKIN_1 = 0;
-	public static final transient int BALL_SKIN_2 = 1;
-	public static final transient int BALL_SKIN_3 = 2;
-	public static final transient int BALL_SKIN_4 = 3;
-	private static final transient int BALL_SKIN_1_COST = 0;
-	private static final transient int BALL_SKIN_2_COST = 100;
-	private static final transient int BALL_SKIN_3_COST = 100;
-	private static final transient int BALL_SKIN_4_COST = 100;
+	public static final int BALL_SKIN_ID_1 = 0;
+	public static final int BALL_SKIN_ID_2 = 1;
+	public static final int BALL_SKIN_ID_3 = 2;
+	public static final int BALL_SKIN_ID_4 = 3;
+	private static final int BALL_SKIN_1_COST = 0;
+	private static final int BALL_SKIN_2_COST = 100;
+	private static final int BALL_SKIN_3_COST = 100;
+	private static final int BALL_SKIN_4_COST = 100;
 
 	// Asset
 	private transient Animation ballSkinAnimation_1;
@@ -27,19 +23,14 @@ public class BallSkin implements Asset, Unlockable
 	private transient Animation ballSkinAnimation_4;
 
 	// Other
-	private transient final String skin_PreString = "ball_skin";
-	private transient Skin skin; // to pass drawable parameter
-
 	private int id;
-	private boolean locked;
 
 	public BallSkin()
 	{}
 
-	public BallSkin(int id, boolean locked)
+	public BallSkin(int id)
 	{
 		this.id = id;
-		this.locked = locked;
 	}
 
 	@Override
@@ -49,9 +40,6 @@ public class BallSkin implements Asset, Unlockable
 		ballSkinAnimation_2 = AssetLoader.ballskin2_animation;
 		ballSkinAnimation_3 = AssetLoader.ballskin3_animation;
 		ballSkinAnimation_4 = AssetLoader.ballskin4_animation;
-
-		// TODO: add ball skins
-		skin = new Skin();
 	}
 
 	@Override
@@ -60,58 +48,25 @@ public class BallSkin implements Asset, Unlockable
 
 	public int getCost()
 	{
-		if (id == BALL_SKIN_1) { return BALL_SKIN_1_COST; }
-		if (id == BALL_SKIN_2) { return BALL_SKIN_2_COST; }
-		if (id == BALL_SKIN_3) { return BALL_SKIN_3_COST; }
-		if (id == BALL_SKIN_4) { return BALL_SKIN_4_COST; }
+		if (id == BALL_SKIN_ID_1) { return BALL_SKIN_1_COST; }
+		if (id == BALL_SKIN_ID_2) { return BALL_SKIN_2_COST; }
+		if (id == BALL_SKIN_ID_3) { return BALL_SKIN_3_COST; }
+		if (id == BALL_SKIN_ID_4) { return BALL_SKIN_4_COST; }
 		return BALL_SKIN_1_COST;
 	}
 
 	public Animation getSkin()
 	{
-		if (id == BALL_SKIN_1) { return ballSkinAnimation_1; }
-		if (id == BALL_SKIN_2) { return ballSkinAnimation_2; }
-		if (id == BALL_SKIN_3) { return ballSkinAnimation_3; }
-		if (id == BALL_SKIN_4) { return ballSkinAnimation_4; }
+		if (id == BALL_SKIN_ID_1) { return ballSkinAnimation_1; }
+		if (id == BALL_SKIN_ID_2) { return ballSkinAnimation_2; }
+		if (id == BALL_SKIN_ID_3) { return ballSkinAnimation_3; }
+		if (id == BALL_SKIN_ID_4) { return ballSkinAnimation_4; }
 		return ballSkinAnimation_1;
 	}
 
-	@Override
-	public boolean isLocked()
+	public int getID()
 	{
-		return locked;
-	}
-
-	public void setLocked(boolean locked)
-	{
-		this.locked = locked;
-	}
-
-	@Override
-	public int getScore()
-	{
-		return 0;
-	}
-
-	@Override
-	public Drawable getDrawable()
-	{
-		return skin.getDrawable(skin_PreString + id);
-	}
-
-	public static ArrayList<BallSkin> getList()
-	{
-		ArrayList<BallSkin> skins = new ArrayList<BallSkin>();
-		skins.add(getDefault());
-		skins.add(new BallSkin(BALL_SKIN_2, true));
-		skins.add(new BallSkin(BALL_SKIN_3, true));
-		skins.add(new BallSkin(BALL_SKIN_4, true));
-		return skins;
-	}
-
-	public static BallSkin getDefault()
-	{
-		return new BallSkin(BALL_SKIN_1, false);
+		return id;
 	}
 
 }

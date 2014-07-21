@@ -12,12 +12,14 @@ public class ImageFilter
 	public static final int GRAYSCALE_FILTER = 2;
 	public static final int EDGE_FILTER = 4;
 
-	private float lowThreshold = 0.0f;
-	private float highThreshold = 0.0f;
-
+	// Filter
 	private GrayscaleFilter grayscaleFilter;
 	private EdgeFilter edgeFilter;
 	private ThresholdFilter thresholdFilter;
+
+	// ThresholdFilter Settings
+	public float lowThreshold = 0.0f;
+	public float highThreshold = 0.0f;
 
 	public ImageFilter()
 	{

@@ -189,8 +189,7 @@ public class LoginScreen extends AbstractScreen
 		String inputName = txtName.getText();
 		if (inputName == null || inputName.length() == 0)
 		{
-			System.out.println("...invalid player name!!! try again...");
-			//			event.cancel();
+			System.out.println("...invalid player name!!! try again..."); // TODO: Debugging
 			return;
 		}
 		/*
@@ -207,7 +206,7 @@ public class LoginScreen extends AbstractScreen
 			// no player exists with the given inputName, create new  one
 			loginPlayer = Player.generateNewPlayer(inputName);
 			userdata.createPlayer(loginPlayer);
-			System.out.println("new player created: " + loginPlayer);
+			System.out.println("new player created: " + loginPlayer);// TODO: Debugging
 		}
 		game.setPlayer(loginPlayer);
 		game.changeScreen(AURISGame.LEVEL_SCREEN, LoginScreen.this);

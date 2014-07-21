@@ -6,6 +6,7 @@ import com.aau.auris.game.AURISGame;
 import com.aau.auris.game.data.Player;
 import com.aau.auris.game.level.Level;
 import com.aau.auris.game.level.gameworld.Ball;
+import com.aau.auris.game.level.gameworld.CollisionHandler;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.graphics.Color;
@@ -22,6 +23,7 @@ public class GameScreen extends AbstractScreen
 
 	// GameWorld
 	private World world;
+	private CollisionHandler collisionHandler;
 	private Level level;
 	private Ball ball;
 	private Box2DDebugRenderer debugRenderer;
@@ -58,6 +60,9 @@ public class GameScreen extends AbstractScreen
 	@Override
 	protected void initComponents()
 	{
+		// GameLogic
+		collisionHandler = new CollisionHandler(game, this);
+
 		// UIComponents
 		final int s_width = Gdx.graphics.getWidth();
 		final int s_height = Gdx.graphics.getHeight();
@@ -122,7 +127,7 @@ public class GameScreen extends AbstractScreen
 		level = game.getLevel();
 		player = game.getPlayer();
 
-		lblLevel.setText("Lvl. " + level.getIndex());
+		lblLevel.setText("Lvl. " + level.getID());
 		lblPlayerName.setText("Name: " + player.getName());
 		lblPlayerScore.setText("Score: " + player.getScore());
 		lblPlayerCredits.setText("Credits: " + player.getCredits());
@@ -134,8 +139,10 @@ public class GameScreen extends AbstractScreen
 		runTime = 0.0f;
 
 		// GameWorld
-		this.level = game.lvl1;
+		this.level = game.getLevel();
 		this.world = level.getWorld();
+		collisionHandler.update();
+		world.setContactListener(collisionHandler);
 		this.level = game.getLevel();
 		this.ball = level.getBall();
 		this.debugRenderer = level.getDebugRenderer();

@@ -3,7 +3,6 @@ package com.aau.auris.game.screens;
 import com.aau.auris.game.AURISGame;
 import com.aau.auris.game.Asset.AssetLoader;
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
@@ -189,10 +188,10 @@ public class ShopScreen extends AbstractScreen
 	@Override
 	protected void handleInput()
 	{
-//		if (Gdx.input.isKeyPressed(Keys.DEL))
-//		{
-//			game.changeScreen(AURISGame.LEVEL_SCREEN, ShopScreen.this);
-//		}
+		//		if (Gdx.input.isKeyPressed(Keys.DEL))
+		//		{
+		//			game.changeScreen(AURISGame.LEVEL_SCREEN, ShopScreen.this);
+		//		}
 	}
 
 	private void updateShopItemButtons()

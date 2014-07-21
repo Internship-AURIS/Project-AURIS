@@ -1,10 +1,13 @@
 package com.aau.auris.game;
 
 import java.awt.Dimension;
+import java.util.ArrayList;
 
 import com.aau.auris.game.Asset.AssetLoader;
 import com.aau.auris.game.data.Player;
 import com.aau.auris.game.data.UserData;
+import com.aau.auris.game.items.Achievement;
+import com.aau.auris.game.items.BallSkin;
 import com.aau.auris.game.level.Level;
 import com.aau.auris.game.screens.CreditsScreen;
 import com.aau.auris.game.screens.GameScreen;
@@ -12,7 +15,6 @@ import com.aau.auris.game.screens.LevelScreen;
 import com.aau.auris.game.screens.LoginScreen;
 import com.aau.auris.game.screens.MenuScreen;
 import com.aau.auris.game.screens.ShopScreen;
-import com.aau.auris.game.webcam.WebcamHandler;
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
@@ -36,11 +38,13 @@ public class AURISGame extends Game
 	private ShopScreen shopScreen;
 	private CreditsScreen creditsScreen;
 
-	// Levels
-	public Level lvl1, lvl2, lvl3;
+	// Features
+	public static ArrayList<Achievement> achievements;
+	public static ArrayList<Level> levels;
+	public static ArrayList<BallSkin> ballSkins;
 
 	// WebcamHandler
-	private WebcamHandler webcamHandler;
+	//	private WebcamHandler webcamHandler;
 
 	// Data
 	private UserData userdata;
@@ -63,10 +67,12 @@ public class AURISGame extends Game
 		shopScreen = new ShopScreen(this);
 		creditsScreen = new CreditsScreen(this);
 
+		initAchievements();
 		initLevels();
+		initBallSkins();
 
-//		webcamHandler = new WebcamHandler(this);
-//		webcamHandler.setUpdate(false);
+		//		webcamHandler = new WebcamHandler(this);
+		//		webcamHandler.setUpdate(false);
 
 		this.setScreen(menuScreen);
 	}
@@ -86,11 +92,35 @@ public class AURISGame extends Game
 		}
 	}
 
-	public void initLevels()
+	private void initAchievements()
 	{
-		lvl1 = new Level(1, true);
-		lvl2 = new Level(2, true);
-		lvl3 = new Level(3, true);
+		achievements = new ArrayList<Achievement>();
+		achievements.add(new Achievement(Achievement.ACHIEVEMENT_1));
+		achievements.add(new Achievement(Achievement.ACHIEVEMENT_2));
+		achievements.add(new Achievement(Achievement.ACHIEVEMENT_3));
+	}
+
+	private void initLevels()
+	{
+		levels = new ArrayList<Level>();
+		levels.add(new Level(this, Level.LEVEL_ID_1));
+		levels.add(new Level(this, Level.LEVEL_ID_2));
+		levels.add(new Level(this, Level.LEVEL_ID_3));
+		levels.add(new Level(this, Level.LEVEL_ID_4));
+		levels.add(new Level(this, Level.LEVEL_ID_5));
+		levels.add(new Level(this, Level.LEVEL_ID_6));
+		levels.add(new Level(this, Level.LEVEL_ID_7));
+		levels.add(new Level(this, Level.LEVEL_ID_8));
+		levels.add(new Level(this, Level.LEVEL_ID_9));
+	}
+
+	private void initBallSkins()
+	{
+		ballSkins = new ArrayList<BallSkin>();
+		ballSkins.add(new BallSkin(BallSkin.BALL_SKIN_ID_1));
+		ballSkins.add(new BallSkin(BallSkin.BALL_SKIN_ID_2));
+		ballSkins.add(new BallSkin(BallSkin.BALL_SKIN_ID_3));
+		ballSkins.add(new BallSkin(BallSkin.BALL_SKIN_ID_4));
 	}
 
 	public UserData getUserData()
@@ -140,7 +170,7 @@ public class AURISGame extends Game
 		} else if (screenIndex == GAME_SCREEN)
 		{
 			newScreen = gameScreen;
-//	TODO:		webcamHandler.setUpdate(true); // WebcamHandler triggers imageOptained events and calls game.update()
+			//	TODO:		webcamHandler.setUpdate(true); // WebcamHandler triggers imageOptained events and calls game.update()
 		}
 		if (newScreen != null)
 		{
@@ -173,5 +203,34 @@ public class AURISGame extends Game
 	{
 		dispose();
 		System.exit(0);
+	}
+
+	public static ArrayList<Integer> getDefaultAchievementUnlocks()
+	{
+		ArrayList<Integer> unlocks = new ArrayList<Integer>();
+		return unlocks;
+	}
+
+	public static ArrayList<Integer> getDefaultLevelUnlocks()
+	{
+		ArrayList<Integer> unlocks = new ArrayList<Integer>();
+		unlocks.add(Level.LEVEL_ID_1);
+		return unlocks;
+	}
+
+	public static ArrayList<Integer> getDefaultSkinUnlocks()
+	{
+		ArrayList<Integer> unlocks = new ArrayList<Integer>();
+		unlocks.add(BallSkin.BALL_SKIN_ID_1);
+		return unlocks;
+	}
+
+	public static Level getLevel(int id)
+	{
+		for (Level lvl : levels)
+		{
+			if (lvl.getID() == id) { return lvl; }
+		}
+		return null;
 	}
 }
