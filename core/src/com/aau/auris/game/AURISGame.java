@@ -5,6 +5,7 @@ import java.util.ArrayList;
 
 import com.aau.auris.game.Asset.AssetLoader;
 import com.aau.auris.game.data.Player;
+import com.aau.auris.game.data.Preferences;
 import com.aau.auris.game.data.UserData;
 import com.aau.auris.game.items.Achievement;
 import com.aau.auris.game.items.BallSkin;
@@ -47,6 +48,7 @@ public class AURISGame extends Game
 	//	private WebcamHandler webcamHandler;
 
 	// Data
+	private Preferences preferences;
 	private UserData userdata;
 
 	//
@@ -57,6 +59,9 @@ public class AURISGame extends Game
 	public void create()
 	{
 		AssetLoader.load();
+		preferences = new Preferences();
+//		preferences.save();
+		preferences.load();
 		userdata = new UserData();
 		userdata.load();
 
@@ -125,6 +130,11 @@ public class AURISGame extends Game
 	public UserData getUserData()
 	{
 		return userdata;
+	}
+
+	public Preferences getPreferences()
+	{
+		return preferences;
 	}
 
 	public Player getPlayer()
@@ -232,4 +242,5 @@ public class AURISGame extends Game
 		}
 		return null;
 	}
+
 }
