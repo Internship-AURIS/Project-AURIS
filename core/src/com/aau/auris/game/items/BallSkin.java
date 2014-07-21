@@ -12,8 +12,8 @@ public class BallSkin implements Asset
 	public static final int BALL_SKIN_ID_3 = 2;
 	public static final int BALL_SKIN_ID_4 = 3;
 	private static final int BALL_SKIN_1_COST = 0;
-	private static final int BALL_SKIN_2_COST = 140;
-	private static final int BALL_SKIN_3_COST = 100;
+	private static final int BALL_SKIN_2_COST = 20;
+	private static final int BALL_SKIN_3_COST = 140;
 	private static final int BALL_SKIN_4_COST = 100;
 
 	// Asset
@@ -49,7 +49,7 @@ public class BallSkin implements Asset
 	public void disposeAsset()
 	{}
 
-	public int getCost()
+	public int getCreditValue()
 	{
 		if (id == BALL_SKIN_ID_1) { return BALL_SKIN_1_COST; }
 		if (id == BALL_SKIN_ID_2) { return BALL_SKIN_2_COST; }
@@ -74,5 +74,6 @@ public class BallSkin implements Asset
 	public void setId(int id)
 	{
 		this.id=id;
+
 	}
 }
