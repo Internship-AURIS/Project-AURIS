@@ -1,1 +1,5 @@
+<<<<<<< HEAD
 {players:[{achievementUnlocks:[],score:18,levelUnlocks:[0,1,2,3,4],skinUnlocks:[0],name:peter,maxCredits:18}]}
+=======
+{players:[{maxCredits:15,name:Bon,score:15,credits:10},{maxCredits:10,name:Peter,score:10,credits:10},{maxCredits:5,name:Andreas,score:5,credits:5}]}
+>>>>>>> e1c9d395f5ab484d11026573b80474529cc11bd5

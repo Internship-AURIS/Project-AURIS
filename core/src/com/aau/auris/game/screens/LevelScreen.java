@@ -9,6 +9,7 @@ import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.scenes.scene2d.Actor;
@@ -32,6 +33,9 @@ public class LevelScreen extends AbstractScreen
 	private Sound hoverWhistle1;
 	private Sound hoverWhistle2;
 	private Sound hoverWhistle3;
+	
+	//Local
+	private SpriteBatch batch;
 
 	// Level- and Achievement-Display
 	private ImageTextButtonStyle itbAchiev1Style;
@@ -396,12 +400,12 @@ public class LevelScreen extends AbstractScreen
 
 		// Button "SHOP"
 		TextButtonStyle tbStyleShop = new TextButtonStyle();
-		tbStyleShop.up = skin.getDrawable("btnBack");
-		tbStyleShop.down = skin.getDrawable("btnBackSmall");
-		tbStyleShop.over = skin.getDrawable("btnBackOver");
+		tbStyleShop.up = skin.getDrawable("btnShop");
+		tbStyleShop.down = skin.getDrawable("btnShopSmall");
+		tbStyleShop.over = skin.getDrawable("btnShopOver");
 		tbStyleShop.font = bFont;
 		skin.add("btnBack", tbStyleShop);
-		TextButton tbShop = new TextButton("SHOP", tbStyleShop);
+		TextButton tbShop = new TextButton("", tbStyleShop);
 		tbShop.setPosition(tbBack.getX(), tbBack.getY() + tbBack.getWidth() / 2);
 		tbShop.setSize(160, 60);
 		tbShop.addListener(new ClickListener()

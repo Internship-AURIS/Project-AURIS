@@ -73,8 +73,7 @@ public class AURISGame extends Game
 
 		//		webcamHandler = new WebcamHandler(this);
 		//		webcamHandler.setUpdate(false);
-
-		this.setScreen(menuScreen);
+		this.setScreen(shopScreen);
 	}
 
 	@Override
