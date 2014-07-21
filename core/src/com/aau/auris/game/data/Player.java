@@ -120,16 +120,18 @@ public class Player {
 		}
 		return false;
 	}
-	public boolean hasSkinUnlocked(int id) {
-		for (int i : skinUnlocks) {
-			if (i == id) {
-				return true;
-			}
+	
+	public boolean hasSkinUnlocked(int id)
+	{
+		for (int i : skinUnlocks)
+		{
+			if (i == id) { return true; }
 		}
 		return false;
 	}
 
-	public void unlockAchievement(int id) {
+	public void unlockAchievement(int id)
+	{
 		achievementUnlocks.add(id);
 		score += new Achievement(id).getCreditValue();
 	}

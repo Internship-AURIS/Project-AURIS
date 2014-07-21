@@ -89,6 +89,7 @@ public class ShopScreen extends AbstractScreen {
 		shopItem1Style.font = bFont;
 		shopItem1Style.fontColor = Color.WHITE;
 		shopItem1Style.up = skin.newDrawable("white");
+		shopItem1Style.over=skin.getDrawable("hoverGrey");
 		skin.add("shopItem1", shopItem1Style);
 		TextButton shopItem1 = new TextButton("", shopItem1Style);
 		shopItem1.setSize(game.getWidth() / 3, game.getHeight() / 2.75f);
@@ -101,18 +102,7 @@ public class ShopScreen extends AbstractScreen {
 				super.touchUp(event, x, y, pointer, button);
 				clickSound.play();
 				// System.out.println("Shop-->purchase: " + event.getButton());
-				if (player.hasSkinUnlocked(BallSkin.BALL_SKIN_ID_2)) {
-					player.setSkin(BallSkin.BALL_SKIN_ID_2);
-				}else
-				{
-					if (player.getCredits() >= 20) {
-						player.unlockBallSkin(BallSkin.BALL_SKIN_ID_2);
-						player.setSkin(BallSkin.BALL_SKIN_ID_2);
-						updateShopItemButtons();
-					} else {
-						System.out.println("Not enough credits!");
-					}
-				}
+				purchaseItem(BallSkin.BALL_SKIN_ID_2);
 			}
 		});
 		shopItem1.addListener(new InputListener() {
@@ -128,6 +118,7 @@ public class ShopScreen extends AbstractScreen {
 		shopItem2Style = new TextButtonStyle();
 		shopItem2Style.font = bFont;
 		shopItem2Style.fontColor = Color.WHITE;
+		shopItem2Style.over=skin.getDrawable("hoverGrey");
 		shopItem2Style.up = skin.newDrawable("white");
 		skin.add("shopItem2", shopItem2Style);
 		TextButton shopItem2 = new TextButton("", shopItem2Style);
@@ -140,8 +131,7 @@ public class ShopScreen extends AbstractScreen {
 					int pointer, int button) {
 				super.touchUp(event, x, y, pointer, button);
 				clickSound.play();
-				System.out.println("Shop-->purchase: " + event.getButton());
-				player.setSkin(BallSkin.BALL_SKIN_ID_3);
+				purchaseItem(BallSkin.BALL_SKIN_ID_3);
 			}
 		});
 		shopItem2.addListener(new InputListener() {
@@ -157,6 +147,7 @@ public class ShopScreen extends AbstractScreen {
 		shopItem3Style = new TextButtonStyle();
 		shopItem3Style.font = bFont;
 		shopItem3Style.fontColor = Color.WHITE;
+		shopItem3Style.over=skin.getDrawable("hoverGrey");
 		shopItem3Style.up = skin.newDrawable("white");
 		skin.add("shopItem3", shopItem3Style);
 		TextButton shopItem3 = new TextButton("", shopItem3Style);
@@ -169,8 +160,7 @@ public class ShopScreen extends AbstractScreen {
 					int pointer, int button) {
 				super.touchUp(event, x, y, pointer, button);
 				clickSound.play();
-				// System.out.println("Shop-->purchase: " + event.getButton());
-				// player.setSkin(BallSkin.BALL_SKIN_ID_3);
+				purchaseItem(BallSkin.BALL_SKIN_ID_4);
 			}
 		});
 		shopItem3.addListener(new InputListener() {
@@ -273,6 +263,25 @@ public class ShopScreen extends AbstractScreen {
 		// shopItem1Style.imageUp = skin.getDrawable("");
 		// shopItem2Style.imageUp = skin.getDrawable("");
 		// shopItem3Style.imageUp = skin.getDrawable("");
+	}
+
+	private void purchaseItem(int id)
+	{
+		if (!player.hasSkinUnlocked(id))
+		{
+			if (player.unlockBallSkin(id))
+			{
+				player.setSkin(id);
+			} else
+			{
+				System.out.println("...not enough credits!...");
+			}
+			
+		}else
+		{
+			player.setSkin(id);
+		}
+		updateShopItemButtons();
 	}
 
 	@Override

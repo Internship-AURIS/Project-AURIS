@@ -14,7 +14,7 @@ public class BallSkin implements Asset
 	private static final int BALL_SKIN_1_COST = 0;
 	private static final int BALL_SKIN_2_COST = 20;
 	private static final int BALL_SKIN_3_COST = 140;
-	private static final int BALL_SKIN_4_COST = 100;
+	private static final int BALL_SKIN_4_COST = 70;
 
 	// Asset
 	private static  Animation ballSkinAnimation_1;
@@ -42,7 +42,7 @@ public class BallSkin implements Asset
 		ballSkinAnimation_1 = AssetLoader.ballDefault_animation;
 		ballSkinAnimation_2 = AssetLoader.ballskinYellow_animation;
 		ballSkinAnimation_3 = AssetLoader.ballskinGreen_animation;
-		ballSkinAnimation_4 = AssetLoader.ballskin4_animation;
+		ballSkinAnimation_4 = AssetLoader.ballskinRed_animation;
 	}
 
 	@Override

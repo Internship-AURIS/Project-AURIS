@@ -21,11 +21,13 @@ public class AssetLoader
 	public static Texture defaultBall;
 	public static Texture greenBall;
 	public static Texture yellowBall;
+	public static Texture redBall;
 	public static Texture menu_background;
 	public static TextureRegion[][] tmp;
 	public static TextureRegion[][] tmpDefault;
 	public static TextureRegion[][] tmpGreen;
 	public static TextureRegion[][] tmpYellow;
+	public static TextureRegion[][] tmpRed;
 	public static TextureAtlas menu_buttons;
 	public static TextureAtlas levelButtons;
 	public static Texture menu_background_blank;
@@ -40,7 +42,7 @@ public class AssetLoader
 	public static Animation ballDefault_animation;
 	public static Animation ballskinGreen_animation;
 	public static Animation ballskinYellow_animation;
-	public static Animation ballskin3_animation;
+	public static Animation ballskinRed_animation;
 	public static Animation ballskin4_animation;
 
 	// Sounds
@@ -65,6 +67,7 @@ public class AssetLoader
 		spritesheet = new Texture(Gdx.files.internal("spriteFly2.png"));
 		greenBall=new Texture(Gdx.files.internal("greenBored.png"));
 		yellowBall=new Texture(Gdx.files.internal("yellowBored.png"));
+		redBall=new Texture(Gdx.files.internal("redBored.png"));
 		menu_background = new Texture(Gdx.files.internal("menu_background.png"));
 		menu_background_blank = new Texture(Gdx.files.internal("backBlank2.png"));
 		menu_background_blank2 = new Texture(Gdx.files.internal("backLevels.png"));
@@ -72,6 +75,7 @@ public class AssetLoader
 		tmpDefault = TextureRegion.split(defaultBall, defaultBall.getWidth() / FLY_COLS, defaultBall.getHeight() / FLY_ROWS);
 		tmpGreen = TextureRegion.split(greenBall, greenBall.getWidth() / FLY_COLS, greenBall.getHeight() / FLY_ROWS);
 		tmpYellow = TextureRegion.split(yellowBall, yellowBall.getWidth() / FLY_COLS, yellowBall.getHeight() / FLY_ROWS);
+		tmpRed = TextureRegion.split(redBall, redBall.getWidth() / FLY_COLS, redBall.getHeight() / FLY_ROWS);
 		menu_buttons = new TextureAtlas(Gdx.files.internal("menuButtons.atlas"));
 		levelButtons=new TextureAtlas(Gdx.files.internal("levelButtons.atlas"));
 		background_Credits=new Texture(Gdx.files.internal("backCredits.png"));
@@ -86,6 +90,7 @@ public class AssetLoader
 		TextureRegion[] ballBoredFrames = new TextureRegion[FLY_COLS];
 		TextureRegion[] greenballBoredFrames = new TextureRegion[FLY_COLS];
 		TextureRegion[] yellowballBoredFrames = new TextureRegion[FLY_COLS];
+		TextureRegion[] redballBoredFrames = new TextureRegion[FLY_COLS];
 		
 		for (int i = 0; i < FLY_COLS; i++)
 		{
@@ -95,6 +100,8 @@ public class AssetLoader
 			ballBoredFrames[i]=tmpDefault[0][i];
 			greenballBoredFrames[i]= tmpGreen[0][i];
 			yellowballBoredFrames[i]= tmpYellow[0][i];
+			redballBoredFrames[i]= tmpRed[0][i];
+			
 		}
 		
 		parachuteBallAnimation1 = new Animation(0.08f, parachuteFrames1);
@@ -109,8 +116,8 @@ public class AssetLoader
 		ballskinGreen_animation.setPlayMode(Animation.PlayMode.LOOP_PINGPONG);
 		ballskinYellow_animation=new Animation(0.08f, yellowballBoredFrames);
 		ballskinYellow_animation.setPlayMode(Animation.PlayMode.LOOP_PINGPONG);
-		ballskin3_animation = new Animation(0.08f, parachuteFrames3);
-		ballskin3_animation.setPlayMode(Animation.PlayMode.LOOP_PINGPONG);
+		ballskinRed_animation = new Animation(0.08f, redballBoredFrames);
+		ballskinRed_animation.setPlayMode(Animation.PlayMode.LOOP_PINGPONG);
 		ballskin4_animation = new Animation(0.08f, parachuteFrames3);
 		ballskin4_animation.setPlayMode(Animation.PlayMode.LOOP_PINGPONG);
 
