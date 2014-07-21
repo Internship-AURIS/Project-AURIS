@@ -81,6 +81,7 @@ public class AURISGame extends Game
 	{
 		if (getScreen() instanceof GameScreen)
 		{
+			// TODO: implement image processing
 			System.out.println("gamescreen");
 		}
 	}
