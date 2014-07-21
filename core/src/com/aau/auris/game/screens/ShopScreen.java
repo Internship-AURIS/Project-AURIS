@@ -6,7 +6,6 @@ import com.aau.auris.game.AURISGame;
 import com.aau.auris.game.Asset.AssetLoader;
 import com.aau.auris.game.data.Player;
 import com.aau.auris.game.items.BallSkin;
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Pixmap;
@@ -84,15 +83,6 @@ public class ShopScreen extends AbstractScreen
 		TextureRegion backTextRegion = new TextureRegion(background, 848, 480);
 		Image img = new Image(backTextRegion);
 		stage.addActor(img);
-
-		final int s_width = Gdx.graphics.getWidth(), s_height = Gdx.graphics.getHeight();// screen dimension
-		final float width = s_width / 6.5f, height = s_height / 6.5f;// box dimension, dimension of achievement-labels  and level-labels
-
-		final float factor = 1.1f;
-		final float x = width * 1.3f;
-
-		final float achiev_w = width + 10;
-		final float achiev_h = height;
 
 		// ShopItems
 		Pixmap pixmap = new Pixmap(800, 800, Format.RGBA8888);
@@ -270,12 +260,12 @@ public class ShopScreen extends AbstractScreen
 	private void updateShopItemButtons()
 	{
 
-		// player=game.getPlayer();
-		// playerLbl.setText("Player: "+player.getName());
-		// creditsLbl.setText("Credits: "+player.getCredits());
-		// shopItem1Style.imageUp = skin.getDrawable("");
-		// shopItem2Style.imageUp = skin.getDrawable("");
-		// shopItem3Style.imageUp = skin.getDrawable("");
+		player = game.getPlayer();
+		playerLbl.setText("Player: " + player.getName());
+		creditsLbl.setText("Credits: " + player.getCredits());
+		//		 shopItem1Style.imageUp = skin.getDrawable("");
+		//		 shopItem2Style.imageUp = skin.getDrawable("");
+		//		 shopItem3Style.imageUp = skin.getDrawable("");
 	}
 
 	@Override
