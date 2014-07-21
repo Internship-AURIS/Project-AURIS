@@ -3,6 +3,7 @@ package com.aau.auris.game.data;
 import java.util.ArrayList;
 
 import com.aau.auris.game.AURISGame;
+import com.aau.auris.game.items.Achievement;
 import com.aau.auris.game.items.BallSkin;
 
 public class Player
@@ -130,9 +131,22 @@ public class Player
 		return false;
 	}
 
-	public void addAchievementID(int id)
+	public void unlockAchievement(int id)
 	{
 		achievementUnlocks.add(id);
+		score += new Achievement(id).getCreditValue();
+	}
+
+	public boolean unlockBallSkin(int id)
+	{
+		final int costs = new BallSkin(id).getCost();
+		if (credits - costs >= 0)
+		{
+			skinUnlocks.add(id);
+			credits -= costs;
+			return true;
+		}
+		return false;
 	}
 
 	public void addLevelID(int id)

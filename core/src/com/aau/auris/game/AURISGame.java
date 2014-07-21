@@ -95,8 +95,8 @@ public class AURISGame extends Game
 	{
 		achievements = new ArrayList<Achievement>();
 		achievements.add(new Achievement(Achievement.ACHIEVEMENT_ID_1));
-		achievements.add(new Achievement(Achievement.ACHIEVEMENT_2));
-		achievements.add(new Achievement(Achievement.ACHIEVEMENT_3));
+		achievements.add(new Achievement(Achievement.ACHIEVEMENT_ID_2));
+		achievements.add(new Achievement(Achievement.ACHIEVEMENT_ID_3));
 	}
 
 	private void initLevels()

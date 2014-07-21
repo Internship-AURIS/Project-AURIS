@@ -68,4 +68,9 @@ public class BallSkin implements Asset
 	{
 		return id;
 	}
+
+	public void setSkinID(int id)
+	{
+		this.id = id;
+	}
 }
