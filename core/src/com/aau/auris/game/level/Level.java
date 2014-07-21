@@ -4,6 +4,11 @@ import java.util.ArrayList;
 
 import com.aau.auris.game.Asset.Asset;
 import com.aau.auris.game.items.Unlockable;
+import com.aau.auris.game.level.gameworld.*;
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
 import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
@@ -24,6 +29,22 @@ public class Level implements Asset, Unlockable
 	public static final transient int LEVEL_ID_8 = 0;
 	public static final transient int LEVEL_ID_9 = 0;
 
+	// GameLogic Settings
+	public static final Vector2 GRAVITY = new Vector2(0, 0);
+	public static final float BOX_STEP = 1 / 60f;
+	public static final int BOX_VELOCITY_ITERATIONS = 6;
+	public static final int BOX_POSITION_ITERATIONS = 2;
+	public static final float WORLD_TO_BOX = 0.5111111f;
+
+	// Level
+	private World world;
+	private Box2DDebugRenderer debugRenderer;
+	private OrthographicCamera camera;
+	private Ball ball;
+	private ArrayList<Obstacle> obstacles;
+	private Home home;
+	private Goal goal;
+
 	// Asset
 	// TODO: add asset for level display
 
@@ -39,6 +60,16 @@ public class Level implements Asset, Unlockable
 	{
 		this.id = index;
 		this.locked = true;
+
+		world = new World(GRAVITY, true);
+		debugRenderer = new Box2DDebugRenderer();
+		camera = new OrthographicCamera();
+		camera.viewportWidth = Gdx.graphics.getWidth();
+		camera.viewportHeight = Gdx.graphics.getHeight();
+		camera.position.set(camera.viewportWidth / 2f, camera.viewportHeight / 2f, 0f);
+		camera.update();
+
+		generateWorld();
 	}
 
 	@Override
@@ -54,14 +85,37 @@ public class Level implements Asset, Unlockable
 		// TODO Auto-generated method stub
 	}
 
-	public void generateWorld(World world, int lvlDifficulty)
+	public void generateWorld()
 	{
-		if (lvlDifficulty == DIFFICULTY_1)
+		// initialize GameObjects
+		final int s_width = Gdx.graphics.getWidth();
+		final int s_height = Gdx.graphics.getHeight();
+		final float menu_width = 40;
+		final float menu_height = 150;
+		ball = new Ball(world, camera.viewportWidth / 2, camera.viewportHeight / 2);
+		home = new Home(world, 0 * WORLD_TO_BOX, 0 * WORLD_TO_BOX, menu_width * WORLD_TO_BOX, menu_height * WORLD_TO_BOX);
+		goal = new Goal(world, (s_width - menu_width) * WORLD_TO_BOX, 0, menu_width * WORLD_TO_BOX, menu_height * WORLD_TO_BOX);
+
+		System.out.println(s_height);
+		// Initialize GameBorder
+		final float factor_height = 1.95f;
+		final float factor_width = 0.95f;
+		final float border_width = 20;// the object
+		this.obstacles = new ArrayList<Obstacle>();
+		obstacles.add(new Obstacle(world, -10 * WORLD_TO_BOX, 0, border_width * WORLD_TO_BOX, (s_height * factor_height) * WORLD_TO_BOX));
+		obstacles.add(new Obstacle(world, 0 * WORLD_TO_BOX, -10 * WORLD_TO_BOX, (s_width * factor_height) * WORLD_TO_BOX, border_width * WORLD_TO_BOX));
+		obstacles.add(new Obstacle(world, 0 * WORLD_TO_BOX, (s_height * factor_width + border_width/2) * WORLD_TO_BOX, (s_width * factor_height) * WORLD_TO_BOX, border_width * WORLD_TO_BOX));
+		obstacles.add(new Obstacle(world, 85, 150, 100, 10));
+
+		if (id / 9 == DIFFICULTY_1)
 		{
-		} else if (lvlDifficulty == DIFFICULTY_2)
+			System.out.println("Level.generateWorld() --> difficulty: " + DIFFICULTY_1);
+		} else if (id / 9 == DIFFICULTY_2)
 		{
-		} else if (lvlDifficulty == DIFFICULTY_3)
+			System.out.println("Level.generateWorld() --> difficulty: " + DIFFICULTY_2);
+		} else if (id / 9 == DIFFICULTY_3)
 		{
+			System.out.println("Level.generateWorld() --> difficulty: " + DIFFICULTY_3);
 		}
 	}
 
@@ -107,6 +161,26 @@ public class Level implements Asset, Unlockable
 	public Drawable getDrawable()
 	{
 		return skin.getDrawable(skin_PreString + id);
+	}
+
+	public World getWorld()
+	{
+		return world;
+	}
+
+	public Box2DDebugRenderer getDebugRenderer()
+	{
+		return debugRenderer;
+	}
+
+	public OrthographicCamera getCamera()
+	{
+		return camera;
+	}
+
+	public Ball getBall()
+	{
+		return ball;
 	}
 
 }

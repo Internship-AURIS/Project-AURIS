@@ -1,4 +1,4 @@
-package com.aau.auris.game.level.entity;
+package com.aau.auris.game.level.gameworld;
 
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.BodyDef;
@@ -10,7 +10,7 @@ public class Obstacle extends Entity
 	public Obstacle(World world, float posX, float posY, float width, float height)
 	{
 		bodyDef = new BodyDef();
-		bodyDef.position.set(new Vector2(posX, posY));
+		bodyDef.position.set(new Vector2(posX + width/2, posY+ height/2));
 		body = world.createBody(bodyDef);
 
 		PolygonShape polygonShape = new PolygonShape();

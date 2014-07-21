@@ -65,8 +65,8 @@ public class AURISGame extends Game
 
 		initLevels();
 
-		webcamHandler = new WebcamHandler(this);
-		webcamHandler.setUpdate(false);
+//		webcamHandler = new WebcamHandler(this);
+//		webcamHandler.setUpdate(false);
 
 		this.setScreen(menuScreen);
 	}
@@ -140,7 +140,7 @@ public class AURISGame extends Game
 		} else if (screenIndex == GAME_SCREEN)
 		{
 			newScreen = gameScreen;
-			webcamHandler.setUpdate(true); // WebcamHandler triggers imageOptained events and calls game.update()
+//	TODO:		webcamHandler.setUpdate(true); // WebcamHandler triggers imageOptained events and calls game.update()
 		}
 		if (newScreen != null)
 		{

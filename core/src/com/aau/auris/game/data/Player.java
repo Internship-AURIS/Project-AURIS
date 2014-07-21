@@ -3,6 +3,7 @@ package com.aau.auris.game.data;
 import java.util.ArrayList;
 
 import com.aau.auris.game.items.Achievement;
+import com.aau.auris.game.items.BallSkin;
 import com.aau.auris.game.items.Unlockable;
 import com.aau.auris.game.level.Level;
 
@@ -11,17 +12,23 @@ public class Player
 	// unlocks
 	private ArrayList<Achievement> achievements;
 	private ArrayList<Level> levels;
+	private ArrayList<BallSkin> skins;
 
 	private String name;// player name
 	private int achievPoints;// get points for unlocking achievements
 	private int credits;// current credits, used for bills
 	private int maxCredits;// maximal credits the player ever reached
 	private int score;// composed of maxCredits + achievements, etc.
+	private BallSkin currentSkin;
 
+	/*
+	 * default constructor
+	 * needed for Json serialization
+	 */
 	public Player()
 	{}
 
-	public Player(String name, int credits, int maxCredits, int score, ArrayList<Achievement> achievements, ArrayList<Level> levels)
+	public Player(String name, int credits, int maxCredits, int score, ArrayList<Achievement> achievements, ArrayList<Level> levels, ArrayList<BallSkin> skins, BallSkin currentSkin)
 	{
 		this.name = name;
 		this.achievPoints = score - maxCredits;
@@ -30,21 +37,29 @@ public class Player
 		this.score = score;
 		this.achievements = achievements;
 		this.levels = levels;
+		this.skins = skins;
+		this.currentSkin = currentSkin;
 	}
 
 	public static Player generateNewPlayer(String name)
 	{
 		ArrayList<Achievement> achievements = Achievement.getList();
 		ArrayList<Level> levels = Level.getList();
-		Player player = new Player(name, 0, 0, 0, achievements, levels);
+		ArrayList<BallSkin> skins = BallSkin.getList();
+		Player player = new Player(name, 0, 0, 0, achievements, levels, skins, BallSkin.getDefault());
 		player.unlock(achievements.get(0));
 		return player;
 	}
 
-	private void unlock(Unlockable item)
+	public void unlock(Unlockable item)
 	{
 		achievPoints += item.getScore();
 		item.setLocked(false);
+	}
+
+	public void setSkin(BallSkin skin)
+	{
+		this.currentSkin = skin;
 	}
 
 	private void calcScore()
