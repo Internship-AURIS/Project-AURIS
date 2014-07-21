@@ -55,12 +55,6 @@ public class UserData
 	 */
 	public void createPlayer(Player player)
 	{
-		if (containsPlayerName(player.getName()))
-		{
-			System.out.println("...player name already exists!...");
-			return;
-		}
-
 		if (players.size() - 1 <= MAX_PLAYERS)
 		{
 			players.add(player);
@@ -75,7 +69,7 @@ public class UserData
 	public void save()
 	{
 		Json json = new Json();
-		json.setElementType(UserData.class, "players", ArrayList.class);
+//		json.setElementType(UserData.class, "players", ArrayList.class);
 		final String text = json.toJson(this);
 		file.writeString(text, false);
 	}

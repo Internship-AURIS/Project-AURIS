@@ -1,5 +1,7 @@
 package com.aau.auris.game.items;
 
+import java.util.ArrayList;
+
 import com.aau.auris.game.Asset.Asset;
 import com.aau.auris.game.Asset.AssetLoader;
 import com.badlogic.gdx.graphics.g2d.Animation;
@@ -9,10 +11,10 @@ import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
 public class BallSkin implements Asset, Unlockable
 {
 	// Ball Settings
-	private static final transient int BALL_SKIN_1 = 0;
-	private static final transient int BALL_SKIN_2 = 1;
-	private static final transient int BALL_SKIN_3 = 2;
-	private static final transient int BALL_SKIN_4 = 3;
+	public static final transient int BALL_SKIN_1 = 0;
+	public static final transient int BALL_SKIN_2 = 1;
+	public static final transient int BALL_SKIN_3 = 2;
+	public static final transient int BALL_SKIN_4 = 3;
 	private static final transient int BALL_SKIN_1_COST = 0;
 	private static final transient int BALL_SKIN_2_COST = 100;
 	private static final transient int BALL_SKIN_3_COST = 100;
@@ -58,43 +60,19 @@ public class BallSkin implements Asset, Unlockable
 
 	public int getCost()
 	{
-		if (id == BALL_SKIN_1)
-		{
-			return BALL_SKIN_1_COST;
-		}
-		if (id == BALL_SKIN_2)
-		{
-			return BALL_SKIN_2_COST;
-		}
-		if (id == BALL_SKIN_3)
-		{
-			return BALL_SKIN_3_COST;
-		}
-		if (id == BALL_SKIN_4)
-		{
-			return BALL_SKIN_4_COST;
-		}
+		if (id == BALL_SKIN_1) { return BALL_SKIN_1_COST; }
+		if (id == BALL_SKIN_2) { return BALL_SKIN_2_COST; }
+		if (id == BALL_SKIN_3) { return BALL_SKIN_3_COST; }
+		if (id == BALL_SKIN_4) { return BALL_SKIN_4_COST; }
 		return BALL_SKIN_1_COST;
 	}
 
 	public Animation getSkin()
 	{
-		if (id == BALL_SKIN_1)
-		{
-			return ballSkinAnimation_1;
-		}
-		if (id == BALL_SKIN_2)
-		{
-			return ballSkinAnimation_2;
-		}
-		if (id == BALL_SKIN_3)
-		{
-			return ballSkinAnimation_3;
-		}
-		if (id == BALL_SKIN_4)
-		{
-			return ballSkinAnimation_4;
-		}
+		if (id == BALL_SKIN_1) { return ballSkinAnimation_1; }
+		if (id == BALL_SKIN_2) { return ballSkinAnimation_2; }
+		if (id == BALL_SKIN_3) { return ballSkinAnimation_3; }
+		if (id == BALL_SKIN_4) { return ballSkinAnimation_4; }
 		return ballSkinAnimation_1;
 	}
 
@@ -119,6 +97,21 @@ public class BallSkin implements Asset, Unlockable
 	public Drawable getDrawable()
 	{
 		return skin.getDrawable(skin_PreString + id);
+	}
+
+	public static ArrayList<BallSkin> getList()
+	{
+		ArrayList<BallSkin> skins = new ArrayList<BallSkin>();
+		skins.add(getDefault());
+		skins.add(new BallSkin(BALL_SKIN_2, true));
+		skins.add(new BallSkin(BALL_SKIN_3, true));
+		skins.add(new BallSkin(BALL_SKIN_4, true));
+		return skins;
+	}
+
+	public static BallSkin getDefault()
+	{
+		return new BallSkin(BALL_SKIN_1, false);
 	}
 
 }

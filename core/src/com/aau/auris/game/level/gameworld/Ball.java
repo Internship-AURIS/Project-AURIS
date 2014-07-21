@@ -1,4 +1,4 @@
-package com.aau.auris.game.level.entity;
+package com.aau.auris.game.level.gameworld;
 
 import com.aau.auris.game.Asset.Asset;
 import com.aau.auris.game.Asset.AssetLoader;

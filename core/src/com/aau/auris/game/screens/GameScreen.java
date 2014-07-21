@@ -1,18 +1,16 @@
 package com.aau.auris.game.screens;
 
-import java.util.ArrayList;
+import java.awt.image.BufferedImage;
 
 import com.aau.auris.game.AURISGame;
 import com.aau.auris.game.data.Player;
 import com.aau.auris.game.level.Level;
-import com.aau.auris.game.level.entity.Ball;
-import com.aau.auris.game.level.entity.Obstacle;
+import com.aau.auris.game.level.gameworld.Ball;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
 import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
@@ -22,27 +20,19 @@ public class GameScreen extends AbstractScreen
 {
 	// Assets
 
-	// GameLogic Settings
-	private static final Vector2 GRAVITY = new Vector2(0, 0);
-	private static final float BOX_STEP = 1 / 60f;
-	private static final int BOX_VELOCITY_ITERATIONS = 6;
-	private static final int BOX_POSITION_ITERATIONS = 2;
-
-	// GameWorld Settings
+	// GameWorld
 	private World world;
+	private Level level;
+	private Ball ball;
 	private Box2DDebugRenderer debugRenderer;
 	private OrthographicCamera camera;
 	private SpriteBatch spriteBatch;
 
-	private Ball ball;
-	private float runTime;
-	private ArrayList<Obstacle> obstacles;
-
 	// Other Variables
 	private Player player;// Player Stats: score, achievements, etc.
-	private Level level;
+	private float runTime;
 
-	//UIComponents
+	// UIComponents
 	private Label lblLevel;
 	private Label lblPlayerName;
 	private Label lblPlayerScore;
@@ -68,33 +58,7 @@ public class GameScreen extends AbstractScreen
 	@Override
 	protected void initComponents()
 	{
-		player = game.getPlayer();
-		level = game.getLevel();
-		runTime = 0.0f;
-
-		// GameWorld settings
-		this.world = new World(GRAVITY, true);
-
-		camera = new OrthographicCamera();
-		camera.viewportWidth = Gdx.graphics.getWidth();
-		camera.viewportHeight = Gdx.graphics.getHeight();
-		camera.position.set(camera.viewportWidth * .5f, camera.viewportHeight * 0.5f, 0f);
-		camera.update();
-
-		spriteBatch = new SpriteBatch();
-		debugRenderer = new Box2DDebugRenderer();
-
-		// Initialize GameObjects
-		this.obstacles = new ArrayList<Obstacle>();
-		obstacles.add(new Obstacle(world, 50, 50, 10, 100));
-		obstacles.add(new Obstacle(world, 85, 20, 100, 10));
-		obstacles.add(new Obstacle(world, 100, 50, 10, 100));
-		obstacles.add(new Obstacle(world, 85, 150, 100, 10));
-
-		ball = new Ball(world, camera.viewportWidth / 2, camera.viewportHeight / 2);
-
 		// UIComponents
-
 		final int s_width = Gdx.graphics.getWidth();
 		final int s_height = Gdx.graphics.getHeight();
 		final int width = s_width / 8;// component width
@@ -121,6 +85,11 @@ public class GameScreen extends AbstractScreen
 		stage.addActor(lblPlayerName);
 		stage.addActor(lblPlayerCredits);
 		stage.addActor(lblPlayerScore);
+	}
+
+	public void updateGameField(BufferedImage img)
+	{
+		// TODO: implement image processing
 	}
 
 	@Override
@@ -159,6 +128,21 @@ public class GameScreen extends AbstractScreen
 		lblPlayerCredits.setText("Credits: " + player.getCredits());
 	}
 
+	private void updateData()
+	{
+		player = game.getPlayer();
+		runTime = 0.0f;
+
+		// GameWorld
+		this.level = game.lvl1;
+		this.world = level.getWorld();
+		this.level = game.getLevel();
+		this.ball = level.getBall();
+		this.debugRenderer = level.getDebugRenderer();
+		this.camera = level.getCamera();
+		this.spriteBatch = new SpriteBatch();
+	}
+
 	@Override
 	public void render(float delta)
 	{
@@ -171,7 +155,7 @@ public class GameScreen extends AbstractScreen
 		spriteBatch.end();
 
 		//physic updates
-		world.step(BOX_STEP, BOX_VELOCITY_ITERATIONS, BOX_POSITION_ITERATIONS);
+		world.step(Level.BOX_STEP, Level.BOX_VELOCITY_ITERATIONS, Level.BOX_POSITION_ITERATIONS);
 	}
 
 	@Override
@@ -184,6 +168,7 @@ public class GameScreen extends AbstractScreen
 	public void show()
 	{
 		super.show();
+		updateData();
 		updateStatusBar();
 	}
 
