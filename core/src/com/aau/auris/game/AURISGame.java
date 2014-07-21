@@ -61,7 +61,7 @@ public class AURISGame extends Game
 
 		initLevels();
 
-		this.setScreen(menuScreen);
+		this.setScreen(shopScreen);
 
 	}
 

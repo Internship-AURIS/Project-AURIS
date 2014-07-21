@@ -351,12 +351,12 @@ public class LevelScreen extends AbstractScreen
 
 		// Button "SHOP"
 		TextButtonStyle tbStyleShop = new TextButtonStyle();
-		tbStyleShop.up = skin.getDrawable("btnBack");
-		tbStyleShop.down = skin.getDrawable("btnBackSmall");
-		tbStyleShop.over = skin.getDrawable("btnBackOver");
+		tbStyleShop.up = skin.getDrawable("btnShop");
+		tbStyleShop.down = skin.getDrawable("btnShopSmall");
+		tbStyleShop.over = skin.getDrawable("btnShopOver");
 		tbStyleShop.font = bFont;
 		skin.add("btnBack", tbStyleShop);
-		TextButton tbShop = new TextButton("SHOP", tbStyleShop);
+		TextButton tbShop = new TextButton("", tbStyleShop);
 		tbShop.setPosition(tbBack.getX(), tbBack.getY() + tbBack.getWidth() / 2);
 		tbShop.setSize(160, 60);
 		tbShop.addListener(new ClickListener()

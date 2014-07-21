@@ -43,7 +43,7 @@ public class BallSkin implements Asset, Unlockable
 	@Override
 	public void loadAsset()
 	{
-		ballSkinAnimation_1 = AssetLoader.ballskin1_animation;
+		ballSkinAnimation_1 = AssetLoader.ballDefault_animation;
 		ballSkinAnimation_2 = AssetLoader.ballskin2_animation;
 		ballSkinAnimation_3 = AssetLoader.ballskin3_animation;
 		ballSkinAnimation_4 = AssetLoader.ballskin4_animation;

@@ -11,13 +11,17 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 public class AssetLoader
 {
 	// SpriteSheet Properties
-	public static final int COLS = 7;
-	public static final int ROWS = 4;
+	public static final int FLY_COLS = 7;
+	public static final int FLY_ROWS = 4;
+	public static final int BALL_COLS=6;
+	public static final int BALL_ROWS=6;
 
 	// Textures
 	public static Texture spritesheet;
+	public static Texture defaultBall;
 	public static Texture menu_background;
 	public static TextureRegion[][] tmp;
+	public static TextureRegion[][] tmp2;
 	public static TextureAtlas menu_buttons;
 	public static TextureAtlas levelButtons;
 	public static Texture menu_background_blank;
@@ -29,7 +33,7 @@ public class AssetLoader
 	public static Animation parachuteBallAnimation1;
 	public static Animation parachuteBallAnimation2;
 	public static Animation parachuteBallAnimation3;
-	public static Animation ballskin1_animation;
+	public static Animation ballDefault_animation;
 	public static Animation ballskin2_animation;
 	public static Animation ballskin3_animation;
 	public static Animation ballskin4_animation;
@@ -52,11 +56,13 @@ public class AssetLoader
 	public static void load()
 	{
 		// Textures
+		defaultBall=new Texture(Gdx.files.internal("SpriteSheetv2.png"));
 		spritesheet = new Texture(Gdx.files.internal("spriteFly2.png"));
 		menu_background = new Texture(Gdx.files.internal("menu_background.png"));
 		menu_background_blank = new Texture(Gdx.files.internal("backBlank2.png"));
 		menu_background_blank2 = new Texture(Gdx.files.internal("backLevels.png"));
-		tmp = TextureRegion.split(spritesheet, spritesheet.getWidth() / COLS, spritesheet.getHeight() / ROWS);
+		tmp = TextureRegion.split(spritesheet, spritesheet.getWidth() / FLY_COLS, spritesheet.getHeight() / FLY_ROWS);
+		tmp2 = TextureRegion.split(defaultBall, defaultBall.getWidth() / BALL_COLS, defaultBall.getHeight() / BALL_ROWS);
 		menu_buttons = new TextureAtlas(Gdx.files.internal("menuButtons.atlas"));
 
 		levelButtons=new TextureAtlas(Gdx.files.internal("levelButtons.atlas"));
@@ -66,14 +72,19 @@ public class AssetLoader
 
 
 		// Animations
-		TextureRegion[] parachuteFrames1 = new TextureRegion[COLS];
-		TextureRegion[] parachuteFrames2 = new TextureRegion[COLS];
-		TextureRegion[] parachuteFrames3 = new TextureRegion[COLS];
-		for (int i = 0; i < COLS; i++)
+		TextureRegion[] parachuteFrames1 = new TextureRegion[FLY_COLS];
+		TextureRegion[] parachuteFrames2 = new TextureRegion[FLY_COLS];
+		TextureRegion[] parachuteFrames3 = new TextureRegion[FLY_COLS];
+		TextureRegion[] ballBoredFrames = new TextureRegion[BALL_COLS];
+		for (int i = 0; i < FLY_COLS; i++)
 		{
 			parachuteFrames1[i] = tmp[0][i];
 			parachuteFrames2[i] = tmp[1][i];
 			parachuteFrames3[i] = tmp[2][i];
+		}
+		for (int i = 0; i < BALL_COLS; i++)
+		{
+			ballBoredFrames[i]=tmp2[1][i];
 		}
 		parachuteBallAnimation1 = new Animation(0.08f, parachuteFrames1);
 		parachuteBallAnimation1.setPlayMode(Animation.PlayMode.LOOP_PINGPONG);
@@ -81,8 +92,8 @@ public class AssetLoader
 		parachuteBallAnimation2.setPlayMode(Animation.PlayMode.LOOP_PINGPONG);
 		parachuteBallAnimation3 = new Animation(0.08f, parachuteFrames3);
 		parachuteBallAnimation3.setPlayMode(Animation.PlayMode.LOOP_PINGPONG);
-		ballskin1_animation = new Animation(0.08f, parachuteFrames1);
-		ballskin1_animation.setPlayMode(Animation.PlayMode.LOOP_PINGPONG);
+		ballDefault_animation = new Animation(0.08f, ballBoredFrames);
+		ballDefault_animation.setPlayMode(Animation.PlayMode.LOOP_PINGPONG);
 		ballskin2_animation = new Animation(0.08f, parachuteFrames2);
 		ballskin2_animation.setPlayMode(Animation.PlayMode.LOOP_PINGPONG);
 		ballskin3_animation = new Animation(0.08f, parachuteFrames3);
