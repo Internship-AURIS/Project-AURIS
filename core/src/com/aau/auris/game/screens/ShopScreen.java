@@ -78,6 +78,7 @@ public class ShopScreen extends AbstractScreen
 	protected void initComponents()
 	{
 		player = game.getPlayer();
+		ballSkin=new BallSkin();
 		skin = new Skin(levelButtons);
 		skin.add("default", bFont);
 		TextureRegion backTextRegion = new TextureRegion(background, 848, 480);
@@ -105,7 +106,14 @@ public class ShopScreen extends AbstractScreen
 			{
 				super.touchUp(event, x, y, pointer, button);
 				clickSound.play();
-				System.out.println("Shop-->purchase: " + event.getButton());
+//				System.out.println("Shop-->purchase: " + event.getButton());
+				if(player.getCredits()>=20){
+				player.setSkin(BallSkin.BALL_SKIN_ID_2);
+				player.setCredits(player.getCredits()-20);
+				}else
+				{
+					System.out.println("Not enough credits!");
+				}
 			}
 		});
 		shopItem1.addListener(new InputListener()
@@ -135,6 +143,7 @@ public class ShopScreen extends AbstractScreen
 				super.touchUp(event, x, y, pointer, button);
 				clickSound.play();
 				System.out.println("Shop-->purchase: " + event.getButton());
+				player.setSkin(BallSkin.BALL_SKIN_ID_3);
 			}
 		});
 		shopItem2.addListener(new InputListener()
@@ -163,7 +172,8 @@ public class ShopScreen extends AbstractScreen
 			{
 				super.touchUp(event, x, y, pointer, button);
 				clickSound.play();
-				System.out.println("Shop-->purchase: " + event.getButton());
+//				System.out.println("Shop-->purchase: " + event.getButton());
+//				player.setSkin(BallSkin.BALL_SKIN_ID_3);
 			}
 		});
 		shopItem3.addListener(new InputListener()
@@ -224,6 +234,10 @@ public class ShopScreen extends AbstractScreen
 			{
 				super.touchUp(event, x, y, pointer, button);
 				clickSound.play();
+				
+				player.setSkin(BallSkin.BALL_SKIN_ID_1);
+				
+				
 			}
 		});
 
@@ -272,13 +286,15 @@ public class ShopScreen extends AbstractScreen
 	public void render(float delta)
 	{
 		super.render(delta);
-
+//		System.out.println(player.getSkinID());
 		runTime += delta;
-
-		currentFrame = boringMoves.getKeyFrame(runTime, true);
+		ballSkin.setId(player.getSkinID());
+		if(player != null){
+		currentFrame =  ballSkin.getSkin().getKeyFrame(runTime, true);
 		batch.begin();
 		batch.draw(currentFrame, game.getWidth() / 2 - game.getWidth() / 5.3f - 25, game.getHeight() / 2 - game.getHeight() / 6.3f, 100, 100);
 		batch.end();
+		}
 
 	}
 
