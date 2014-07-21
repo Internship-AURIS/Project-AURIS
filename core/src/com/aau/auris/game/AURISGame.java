@@ -12,6 +12,7 @@ import com.aau.auris.game.screens.LevelScreen;
 import com.aau.auris.game.screens.LoginScreen;
 import com.aau.auris.game.screens.MenuScreen;
 import com.aau.auris.game.screens.ShopScreen;
+import com.aau.auris.game.webcam.WebcamHandler;
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
@@ -38,6 +39,9 @@ public class AURISGame extends Game
 	// Levels
 	public Level lvl1, lvl2, lvl3;
 
+	// WebcamHandler
+	private WebcamHandler webcamHandler;
+
 	// Data
 	private UserData userdata;
 
@@ -61,6 +65,9 @@ public class AURISGame extends Game
 
 		initLevels();
 
+		webcamHandler = new WebcamHandler(this);
+		webcamHandler.setUpdate(false);
+
 		this.setScreen(menuScreen);
 	}
 
@@ -68,6 +75,14 @@ public class AURISGame extends Game
 	public void render()
 	{
 		super.render();
+	}
+
+	public void update()
+	{
+		if (getScreen() instanceof GameScreen)
+		{
+			System.out.println("gamescreen");
+		}
 	}
 
 	public void initLevels()
@@ -124,6 +139,7 @@ public class AURISGame extends Game
 		} else if (screenIndex == GAME_SCREEN)
 		{
 			newScreen = gameScreen;
+			webcamHandler.setUpdate(true); // WebcamHandler triggers imageOptained events and calls game.update()
 		}
 		if (newScreen != null)
 		{
@@ -147,8 +163,8 @@ public class AURISGame extends Game
 	@Override
 	public void dispose()
 	{
-		userdata.save();
 		super.dispose();
+		userdata.save();
 		AssetLoader.dispose();
 	}
 

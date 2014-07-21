@@ -1,5 +1,6 @@
 package com.aau.auris.game.screens;
 
+import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 
 import com.aau.auris.game.AURISGame;
@@ -42,7 +43,7 @@ public class GameScreen extends AbstractScreen
 	private Player player;// Player Stats: score, achievements, etc.
 	private Level level;
 
-	//UIComponents
+	// UIComponents
 	private Label lblLevel;
 	private Label lblPlayerName;
 	private Label lblPlayerScore;
@@ -121,6 +122,11 @@ public class GameScreen extends AbstractScreen
 		stage.addActor(lblPlayerName);
 		stage.addActor(lblPlayerCredits);
 		stage.addActor(lblPlayerScore);
+	}
+
+	public void updateGameField(BufferedImage img)
+	{
+		
 	}
 
 	@Override
