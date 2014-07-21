@@ -147,7 +147,7 @@ public class Level implements Asset
 		return goal;
 	}
 
-	public int getCosts()
+	public int getCreditValue()
 	{
 		if (id - 1 >= 0 && id - 1 < costs.length) { return costs[id - 1]; }
 		return 0;
@@ -156,7 +156,7 @@ public class Level implements Asset
 	public void finished()
 	{
 		Player player = game.getPlayer();
-		player.setScore(player.getScore() + getCosts());
+		player.addCredits(getCreditValue());
 
 		ArrayList<Level> levels = AURISGame.levels;
 		for (int i = 0; i < levels.size(); i++)

@@ -84,6 +84,15 @@ public class Player
 		return credits;
 	}
 
+	public void addCredits(int amount)
+	{
+		this.credits += amount;
+		if (credits > maxCredits)
+		{
+			maxCredits = credits;
+		}
+	}
+
 	public void setCredits(int credits)
 	{
 		this.credits = credits;
@@ -104,11 +113,9 @@ public class Player
 		return score;
 	}
 
-	public void setScore(int score)
+	public void addPoints(int amount)
 	{
-		achievPoints = 0;// TODO: debugging
-		maxCredits = score;
-		this.score = score;
+		this.score += score;
 	}
 
 	public void setMaxScore(int mScore)
