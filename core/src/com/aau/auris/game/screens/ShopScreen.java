@@ -268,6 +268,21 @@ public class ShopScreen extends AbstractScreen
 		//		 shopItem3Style.imageUp = skin.getDrawable("");
 	}
 
+	private void purchaseItem(int id)
+	{
+		if (!player.hasSkinUnlocked(id))
+		{
+			if (player.unlockBallSkin(id))
+			{
+				player.setSkin(id);
+			} else
+			{
+				System.out.println("...not enough credits!...");
+			}
+			updateShopItemButtons();
+		}
+	}
+
 	@Override
 	public void render(float delta)
 	{

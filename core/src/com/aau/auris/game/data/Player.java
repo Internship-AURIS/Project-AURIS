@@ -131,6 +131,15 @@ public class Player
 		return false;
 	}
 
+	public boolean hasSkinUnlocked(int id)
+	{
+		for (int i : skinUnlocks)
+		{
+			if (i == id) { return true; }
+		}
+		return false;
+	}
+
 	public void unlockAchievement(int id)
 	{
 		achievementUnlocks.add(id);

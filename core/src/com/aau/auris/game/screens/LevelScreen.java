@@ -483,9 +483,9 @@ public class LevelScreen extends AbstractScreen
 		// TODO: implement loading of unlocked things from player
 
 		// Implementation of displaying locked/unlocked achievements
-		//		itbAchiev1Style.imageUp = player.getAchievements().get(0).getDrawable();
-		//		itbAchiev2Style.imageUp = player.getAchievements().get(1).getDrawable();
-		//		itbAchiev3Style.imageUp = player.getAchievements().get(2).getDrawable();
+		//				itbAchiev1Style.imageUp = player.getAchievements().get(0).getDrawable();
+		//				itbAchiev2Style.imageUp = player.getAchievements().get(1).getDrawable();
+		//				itbAchiev3Style.imageUp = player.getAchievements().get(2).getDrawable();
 		//		tbDiff1Lvl1Style.up = player.getLevels().get(0).getDrawable();
 	}
 
