@@ -6,6 +6,7 @@ import com.aau.auris.game.AURISGame;
 import com.github.sarxos.webcam.Webcam;
 import com.github.sarxos.webcam.WebcamEvent;
 import com.github.sarxos.webcam.WebcamListener;
+import com.github.sarxos.webcam.WebcamResolution;
 
 public class WebcamHandler implements WebcamListener
 {
@@ -20,13 +21,18 @@ public class WebcamHandler implements WebcamListener
 		this.game = game;
 		this.webcam = Webcam.getDefault();
 		webcam.addWebcamListener(this);
+		webcam.setViewSize(WebcamResolution.QVGA.getSize());
 		start();
+		System.out.println("init");//TODO: debugging
 	}
 
 	@Override
 	public void webcamClosed(WebcamEvent e)
 	{
-		webcam.close();
+		if (webcam != null)
+		{
+			webcam.close();
+		}
 	}
 
 	@Override
@@ -36,6 +42,7 @@ public class WebcamHandler implements WebcamListener
 	@Override
 	public void webcamImageObtained(WebcamEvent e)
 	{
+		System.out.println("image obtained");
 		inputImage = e.getImage();
 		if (shouldUpdate)
 		{

@@ -47,18 +47,21 @@ public class AURISGame extends Game
 
 	// WebcamHandler
 	private WebcamHandler webcamHandler;
+	private boolean updateImage = true;
 
 	// Data
 	private Preferences preferences;
 	private UserData userdata;
 
-	//
+	// Other
 	private Player player = null;
 	private Level level = null;
 
 	@Override
 	public void create()
 	{
+		webcamHandler = new WebcamHandler(this);
+
 		AssetLoader.load();
 		preferences = new Preferences();
 		//		preferences.save();
@@ -77,8 +80,6 @@ public class AURISGame extends Game
 		initLevels();
 		initBallSkins();
 
-		webcamHandler = new WebcamHandler(this);
-		webcamHandler.setUpdate(true);
 		this.setScreen(menuScreen);
 	}
 
@@ -90,7 +91,7 @@ public class AURISGame extends Game
 
 	public void update()
 	{
-		if (getScreen() instanceof GameScreen)
+		if (updateImage)
 		{
 			gameScreen.updateGameField(webcamHandler.getInputImage());
 			// TODO: implement image processing
@@ -162,6 +163,7 @@ public class AURISGame extends Game
 
 	public void changeScreen(int screenIndex, Screen screen)
 	{
+		updateImage = false;
 		screen.hide();
 		Screen newScreen = null;
 		if (screenIndex == MENU_SCREEN)
@@ -186,6 +188,7 @@ public class AURISGame extends Game
 		if (newScreen != null)
 		{
 			this.setScreen(newScreen);
+			updateImage = true;
 		} else
 		{
 			System.out.println("...failed to switch screens!...");// TODO: debugging
