@@ -40,7 +40,6 @@ public class WebcamHandler implements WebcamListener
 	@Override
 	public void webcamImageObtained(WebcamEvent e)
 	{
-		System.out.println("image obtained");//TODO: debugging
 		game.update(e.getImage());
 	}
 

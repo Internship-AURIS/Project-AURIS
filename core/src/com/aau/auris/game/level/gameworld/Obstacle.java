@@ -8,6 +8,7 @@ import com.badlogic.gdx.physics.box2d.World;
 
 public class Obstacle extends Entity
 {
+
 	public Obstacle(World world, float posX, float posY, float width, float height)
 	{
 		bodyDef = new BodyDef();
@@ -24,4 +25,5 @@ public class Obstacle extends Entity
 
 		polygonShape.dispose();
 	}
+
 }
