@@ -161,11 +161,12 @@ public class Level implements Asset
 		ArrayList<Level> levels = AURISGame.levels;
 		for (int i = 0; i < levels.size(); i++)
 		{
-			if (levels.get(i).getID() == id && i + 1 < levels.size())
+			Level nextLevel = AURISGame.getLevel(this.id + 1);
+			if (nextLevel != null)
 			{
-				player.addLevelID(levels.get(i + 1).getID());
+				player.addLevelID(nextLevel.getID());
+				player.checkAchievements();
 			}
 		}
 	}
-
 }

@@ -60,7 +60,7 @@ public class AURISGame extends Game
 	{
 		AssetLoader.load();
 		preferences = new Preferences();
-//		preferences.save();
+		//		preferences.save();
 		preferences.load();
 		userdata = new UserData();
 		userdata.load();
@@ -145,6 +145,7 @@ public class AURISGame extends Game
 	public void setPlayer(Player player)
 	{
 		this.player = player;
+		player.checkAchievements();
 	}
 
 	public Level getLevel()
