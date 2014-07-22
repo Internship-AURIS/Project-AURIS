@@ -26,8 +26,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton.TextButtonStyle;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 
-public class ShopScreen extends AbstractScreen
-{
+public class ShopScreen extends AbstractScreen {
 	// Asset
 	private TextureAtlas levelButtons;
 	private Sound clickSound;
@@ -50,14 +49,12 @@ public class ShopScreen extends AbstractScreen
 	private Random r;
 	private BallSkin ballSkin;
 
-	public ShopScreen(AURISGame game)
-	{
+	public ShopScreen(AURISGame game) {
 		super(game);
 	}
 
 	@Override
-	public void loadAsset()
-	{
+	public void loadAsset() {
 		super.loadAsset();
 		levelButtons = AssetLoader.levelButtons;
 		clickSound = AssetLoader.clickSound;
@@ -69,15 +66,14 @@ public class ShopScreen extends AbstractScreen
 	}
 
 	@Override
-	public void disposeAsset()
-	{
+	public void disposeAsset() {
 		super.disposeAsset();
 	}
 
 	@Override
-	protected void initComponents()
-	{
+	protected void initComponents() {
 		player = game.getPlayer();
+		ballSkin = new BallSkin();
 		skin = new Skin(levelButtons);
 		skin.add("default", bFont);
 		TextureRegion backTextRegion = new TextureRegion(background, 848, 480);
@@ -86,34 +82,34 @@ public class ShopScreen extends AbstractScreen
 
 		// ShopItems
 		Pixmap pixmap = new Pixmap(800, 800, Format.RGBA8888);
-		//		pixmap.setColor(Color.BLUE);
+		// pixmap.setColor(Color.BLUE);
 		pixmap.fill();
 		skin.add("white", new Texture(pixmap));
 		shopItem1Style = new TextButtonStyle();
 		shopItem1Style.font = bFont;
 		shopItem1Style.fontColor = Color.WHITE;
 		shopItem1Style.up = skin.newDrawable("white");
+		shopItem1Style.over=skin.getDrawable("hoverGrey");
 		skin.add("shopItem1", shopItem1Style);
 		TextButton shopItem1 = new TextButton("", shopItem1Style);
 		shopItem1.setSize(game.getWidth() / 3, game.getHeight() / 2.75f);
 		shopItem1.setPosition(0, game.getHeight() - shopItem1.getTop());
-		//		shopItem1.add(shopItem1.getLabel());
-		shopItem1.addListener(new ClickListener()
-		{
+		// shopItem1.add(shopItem1.getLabel());
+		shopItem1.addListener(new ClickListener() {
 			@Override
-			public void touchUp(InputEvent event, float x, float y, int pointer, int button)
-			{
+			public void touchUp(InputEvent event, float x, float y,
+					int pointer, int button) {
 				super.touchUp(event, x, y, pointer, button);
 				clickSound.play();
-				System.out.println("Shop-->purchase: " + event.getButton());
+				// System.out.println("Shop-->purchase: " + event.getButton());
+				purchaseItem(BallSkin.BALL_SKIN_ID_2);
 			}
 		});
-		shopItem1.addListener(new InputListener()
-		{
+		shopItem1.addListener(new InputListener() {
 
 			@Override
-			public void enter(InputEvent event, float x, float y, int pointer, Actor fromActor)
-			{
+			public void enter(InputEvent event, float x, float y, int pointer,
+					Actor fromActor) {
 				super.enter(event, x, y, pointer, fromActor);
 				hoverSound.play();
 			}
@@ -122,27 +118,27 @@ public class ShopScreen extends AbstractScreen
 		shopItem2Style = new TextButtonStyle();
 		shopItem2Style.font = bFont;
 		shopItem2Style.fontColor = Color.WHITE;
+		shopItem2Style.over=skin.getDrawable("hoverGrey");
 		shopItem2Style.up = skin.newDrawable("white");
 		skin.add("shopItem2", shopItem2Style);
 		TextButton shopItem2 = new TextButton("", shopItem2Style);
 		shopItem2.setSize(shopItem1.getWidth() + 19, shopItem1.getHeight());
-		shopItem2.setPosition(shopItem1.getX() + (shopItem1.getWidth() + 2), shopItem1.getY());
-		shopItem2.addListener(new ClickListener()
-		{
+		shopItem2.setPosition(shopItem1.getX() + (shopItem1.getWidth() + 2),
+				shopItem1.getY());
+		shopItem2.addListener(new ClickListener() {
 			@Override
-			public void touchUp(InputEvent event, float x, float y, int pointer, int button)
-			{
+			public void touchUp(InputEvent event, float x, float y,
+					int pointer, int button) {
 				super.touchUp(event, x, y, pointer, button);
 				clickSound.play();
-				System.out.println("Shop-->purchase: " + event.getButton());
+				purchaseItem(BallSkin.BALL_SKIN_ID_3);
 			}
 		});
-		shopItem2.addListener(new InputListener()
-		{
+		shopItem2.addListener(new InputListener() {
 
 			@Override
-			public void enter(InputEvent event, float x, float y, int pointer, Actor fromActor)
-			{
+			public void enter(InputEvent event, float x, float y, int pointer,
+					Actor fromActor) {
 				super.enter(event, x, y, pointer, fromActor);
 				hoverSound.play();
 			}
@@ -151,27 +147,27 @@ public class ShopScreen extends AbstractScreen
 		shopItem3Style = new TextButtonStyle();
 		shopItem3Style.font = bFont;
 		shopItem3Style.fontColor = Color.WHITE;
+		shopItem3Style.over=skin.getDrawable("hoverGrey");
 		shopItem3Style.up = skin.newDrawable("white");
 		skin.add("shopItem3", shopItem3Style);
 		TextButton shopItem3 = new TextButton("", shopItem3Style);
 		shopItem3.setSize(shopItem1.getWidth() - 15, shopItem1.getHeight());
-		shopItem3.setPosition(shopItem1.getX() + 23 + shopItem1.getWidth() * 2, shopItem1.getY());
-		shopItem3.addListener(new ClickListener()
-		{
+		shopItem3.setPosition(shopItem1.getX() + 23 + shopItem1.getWidth() * 2,
+				shopItem1.getY());
+		shopItem3.addListener(new ClickListener() {
 			@Override
-			public void touchUp(InputEvent event, float x, float y, int pointer, int button)
-			{
+			public void touchUp(InputEvent event, float x, float y,
+					int pointer, int button) {
 				super.touchUp(event, x, y, pointer, button);
 				clickSound.play();
-				System.out.println("Shop-->purchase: " + event.getButton());
+				purchaseItem(BallSkin.BALL_SKIN_ID_4);
 			}
 		});
-		shopItem3.addListener(new InputListener()
-		{
+		shopItem3.addListener(new InputListener() {
 
 			@Override
-			public void enter(InputEvent event, float x, float y, int pointer, Actor fromActor)
-			{
+			public void enter(InputEvent event, float x, float y, int pointer,
+					Actor fromActor) {
 				super.enter(event, x, y, pointer, fromActor);
 				hoverSound.play();
 			}
@@ -185,23 +181,22 @@ public class ShopScreen extends AbstractScreen
 		tbStyleBack.font = bFont;
 		skin.add("btnBack", tbStyleBack);
 		TextButton tbBack = new TextButton("", tbStyleBack);
-		tbBack.setPosition(game.getWidth() / 2 - game.getWidth() / 3 * 1.445f, game.getHeight() / 4.7f);
+		tbBack.setPosition(game.getWidth() / 2 - game.getWidth() / 3 * 1.445f,
+				game.getHeight() / 4.7f);
 		tbBack.setSize(110, 45);
-		tbBack.addListener(new ClickListener()
-		{
+		tbBack.addListener(new ClickListener() {
 			@Override
-			public void touchUp(InputEvent event, float x, float y, int pointer, int button)
-			{
+			public void touchUp(InputEvent event, float x, float y,
+					int pointer, int button) {
 				super.touchUp(event, x, y, pointer, button);
 				clickSound.play();
 				game.changeScreen(AURISGame.LEVEL_SCREEN, ShopScreen.this);
 			}
 		});
-		tbBack.addListener(new InputListener()
-		{
+		tbBack.addListener(new InputListener() {
 			@Override
-			public void enter(InputEvent event, float x, float y, int pointer, Actor fromActor)
-			{
+			public void enter(InputEvent event, float x, float y, int pointer,
+					Actor fromActor) {
 				super.enter(event, x, y, pointer, fromActor);
 				hoverSound.play();
 			}
@@ -215,15 +210,18 @@ public class ShopScreen extends AbstractScreen
 		tbStyleBtnDefault.font = bFont;
 		skin.add("btnDefault", tbStyleBack);
 		TextButton btnDefault = new TextButton("", tbStyleBtnDefault);
-		btnDefault.setPosition(game.getWidth() / 2 - game.getWidth() / 4.88f, game.getHeight() / 2 - game.getHeight() / 3.5f);
+		btnDefault.setPosition(game.getWidth() / 2 - game.getWidth() / 4.88f,
+				game.getHeight() / 2 - game.getHeight() / 3.5f);
 		btnDefault.setSize(80, 30);
-		btnDefault.addListener(new ClickListener()
-		{
+		btnDefault.addListener(new ClickListener() {
 			@Override
-			public void touchUp(InputEvent event, float x, float y, int pointer, int button)
-			{
+			public void touchUp(InputEvent event, float x, float y,
+					int pointer, int button) {
 				super.touchUp(event, x, y, pointer, button);
 				clickSound.play();
+
+				player.setSkin(BallSkin.BALL_SKIN_ID_1);
+
 			}
 		});
 
@@ -231,7 +229,8 @@ public class ShopScreen extends AbstractScreen
 		lblPlayerStyle.font = bFont;
 		playerLbl = new Label("Player: --------", lblPlayerStyle);
 		playerLbl.setSize(LABEL_WIDTH, LABEL_HEIGHT);
-		playerLbl.setPosition(game.getWidth() - game.getWidth() / 4.2f, game.getHeight() / 2 - game.getHeight() / 50);
+		playerLbl.setPosition(game.getWidth() - game.getWidth() / 4.2f,
+				game.getHeight() / 2 - game.getHeight() / 50);
 
 		creditsLbl = new Label("Credits: ---", lblPlayerStyle);
 		creditsLbl.setSize(LABEL_WIDTH, LABEL_HEIGHT);
@@ -249,23 +248,21 @@ public class ShopScreen extends AbstractScreen
 	}
 
 	@Override
-	protected void handleInput()
-	{
-		//		if (Gdx.input.isKeyPressed(Keys.DEL))
-		//		{
-		//			game.changeScreen(AURISGame.LEVEL_SCREEN, ShopScreen.this);
-		//		}
+	protected void handleInput() {
+		// if (Gdx.input.isKeyPressed(Keys.DEL))
+		// {
+		// game.changeScreen(AURISGame.LEVEL_SCREEN, ShopScreen.this);
+		// }
 	}
 
-	private void updateShopItemButtons()
-	{
+	private void updateShopItemButtons() {
 
 		player = game.getPlayer();
 		playerLbl.setText("Player: " + player.getName());
 		creditsLbl.setText("Credits: " + player.getCredits());
-		//		 shopItem1Style.imageUp = skin.getDrawable("");
-		//		 shopItem2Style.imageUp = skin.getDrawable("");
-		//		 shopItem3Style.imageUp = skin.getDrawable("");
+		// shopItem1Style.imageUp = skin.getDrawable("");
+		// shopItem2Style.imageUp = skin.getDrawable("");
+		// shopItem3Style.imageUp = skin.getDrawable("");
 	}
 
 	private void purchaseItem(int id)
@@ -279,58 +276,59 @@ public class ShopScreen extends AbstractScreen
 			{
 				System.out.println("...not enough credits!...");
 			}
-			updateShopItemButtons();
+			
+		}else
+		{
+			player.setSkin(id);
 		}
+		updateShopItemButtons();
 	}
 
 	@Override
-	public void render(float delta)
-	{
+	public void render(float delta) {
 		super.render(delta);
-
+		// System.out.println(player.getSkinID());
 		runTime += delta;
-
-		currentFrame = boringMoves.getKeyFrame(runTime, true);
-		batch.begin();
-		batch.draw(currentFrame, game.getWidth() / 2 - game.getWidth() / 5.3f - 25, game.getHeight() / 2 - game.getHeight() / 6.3f, 100, 100);
-		batch.end();
+		ballSkin.setId(player.getSkinID());
+		if (player != null) {
+			currentFrame = ballSkin.getSkin().getKeyFrame(runTime, true);
+			batch.begin();
+			batch.draw(currentFrame, game.getWidth() / 2 - game.getWidth()
+					/ 5.3f - 25,
+					game.getHeight() / 2 - game.getHeight() / 6.3f, 100, 100);
+			batch.end();
+		}
 
 	}
 
 	@Override
-	public void resize(int width, int height)
-	{
+	public void resize(int width, int height) {
 		super.resize(width, height);
 	}
 
 	@Override
-	public void show()
-	{
+	public void show() {
 		super.show();
 		updateShopItemButtons();
 	}
 
 	@Override
-	public void hide()
-	{
+	public void hide() {
 		super.hide();
 	}
 
 	@Override
-	public void pause()
-	{
+	public void pause() {
 		super.pause();
 	}
 
 	@Override
-	public void resume()
-	{
+	public void resume() {
 		super.resume();
 	}
 
 	@Override
-	public void dispose()
-	{
+	public void dispose() {
 		super.dispose();
 	}
 }
