@@ -92,15 +92,15 @@ public class AURISGame extends Game
 		this.setScreen(menuScreen);
 
 		// TODO: test
-		try
-		{//TODO: debugging
-			imgTest = ImageIO.read(testFile);
-		} catch (IOException e)
-		{
-			e.printStackTrace();
-		}
+//		try
+//		{//TODO: debugging
+////			imgTest = ImageIO.read(testFile);
+//		} catch (IOException e)
+//		{
+//			e.printStackTrace();
+//		}
 
-		update(imgTest);// TODO: debugging
+//		update(imgTest);// TODO: debugging
 	}
 
 	@Override

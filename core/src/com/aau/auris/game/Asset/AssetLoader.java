@@ -13,8 +13,8 @@ public class AssetLoader
 	// SpriteSheet Properties
 	public static final int FLY_COLS = 7;
 	public static final int FLY_ROWS = 4;
-	public static final int BALL_COLS=6;
-	public static final int BALL_ROWS=6;
+	public static final int BALL_COLS = 6;
+	public static final int BALL_ROWS = 6;
 
 	// Textures
 	public static Texture spritesheet;
@@ -35,24 +35,26 @@ public class AssetLoader
 	public static Texture background_Credits;
 	public static Texture background_Shop;
 	public static Texture levelBalken;
-	
+
 	// Animations
 	public static Animation parachuteBallAnimation1;
 	public static Animation parachuteBallAnimation2;
 	public static Animation parachuteBallAnimation3;
-	public static Animation ballDefault_animation;
+
+	public static Animation ballskinDefault_animation;
 	public static Animation ballskinGreen_animation;
 	public static Animation ballskinYellow_animation;
 	public static Animation ballskinRed_animation;
+
 	public static Animation defaultPopAnimation;
 	public static Animation yellowPopAnimation;
 	public static Animation greenPopAnimation;
 	public static Animation redPopAnimation;
-	public static Animation redFlyAnimation;
-	public static Animation greenFlyAnimation;
-	public static Animation yellowFlyAnimation;
+
 	public static Animation defaultFlyAnimation;
-	public static Animation ballskin4_animation;
+	public static Animation yellowFlyAnimation;
+	public static Animation greenFlyAnimation;
+	public static Animation redFlyAnimation;
 
 	// Sounds
 	public static Sound hoverSound1;
@@ -73,11 +75,11 @@ public class AssetLoader
 	public static void load()
 	{
 		// Textures
-		defaultBall=new Texture(Gdx.files.internal("boredskins.png"));
+		defaultBall = new Texture(Gdx.files.internal("boredskins.png"));
 		spritesheet = new Texture(Gdx.files.internal("spriteFly2.png"));
-		greenBall=new Texture(Gdx.files.internal("greenBored.png"));
-		yellowBall=new Texture(Gdx.files.internal("yellowBored.png"));
-		redBall=new Texture(Gdx.files.internal("redBored.png"));
+		greenBall = new Texture(Gdx.files.internal("greenBored.png"));
+		yellowBall = new Texture(Gdx.files.internal("yellowBored.png"));
+		redBall = new Texture(Gdx.files.internal("redBored.png"));
 		menu_background = new Texture(Gdx.files.internal("menu_background.png"));
 		menu_background_blank = new Texture(Gdx.files.internal("backBlank2.png"));
 		menu_background_blank2 = new Texture(Gdx.files.internal("backLevels.png"));
@@ -87,12 +89,11 @@ public class AssetLoader
 		tmpYellow = TextureRegion.split(yellowBall, yellowBall.getWidth() / FLY_COLS, yellowBall.getHeight() / FLY_ROWS);
 		tmpRed = TextureRegion.split(redBall, redBall.getWidth() / FLY_COLS, redBall.getHeight() / FLY_ROWS);
 		menu_buttons = new TextureAtlas(Gdx.files.internal("menuButtons.atlas"));
-		levelButtons=new TextureAtlas(Gdx.files.internal("levelButtons.atlas"));
-		background_Credits=new Texture(Gdx.files.internal("backCredits.png"));
-		background_Shop= new Texture(Gdx.files.internal("backShop.png"));
+		levelButtons = new TextureAtlas(Gdx.files.internal("levelButtons.atlas"));
 		background_Credits = new Texture(Gdx.files.internal("backCredits.png"));
-		levelBalken=new Texture(Gdx.files.internal("balken.png"));
-
+		background_Shop = new Texture(Gdx.files.internal("backShop.png"));
+		background_Credits = new Texture(Gdx.files.internal("backCredits.png"));
+		levelBalken = new Texture(Gdx.files.internal("balken.png"));
 
 		// Animations
 		TextureRegion[] parachuteFrames1 = new TextureRegion[FLY_COLS];
@@ -110,58 +111,60 @@ public class AssetLoader
 		TextureRegion[] yellowFlyFrames = new TextureRegion[FLY_COLS];
 		TextureRegion[] greenFlyFrames = new TextureRegion[FLY_COLS];
 		TextureRegion[] defaultFlyFrames = new TextureRegion[FLY_COLS];
-		
+
 		for (int i = 0; i < FLY_COLS; i++)
 		{
 			parachuteFrames1[i] = tmp[0][i];
 			parachuteFrames2[i] = tmp[1][i];
 			parachuteFrames3[i] = tmp[2][i];
-			ballBoredFrames[i]=tmpDefault[0][i];
-			greenballBoredFrames[i]= tmpGreen[0][i];
-			yellowballBoredFrames[i]= tmpYellow[0][i];
-			redballBoredFrames[i]= tmpRed[0][i];
-			defaultPopFrames[i]=tmpDefault[2][i];
-			yellowPopFrames[i]=tmpYellow[2][i];
-			greenPopFrames[i]=tmpGreen[2][i];
-			redPopFrames[i]=tmpRed[2][i];
-			redFlyFrames[i]=tmpRed[1][i];
-			yellowFlyFrames[i]=tmpYellow[1][i];
-			greenFlyFrames[i]=tmpGreen[1][i];
-			defaultFlyFrames[i]=tmpDefault[1][i];
+			ballBoredFrames[i] = tmpDefault[0][i];
+			greenballBoredFrames[i] = tmpGreen[0][i];
+			yellowballBoredFrames[i] = tmpYellow[0][i];
+			redballBoredFrames[i] = tmpRed[0][i];
+			defaultPopFrames[i] = tmpDefault[2][i];
+			yellowPopFrames[i] = tmpYellow[2][i];
+			greenPopFrames[i] = tmpGreen[2][i];
+			redPopFrames[i] = tmpRed[2][i];
+			redFlyFrames[i] = tmpRed[1][i];
+			yellowFlyFrames[i] = tmpYellow[1][i];
+			greenFlyFrames[i] = tmpGreen[1][i];
+			defaultFlyFrames[i] = tmpDefault[1][i];
 		}
-		
+
+		//Parachute
 		parachuteBallAnimation1 = new Animation(0.08f, parachuteFrames1);
 		parachuteBallAnimation1.setPlayMode(Animation.PlayMode.LOOP_PINGPONG);
 		parachuteBallAnimation2 = new Animation(0.08f, parachuteFrames2);
 		parachuteBallAnimation2.setPlayMode(Animation.PlayMode.LOOP_PINGPONG);
 		parachuteBallAnimation3 = new Animation(0.08f, parachuteFrames3);
 		parachuteBallAnimation3.setPlayMode(Animation.PlayMode.LOOP_PINGPONG);
-		ballDefault_animation = new Animation(0.08f, ballBoredFrames);
-		ballDefault_animation.setPlayMode(Animation.PlayMode.LOOP_PINGPONG);
+		//Boring
+		ballskinDefault_animation = new Animation(0.08f, ballBoredFrames);
+		ballskinDefault_animation.setPlayMode(Animation.PlayMode.LOOP_PINGPONG);
 		ballskinGreen_animation = new Animation(0.08f, greenballBoredFrames);
 		ballskinGreen_animation.setPlayMode(Animation.PlayMode.LOOP_PINGPONG);
-		ballskinYellow_animation=new Animation(0.08f, yellowballBoredFrames);
+		ballskinYellow_animation = new Animation(0.08f, yellowballBoredFrames);
 		ballskinYellow_animation.setPlayMode(Animation.PlayMode.LOOP_PINGPONG);
 		ballskinRed_animation = new Animation(0.08f, redballBoredFrames);
 		ballskinRed_animation.setPlayMode(Animation.PlayMode.LOOP_PINGPONG);
-		ballskin4_animation = new Animation(0.08f, parachuteFrames3);
-		ballskin4_animation.setPlayMode(Animation.PlayMode.LOOP_PINGPONG);
-		defaultPopAnimation= new Animation(0.08f, defaultPopFrames);
+		//Pop
+		defaultPopAnimation = new Animation(0.08f, defaultPopFrames);
 		defaultPopAnimation.setPlayMode(Animation.PlayMode.NORMAL);
-		yellowPopAnimation= new Animation(0.08f, yellowPopFrames);
+		yellowPopAnimation = new Animation(0.08f, yellowPopFrames);
 		yellowPopAnimation.setPlayMode(Animation.PlayMode.NORMAL);
-		greenPopAnimation= new Animation(0.08f, greenPopFrames);
+		greenPopAnimation = new Animation(0.08f, greenPopFrames);
 		greenPopAnimation.setPlayMode(Animation.PlayMode.NORMAL);
-		redPopAnimation= new Animation(0.08f, redPopFrames);
+		redPopAnimation = new Animation(0.08f, redPopFrames);
 		redPopAnimation.setPlayMode(Animation.PlayMode.NORMAL);
-		redFlyAnimation= new Animation(0.08f, redFlyFrames);
+		//Fly
+		redFlyAnimation = new Animation(0.08f, redFlyFrames);
 		redFlyAnimation.setPlayMode(Animation.PlayMode.LOOP_PINGPONG);
-		yellowFlyAnimation= new Animation(0.08f, yellowFlyFrames);
+		yellowFlyAnimation = new Animation(0.08f, yellowFlyFrames);
 		yellowFlyAnimation.setPlayMode(Animation.PlayMode.LOOP_PINGPONG);
-		greenFlyAnimation= new Animation(0.08f, greenFlyFrames);
-		greenFlyAnimation.setPlayMode(Animation.PlayMode.NORMAL);
-		defaultFlyAnimation= new Animation(0.08f, defaultFlyFrames);
-		defaultFlyAnimation.setPlayMode(Animation.PlayMode.NORMAL);
+		greenFlyAnimation = new Animation(0.08f, greenFlyFrames);
+		greenFlyAnimation.setPlayMode(Animation.PlayMode.LOOP);
+		defaultFlyAnimation = new Animation(0.08f, defaultFlyFrames);
+		defaultFlyAnimation.setPlayMode(Animation.PlayMode.LOOP);
 
 		// Sounds
 		hoverSound1 = Gdx.audio.newSound(Gdx.files.internal("hover1.wav"));
@@ -174,7 +177,7 @@ public class AssetLoader
 		hoverWhistle1 = Gdx.audio.newSound(Gdx.files.internal("pfiff1.wav"));
 		hoverWhistle2 = Gdx.audio.newSound(Gdx.files.internal("pfiff2.wav"));
 		hoverWhistle3 = Gdx.audio.newSound(Gdx.files.internal("pfiff3.wav"));
-		coinSound=Gdx.audio.newSound(Gdx.files.internal("coins.wav"));
+		coinSound = Gdx.audio.newSound(Gdx.files.internal("coins.wav"));
 		//		clickPlop=Gdx.audio.newSound(Gdx.files.internal("plop2.wav"));
 
 		bFont = new BitmapFont(Gdx.files.internal("textfont.fnt"));
