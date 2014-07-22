@@ -68,6 +68,10 @@ public class Player
 	private void calcScore()
 	{
 		this.score = maxCredits + achievPoints;
+		if (score >= 1000)
+		{
+			score = 999;
+		}
 	}
 
 	public void setSkin(int skinID)
@@ -115,6 +119,10 @@ public class Player
 		{
 			maxCredits = credits;
 		}
+		if (credits >= 1000)
+		{
+			credits = 999;
+		}
 	}
 
 	public void setCredits(int credits)
@@ -123,6 +131,10 @@ public class Player
 		if (credits > maxCredits)
 		{
 			maxCredits = credits;
+		}
+		if (credits >= 1000)
+		{
+			credits = 999;
 		}
 	}
 
@@ -140,6 +152,10 @@ public class Player
 	public void addPoints(int amount)
 	{
 		this.score += score;
+		if (score >= 1000)
+		{
+			score = 999;
+		}
 	}
 
 	public void setMaxScore(int mScore)

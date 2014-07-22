@@ -1,6 +1,7 @@
 package com.aau.auris.game.screens;
 
 import java.awt.image.BufferedImage;
+import java.awt.image.DataBufferByte;
 
 import com.aau.auris.game.AURISGame;
 import com.aau.auris.game.data.Player;
@@ -11,6 +12,8 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.badlogic.gdx.graphics.Pixmap;
+import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
 import com.badlogic.gdx.physics.box2d.World;
@@ -33,6 +36,7 @@ public class GameScreen extends AbstractScreen
 	// Other Variables
 	private Player player;// Player Stats: score, achievements, etc.
 	private float runTime;
+	private Texture backGround;
 
 	// UIComponents
 	private Label lblLevel;
@@ -40,7 +44,7 @@ public class GameScreen extends AbstractScreen
 	private Label lblPlayerScore;
 	private Label lblPlayerCredits;
 
-	public GameScreen(AURISGame game, int levelDiff)
+	public GameScreen(AURISGame game)
 	{
 		super(game);
 	}
@@ -94,7 +98,11 @@ public class GameScreen extends AbstractScreen
 
 	public void updateGameField(BufferedImage img)
 	{
+		byte[] encodedData = ((DataBufferByte) img.getData().getDataBuffer()).getData();
+		Pixmap pixmap = new Pixmap(encodedData, 0, encodedData.length);
+		backGround = new Texture(pixmap);
 		// TODO: implement image processing
+		System.out.println("GameScreen.updateGameField() successfully performed!");
 	}
 
 	@Override
@@ -127,7 +135,7 @@ public class GameScreen extends AbstractScreen
 		level = game.getLevel();
 		player = game.getPlayer();
 
-		lblLevel.setText("Lvl. " + level.getID());
+		lblLevel.setText("Lvl. " + (level.getID() + 1));
 		lblPlayerName.setText("Name: " + player.getName());
 		lblPlayerScore.setText("Score: " + player.getScore());
 		lblPlayerCredits.setText("Credits: " + player.getCredits());
@@ -158,6 +166,11 @@ public class GameScreen extends AbstractScreen
 		debugRenderer.render(world, camera.combined);
 
 		spriteBatch.begin();
+		if (backGround != null)
+		{
+			System.out.println("render");
+			spriteBatch.draw(backGround, 0, 0, game.getWidth(), game.getHeight());
+		}
 		spriteBatch.draw(ball.getCurrentKeyFrame(runTime), ball.getBody().getPosition().x - (ball.CIRCLE_RADIUS + 4), ball.getBody().getPosition().y - (ball.CIRCLE_RADIUS + 3));
 		spriteBatch.end();
 

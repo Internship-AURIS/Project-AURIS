@@ -19,6 +19,8 @@ public class WebcamHandler implements WebcamListener
 	{
 		this.game = game;
 		this.webcam = Webcam.getDefault();
+		webcam.addWebcamListener(this);
+		start();
 	}
 
 	@Override
@@ -53,5 +55,13 @@ public class WebcamHandler implements WebcamListener
 	public void setUpdate(boolean enabled)
 	{
 		this.shouldUpdate = enabled;
+	}
+
+	public void start()
+	{
+		if (webcam != null)
+		{
+			webcam.open();
+		}
 	}
 }

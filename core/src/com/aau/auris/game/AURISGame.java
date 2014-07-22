@@ -16,6 +16,7 @@ import com.aau.auris.game.screens.LevelScreen;
 import com.aau.auris.game.screens.LoginScreen;
 import com.aau.auris.game.screens.MenuScreen;
 import com.aau.auris.game.screens.ShopScreen;
+import com.aau.auris.game.webcam.WebcamHandler;
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
@@ -45,7 +46,7 @@ public class AURISGame extends Game
 	public static ArrayList<BallSkin> ballSkins;
 
 	// WebcamHandler
-	//	private WebcamHandler webcamHandler;
+	private WebcamHandler webcamHandler;
 
 	// Data
 	private Preferences preferences;
@@ -68,7 +69,7 @@ public class AURISGame extends Game
 		menuScreen = new MenuScreen(this);
 		loginScreen = new LoginScreen(this);
 		levelScreen = new LevelScreen(this);
-		gameScreen = new GameScreen(this, Level.DIFFICULTY_1);
+		gameScreen = new GameScreen(this);
 		shopScreen = new ShopScreen(this);
 		creditsScreen = new CreditsScreen(this);
 
@@ -76,8 +77,8 @@ public class AURISGame extends Game
 		initLevels();
 		initBallSkins();
 
-		//		webcamHandler = new WebcamHandler(this);
-		//		webcamHandler.setUpdate(false);
+		webcamHandler = new WebcamHandler(this);
+		webcamHandler.setUpdate(true);
 		this.setScreen(menuScreen);
 	}
 
@@ -91,6 +92,7 @@ public class AURISGame extends Game
 	{
 		if (getScreen() instanceof GameScreen)
 		{
+			gameScreen.updateGameField(webcamHandler.getInputImage());
 			// TODO: implement image processing
 			System.out.println("gamescreen");
 		}
@@ -180,7 +182,6 @@ public class AURISGame extends Game
 		} else if (screenIndex == GAME_SCREEN)
 		{
 			newScreen = gameScreen;
-			//	TODO:		webcamHandler.setUpdate(true); // WebcamHandler triggers imageOptained events and calls game.update()
 		}
 		if (newScreen != null)
 		{
