@@ -48,7 +48,7 @@ public class CollisionHandler implements ContactListener
 		}
 		if (classA == BorderLine.class || classB == BorderLine.class)
 		{
-			ball.setDead(true);
+			ball.die();
 		}
 		//		System.out.println("A: " + classA.getSimpleName() + " B: " + classB.getSimpleName());
 	}

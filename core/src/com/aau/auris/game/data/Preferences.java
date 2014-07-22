@@ -27,7 +27,7 @@ public class Preferences
 		maxPlayers = 10;
 		soundEnabled = true;
 		debugging = false;
-		ballRadius = 15f;
+		ballRadius = 120f;
 		hackEnabled = false;
 		Json json = new Json();
 		final String text = json.toJson(this);

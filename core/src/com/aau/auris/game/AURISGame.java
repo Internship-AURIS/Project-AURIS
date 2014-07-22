@@ -2,11 +2,7 @@ package com.aau.auris.game;
 
 import java.awt.Dimension;
 import java.awt.image.BufferedImage;
-import java.io.File;
-import java.io.IOException;
 import java.util.ArrayList;
-
-import javax.imageio.ImageIO;
 
 import com.aau.auris.game.Asset.AssetLoader;
 import com.aau.auris.game.data.Player;
@@ -62,10 +58,6 @@ public class AURISGame extends Game
 	private Player player = null;
 	private Level level = null;
 
-	// Test
-	private final File testFile = new File("C:/Users/p_peter/Desktop/Projekt - Virtuelles Lebewesen/testImage.png");
-	private BufferedImage imgTest;
-
 	@Override
 	public void create()
 	{
@@ -90,17 +82,6 @@ public class AURISGame extends Game
 		initBallSkins();
 
 		this.setScreen(menuScreen);
-
-		// TODO: test
-		try
-		{//TODO: debugging
-			imgTest = ImageIO.read(testFile);
-		} catch (IOException e)
-		{
-			e.printStackTrace();
-		}
-
-		update(imgTest);// TODO: debugging
 	}
 
 	@Override
@@ -265,6 +246,11 @@ public class AURISGame extends Game
 			if (lvl.getID() == id) { return lvl; }
 		}
 		return null;
+	}
+
+	public GameScreen getGameScreen()
+	{
+		return gameScreen;
 	}
 
 }

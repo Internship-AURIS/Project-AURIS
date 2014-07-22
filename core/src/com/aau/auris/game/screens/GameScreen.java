@@ -43,7 +43,7 @@ public class GameScreen extends AbstractScreen
 	private SpriteBatch spriteBatch;
 
 	// Player
-	private final int ball_radius = 64;
+	private int ball_radius;
 	private Ball ball;
 
 	// Other Variables
@@ -67,6 +67,7 @@ public class GameScreen extends AbstractScreen
 	public GameScreen(AURISGame game)
 	{
 		super(game);
+		ball_radius = (int) game.getPreferences().getBallRadius();
 	}
 
 	@Override
@@ -235,12 +236,12 @@ public class GameScreen extends AbstractScreen
 		{
 			if (ball.isDead())
 			{
-				spriteBatch
-						.draw(ballskin.getPopAnimation(id).getKeyFrame(runTime), ball.getBody().getPosition().x - (ball.CIRCLE_RADIUS + 4), ball.getBody().getPosition().y, ball_radius, ball_radius);
+				spriteBatch.draw(ballskin.getPopAnimation(id).getKeyFrame(runTime), ball.getBody().getPosition().x - (ball_radius + 4), ball.getBody().getPosition().y, ball_radius * 2f,
+						ball_radius * 2f);
 			} else
 			{
-				spriteBatch.draw(ballskin.getFlyAnimation(player.getSkinID()).getKeyFrame(runTime), ball.getBody().getPosition().x - (ball.CIRCLE_RADIUS + 4), ball.getBody().getPosition().y
-						- (ball.CIRCLE_RADIUS + 3), ball_radius, ball_radius);
+				spriteBatch.draw(ballskin.getFlyAnimation(player.getSkinID()).getKeyFrame(runTime), ball.getBody().getPosition().x - (ball_radius + 4), ball.getBody().getPosition().y
+						- (ball_radius + 3), ball_radius * 2f, ball_radius * 2f);
 			}
 		}
 

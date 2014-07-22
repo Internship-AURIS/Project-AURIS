@@ -75,25 +75,24 @@ public class AssetLoader
 	public static void load()
 	{
 		// Textures
-		defaultBall = new Texture(Gdx.files.internal("boredskins.png"));
-		spritesheet = new Texture(Gdx.files.internal("spriteFly2.png"));
-		greenBall = new Texture(Gdx.files.internal("greenBored.png"));
-		yellowBall = new Texture(Gdx.files.internal("yellowBored.png"));
-		redBall = new Texture(Gdx.files.internal("redBored.png"));
-		menu_background = new Texture(Gdx.files.internal("menu_background.png"));
-		menu_background_blank = new Texture(Gdx.files.internal("backBlank2.png"));
-		menu_background_blank2 = new Texture(Gdx.files.internal("backLevels.png"));
+		defaultBall = new Texture(Gdx.files.internal("textures/boredskins.png"));
+		spritesheet = new Texture(Gdx.files.internal("textures/spriteFly2.png"));
+		greenBall = new Texture(Gdx.files.internal("textures/greenBored.png"));
+		yellowBall = new Texture(Gdx.files.internal("textures/yellowBored.png"));
+		redBall = new Texture(Gdx.files.internal("textures/redBored.png"));
+		menu_background = new Texture(Gdx.files.internal("textures/menu_background.png"));
+		menu_background_blank = new Texture(Gdx.files.internal("textures/backBlank2.png"));
+		menu_background_blank2 = new Texture(Gdx.files.internal("textures/backLevels.png"));
+		background_Credits = new Texture(Gdx.files.internal("textures/backCredits.png"));
+		background_Shop = new Texture(Gdx.files.internal("textures/backShop.png"));
+		background_Credits = new Texture(Gdx.files.internal("textures/backCredits.png"));
+		levelBalken = new Texture(Gdx.files.internal("textures/balken.png"));
+
 		tmp = TextureRegion.split(spritesheet, spritesheet.getWidth() / FLY_COLS, spritesheet.getHeight() / FLY_ROWS);
 		tmpDefault = TextureRegion.split(defaultBall, defaultBall.getWidth() / FLY_COLS, defaultBall.getHeight() / FLY_ROWS);
 		tmpGreen = TextureRegion.split(greenBall, greenBall.getWidth() / FLY_COLS, greenBall.getHeight() / FLY_ROWS);
 		tmpYellow = TextureRegion.split(yellowBall, yellowBall.getWidth() / FLY_COLS, yellowBall.getHeight() / FLY_ROWS);
 		tmpRed = TextureRegion.split(redBall, redBall.getWidth() / FLY_COLS, redBall.getHeight() / FLY_ROWS);
-		menu_buttons = new TextureAtlas(Gdx.files.internal("menuButtons.atlas"));
-		levelButtons = new TextureAtlas(Gdx.files.internal("levelButtons.atlas"));
-		background_Credits = new Texture(Gdx.files.internal("backCredits.png"));
-		background_Shop = new Texture(Gdx.files.internal("backShop.png"));
-		background_Credits = new Texture(Gdx.files.internal("backCredits.png"));
-		levelBalken = new Texture(Gdx.files.internal("balken.png"));
 
 		// Animations
 		TextureRegion[] parachuteFrames1 = new TextureRegion[FLY_COLS];
@@ -137,6 +136,7 @@ public class AssetLoader
 		parachuteBallAnimation2.setPlayMode(Animation.PlayMode.LOOP_PINGPONG);
 		parachuteBallAnimation3 = new Animation(0.08f, parachuteFrames3);
 		parachuteBallAnimation3.setPlayMode(Animation.PlayMode.LOOP_PINGPONG);
+		
 		ballskinDefault_animation = new Animation(0.08f, ballBoredFrames);
 		ballskinDefault_animation.setPlayMode(Animation.PlayMode.LOOP_PINGPONG);
 		ballskinGreen_animation = new Animation(0.08f, greenballBoredFrames);
@@ -145,6 +145,7 @@ public class AssetLoader
 		ballskinYellow_animation.setPlayMode(Animation.PlayMode.LOOP_PINGPONG);
 		ballskinRed_animation = new Animation(0.08f, redballBoredFrames);
 		ballskinRed_animation.setPlayMode(Animation.PlayMode.LOOP_PINGPONG);
+		
 		defaultPopAnimation = new Animation(0.08f, defaultPopFrames);
 		defaultPopAnimation.setPlayMode(Animation.PlayMode.NORMAL);
 		yellowPopAnimation = new Animation(0.08f, yellowPopFrames);
@@ -153,6 +154,7 @@ public class AssetLoader
 		greenPopAnimation.setPlayMode(Animation.PlayMode.NORMAL);
 		redPopAnimation = new Animation(0.08f, redPopFrames);
 		redPopAnimation.setPlayMode(Animation.PlayMode.NORMAL);
+		
 		redFlyAnimation = new Animation(0.08f, redFlyFrames);
 		redFlyAnimation.setPlayMode(Animation.PlayMode.LOOP_PINGPONG);
 		yellowFlyAnimation = new Animation(0.08f, yellowFlyFrames);
@@ -163,19 +165,23 @@ public class AssetLoader
 		defaultFlyAnimation.setPlayMode(Animation.PlayMode.LOOP);
 
 		// Sounds
-		hoverSound1 = Gdx.audio.newSound(Gdx.files.internal("hover1.wav"));
-		hoverSound2 = Gdx.audio.newSound(Gdx.files.internal("hover2.wav"));
-		hoverSound3 = Gdx.audio.newSound(Gdx.files.internal("hover3.wav"));
-		menuMusic1 = Gdx.audio.newSound(Gdx.files.internal("theme1.wav"));
-		menuMusic2 = Gdx.audio.newSound(Gdx.files.internal("theme2.wav"));
-		clickSound = Gdx.audio.newSound(Gdx.files.internal("click.wav"));
-		chorusSound = Gdx.audio.newSound(Gdx.files.internal("chorus.wav"));
-		hoverWhistle1 = Gdx.audio.newSound(Gdx.files.internal("pfiff1.wav"));
-		hoverWhistle2 = Gdx.audio.newSound(Gdx.files.internal("pfiff2.wav"));
-		hoverWhistle3 = Gdx.audio.newSound(Gdx.files.internal("pfiff3.wav"));
-		coinSound = Gdx.audio.newSound(Gdx.files.internal("coins.wav"));
-		//		clickPlop=Gdx.audio.newSound(Gdx.files.internal("plop2.wav"));
+		hoverSound1 = Gdx.audio.newSound(Gdx.files.internal("sounds/hover1.wav"));
+		hoverSound2 = Gdx.audio.newSound(Gdx.files.internal("sounds/hover2.wav"));
+		hoverSound3 = Gdx.audio.newSound(Gdx.files.internal("sounds/hover3.wav"));
+		menuMusic1 = Gdx.audio.newSound(Gdx.files.internal("sounds/theme1.wav"));
+		menuMusic2 = Gdx.audio.newSound(Gdx.files.internal("sounds/theme2.wav"));
+		clickSound = Gdx.audio.newSound(Gdx.files.internal("sounds/click.wav"));
+		chorusSound = Gdx.audio.newSound(Gdx.files.internal("sounds/chorus.wav"));
+		hoverWhistle1 = Gdx.audio.newSound(Gdx.files.internal("sounds/pfiff1.wav"));
+		hoverWhistle2 = Gdx.audio.newSound(Gdx.files.internal("sounds/pfiff2.wav"));
+		hoverWhistle3 = Gdx.audio.newSound(Gdx.files.internal("sounds/pfiff3.wav"));
+		coinSound = Gdx.audio.newSound(Gdx.files.internal("sounds/coins.wav"));
 
+		// Buttons
+		menu_buttons = new TextureAtlas(Gdx.files.internal("menuButtons.atlas"));
+		levelButtons = new TextureAtlas(Gdx.files.internal("levelButtons.atlas"));
+
+		// Font
 		bFont = new BitmapFont(Gdx.files.internal("textfont.fnt"));
 	}
 
