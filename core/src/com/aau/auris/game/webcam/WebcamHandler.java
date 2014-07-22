@@ -24,7 +24,7 @@ public class WebcamHandler implements WebcamListener
 		{
 			webcam.addWebcamListener(this);
 			webcam.setViewSize(WebcamResolution.QVGA.getSize());
-			start();
+			webcam.open();
 		}
 	}
 
@@ -64,13 +64,5 @@ public class WebcamHandler implements WebcamListener
 	public void setUpdate(boolean enabled)
 	{
 		this.shouldUpdate = enabled;
-	}
-
-	public void start()
-	{
-		if (webcam != null)
-		{
-			webcam.open();
-		}
 	}
 }
