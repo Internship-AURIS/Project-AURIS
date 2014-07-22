@@ -5,8 +5,10 @@ import java.util.ArrayList;
 import com.aau.auris.game.AURISGame;
 import com.aau.auris.game.items.Achievement;
 import com.aau.auris.game.items.BallSkin;
+import com.aau.auris.game.level.Level;
 
-public class Player {
+public class Player
+{
 	// unlocks
 	private ArrayList<Integer> achievementUnlocks;
 	private ArrayList<Integer> levelUnlocks;
@@ -22,13 +24,11 @@ public class Player {
 	/*
 	 * default constructor needed for Json serialization
 	 */
-	public Player() {
-	}
+	public Player()
+	{}
 
-	public Player(String name, int credits, int maxCredits, int score,
-			ArrayList<Integer> achievementUnlocks,
-			ArrayList<Integer> levelUnlocks, ArrayList<Integer> skinUnlocks,
-			int skinID) {
+	public Player(String name, int credits, int maxCredits, int score, ArrayList<Integer> achievementUnlocks, ArrayList<Integer> levelUnlocks, ArrayList<Integer> skinUnlocks, int skinID)
+	{
 		this.name = name;
 		this.achievPoints = score - maxCredits;
 		this.credits = credits;
@@ -38,89 +38,147 @@ public class Player {
 		this.levelUnlocks = levelUnlocks;
 		this.skinUnlocks = skinUnlocks;
 		this.skinID = skinID;
+		checkAchievements();
 	}
 
-	public static Player generateNewPlayer(String name) {
-		Player player = new Player(name, 0, 0, 0,
-				AURISGame.getDefaultAchievementUnlocks(),
-				AURISGame.getDefaultLevelUnlocks(),
-				AURISGame.getDefaultSkinUnlocks(), BallSkin.BALL_SKIN_ID_1);
+	public static Player generateNewPlayer(String name)
+	{
+		Player player = new Player(name, 0, 0, 0, AURISGame.getDefaultAchievementUnlocks(), AURISGame.getDefaultLevelUnlocks(), AURISGame.getDefaultSkinUnlocks(), BallSkin.BALL_SKIN_ID_1);
 		return player;
 	}
 
-	private void calcScore() {
-		this.score = maxCredits + achievPoints;
+	public void checkAchievements()
+	{
+		boolean allLevelsCleared = true;
+		ArrayList<Level> levels = AURISGame.levels;
+		for (Level level : levels)
+		{
+			if (!hasLevelUnlocked(level.getID()))
+			{
+				allLevelsCleared = false;
+				break;
+			}
+		}
+		if (allLevelsCleared)
+		{
+			addAchievementID(Achievement.ACHIEVEMENT_ID_1);
+		}
 	}
 
-	public void setSkin(int skinID) {
-		for (int i = 0; i < skinUnlocks.size(); i++) {
+	private void calcScore()
+	{
+		this.score = maxCredits + achievPoints;
+		if (score >= 1000)
+		{
+			score = 999;
+		}
+	}
+
+	public void setSkin(int skinID)
+	{
+		for (int i = 0; i < skinUnlocks.size(); i++)
+		{
 			this.skinID = skinID;
 		}
 	}
 
-	public int getSkinID() {
+	public int getSkinID()
+	{
 		return skinID;
 	}
 
-	public ArrayList<Integer> getAchievementUnlocks() {
+	public ArrayList<Integer> getAchievementUnlocks()
+	{
 		return achievementUnlocks;
 	}
 
-	public ArrayList<Integer> getLevelUnlocks() {
+	public ArrayList<Integer> getLevelUnlocks()
+	{
 		return levelUnlocks;
 	}
 
-	public ArrayList<Integer> getSkinUnlocks() {
+	public ArrayList<Integer> getSkinUnlocks()
+	{
 		return skinUnlocks;
 	}
 
-	public String getName() {
+	public String getName()
+	{
 		return name;
 	}
 
-	public int getCredits() {
+	public int getCredits()
+	{
 		return credits;
 	}
 
-	public void addCredits(int amount) {
+	public void addCredits(int amount)
+	{
 		this.credits += amount;
-		if (credits > maxCredits) {
+		if (credits > maxCredits)
+		{
 			maxCredits = credits;
+		}
+		if (credits >= 1000)
+		{
+			credits = 999;
 		}
 	}
 
-	public void setCredits(int credits) {
+	public void setCredits(int credits)
+	{
 		this.credits = credits;
-		if (credits > maxCredits) {
+		if (credits > maxCredits)
+		{
 			maxCredits = credits;
+		}
+		if (credits >= 1000)
+		{
+			credits = 999;
 		}
 	}
 
-	public int getMaxCredits() {
+	public int getMaxCredits()
+	{
 		return maxCredits;
 	}
 
-	public int getScore() {
+	public int getScore()
+	{
 		calcScore();
 		return score;
 	}
 
-	public void addPoints(int amount) {
+	public void addPoints(int amount)
+	{
 		this.score += score;
+		if (score >= 1000)
+		{
+			score = 999;
+		}
 	}
 
-	public void setMaxScore(int mScore) {
-	}
+	public void setMaxScore(int mScore)
+	{}
 
-	public boolean hasLevelUnlocked(int id) {
-		for (int i : levelUnlocks) {
-			if (i == id) {
-				return true;
-			}
+	public boolean hasAchievementUnlocked(int id)
+	{
+		for (int i : achievementUnlocks)
+		{
+			if (i == id) { return true; }
 		}
 		return false;
 	}
-	
+
+	public boolean hasLevelUnlocked(int id)
+	{
+		for (int i : levelUnlocks)
+		{
+			if (i == id) { return true; }
+		}
+		return false;
+	}
+
 	public boolean hasSkinUnlocked(int id)
 	{
 		for (int i : skinUnlocks)
@@ -130,28 +188,47 @@ public class Player {
 		return false;
 	}
 
-	public void unlockAchievement(int id)
+	public void addAchievementID(int id)
 	{
-		achievementUnlocks.add(id);
-		score += new Achievement(id).getCreditValue();
+		if (!hasAchievementUnlocked(id))
+		{
+			achievementUnlocks.add(id);
+			score += new Achievement(id).getCreditValue();
+		}
 	}
 
-	public boolean unlockBallSkin(int id) {
-		final int costs = new BallSkin(id).getCreditValue();
-		if (credits - costs >= 0) {
-			skinUnlocks.add(id);
-			credits -= costs;
+	public boolean addBallSkinID(int id)
+	{
+		if (!hasSkinUnlocked(id))
+		{
+			final int costs = new BallSkin(id).getCreditValue();
+			if (credits - costs >= 0)
+			{
+				skinUnlocks.add(id);
+				credits -= costs;
+				return true;
+			}
+		}
+		return false;
+	}
+
+	public boolean addLevelID(int id)
+	{
+		if (!hasLevelUnlocked(id))
+		{
+			levelUnlocks.add(id);
 			return true;
 		}
 		return false;
 	}
 
-	public void addLevelID(int id) {
-		levelUnlocks.add(id);
+	public boolean addSkinID(int id)
+	{
+		if (!hasSkinUnlocked(id))
+		{
+			skinUnlocks.add(id);
+			return true;
+		}
+		return false;
 	}
-
-	public void addSkinID(int id) {
-		skinUnlocks.add(id);
-	}
-
 }

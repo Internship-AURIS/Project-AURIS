@@ -277,7 +277,7 @@ public class ShopScreen extends AbstractScreen {
 	{
 		if (!player.hasSkinUnlocked(id))
 		{
-			if (player.unlockBallSkin(id))
+			if (player.addBallSkinID(id))
 			{
 				player.setSkin(id);
 			} else

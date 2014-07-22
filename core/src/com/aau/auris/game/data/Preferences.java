@@ -16,11 +16,7 @@ public class Preferences
 	private boolean hackEnabled;
 
 	/*
-	 * future preferences like:
-	 * -sound enabled, volume
-	 * -debug modus
-	 * -ball radius
-	 * -parent-control xD
+	 * TODO: currently not used!!!
 	 */
 
 	public Preferences()

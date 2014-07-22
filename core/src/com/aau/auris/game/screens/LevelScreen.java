@@ -1,8 +1,11 @@
 package com.aau.auris.game.screens;
 
+import java.util.ArrayList;
+
 import com.aau.auris.game.AURISGame;
 import com.aau.auris.game.Asset.AssetLoader;
 import com.aau.auris.game.data.Player;
+import com.aau.auris.game.items.Achievement;
 import com.aau.auris.game.level.Level;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input.Keys;
@@ -33,8 +36,6 @@ public class LevelScreen extends AbstractScreen
 	private Sound hoverWhistle2;
 	private Sound hoverWhistle3;
 	private Sound coinSound;
-
-	//Local
 
 	// Level- and Achievement-Display
 	private ImageTextButtonStyle itbAchiev1Style;
@@ -482,13 +483,23 @@ public class LevelScreen extends AbstractScreen
 	private void update()
 	{
 		player = game.getPlayer();
-		// TODO: implement loading of unlocked things from player
-
-		// Implementation of displaying locked/unlocked achievements
-		//				itbAchiev1Style.imageUp = player.getAchievements().get(0).getDrawable();
-		//				itbAchiev2Style.imageUp = player.getAchievements().get(1).getDrawable();
-		//				itbAchiev3Style.imageUp = player.getAchievements().get(2).getDrawable();
-		//		tbDiff1Lvl1Style.up = player.getLevels().get(0).getDrawable();
+		ArrayList<Integer> achievementUnlocks = player.getAchievementUnlocks();
+		itbAchiev1Style.imageUp = skin.getDrawable("secret");
+		itbAchiev2Style.imageUp = skin.getDrawable("secret");
+		itbAchiev3Style.imageUp = skin.getDrawable("secret");
+		for (int id : achievementUnlocks)
+		{
+			if (id == Achievement.ACHIEVEMENT_ID_1)
+			{
+				itbAchiev1Style.imageUp = skin.getDrawable("achLevels");
+			} else if (id == Achievement.ACHIEVEMENT_ID_2)
+			{
+				itbAchiev2Style.imageUp = skin.getDrawable("achLevels");
+			} else if (id == Achievement.ACHIEVEMENT_ID_3)
+			{
+				itbAchiev3Style.imageUp = skin.getDrawable("achLevels");
+			}
+		}
 	}
 
 	@Override
