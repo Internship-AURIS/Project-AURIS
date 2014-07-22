@@ -38,10 +38,13 @@ public class GameScreen extends AbstractScreen
 	private World world;
 	private CollisionHandler collisionHandler;
 	private Level level;
-	private Ball ball;
 	private Box2DDebugRenderer debugRenderer;
 	private OrthographicCamera camera;
 	private SpriteBatch spriteBatch;
+
+	// Player
+	private final int ball_radius = 64;
+	private Ball ball;
 
 	// Other Variables
 	private Player player;// Player Stats: score, achievements, etc.
@@ -110,7 +113,7 @@ public class GameScreen extends AbstractScreen
 		lblPlayerScore = new Label("Score: ---", lblStyle);
 		lblPlayerScore.setBounds(s_width - width * 1.3f, lblLevel.getY(), width, height);
 
-		lblPlayerCredits = new Label("Credits: ---", lblStyle);
+		lblPlayerCredits = new Label("Credits: --- $", lblStyle);
 		lblPlayerCredits.setBounds(lblPlayerScore.getX() - lblPlayerScore.getWidth() - width / 2, lblLevel.getY(), width, height);
 
 		lblStatus = new Label("", lblStyle);
@@ -191,7 +194,7 @@ public class GameScreen extends AbstractScreen
 		lblLevel.setText("Lvl. " + (level.getID() + 1));
 		lblPlayerName.setText("Name: " + player.getName());
 		lblPlayerScore.setText("Score: " + player.getScore());
-		lblPlayerCredits.setText("Credits: " + player.getCredits());
+		lblPlayerCredits.setText("Credits: " + player.getCredits() + " $");
 	}
 
 	private void updateData()
@@ -216,21 +219,30 @@ public class GameScreen extends AbstractScreen
 		super.render(delta);
 		runTime += delta;
 
+		lblStatus.setText(ball.isDead() ? "GAME OVER" : "");
 		spriteBatch.setProjectionMatrix(camera.combined);
 		debugRenderer.render(world, camera.combined);
 
 		spriteBatch.begin();
+
 		if (backGround != null)
 		{
-			System.out.println("render");
 			spriteBatch.draw(backGround, 0, 0, game.getWidth(), game.getHeight());
 		}
-		lblStatus.setText(ball.isDead() ? "GAME OVER" : "");
 
-		// TODO: play ballBursting animation + "gameOver" text
-		spriteBatch.draw(ballskin.getSkinAnimation(player.getSkinID()).getKeyFrame(runTime), ball.getBody().getPosition().x - (ball.CIRCLE_RADIUS + 4), ball.getBody().getPosition().y
-				- (ball.CIRCLE_RADIUS + 3));
-		//		spriteBatch.draw(levelBalken, 0, game.getHeight()-50);
+		final int id = player.getSkinID();
+		if (ball != null)
+		{
+			if (ball.isDead())
+			{
+				spriteBatch
+						.draw(ballskin.getPopAnimation(id).getKeyFrame(runTime), ball.getBody().getPosition().x - (ball.CIRCLE_RADIUS + 4), ball.getBody().getPosition().y, ball_radius, ball_radius);
+			} else
+			{
+				spriteBatch.draw(ballskin.getFlyAnimation(player.getSkinID()).getKeyFrame(runTime), ball.getBody().getPosition().x - (ball.CIRCLE_RADIUS + 4), ball.getBody().getPosition().y
+						- (ball.CIRCLE_RADIUS + 3), ball_radius, ball_radius);
+			}
+		}
 
 		spriteBatch.end();
 

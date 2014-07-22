@@ -51,10 +51,10 @@ public class BallSkin implements Asset
 		ballskinAnimation_2 = AssetLoader.ballskinYellow_animation;
 		ballskinAnimation_3 = AssetLoader.ballskinGreen_animation;
 		ballskinAnimation_4 = AssetLoader.ballskinRed_animation;
-		ballskinFlyAnimation_1 = null;
-		ballskinFlyAnimation_2 = null;
-		ballskinFlyAnimation_3 = null;
-		ballskinFlyAnimation_4 = null;
+		ballskinFlyAnimation_1 = AssetLoader.defaultFlyAnimation;
+		ballskinFlyAnimation_2 = AssetLoader.yellowFlyAnimation;
+		ballskinFlyAnimation_3 = AssetLoader.greenFlyAnimation;
+		ballskinFlyAnimation_4 = AssetLoader.redFlyAnimation;
 		ballskinPopAnimation_1 = AssetLoader.defaultPopAnimation;
 		ballskinPopAnimation_2 = AssetLoader.yellowPopAnimation;
 		ballskinPopAnimation_3 = AssetLoader.greenPopAnimation;
