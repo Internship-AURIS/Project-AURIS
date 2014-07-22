@@ -14,6 +14,7 @@ public class CollisionHandler implements ContactListener
 	private AURISGame game;
 	private Level level;
 	private GameScreen screen;
+	private Ball ball;
 
 	public CollisionHandler(AURISGame game, GameScreen screen)
 	{
@@ -24,6 +25,7 @@ public class CollisionHandler implements ContactListener
 	public void update()
 	{
 		this.level = game.getLevel();
+		this.ball = game.getLevel().getBall();
 	}
 
 	@Override
@@ -33,6 +35,7 @@ public class CollisionHandler implements ContactListener
 		Fixture fixtureB = contact.getFixtureB();
 		Class<? extends Object> classA = fixtureA.getBody().getUserData().getClass();
 		Class<? extends Object> classB = fixtureB.getBody().getUserData().getClass();
+
 		if (classA == Home.class || classB == Home.class)
 		{
 			game.changeScreen(AURISGame.LEVEL_SCREEN, screen);
@@ -43,6 +46,11 @@ public class CollisionHandler implements ContactListener
 			level.finished();
 			game.changeScreen(AURISGame.LEVEL_SCREEN, screen);
 		}
+		if (classA == BorderLine.class || classB == BorderLine.class)
+		{
+			ball.setDead(true);
+		}
+		//		System.out.println("A: " + classA.getSimpleName() + " B: " + classB.getSimpleName());
 	}
 
 	@Override

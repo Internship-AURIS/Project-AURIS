@@ -5,10 +5,7 @@ import java.util.ArrayList;
 import com.aau.auris.game.AURISGame;
 import com.aau.auris.game.Asset.Asset;
 import com.aau.auris.game.data.Player;
-import com.aau.auris.game.level.gameworld.Ball;
-import com.aau.auris.game.level.gameworld.Goal;
-import com.aau.auris.game.level.gameworld.Home;
-import com.aau.auris.game.level.gameworld.Obstacle;
+import com.aau.auris.game.level.gameworld.*;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.math.Vector2;
@@ -71,6 +68,13 @@ public class Level implements Asset
 		generateWorld();
 	}
 
+	public void reset()
+	{
+		ball.setDead(false);
+		world = new World(GRAVITY, true);
+		generateWorld();
+	}
+
 	@Override
 	public void loadAsset()
 	{}
@@ -97,20 +101,23 @@ public class Level implements Asset
 		final float factor_width = 0.9367f;
 		final float border_width = 20;// the object
 		this.obstacles = new ArrayList<Obstacle>();
-		obstacles.add(new Obstacle(world, -10 * WORLD_TO_BOX, 0, border_width * WORLD_TO_BOX, (s_height * factor_height) * WORLD_TO_BOX));
-		obstacles.add(new Obstacle(world, 0 * WORLD_TO_BOX, -10 * WORLD_TO_BOX, (s_width * factor_height) * WORLD_TO_BOX, border_width * WORLD_TO_BOX));
-		obstacles.add(new Obstacle(world, 0 * WORLD_TO_BOX, ((s_height + border_width) * factor_width) * WORLD_TO_BOX, (s_width * factor_height) * WORLD_TO_BOX, border_width * WORLD_TO_BOX));
-		obstacles.add(new Obstacle(world, ((s_width + border_width * 1.8f) * factor_width) * WORLD_TO_BOX, 0, border_width * WORLD_TO_BOX, (s_height * factor_height) * WORLD_TO_BOX));
+		obstacles.add(new BorderLine(world, -10 * WORLD_TO_BOX, 0, border_width * WORLD_TO_BOX, (s_height * factor_height) * WORLD_TO_BOX));
+		obstacles.add(new BorderLine(world, 0 * WORLD_TO_BOX, -10 * WORLD_TO_BOX, (s_width * factor_height) * WORLD_TO_BOX, border_width * WORLD_TO_BOX));
+		obstacles.add(new BorderLine(world, 0 * WORLD_TO_BOX, ((s_height + border_width) * factor_width) * WORLD_TO_BOX, (s_width * factor_height) * WORLD_TO_BOX, border_width * WORLD_TO_BOX));
+		obstacles.add(new BorderLine(world, ((s_width + border_width * 1.8f) * factor_width) * WORLD_TO_BOX, 0, border_width * WORLD_TO_BOX, (s_height * factor_height) * WORLD_TO_BOX));
 
 		if (id >= 1 && id <= 3)
 		{
 			// TODO: generate Level Difficulty 1
+			obstacles.add(new Obstacle(world, (50 / 2 - 50) * WORLD_TO_BOX, (50 / 2 - 50) * WORLD_TO_BOX, 50 * WORLD_TO_BOX, 50 * WORLD_TO_BOX));
 		} else if (id >= 4 && id <= 6)
 		{
-			// TODO: generate Level Difficulty 2
+			// TODO: generate Level Difficulty 2	
+			obstacles.add(new Obstacle(world, (50 / 2 - 50) * WORLD_TO_BOX, (50 / 2 - 50) * WORLD_TO_BOX, 50 * WORLD_TO_BOX, 50 * WORLD_TO_BOX));
 		} else if (id >= 7 && id <= 9)
 		{
-			// TODO: generate Level Difficulty 3
+			// TODO: generate Level Difficulty 3	
+			obstacles.add(new Obstacle(world, (50 / 2 - 50) * WORLD_TO_BOX, (50 / 2 - 50) * WORLD_TO_BOX, 50 * WORLD_TO_BOX, 50 * WORLD_TO_BOX));
 		}
 	}
 

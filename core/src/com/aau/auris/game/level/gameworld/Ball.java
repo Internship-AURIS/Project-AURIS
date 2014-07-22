@@ -21,6 +21,9 @@ public class Ball extends Entity implements Asset
 	// Asset
 	private Animation defaultAnimation;
 
+	// Other
+	private boolean dead;
+
 	public Ball(World world, float posX, float posY)
 	{
 		bodyDef = new BodyDef();
@@ -39,6 +42,8 @@ public class Ball extends Entity implements Asset
 		body.createFixture(fixtureDef);
 		body.setUserData(this);
 
+		dead = false;
+		
 		circleShape.dispose();
 
 		loadAsset();
@@ -57,6 +62,16 @@ public class Ball extends Entity implements Asset
 	public TextureRegion getCurrentKeyFrame(float runTime)
 	{
 		return defaultAnimation.getKeyFrame(runTime);
+	}
+
+	public void setDead(boolean dead)
+	{
+		this.dead = dead;
+	}
+
+	public boolean isDead()
+	{
+		return dead;
 	}
 
 }

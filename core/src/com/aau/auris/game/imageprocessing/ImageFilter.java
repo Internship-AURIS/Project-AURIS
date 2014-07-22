@@ -1,6 +1,8 @@
 package com.aau.auris.game.imageprocessing;
 
 import java.awt.image.BufferedImage;
+import java.awt.image.ColorModel;
+import java.awt.image.WritableRaster;
 
 import com.jhlabs.image.EdgeFilter;
 import com.jhlabs.image.GrayscaleFilter;
@@ -54,34 +56,42 @@ public class ImageFilter
 
 	public BufferedImage modify(BufferedImage img, int filter)
 	{
-		BufferedImage newImg = new BufferedImage(img.getWidth(), img.getHeight(), BufferedImage.TYPE_INT_RGB);
-		if (filter == (filter & GRAYSCALE_FILTER))
+		BufferedImage newImg = copyImage(img);
+		if (GRAYSCALE_FILTER == (filter & GRAYSCALE_FILTER))
 		{
-			newImg = getGrayScaleFilteredImage(img, newImg);
+			getGrayScaleFilteredImage(newImg, newImg);
 		}
-		if (filter == (filter & THRESHOLD_FILTER))
+		if (THRESHOLD_FILTER == (filter & THRESHOLD_FILTER))
 		{
-			newImg = getThresholdFilteredImage(img, newImg);
+			getThresholdFilteredImage(newImg, newImg);
 		}
-		if (filter == (filter & EDGE_FILTER))
+		if (EDGE_FILTER == (filter & EDGE_FILTER))
 		{
-			newImg = getEdgeFilteredImage(img, newImg);
+			getEdgeFilteredImage(newImg, newImg);
 		}
-		if (filter == (filter & INVERT_FILTER))
+		if (INVERT_FILTER == (filter & INVERT_FILTER))
 		{
-			newImg = getInvertedColorImage(img, newImg);
+			getInvertedColorImage(newImg, newImg);
 		}
 		return newImg;
 	}
 
-	public void setLowThreshold(float low)
+	private BufferedImage copyImage(BufferedImage bi)
 	{
-		this.lowThreshold = low;
+		ColorModel cm = bi.getColorModel();
+		boolean isAlphaPremultiplied = cm.isAlphaPremultiplied();
+		WritableRaster raster = bi.copyData(null);
+		return new BufferedImage(cm, raster, isAlphaPremultiplied, null);
 	}
 
-	public void setHighThreshold(float high)
+	public void setUpperThreshold(float high)
 	{
 		this.highThreshold = high;
+	}
+
+	public void setLowerThreshold(float low)
+	{
+		this.lowThreshold = low;
 	}
 
 }
