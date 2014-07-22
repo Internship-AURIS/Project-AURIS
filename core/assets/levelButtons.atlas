@@ -3,296 +3,310 @@ levelButtons.png
 format: RGBA8888
 filter: Nearest,Nearest
 repeat: none
+balken
+  rotate: false
+  xy: 0, 960
+  size: 840, 50
+  orig: 840, 50
+  offset: 0, 0
+  index: -1
 hoverGrey
   rotate: false
-  xy: 0, 845
+  xy: 0, 786
   size: 282, 174
   orig: 282, 174
   offset: 0, 0
   index: -1
 btnBack
   rotate: false
-  xy: 0, 765
+  xy: 0, 706
   size: 200, 80
   orig: 200, 80
   offset: 0, 0
   index: -1
 btnBackOver
   rotate: false
-  xy: 282, 939
+  xy: 282, 880
   size: 200, 80
   orig: 200, 80
   offset: 0, 0
   index: -1
 btnBackSmall
   rotate: false
-  xy: 0, 685
+  xy: 0, 626
   size: 200, 80
   orig: 200, 80
   offset: 0, 0
   index: -1
 btnDefault
   rotate: false
-  xy: 282, 859
+  xy: 282, 800
   size: 200, 80
   orig: 200, 80
   offset: 0, 0
   index: -1
 btnDefaultOver
   rotate: false
-  xy: 482, 939
+  xy: 482, 880
   size: 200, 80
   orig: 200, 80
   offset: 0, 0
   index: -1
 btnDefaultSmall
   rotate: false
-  xy: 0, 605
+  xy: 0, 546
   size: 200, 80
   orig: 200, 80
   offset: 0, 0
   index: -1
 btnShop
   rotate: false
-  xy: 482, 859
+  xy: 482, 800
   size: 200, 80
   orig: 200, 80
   offset: 0, 0
   index: -1
 btnShopOver
   rotate: false
-  xy: 682, 939
+  xy: 0, 466
   size: 200, 80
   orig: 200, 80
   offset: 0, 0
   index: -1
 btnShopSmall
   rotate: false
-  xy: 0, 525
+  xy: 0, 386
   size: 200, 80
   orig: 200, 80
   offset: 0, 0
   index: -1
 transBack
   rotate: false
-  xy: 682, 859
+  xy: 0, 306
   size: 200, 80
   orig: 200, 80
   offset: 0, 0
   index: -1
 transBackOver
   rotate: false
-  xy: 0, 445
+  xy: 0, 226
   size: 200, 80
   orig: 200, 80
   offset: 0, 0
   index: -1
 transBackSmall
   rotate: false
-  xy: 0, 365
+  xy: 0, 146
   size: 200, 80
   orig: 200, 80
   offset: 0, 0
   index: -1
 1diff1
   rotate: false
-  xy: 882, 946
+  xy: 682, 887
   size: 130, 73
   orig: 130, 73
   offset: 0, 0
   index: -1
 1diff1Over
   rotate: false
-  xy: 0, 292
+  xy: 0, 73
   size: 130, 73
   orig: 130, 73
   offset: 0, 0
   index: -1
 1diff1Small
   rotate: false
-  xy: 882, 873
+  xy: 682, 814
   size: 130, 73
   orig: 130, 73
   offset: 0, 0
   index: -1
 1diff2
   rotate: false
-  xy: 0, 219
+  xy: 0, 0
   size: 130, 73
   orig: 130, 73
   offset: 0, 0
   index: -1
 1diff2Over
   rotate: false
-  xy: 0, 146
+  xy: 840, 937
   size: 130, 73
   orig: 130, 73
   offset: 0, 0
   index: -1
 1diff2Small
   rotate: false
-  xy: 0, 73
+  xy: 812, 864
   size: 130, 73
   orig: 130, 73
   offset: 0, 0
   index: -1
 1diff3
   rotate: false
-  xy: 0, 0
+  xy: 812, 791
   size: 130, 73
   orig: 130, 73
   offset: 0, 0
   index: -1
 1diff3Over
   rotate: false
-  xy: 200, 772
+  xy: 682, 741
   size: 130, 73
   orig: 130, 73
   offset: 0, 0
   index: -1
 1diff3Small
   rotate: false
-  xy: 200, 699
+  xy: 812, 718
   size: 130, 73
   orig: 130, 73
   offset: 0, 0
   index: -1
 2diff4
   rotate: false
-  xy: 200, 626
+  xy: 200, 713
   size: 130, 73
   orig: 130, 73
   offset: 0, 0
   index: -1
 2diff4Over
   rotate: false
-  xy: 200, 553
+  xy: 200, 640
   size: 130, 73
   orig: 130, 73
   offset: 0, 0
   index: -1
 2diff4Small
   rotate: false
-  xy: 200, 480
+  xy: 200, 567
   size: 130, 73
   orig: 130, 73
   offset: 0, 0
   index: -1
 2diff5
   rotate: false
-  xy: 200, 407
+  xy: 200, 494
   size: 130, 73
   orig: 130, 73
   offset: 0, 0
   index: -1
 2diff5Over
   rotate: false
-  xy: 330, 786
+  xy: 200, 421
   size: 130, 73
   orig: 130, 73
   offset: 0, 0
   index: -1
 2diff5Small
   rotate: false
-  xy: 330, 713
+  xy: 200, 348
   size: 130, 73
   orig: 130, 73
   offset: 0, 0
   index: -1
 2diff6
   rotate: false
-  xy: 460, 786
+  xy: 200, 275
   size: 130, 73
   orig: 130, 73
   offset: 0, 0
   index: -1
 2diff6Over
   rotate: false
-  xy: 330, 640
+  xy: 200, 202
   size: 130, 73
   orig: 130, 73
   offset: 0, 0
   index: -1
 2diff6Small
   rotate: false
-  xy: 460, 713
+  xy: 330, 727
   size: 130, 73
   orig: 130, 73
   offset: 0, 0
   index: -1
 3diff7
   rotate: false
-  xy: 590, 786
+  xy: 460, 727
   size: 130, 73
   orig: 130, 73
   offset: 0, 0
   index: -1
 3diff7Over
   rotate: false
-  xy: 330, 567
+  xy: 330, 654
   size: 130, 73
   orig: 130, 73
   offset: 0, 0
   index: -1
 3diff7Small
   rotate: false
-  xy: 460, 640
+  xy: 330, 581
   size: 130, 73
   orig: 130, 73
   offset: 0, 0
   index: -1
 3diff8
   rotate: false
-  xy: 590, 713
+  xy: 460, 654
   size: 130, 73
   orig: 130, 73
   offset: 0, 0
   index: -1
 3diff8Over
   rotate: false
-  xy: 720, 786
+  xy: 330, 508
   size: 130, 73
   orig: 130, 73
   offset: 0, 0
   index: -1
 3diff8Small
   rotate: false
-  xy: 330, 494
+  xy: 460, 581
   size: 130, 73
   orig: 130, 73
   offset: 0, 0
   index: -1
 3diff9
   rotate: false
-  xy: 460, 567
+  xy: 330, 435
   size: 130, 73
   orig: 130, 73
   offset: 0, 0
   index: -1
 3diff9Over
   rotate: false
-  xy: 590, 640
+  xy: 460, 508
   size: 130, 73
   orig: 130, 73
   offset: 0, 0
   index: -1
 3diff9Small
   rotate: false
-  xy: 720, 713
+  xy: 330, 362
   size: 130, 73
   orig: 130, 73
   offset: 0, 0
   index: -1
+vertBack
+  rotate: false
+  xy: 130, 45
+  size: 44, 101
+  orig: 44, 101
+  offset: 0, 0
+  index: -1
 achLevels
   rotate: false
-  xy: 130, 315
+  xy: 970, 960
   size: 50, 50
   orig: 50, 50
   offset: 0, 0
   index: -1
 secret
   rotate: false
-  xy: 330, 444
+  xy: 200, 152
   size: 50, 50
   orig: 50, 50
   offset: 0, 0

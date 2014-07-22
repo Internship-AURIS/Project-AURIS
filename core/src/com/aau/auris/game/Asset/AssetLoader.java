@@ -34,6 +34,7 @@ public class AssetLoader
 	public static Texture menu_background_blank2;
 	public static Texture background_Credits;
 	public static Texture background_Shop;
+	public static Texture levelBalken;
 	
 	// Animations
 	public static Animation parachuteBallAnimation1;
@@ -56,6 +57,7 @@ public class AssetLoader
 	public static Sound hoverWhistle2;
 	public static Sound hoverWhistle3;
 	public static Sound clickPlop;
+	public static Sound coinSound;
 
 	// Font
 	public static BitmapFont bFont;
@@ -81,6 +83,7 @@ public class AssetLoader
 		background_Credits=new Texture(Gdx.files.internal("backCredits.png"));
 		background_Shop= new Texture(Gdx.files.internal("backShop.png"));
 		background_Credits = new Texture(Gdx.files.internal("backCredits.png"));
+		levelBalken=new Texture(Gdx.files.internal("balken.png"));
 
 
 		// Animations
@@ -132,6 +135,7 @@ public class AssetLoader
 		hoverWhistle1 = Gdx.audio.newSound(Gdx.files.internal("pfiff1.wav"));
 		hoverWhistle2 = Gdx.audio.newSound(Gdx.files.internal("pfiff2.wav"));
 		hoverWhistle3 = Gdx.audio.newSound(Gdx.files.internal("pfiff3.wav"));
+		coinSound=Gdx.audio.newSound(Gdx.files.internal("coins.wav"));
 		//		clickPlop=Gdx.audio.newSound(Gdx.files.internal("plop2.wav"));
 
 		bFont = new BitmapFont(Gdx.files.internal("textfont.fnt"));

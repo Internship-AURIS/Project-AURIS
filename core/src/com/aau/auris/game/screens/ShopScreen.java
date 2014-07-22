@@ -31,6 +31,7 @@ public class ShopScreen extends AbstractScreen {
 	private TextureAtlas levelButtons;
 	private Sound clickSound;
 	private Sound hoverSound;
+	private Sound coinSound;
 	private Texture background;
 
 	// ShopItemButtons
@@ -42,6 +43,7 @@ public class ShopScreen extends AbstractScreen {
 	private final float LABEL_HEIGHT = 45f;
 	private Label playerLbl;
 	private Label creditsLbl;
+	private Label infoLbl;
 	private Animation boringMoves;
 	private SpriteBatch batch;
 	private float runTime;
@@ -61,6 +63,7 @@ public class ShopScreen extends AbstractScreen {
 		hoverSound = AssetLoader.hoverSound1;
 		background = AssetLoader.background_Shop;
 		boringMoves = AssetLoader.ballDefault_animation;
+		coinSound= AssetLoader.coinSound;
 		batch = new SpriteBatch();
 		r = new Random();
 	}
@@ -100,7 +103,7 @@ public class ShopScreen extends AbstractScreen {
 			public void touchUp(InputEvent event, float x, float y,
 					int pointer, int button) {
 				super.touchUp(event, x, y, pointer, button);
-				clickSound.play();
+				coinSound.play();
 				// System.out.println("Shop-->purchase: " + event.getButton());
 				purchaseItem(BallSkin.BALL_SKIN_ID_2);
 			}
@@ -130,7 +133,7 @@ public class ShopScreen extends AbstractScreen {
 			public void touchUp(InputEvent event, float x, float y,
 					int pointer, int button) {
 				super.touchUp(event, x, y, pointer, button);
-				clickSound.play();
+				coinSound.play();
 				purchaseItem(BallSkin.BALL_SKIN_ID_3);
 			}
 		});
@@ -159,7 +162,7 @@ public class ShopScreen extends AbstractScreen {
 			public void touchUp(InputEvent event, float x, float y,
 					int pointer, int button) {
 				super.touchUp(event, x, y, pointer, button);
-				clickSound.play();
+				coinSound.play();
 				purchaseItem(BallSkin.BALL_SKIN_ID_4);
 			}
 		});
@@ -232,9 +235,13 @@ public class ShopScreen extends AbstractScreen {
 		playerLbl.setPosition(game.getWidth() - game.getWidth() / 4.2f,
 				game.getHeight() / 2 - game.getHeight() / 50);
 
-		creditsLbl = new Label("Credits: ---", lblPlayerStyle);
+		creditsLbl = new Label("Credits: --- $", lblPlayerStyle);
 		creditsLbl.setSize(LABEL_WIDTH, LABEL_HEIGHT);
 		creditsLbl.setPosition(playerLbl.getX(), playerLbl.getY() - 32);
+		
+//		infoLbl=new Label("Not enough credits!",lblPlayerStyle);
+//		infoLbl.setSize(LABEL_WIDTH, LABEL_HEIGHT);
+//		infoLbl.setPosition(playerLbl.getX()-10, playerLbl.getY()-64);
 
 		stage.addActor(shopItem1);
 		stage.addActor(shopItem2);
@@ -242,6 +249,7 @@ public class ShopScreen extends AbstractScreen {
 
 		stage.addActor(playerLbl);
 		stage.addActor(creditsLbl);
+//		stage.addActor(infoLbl);
 
 		stage.addActor(tbBack);
 		stage.addActor(btnDefault);
@@ -259,7 +267,7 @@ public class ShopScreen extends AbstractScreen {
 
 		player = game.getPlayer();
 		playerLbl.setText("Player: " + player.getName());
-		creditsLbl.setText("Credits: " + player.getCredits());
+		creditsLbl.setText("Credits: " + player.getCredits()+" $");
 		// shopItem1Style.imageUp = skin.getDrawable("");
 		// shopItem2Style.imageUp = skin.getDrawable("");
 		// shopItem3Style.imageUp = skin.getDrawable("");

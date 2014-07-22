@@ -20,10 +20,12 @@ public class WebcamHandler implements WebcamListener
 	{
 		this.game = game;
 		this.webcam = Webcam.getDefault();
-		webcam.addWebcamListener(this);
-		webcam.setViewSize(WebcamResolution.QVGA.getSize());
-		start();
-		System.out.println("init");//TODO: debugging
+		if (webcam != null)
+		{
+			webcam.addWebcamListener(this);
+			webcam.setViewSize(WebcamResolution.QVGA.getSize());
+			start();
+		}
 	}
 
 	@Override

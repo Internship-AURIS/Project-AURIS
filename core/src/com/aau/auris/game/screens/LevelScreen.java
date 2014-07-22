@@ -35,6 +35,7 @@ public class LevelScreen extends AbstractScreen
 	private Sound hoverWhistle1;
 	private Sound hoverWhistle2;
 	private Sound hoverWhistle3;
+	private Sound coinSound;
 
 	// Level- and Achievement-Display
 	private ImageTextButtonStyle itbAchiev1Style;
@@ -69,6 +70,7 @@ public class LevelScreen extends AbstractScreen
 		hoverWhistle1 = AssetLoader.hoverWhistle1;
 		hoverWhistle2 = AssetLoader.hoverWhistle2;
 		hoverWhistle3 = AssetLoader.hoverWhistle3;
+		coinSound= AssetLoader.coinSound;
 	}
 
 	@Override
@@ -413,7 +415,7 @@ public class LevelScreen extends AbstractScreen
 			public void touchUp(InputEvent event, float x, float y, int pointer, int button)
 			{
 				super.touchUp(event, x, y, pointer, button);
-				clickSound.play();
+				coinSound.play();
 				game.changeScreen(AURISGame.SHOP_SCREEN, LevelScreen.this);
 			}
 		});
