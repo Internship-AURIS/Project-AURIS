@@ -100,10 +100,10 @@ public class AssetLoader
 			parachuteFrames1[i] = tmp[0][i];
 			parachuteFrames2[i] = tmp[1][i];
 			parachuteFrames3[i] = tmp[2][i];
-			ballBoredFrames[i]=tmpDefault[0][i];
-			greenballBoredFrames[i]= tmpGreen[0][i];
-			yellowballBoredFrames[i]= tmpYellow[0][i];
-			redballBoredFrames[i]= tmpRed[0][i];
+			ballBoredFrames[i]=tmpDefault[2][i];
+			greenballBoredFrames[i]= tmpGreen[2][i];
+			yellowballBoredFrames[i]= tmpYellow[2][i];
+			redballBoredFrames[i]= tmpRed[2][i];
 			
 		}
 		
@@ -114,13 +114,13 @@ public class AssetLoader
 		parachuteBallAnimation3 = new Animation(0.08f, parachuteFrames3);
 		parachuteBallAnimation3.setPlayMode(Animation.PlayMode.LOOP_PINGPONG);
 		ballDefault_animation = new Animation(0.08f, ballBoredFrames);
-		ballDefault_animation.setPlayMode(Animation.PlayMode.LOOP_PINGPONG);
+		ballDefault_animation.setPlayMode(Animation.PlayMode.NORMAL);
 		ballskinGreen_animation = new Animation(0.08f, greenballBoredFrames);
-		ballskinGreen_animation.setPlayMode(Animation.PlayMode.LOOP_PINGPONG);
+		ballskinGreen_animation.setPlayMode(Animation.PlayMode.NORMAL);
 		ballskinYellow_animation=new Animation(0.08f, yellowballBoredFrames);
-		ballskinYellow_animation.setPlayMode(Animation.PlayMode.LOOP_PINGPONG);
+		ballskinYellow_animation.setPlayMode(Animation.PlayMode.NORMAL);
 		ballskinRed_animation = new Animation(0.08f, redballBoredFrames);
-		ballskinRed_animation.setPlayMode(Animation.PlayMode.LOOP_PINGPONG);
+		ballskinRed_animation.setPlayMode(Animation.PlayMode.NORMAL);
 		ballskin4_animation = new Animation(0.08f, parachuteFrames3);
 		ballskin4_animation.setPlayMode(Animation.PlayMode.LOOP_PINGPONG);
 
