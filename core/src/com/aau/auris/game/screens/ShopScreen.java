@@ -301,9 +301,10 @@ public class ShopScreen extends AbstractScreen {
 		if (player != null) {
 			currentFrame = ballSkin.getSkin().getKeyFrame(runTime, true);
 			batch.begin();
-			batch.draw(currentFrame, game.getWidth() / 2 - game.getWidth()
-					/ 5.3f - 25,
-					game.getHeight() / 2 - game.getHeight() / 6.3f, 100, 100);
+//			batch.draw(currentFrame, game.getWidth() / 2 - game.getWidth()
+//					/ 5.3f - 25,
+//					game.getHeight() / 2 - game.getHeight() / 6.3f);
+			batch.draw(currentFrame, 230, 162);
 			batch.end();
 		}
 

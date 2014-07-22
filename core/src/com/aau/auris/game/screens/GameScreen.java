@@ -105,7 +105,7 @@ public class GameScreen extends AbstractScreen
 		lblPlayerScore = new Label("Score: ---", lblStyle);
 		lblPlayerScore.setBounds(s_width - width*1.3f, lblLevel.getY(), width, height);
 
-		lblPlayerCredits = new Label("Credits: ---", lblStyle);
+		lblPlayerCredits = new Label("Credits: --- $", lblStyle);
 		lblPlayerCredits.setBounds(lblPlayerScore.getX() - lblPlayerScore.getWidth() - width / 2, lblLevel.getY(), width, height);
 
 		//Balken LABEL:
@@ -191,7 +191,7 @@ public class GameScreen extends AbstractScreen
 		lblLevel.setText("Lvl. " + (level.getID() + 1));
 		lblPlayerName.setText("Name: " + player.getName());
 		lblPlayerScore.setText("Score: " + player.getScore());
-		lblPlayerCredits.setText("Credits: " + player.getCredits());
+		lblPlayerCredits.setText("Credits: " + player.getCredits()+" $");
 	}
 
 	private void updateData()

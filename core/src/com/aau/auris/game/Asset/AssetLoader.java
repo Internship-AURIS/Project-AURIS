@@ -48,6 +48,10 @@ public class AssetLoader
 	public static Animation yellowPopAnimation;
 	public static Animation greenPopAnimation;
 	public static Animation redPopAnimation;
+	public static Animation redFlyAnimation;
+	public static Animation greenFlyAnimation;
+	public static Animation yellowFlyAnimation;
+	public static Animation defaultFlyAnimation;
 	public static Animation ballskin4_animation;
 
 	// Sounds
@@ -102,6 +106,10 @@ public class AssetLoader
 		TextureRegion[] yellowPopFrames = new TextureRegion[FLY_COLS];
 		TextureRegion[] greenPopFrames = new TextureRegion[FLY_COLS];
 		TextureRegion[] redPopFrames = new TextureRegion[FLY_COLS];
+		TextureRegion[] redFlyFrames = new TextureRegion[FLY_COLS];
+		TextureRegion[] yellowFlyFrames = new TextureRegion[FLY_COLS];
+		TextureRegion[] greenFlyFrames = new TextureRegion[FLY_COLS];
+		TextureRegion[] defaultFlyFrames = new TextureRegion[FLY_COLS];
 		
 		for (int i = 0; i < FLY_COLS; i++)
 		{
@@ -116,6 +124,10 @@ public class AssetLoader
 			yellowPopFrames[i]=tmpYellow[2][i];
 			greenPopFrames[i]=tmpGreen[2][i];
 			redPopFrames[i]=tmpRed[2][i];
+			redFlyFrames[i]=tmpRed[1][i];
+			yellowFlyFrames[i]=tmpYellow[1][i];
+			greenFlyFrames[i]=tmpGreen[1][i];
+			defaultFlyFrames[i]=tmpDefault[1][i];
 		}
 		
 		parachuteBallAnimation1 = new Animation(0.08f, parachuteFrames1);
@@ -142,6 +154,14 @@ public class AssetLoader
 		greenPopAnimation.setPlayMode(Animation.PlayMode.NORMAL);
 		redPopAnimation= new Animation(0.08f, redPopFrames);
 		redPopAnimation.setPlayMode(Animation.PlayMode.NORMAL);
+		redFlyAnimation= new Animation(0.08f, redFlyFrames);
+		redFlyAnimation.setPlayMode(Animation.PlayMode.LOOP_PINGPONG);
+		yellowFlyAnimation= new Animation(0.08f, yellowFlyFrames);
+		yellowFlyAnimation.setPlayMode(Animation.PlayMode.LOOP_PINGPONG);
+		greenFlyAnimation= new Animation(0.08f, greenFlyFrames);
+		greenFlyAnimation.setPlayMode(Animation.PlayMode.NORMAL);
+		defaultFlyAnimation= new Animation(0.08f, defaultFlyFrames);
+		defaultFlyAnimation.setPlayMode(Animation.PlayMode.NORMAL);
 
 		// Sounds
 		hoverSound1 = Gdx.audio.newSound(Gdx.files.internal("hover1.wav"));
