@@ -6,6 +6,7 @@ import com.aau.auris.game.AURISGame;
 import com.aau.auris.game.Asset.AssetLoader;
 import com.aau.auris.game.data.Player;
 import com.aau.auris.game.imageprocessing.ImageProcessor;
+import com.aau.auris.game.items.BallSkin;
 import com.aau.auris.game.level.Level;
 import com.aau.auris.game.level.gameworld.Ball;
 import com.aau.auris.game.level.gameworld.CollisionHandler;
@@ -32,7 +33,6 @@ public class GameScreen extends AbstractScreen
 {
 	// Assets
 	private TextureAtlas levelButtons;
-	private Texture levelBalken;
 
 	// GameWorld
 	private World world;
@@ -56,6 +56,7 @@ public class GameScreen extends AbstractScreen
 	private Label lblBalken;
 	private Label lblStatus;
 	private TextButton btnBack;
+	private BallSkin ballskin;
 
 	// image processing
 	private ImageProcessor imageProcessor;
@@ -63,7 +64,6 @@ public class GameScreen extends AbstractScreen
 	public GameScreen(AURISGame game)
 	{
 		super(game);
-
 	}
 
 	@Override
@@ -81,6 +81,7 @@ public class GameScreen extends AbstractScreen
 	@Override
 	protected void initComponents()
 	{
+		this.ballskin = new BallSkin();
 		// GameLogic
 		collisionHandler = new CollisionHandler(game, this);
 
@@ -91,7 +92,6 @@ public class GameScreen extends AbstractScreen
 		final int height = s_height / 10;// component height
 		levelButtons = AssetLoader.levelButtons;
 		skin = new Skin(levelButtons);
-		levelBalken = AssetLoader.levelBalken;
 
 		// image processing
 		imageProcessor = new ImageProcessor();
@@ -144,7 +144,6 @@ public class GameScreen extends AbstractScreen
 			@Override
 			public void clicked(InputEvent event, float x, float y)
 			{
-				// TODO Auto-generated method stub
 				super.clicked(event, x, y);
 				game.changeScreen(AURISGame.LEVEL_SCREEN, GameScreen.this);
 			}
@@ -215,6 +214,8 @@ public class GameScreen extends AbstractScreen
 	public void render(float delta)
 	{
 		super.render(delta);
+		runTime += delta;
+
 		spriteBatch.setProjectionMatrix(camera.combined);
 		debugRenderer.render(world, camera.combined);
 
@@ -227,7 +228,8 @@ public class GameScreen extends AbstractScreen
 		lblStatus.setText(ball.isDead() ? "GAME OVER" : "");
 
 		// TODO: play ballBursting animation + "gameOver" text
-		spriteBatch.draw(ball.getCurrentKeyFrame(runTime), ball.getBody().getPosition().x - (ball.CIRCLE_RADIUS + 4), ball.getBody().getPosition().y - (ball.CIRCLE_RADIUS + 3));
+		spriteBatch.draw(ballskin.getSkinAnimation(player.getSkinID()).getKeyFrame(runTime), ball.getBody().getPosition().x - (ball.CIRCLE_RADIUS + 4), ball.getBody().getPosition().y
+				- (ball.CIRCLE_RADIUS + 3));
 		//		spriteBatch.draw(levelBalken, 0, game.getHeight()-50);
 
 		spriteBatch.end();

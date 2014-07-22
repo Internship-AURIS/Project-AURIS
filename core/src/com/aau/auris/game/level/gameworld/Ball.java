@@ -11,15 +11,12 @@ import com.badlogic.gdx.physics.box2d.CircleShape;
 import com.badlogic.gdx.physics.box2d.FixtureDef;
 import com.badlogic.gdx.physics.box2d.World;
 
-public class Ball extends Entity implements Asset
+public class Ball extends Entity
 {
 	public final float CIRCLE_RADIUS = 26.5f;
 	private final float DENSITY = 5f;
 	private final float FRICTION = 0.0f;
 	private final float RESTITUTION = 0f;
-
-	// Asset
-	private Animation defaultAnimation;
 
 	// Other
 	private boolean dead;
@@ -43,25 +40,8 @@ public class Ball extends Entity implements Asset
 		body.setUserData(this);
 
 		dead = false;
-		
+
 		circleShape.dispose();
-
-		loadAsset();
-	}
-
-	@Override
-	public void loadAsset()
-	{
-		defaultAnimation = AssetLoader.parachuteBallAnimation1;
-	}
-
-	@Override
-	public void disposeAsset()
-	{}
-
-	public TextureRegion getCurrentKeyFrame(float runTime)
-	{
-		return defaultAnimation.getKeyFrame(runTime);
 	}
 
 	public void setDead(boolean dead)
