@@ -84,11 +84,13 @@ public class Level implements Asset
 		// initialize GameObjects
 		final int s_width = Gdx.graphics.getWidth();
 		final int s_height = Gdx.graphics.getHeight();
-		final float menu_width = 40;
-		final float menu_height = 150;
+		final float menu_width = 90;
+		final float menu_height = 200;
+		final float goal_width = 40;
+		final float goal_height = 150;
 		ball = new Ball(world, camera.viewportWidth / 2, camera.viewportHeight / 2);
 		home = new Home(world, 0 * WORLD_TO_BOX, 0 * WORLD_TO_BOX, menu_width * WORLD_TO_BOX, menu_height * WORLD_TO_BOX);
-		goal = new Goal(world, (s_width - menu_width) * WORLD_TO_BOX, 0, menu_width * WORLD_TO_BOX, menu_height * WORLD_TO_BOX);
+		goal = new Goal(world, (s_width - goal_width) * WORLD_TO_BOX, 0, goal_width * WORLD_TO_BOX, goal_height * WORLD_TO_BOX);
 
 		// Initialize GameBorder
 		final float factor_height = 1.95f;

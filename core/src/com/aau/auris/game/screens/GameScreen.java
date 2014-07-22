@@ -3,6 +3,7 @@ package com.aau.auris.game.screens;
 import java.awt.image.BufferedImage;
 
 import com.aau.auris.game.AURISGame;
+import com.aau.auris.game.Asset.AssetLoader;
 import com.aau.auris.game.data.Player;
 import com.aau.auris.game.level.Level;
 import com.aau.auris.game.level.gameworld.Ball;
@@ -11,15 +12,26 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.badlogic.gdx.graphics.Pixmap;
+import com.badlogic.gdx.graphics.Pixmap.Format;
+import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
 import com.badlogic.gdx.physics.box2d.World;
+import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Label.LabelStyle;
+import com.badlogic.gdx.scenes.scene2d.ui.Skin;
+import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
+import com.badlogic.gdx.scenes.scene2d.ui.TextButton.TextButtonStyle;
+import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 
 public class GameScreen extends AbstractScreen
 {
 	// Assets
+	private TextureAtlas levelButtons;
+	private Texture levelBalken;
 
 	// GameWorld
 	private World world;
@@ -39,10 +51,13 @@ public class GameScreen extends AbstractScreen
 	private Label lblPlayerName;
 	private Label lblPlayerScore;
 	private Label lblPlayerCredits;
+	private Label lblBalken;
+	private TextButton btnBack;
 
 	public GameScreen(AURISGame game, int levelDiff)
 	{
 		super(game);
+		
 	}
 
 	@Override
@@ -68,6 +83,9 @@ public class GameScreen extends AbstractScreen
 		final int s_height = Gdx.graphics.getHeight();
 		final int width = s_width / 8;// component width
 		final int height = s_height / 10;// component height
+		levelButtons=AssetLoader.levelButtons;
+		skin= new Skin(levelButtons);
+		levelBalken=AssetLoader.levelBalken;
 
 		// Status Bar: Level, PlayerName, PlayerScore
 		LabelStyle lblStyle = new LabelStyle();
@@ -79,17 +97,53 @@ public class GameScreen extends AbstractScreen
 
 		lblPlayerName = new Label("Name:-------", lblStyle);
 		lblPlayerName.setBounds(s_width / 2f - width, lblLevel.getY(), width, height);
+		
 
 		lblPlayerScore = new Label("Score: ---", lblStyle);
-		lblPlayerScore.setBounds(s_width - width, lblLevel.getY(), width, height);
+		lblPlayerScore.setBounds(s_width - width*1.3f, lblLevel.getY(), width, height);
 
 		lblPlayerCredits = new Label("Credits: ---", lblStyle);
 		lblPlayerCredits.setBounds(lblPlayerScore.getX() - lblPlayerScore.getWidth() - width / 2, lblLevel.getY(), width, height);
 
+		//Balken LABEL:
+		LabelStyle lblBalkenStyle = new LabelStyle();
+		lblBalkenStyle.font = bFont;
+		lblBalkenStyle.fontColor = Color.WHITE;
+		lblBalkenStyle.background=skin.getDrawable("balken");
+		
+		lblBalken=new Label("",lblBalkenStyle);
+		lblBalken.setBounds(0,game.getHeight()-40,game.getWidth(),lblLevel.getHeight()+5);
+		
+		//Back-Button
+		Pixmap pixmap = new Pixmap(800, 800, Format.RGBA8888);
+		pixmap.setColor(Color.BLUE);
+		pixmap.fill();
+		skin.add("default", new Texture(pixmap));
+		TextButtonStyle btnBackStyle= new TextButtonStyle();
+		btnBackStyle.font = bFont;
+		btnBackStyle.fontColor = Color.WHITE;
+		btnBackStyle.up=skin.getDrawable("vertBack");
+		skin.add("backstyle", btnBackStyle);
+		btnBack=new TextButton("",btnBackStyle);
+		btnBack.setSize(game.getWidth()/19, game.getHeight()/4.75f);
+		btnBack.setPosition(0, 0);
+		btnBack.addListener(new ClickListener(){
+
+			@Override
+			public void clicked(InputEvent event, float x, float y) {
+				// TODO Auto-generated method stub
+				super.clicked(event, x, y);
+				game.changeScreen(AURISGame.LEVEL_SCREEN, GameScreen.this);
+			}
+			
+		});
+		stage.addActor(lblBalken);
 		stage.addActor(lblLevel);
 		stage.addActor(lblPlayerName);
 		stage.addActor(lblPlayerCredits);
 		stage.addActor(lblPlayerScore);
+		
+		stage.addActor(btnBack);
 	}
 
 	public void updateGameField(BufferedImage img)
@@ -159,6 +213,8 @@ public class GameScreen extends AbstractScreen
 
 		spriteBatch.begin();
 		spriteBatch.draw(ball.getCurrentKeyFrame(runTime), ball.getBody().getPosition().x - (ball.CIRCLE_RADIUS + 4), ball.getBody().getPosition().y - (ball.CIRCLE_RADIUS + 3));
+//		spriteBatch.draw(levelBalken, 0, game.getHeight()-50);
+		
 		spriteBatch.end();
 
 		//physic updates
