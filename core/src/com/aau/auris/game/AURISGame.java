@@ -1,6 +1,7 @@
 package com.aau.auris.game;
 
 import java.awt.Dimension;
+import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 
 import com.aau.auris.game.Asset.AssetLoader;
@@ -89,13 +90,11 @@ public class AURISGame extends Game
 		super.render();
 	}
 
-	public void update()
+	public void update(BufferedImage img)
 	{
 		if (updateImage)
 		{
-			gameScreen.updateGameField(webcamHandler.getInputImage());
-			// TODO: implement image processing
-			System.out.println("gamescreen");
+			gameScreen.updateGameField(img);
 		}
 	}
 

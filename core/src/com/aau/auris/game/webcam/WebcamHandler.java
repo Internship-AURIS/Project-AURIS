@@ -1,7 +1,5 @@
 package com.aau.auris.game.webcam;
 
-import java.awt.image.BufferedImage;
-
 import com.aau.auris.game.AURISGame;
 import com.github.sarxos.webcam.Webcam;
 import com.github.sarxos.webcam.WebcamEvent;
@@ -10,11 +8,9 @@ import com.github.sarxos.webcam.WebcamResolution;
 
 public class WebcamHandler implements WebcamListener
 {
-	private Webcam webcam;
-	private boolean shouldUpdate = false;
-	private BufferedImage inputImage;
 
 	private AURISGame game;
+	private Webcam webcam;
 
 	public WebcamHandler(AURISGame game)
 	{
@@ -44,25 +40,11 @@ public class WebcamHandler implements WebcamListener
 	@Override
 	public void webcamImageObtained(WebcamEvent e)
 	{
-		System.out.println("image obtained");
-		inputImage = e.getImage();
-		if (shouldUpdate)
-		{
-			game.update();
-		}
+		System.out.println("image obtained");//TODO: debugging
+		game.update(e.getImage());
 	}
 
 	@Override
 	public void webcamOpen(WebcamEvent e)
 	{}
-
-	public BufferedImage getInputImage()
-	{
-		return inputImage;
-	}
-
-	public void setUpdate(boolean enabled)
-	{
-		this.shouldUpdate = enabled;
-	}
 }
