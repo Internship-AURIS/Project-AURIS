@@ -92,7 +92,7 @@ public class Level implements Asset
 		final float menu_height = 200;
 		final float goal_width = 40;
 		final float goal_height = 150;
-		ball = new Ball(world, camera.viewportWidth / 2, camera.viewportHeight / 2);
+		ball = new Ball(world, camera.viewportWidth / 2, camera.viewportHeight / 2, game.getPreferences().getBallRadius());
 		home = new Home(world, 0 * WORLD_TO_BOX, 0 * WORLD_TO_BOX, menu_width * WORLD_TO_BOX, menu_height * WORLD_TO_BOX);
 		goal = new Goal(world, (s_width - goal_width) * WORLD_TO_BOX, 0, goal_width * WORLD_TO_BOX, goal_height * WORLD_TO_BOX);
 

@@ -9,7 +9,6 @@ import com.badlogic.gdx.physics.box2d.World;
 
 public class Ball extends Entity
 {
-	public final float CIRCLE_RADIUS = 26.5f;
 	private final float DENSITY = 5f;
 	private final float FRICTION = 0.0f;
 	private final float RESTITUTION = 0f;
@@ -17,7 +16,7 @@ public class Ball extends Entity
 	// Other
 	private boolean dead;
 
-	public Ball(World world, float posX, float posY)
+	public Ball(World world, float posX, float posY, float radius)
 	{
 		bodyDef = new BodyDef();
 		bodyDef.type = BodyType.DynamicBody;
@@ -25,7 +24,7 @@ public class Ball extends Entity
 		body = world.createBody(bodyDef);
 
 		CircleShape circleShape = new CircleShape();
-		circleShape.setRadius(CIRCLE_RADIUS);
+		circleShape.setRadius(radius);
 
 		FixtureDef fixtureDef = new FixtureDef();
 		fixtureDef.shape = circleShape;
@@ -40,14 +39,19 @@ public class Ball extends Entity
 		circleShape.dispose();
 	}
 
-	public void setDead(boolean dead)
+	public void die()
 	{
-		this.dead = dead;
+		this.dead = true;
 	}
 
 	public boolean isDead()
 	{
 		return dead;
+	}
+
+	public void setDead(boolean dead)
+	{
+		this.dead = dead;
 	}
 
 }
