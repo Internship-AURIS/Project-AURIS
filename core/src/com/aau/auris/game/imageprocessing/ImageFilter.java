@@ -84,14 +84,14 @@ public class ImageFilter
 		return new BufferedImage(cm, raster, isAlphaPremultiplied, null);
 	}
 
-	public void setLowThreshold(float low)
-	{
-		this.lowThreshold = low;
-	}
-
-	public void setHighThreshold(float high)
+	public void setUpperThreshold(float high)
 	{
 		this.highThreshold = high;
+	}
+
+	public void setLowerThreshold(float low)
+	{
+		this.lowThreshold = low;
 	}
 
 }
