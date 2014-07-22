@@ -44,6 +44,10 @@ public class AssetLoader
 	public static Animation ballskinGreen_animation;
 	public static Animation ballskinYellow_animation;
 	public static Animation ballskinRed_animation;
+	public static Animation defaultPopAnimation;
+	public static Animation yellowPopAnimation;
+	public static Animation greenPopAnimation;
+	public static Animation redPopAnimation;
 	public static Animation ballskin4_animation;
 
 	// Sounds
@@ -94,6 +98,10 @@ public class AssetLoader
 		TextureRegion[] greenballBoredFrames = new TextureRegion[FLY_COLS];
 		TextureRegion[] yellowballBoredFrames = new TextureRegion[FLY_COLS];
 		TextureRegion[] redballBoredFrames = new TextureRegion[FLY_COLS];
+		TextureRegion[] defaultPopFrames = new TextureRegion[FLY_COLS];
+		TextureRegion[] yellowPopFrames = new TextureRegion[FLY_COLS];
+		TextureRegion[] greenPopFrames = new TextureRegion[FLY_COLS];
+		TextureRegion[] redPopFrames = new TextureRegion[FLY_COLS];
 		
 		for (int i = 0; i < FLY_COLS; i++)
 		{
@@ -104,7 +112,10 @@ public class AssetLoader
 			greenballBoredFrames[i]= tmpGreen[0][i];
 			yellowballBoredFrames[i]= tmpYellow[0][i];
 			redballBoredFrames[i]= tmpRed[0][i];
-			
+			defaultPopFrames[i]=tmpDefault[2][i];
+			yellowPopFrames[i]=tmpYellow[2][i];
+			greenPopFrames[i]=tmpGreen[2][i];
+			redPopFrames[i]=tmpRed[2][i];
 		}
 		
 		parachuteBallAnimation1 = new Animation(0.08f, parachuteFrames1);
@@ -123,6 +134,14 @@ public class AssetLoader
 		ballskinRed_animation.setPlayMode(Animation.PlayMode.LOOP_PINGPONG);
 		ballskin4_animation = new Animation(0.08f, parachuteFrames3);
 		ballskin4_animation.setPlayMode(Animation.PlayMode.LOOP_PINGPONG);
+		defaultPopAnimation= new Animation(0.08f, defaultPopFrames);
+		defaultPopAnimation.setPlayMode(Animation.PlayMode.NORMAL);
+		yellowPopAnimation= new Animation(0.08f, yellowPopFrames);
+		yellowPopAnimation.setPlayMode(Animation.PlayMode.NORMAL);
+		greenPopAnimation= new Animation(0.08f, greenPopFrames);
+		greenPopAnimation.setPlayMode(Animation.PlayMode.NORMAL);
+		redPopAnimation= new Animation(0.08f, redPopFrames);
+		redPopAnimation.setPlayMode(Animation.PlayMode.NORMAL);
 
 		// Sounds
 		hoverSound1 = Gdx.audio.newSound(Gdx.files.internal("hover1.wav"));
