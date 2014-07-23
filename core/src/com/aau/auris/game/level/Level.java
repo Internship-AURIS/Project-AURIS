@@ -40,7 +40,7 @@ public class Level implements Asset {
 	public static final float BOX_STEP = 1 / 60f;
 	public static final int BOX_VELOCITY_ITERATIONS = 6;
 	public static final int BOX_POSITION_ITERATIONS = 2;
-	public static final float WORLD_TO_BOX = 0.5111111f;
+	public static final float WORLD_TO_BOX = 0.511111f;
 
 	// Level
 	private World world;
@@ -241,6 +241,6 @@ public class Level implements Asset {
 
 	public void draw(SpriteBatch spriteBatch) {
 		skin.getDrawable("goal4Big").draw(spriteBatch, 790,
-				goal.getBody().getPosition().y, 60, 150);
+				goal.getBodyDef().position.y+10, 60, 150);
 	}
 }

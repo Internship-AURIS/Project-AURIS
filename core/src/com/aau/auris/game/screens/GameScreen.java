@@ -52,6 +52,7 @@ public class GameScreen extends AbstractScreen {
 	private Player player;// Player Stats: score, achievements, etc.
 	public float runTime;
 	private Texture backGround;
+	LabelStyle overStyle;
 
 	// UIComponents
 	private Label lblLevel;
@@ -114,8 +115,12 @@ public class GameScreen extends AbstractScreen {
 				lblPlayerScore.getX() - lblPlayerScore.getWidth() - width / 2,
 				lblLevel.getY(), width, height);
 
-		lblStatus = new Label("", lblStyle);
-		lblStatus.setBounds(360, 235, width, height);
+		overStyle=new LabelStyle();
+		overStyle.font = bFont;
+		overStyle.fontColor = Color.WHITE;
+		
+		lblStatus = new Label("", overStyle);
+		lblStatus.setBounds(330, 200, 200, 150);
 
 		// Balken LABEL:
 		LabelStyle lblBalkenStyle = new LabelStyle();
@@ -192,6 +197,9 @@ public class GameScreen extends AbstractScreen {
 		if (Gdx.input.isKeyPressed(Keys.RIGHT)) {
 			ball.getBody().setLinearVelocity(120, 0);
 		}
+		if(Gdx.input.isKeyPressed(Keys.ESCAPE)){
+			game.changeScreen(AURISGame.LEVEL_SCREEN, GameScreen.this);
+		}
 	}
 
 	private void updateStatusBar() {
@@ -215,15 +223,22 @@ public class GameScreen extends AbstractScreen {
 		this.camera = level.getCamera();
 		this.spriteBatch = new SpriteBatch();
 	}
+	
+	public void ballDied()
+	{
+	
+	}
 
 	@Override
 	public void render(float delta) {
 		super.render(delta);
 		runTime += delta;
 
-		lblStatus.setText(ball.isDead() ? "GAME OVER" : "");
+		if(ball.isDead()){
+			overStyle.background=skin.getDrawable("over1");
+		}
 		spriteBatch.setProjectionMatrix(camera.combined);
-//		debugRenderer.render(world, camera.combined);
+		debugRenderer.render(world, camera.combined);
 
 		spriteBatch.begin();
 		if (level != null) {
