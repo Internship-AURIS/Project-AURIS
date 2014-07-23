@@ -61,13 +61,10 @@ public class GameScreen extends AbstractScreen
 	private TextButton btnBack;
 	private BallSkin ballskin;
 
-	// image processing
-	private ImageProcessor imageProcessor;
-
 	public GameScreen(AURISGame game)
 	{
 		super(game);
-		ball_radius = (int) game.getPreferences().getBallRadius()+12;
+		ball_radius = (int) game.getPreferences().getBallRadius() + 12;
 	}
 
 	@Override
@@ -96,9 +93,6 @@ public class GameScreen extends AbstractScreen
 		final int height = s_height / 10;// component height
 		levelButtons = AssetLoader.levelButtons;
 		skin = new Skin(levelButtons);
-
-		// image processing
-		imageProcessor = new ImageProcessor();
 
 		// Status Bar: Level, PlayerName, PlayerScore
 		LabelStyle lblStyle = new LabelStyle();
@@ -164,7 +158,7 @@ public class GameScreen extends AbstractScreen
 
 	public void updateGame(BufferedImage img)
 	{
-		imageProcessor.setImage(img);
+		// TODO: implement creation of objects in gameWorld
 	}
 
 	@Override

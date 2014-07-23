@@ -12,6 +12,8 @@ import com.aau.auris.game.Asset.AssetLoader;
 import com.aau.auris.game.data.Player;
 import com.aau.auris.game.data.Preferences;
 import com.aau.auris.game.data.UserData;
+import com.aau.auris.game.imageprocessing.ImageProcessor;
+import com.aau.auris.game.imageprocessing.WebcamHandler;
 import com.aau.auris.game.items.Achievement;
 import com.aau.auris.game.items.BallSkin;
 import com.aau.auris.game.level.Level;
@@ -21,7 +23,6 @@ import com.aau.auris.game.screens.LevelScreen;
 import com.aau.auris.game.screens.LoginScreen;
 import com.aau.auris.game.screens.MenuScreen;
 import com.aau.auris.game.screens.ShopScreen;
-import com.aau.auris.game.webcam.WebcamHandler;
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
@@ -50,7 +51,8 @@ public class AURISGame extends Game
 	public static ArrayList<Level> levels;
 	public static ArrayList<BallSkin> ballSkins;
 
-	// WebcamHandler
+	// ImageProcessing
+	private ImageProcessor imageProcessor;
 	private WebcamHandler webcamHandler;
 	private BufferedImage inputImage;
 
@@ -65,7 +67,8 @@ public class AURISGame extends Game
 	@Override
 	public void create()
 	{
-		webcamHandler = new WebcamHandler(this);
+		imageProcessor = new ImageProcessor(this);
+		webcamHandler = new WebcamHandler(imageProcessor);
 
 		AssetLoader.load();
 		preferences = new Preferences();
@@ -164,6 +167,7 @@ public class AURISGame extends Game
 		{
 			e.printStackTrace();
 		}
+
 	}
 
 	public BufferedImage getInputImage()
