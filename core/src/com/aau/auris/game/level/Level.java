@@ -1,19 +1,24 @@
 package com.aau.auris.game.level;
 
 import java.util.ArrayList;
+import java.util.Random;
 
 import com.aau.auris.game.AURISGame;
 import com.aau.auris.game.Asset.Asset;
+import com.aau.auris.game.Asset.AssetLoader;
 import com.aau.auris.game.data.Player;
 import com.aau.auris.game.level.gameworld.*;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
 import com.badlogic.gdx.physics.box2d.World;
+import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 
-public class Level implements Asset
-{
+public class Level implements Asset {
 	// Level Settings
 	public static final transient int DIFFICULTY_1 = 1;
 	public static final transient int DIFFICULTY_2 = 2;
@@ -27,7 +32,8 @@ public class Level implements Asset
 	public static final int LEVEL_ID_7 = 6;
 	public static final int LEVEL_ID_8 = 7;
 	public static final int LEVEL_ID_9 = 8;
-	public static final int[] costs = new int[] { 5, 6, 7, 10, 12, 14, 18, 22, 26 };
+	public static final int[] costs = new int[] { 5, 6, 7, 10, 12, 14, 18, 22,
+			26 };
 
 	// GameLogic Settings
 	public static final Vector2 GRAVITY = new Vector2(0, 0);
@@ -44,47 +50,52 @@ public class Level implements Asset
 	private ArrayList<Obstacle> obstacles;
 	private Home home;
 	private Goal goal;
+	private Skin skin;
+	private Random goalYRandom;
 
 	// Asset
 	// TODO: add asset for level display
+	private TextureAtlas goalTextures;
 
 	// Other
-	private AURISGame game;
+	public AURISGame game;
 	private int id;
 
-	public Level(AURISGame game, int id)
-	{
+	public Level(AURISGame game, int id) {
 		this.game = game;
 		this.id = id;
+		loadAsset();
 
 		world = new World(GRAVITY, true);
 		debugRenderer = new Box2DDebugRenderer();
 		camera = new OrthographicCamera();
 		camera.viewportWidth = Gdx.graphics.getWidth();
 		camera.viewportHeight = Gdx.graphics.getHeight();
-		camera.position.set(camera.viewportWidth * 0.5f, camera.viewportHeight * 0.5f, 0f);
+		camera.position.set(camera.viewportWidth * 0.5f,
+				camera.viewportHeight * 0.5f, 0f);
 		camera.update();
 
 		generateWorld();
 	}
 
-	public void reset()
-	{
+	public void reset() {
 		ball.setDead(false);
 		world = new World(GRAVITY, true);
 		generateWorld();
 	}
 
 	@Override
-	public void loadAsset()
-	{}
+	public void loadAsset() {
+		goalTextures = AssetLoader.levelgoals;
+		skin = new Skin(goalTextures);
+		goalYRandom = new Random();
+	}
 
 	@Override
-	public void disposeAsset()
-	{}
+	public void disposeAsset() {
+	}
 
-	public void generateWorld()
-	{
+	public void generateWorld() {
 		// initialize GameObjects
 		final int s_width = Gdx.graphics.getWidth();
 		final int s_height = Gdx.graphics.getHeight();
@@ -92,90 +103,111 @@ public class Level implements Asset
 		final float menu_height = 200;
 		final float goal_width = 40;
 		final float goal_height = 150;
-		ball = new Ball(world, camera.viewportWidth / 2, camera.viewportHeight / 2, game.getPreferences().getBallRadius());
-		home = new Home(world, 0 * WORLD_TO_BOX, 0 * WORLD_TO_BOX, menu_width * WORLD_TO_BOX, menu_height * WORLD_TO_BOX);
-		goal = new Goal(world, (s_width - goal_width) * WORLD_TO_BOX, 0, goal_width * WORLD_TO_BOX, goal_height * WORLD_TO_BOX);
+		final float randomY = (float) goalYRandom.nextInt(330);
+		ball = new Ball(this, world, camera.viewportWidth / 2,
+				camera.viewportHeight / 2, game.getPreferences()
+						.getBallRadius());
+		home = new Home(world, 0 * WORLD_TO_BOX, 0 * WORLD_TO_BOX, menu_width
+				* WORLD_TO_BOX, menu_height * WORLD_TO_BOX);
+		goal = new Goal(world, (s_width - goal_width) * WORLD_TO_BOX, randomY
+				* WORLD_TO_BOX, goal_width, goal_height);
 
 		// Initialize GameBorder
 		final float factor_height = 1.95f;
 		final float factor_width = 0.9367f;
 		final float border_width = 20;// the object
 		this.obstacles = new ArrayList<Obstacle>();
-		obstacles.add(new BorderLine(world, -10 * WORLD_TO_BOX, 0, border_width * WORLD_TO_BOX, (s_height * factor_height) * WORLD_TO_BOX));
-		obstacles.add(new BorderLine(world, 0 * WORLD_TO_BOX, -10 * WORLD_TO_BOX, (s_width * factor_height) * WORLD_TO_BOX, border_width * WORLD_TO_BOX));
-		obstacles.add(new BorderLine(world, 0 * WORLD_TO_BOX, ((s_height + border_width) * factor_width) * WORLD_TO_BOX, (s_width * factor_height) * WORLD_TO_BOX, border_width * WORLD_TO_BOX));
-		obstacles.add(new BorderLine(world, ((s_width + border_width * 1.8f) * factor_width) * WORLD_TO_BOX, 0, border_width * WORLD_TO_BOX, (s_height * factor_height) * WORLD_TO_BOX));
+		obstacles.add(new BorderLine(world, -10 * WORLD_TO_BOX, 0, border_width
+				* WORLD_TO_BOX, (s_height * factor_height) * WORLD_TO_BOX));
+		obstacles.add(new BorderLine(world, 0 * WORLD_TO_BOX, -10
+				* WORLD_TO_BOX, (s_width * factor_height) * WORLD_TO_BOX,
+				border_width * WORLD_TO_BOX));
+		obstacles.add(new BorderLine(world, 0 * WORLD_TO_BOX,
+				((s_height + border_width) * factor_width) * WORLD_TO_BOX,
+				(s_width * factor_height) * WORLD_TO_BOX, border_width
+						* WORLD_TO_BOX));
+		obstacles
+				.add(new BorderLine(world,
+						((s_width + border_width * 1.8f) * factor_width)
+								* WORLD_TO_BOX, 0, border_width * WORLD_TO_BOX,
+						(s_height * factor_height) * WORLD_TO_BOX));
 
-		if (id >= 1 && id <= 3)
-		{
+		if (id >= 1 && id <= 3) {
 			// TODO: generate Level Difficulty 1
-			obstacles.add(new Obstacle(world, (50 / 2 - 50) * WORLD_TO_BOX, (50 / 2 - 50) * WORLD_TO_BOX, 50 * WORLD_TO_BOX, 50 * WORLD_TO_BOX));
-		} else if (id >= 4 && id <= 6)
-		{
-			// TODO: generate Level Difficulty 2	
-			obstacles.add(new Obstacle(world, (50 / 2 - 50) * WORLD_TO_BOX, (50 / 2 - 50) * WORLD_TO_BOX, 50 * WORLD_TO_BOX, 50 * WORLD_TO_BOX));
-		} else if (id >= 7 && id <= 9)
-		{
-			// TODO: generate Level Difficulty 3	
-			obstacles.add(new Obstacle(world, (50 / 2 - 50) * WORLD_TO_BOX, (50 / 2 - 50) * WORLD_TO_BOX, 50 * WORLD_TO_BOX, 50 * WORLD_TO_BOX));
+			obstacles.add(new Obstacle(world, (50 / 2 - 50) * WORLD_TO_BOX,
+					(50 / 2 - 50) * WORLD_TO_BOX, 50 * WORLD_TO_BOX,
+					50 * WORLD_TO_BOX));
+			if(id==1){
+				obstacles.add(new Obstacle(world, 150,
+					20, 50 ,
+					50 ));
+			}
+
+		} else if (id >= 4 && id <= 6) {
+			// TODO: generate Level Difficulty 2
+			obstacles.add(new Obstacle(world, (50 / 2 - 50) * WORLD_TO_BOX,
+					(50 / 2 - 50) * WORLD_TO_BOX, 50 * WORLD_TO_BOX,
+					50 * WORLD_TO_BOX));
+		} else if (id >= 7 && id <= 9) {
+			// TODO: generate Level Difficulty 3
+			obstacles.add(new Obstacle(world, (50 / 2 - 50) * WORLD_TO_BOX,
+					(50 / 2 - 50) * WORLD_TO_BOX, 50 * WORLD_TO_BOX,
+					50 * WORLD_TO_BOX));
 		}
+
 	}
 
-	public int getID()
-	{
+	public int getID() {
 		return id;
 	}
 
-	public World getWorld()
-	{
+	public World getWorld() {
 		return world;
 	}
 
-	public Box2DDebugRenderer getDebugRenderer()
-	{
+	public Box2DDebugRenderer getDebugRenderer() {
 		return debugRenderer;
 	}
 
-	public OrthographicCamera getCamera()
-	{
+	public OrthographicCamera getCamera() {
 		return camera;
 	}
 
-	public Ball getBall()
-	{
+	public Ball getBall() {
 		return ball;
 	}
 
-	public Home getHome()
-	{
+	public Home getHome() {
 		return home;
 	}
 
-	public Goal getGoal()
-	{
+	public Goal getGoal() {
 		return goal;
 	}
 
-	public int getCreditValue()
-	{
-		if (id - 1 >= 0 && id - 1 < costs.length) { return costs[id - 1]; }
+	public int getCreditValue() {
+		if (id - 1 >= 0 && id - 1 < costs.length) {
+			return costs[id - 1];
+		}
 		return 0;
 	}
 
-	public void finished()
-	{
+	public void finished() {
 		Player player = game.getPlayer();
 		player.addCredits(getCreditValue());
 
 		ArrayList<Level> levels = AURISGame.levels;
-		for (int i = 0; i < levels.size(); i++)
-		{
+		for (int i = 0; i < levels.size(); i++) {
 			Level nextLevel = AURISGame.getLevel(this.id + 1);
-			if (nextLevel != null)
-			{
+			if (nextLevel != null) {
 				player.addLevelID(nextLevel.getID());
 				player.checkAchievements();
 			}
 		}
+	}
+
+	public void draw(SpriteBatch spriteBatch) {
+		skin.getDrawable("goal4Big").draw(spriteBatch, 790,
+				goal.getBody().getPosition().y, 60, 150);
 	}
 }
