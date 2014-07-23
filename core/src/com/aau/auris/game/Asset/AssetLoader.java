@@ -30,6 +30,7 @@ public class AssetLoader
 	public static TextureRegion[][] tmpRed;
 	public static TextureAtlas menu_buttons;
 	public static TextureAtlas levelButtons;
+	public static TextureAtlas levelgoals;
 	public static Texture menu_background_blank;
 	public static Texture menu_background_blank2;
 	public static Texture background_Credits;
@@ -102,10 +103,10 @@ public class AssetLoader
 		TextureRegion[] greenballBoredFrames = new TextureRegion[FLY_COLS];
 		TextureRegion[] yellowballBoredFrames = new TextureRegion[FLY_COLS];
 		TextureRegion[] redballBoredFrames = new TextureRegion[FLY_COLS];
-		TextureRegion[] defaultPopFrames = new TextureRegion[FLY_COLS];
-		TextureRegion[] yellowPopFrames = new TextureRegion[FLY_COLS];
-		TextureRegion[] greenPopFrames = new TextureRegion[FLY_COLS];
-		TextureRegion[] redPopFrames = new TextureRegion[FLY_COLS];
+		TextureRegion[] defaultPopFrames = new TextureRegion[FLY_COLS+1];
+		TextureRegion[] yellowPopFrames = new TextureRegion[FLY_COLS+1];
+		TextureRegion[] greenPopFrames = new TextureRegion[FLY_COLS+1];
+		TextureRegion[] redPopFrames = new TextureRegion[FLY_COLS+1];
 		TextureRegion[] redFlyFrames = new TextureRegion[FLY_COLS];
 		TextureRegion[] yellowFlyFrames = new TextureRegion[FLY_COLS];
 		TextureRegion[] greenFlyFrames = new TextureRegion[FLY_COLS];
@@ -129,6 +130,10 @@ public class AssetLoader
 			greenFlyFrames[i] = tmpGreen[1][i];
 			defaultFlyFrames[i] = tmpDefault[1][i];
 		}
+		defaultPopFrames[7] = tmpDefault[3][1];
+		yellowPopFrames[7] = tmpYellow[3][1];
+		greenPopFrames[7] = tmpGreen[3][1];
+		redPopFrames[7] = tmpRed[3][1];
 
 		//Parachute
 		parachuteBallAnimation1 = new Animation(0.08f, parachuteFrames1);
@@ -181,6 +186,7 @@ public class AssetLoader
 		// Buttons
 		menu_buttons = new TextureAtlas(Gdx.files.internal("menuButtons.atlas"));
 		levelButtons = new TextureAtlas(Gdx.files.internal("levelButtons.atlas"));
+		levelgoals=new TextureAtlas(Gdx.files.internal("goalTextures.atlas"));
 
 		// Font
 		bFont = new BitmapFont(Gdx.files.internal("textfont.fnt"));

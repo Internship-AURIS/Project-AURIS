@@ -3,6 +3,7 @@ package com.aau.auris.game.screens;
 import com.aau.auris.game.AURISGame;
 import com.aau.auris.game.Asset.Asset;
 import com.aau.auris.game.Asset.AssetLoader;
+import com.aau.auris.game.level.gameworld.Ball;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
@@ -18,12 +19,14 @@ public abstract class AbstractScreen implements Screen, Asset
 	protected AURISGame game;
 	protected Stage stage;
 	protected Skin skin;
+	protected Ball ball;
 
 	public AbstractScreen(AURISGame game)
 	{
 		this.game = game;
 		this.stage = new Stage();
 		skin = new Skin();
+		
 
 		loadAsset();
 		initComponents();
