@@ -19,7 +19,6 @@ public class ImageProcessor implements WebcamListener
 	private ImageFilter imageFilter;
 
 	private BlobDetection bd;
-	private EdgeDetection ed;
 	private float thresoldValue = 0.38f;
 
 	public ImageProcessor(AURISGame game)
@@ -62,17 +61,17 @@ public class ImageProcessor implements WebcamListener
 		final int width = input.getWidth();
 		final int height = input.getHeight();
 
-		int[] pixels = imgTmp.getRGB(0, 0, width, height, null, 0, width);
+		final int[] pixels = imgTmp.getRGB(0, 0, width, height, null, 0, width);
 		System.out.println("processing image: " + pixels.length);//TODO: debugging
 		bd = new BlobDetection(width, height);
 		bd.setPosDiscrimination(false);
-
+		bd.computeBlobs(pixels);
+		System.out.println("detected blobs: " + bd.getBlobNb());// TODO: debugging
 		try
 		{
 			ImageIO.write(imgTmp, "PNG", Gdx.files.internal("asset/inputImage").file());
 		} catch (IOException e)
 		{
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}

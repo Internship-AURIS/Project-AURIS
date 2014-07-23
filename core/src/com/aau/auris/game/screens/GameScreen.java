@@ -5,7 +5,6 @@ import java.awt.image.BufferedImage;
 import com.aau.auris.game.AURISGame;
 import com.aau.auris.game.Asset.AssetLoader;
 import com.aau.auris.game.data.Player;
-import com.aau.auris.game.imageprocessing.ImageProcessor;
 import com.aau.auris.game.items.BallSkin;
 import com.aau.auris.game.level.Level;
 import com.aau.auris.game.level.gameworld.Ball;
