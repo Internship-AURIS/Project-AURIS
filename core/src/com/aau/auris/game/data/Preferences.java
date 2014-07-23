@@ -31,7 +31,7 @@ public class Preferences
 		maxPlayers = 10;
 		soundEnabled = true;
 		debugging = false;
-		ballRadius = 120f;
+		ballRadius = 60f;
 		hackEnabled = false;
 		maxBlobWidth = 1;
 		maxBlobHeight = 1;
