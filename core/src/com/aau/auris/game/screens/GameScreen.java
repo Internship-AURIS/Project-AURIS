@@ -174,11 +174,11 @@ public class GameScreen extends AbstractScreen
 
 		if (Gdx.input.isKeyPressed(Keys.UP))
 		{
-			ball.getBody().setLinearVelocity(0, 120);
+			ball.getBody().setLinearVelocity(0, 100);
 		}
 		if (Gdx.input.isKeyPressed(Keys.DOWN))
 		{
-			ball.getBody().setLinearVelocity(0, -120);
+			ball.getBody().setLinearVelocity(0, -100);
 		}
 		if (Gdx.input.isKeyPressed(Keys.LEFT))
 		{
