@@ -47,7 +47,9 @@ public class Level implements Asset {
 	private Box2DDebugRenderer debugRenderer;
 	private OrthographicCamera camera;
 	private Ball ball;
-	private ArrayList<Obstacle> obstacles;
+
+	private ArrayList<Obstacle> objects;
+	private ArrayList<Obstacle> border;
 	private Home home;
 	private Goal goal;
 	private Skin skin;
@@ -116,44 +118,75 @@ public class Level implements Asset {
 		final float factor_height = 1.95f;
 		final float factor_width = 0.9367f;
 		final float border_width = 20;// the object
-		this.obstacles = new ArrayList<Obstacle>();
-		obstacles.add(new BorderLine(world, -10 * WORLD_TO_BOX, 0, border_width
+
+		this.objects = new ArrayList<Obstacle>();
+		
+		objects.add(new BorderLine(world, -10 * WORLD_TO_BOX, 0, border_width
 				* WORLD_TO_BOX, (s_height * factor_height) * WORLD_TO_BOX));
-		obstacles.add(new BorderLine(world, 0 * WORLD_TO_BOX, -10
+		objects.add(new BorderLine(world, 0 * WORLD_TO_BOX, -10
 				* WORLD_TO_BOX, (s_width * factor_height) * WORLD_TO_BOX,
 				border_width * WORLD_TO_BOX));
-		obstacles.add(new BorderLine(world, 0 * WORLD_TO_BOX,
+		objects.add(new BorderLine(world, 0 * WORLD_TO_BOX,
 				((s_height + border_width) * factor_width) * WORLD_TO_BOX,
 				(s_width * factor_height) * WORLD_TO_BOX, border_width
 						* WORLD_TO_BOX));
-		obstacles
-				.add(new BorderLine(world,
+		objects.add(new BorderLine(world,
 						((s_width + border_width * 1.8f) * factor_width)
 								* WORLD_TO_BOX, 0, border_width * WORLD_TO_BOX,
 						(s_height * factor_height) * WORLD_TO_BOX));
 
 		if (id >= 1 && id <= 3) {
 			// TODO: generate Level Difficulty 1
-			obstacles.add(new Obstacle(world, (50 / 2 - 50) * WORLD_TO_BOX,
+			objects.add(new Obstacle(world, (50 / 2 - 50) * WORLD_TO_BOX,
 					(50 / 2 - 50) * WORLD_TO_BOX, 50 * WORLD_TO_BOX,
 					50 * WORLD_TO_BOX));
 			if(id==1){
-				obstacles.add(new Obstacle(world, 150,
-					20, 50 ,
-					50 ));
+				objects.add(new Obstacle(world, 150,
+					20, 50 ,50 ));
 			}
 
 		} else if (id >= 4 && id <= 6) {
 			// TODO: generate Level Difficulty 2
-			obstacles.add(new Obstacle(world, (50 / 2 - 50) * WORLD_TO_BOX,
+			objects.add(new Obstacle(world, (50 / 2 - 50) * WORLD_TO_BOX,
 					(50 / 2 - 50) * WORLD_TO_BOX, 50 * WORLD_TO_BOX,
 					50 * WORLD_TO_BOX));
 		} else if (id >= 7 && id <= 9) {
 			// TODO: generate Level Difficulty 3
-			obstacles.add(new Obstacle(world, (50 / 2 - 50) * WORLD_TO_BOX,
+			objects.add(new Obstacle(world, (50 / 2 - 50) * WORLD_TO_BOX,
 					(50 / 2 - 50) * WORLD_TO_BOX, 50 * WORLD_TO_BOX,
 					50 * WORLD_TO_BOX));
 		}
+
+
+		this.border = new ArrayList<Obstacle>();
+		border.add(new BorderLine(world, -10 * WORLD_TO_BOX, 0, border_width * WORLD_TO_BOX, (s_height * factor_height) * WORLD_TO_BOX));
+		border.add(new BorderLine(world, 0 * WORLD_TO_BOX, -10 * WORLD_TO_BOX, (s_width * factor_height) * WORLD_TO_BOX, border_width * WORLD_TO_BOX));
+		border.add(new BorderLine(world, 0 * WORLD_TO_BOX, ((s_height + border_width) * factor_width) * WORLD_TO_BOX, (s_width * factor_height) * WORLD_TO_BOX, border_width * WORLD_TO_BOX));
+		border.add(new BorderLine(world, ((s_width + border_width * 1.8f) * factor_width) * WORLD_TO_BOX, 0, border_width * WORLD_TO_BOX, (s_height * factor_height) * WORLD_TO_BOX));
+
+		objects = new ArrayList<Obstacle>();
+		if (id >= 1 && id <= 3)
+		{
+			// TODO: generate Level Difficulty 1, add objects
+			border.add(new Obstacle(world, (50 / 2 - 50) * WORLD_TO_BOX, (50 / 2 - 50) * WORLD_TO_BOX, 50 * WORLD_TO_BOX, 50 * WORLD_TO_BOX));
+		} else if (id >= 4 && id <= 6)
+		{
+			// TODO: generate Level Difficulty 2, add objects	
+			border.add(new Obstacle(world, (50 / 2 - 50) * WORLD_TO_BOX, (50 / 2 - 50) * WORLD_TO_BOX, 50 * WORLD_TO_BOX, 50 * WORLD_TO_BOX));
+		} else if (id >= 7 && id <= 9)
+		{
+			// TODO: generate Level Difficulty 3, add objects	
+			border.add(new Obstacle(world, (50 / 2 - 50) * WORLD_TO_BOX, (50 / 2 - 50) * WORLD_TO_BOX, 50 * WORLD_TO_BOX, 50 * WORLD_TO_BOX));
+		}
+	}
+
+	public void setObjects(ArrayList<Obstacle> newObjects)
+	{
+		for (Obstacle o : objects)
+		{
+			world.destroyBody(o.getBody());
+		}
+		this.objects = newObjects;
 
 	}
 

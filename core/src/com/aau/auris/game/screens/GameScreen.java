@@ -1,15 +1,18 @@
 package com.aau.auris.game.screens;
 
 import java.awt.image.BufferedImage;
+import java.util.ArrayList;
+
+import blobDetection.Blob;
 
 import com.aau.auris.game.AURISGame;
 import com.aau.auris.game.Asset.AssetLoader;
 import com.aau.auris.game.data.Player;
-import com.aau.auris.game.imageprocessing.ImageProcessor;
 import com.aau.auris.game.items.BallSkin;
 import com.aau.auris.game.level.Level;
 import com.aau.auris.game.level.gameworld.Ball;
 import com.aau.auris.game.level.gameworld.CollisionHandler;
+import com.aau.auris.game.level.gameworld.Obstacle;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.graphics.Color;
@@ -60,10 +63,8 @@ public class GameScreen extends AbstractScreen {
 	private TextButton btnBack;
 	private BallSkin ballskin;
 
-	// image processing
-	private ImageProcessor imageProcessor;
-
-	public GameScreen(AURISGame game) {
+	public GameScreen(AURISGame game)
+	{
 		super(game);
 		ball_radius = (int) game.getPreferences().getBallRadius() + 12;
 	}
@@ -91,9 +92,6 @@ public class GameScreen extends AbstractScreen {
 		final int height = s_height / 10;// component height
 		levelButtons = AssetLoader.levelButtons;
 		skin = new Skin(levelButtons);
-
-		// image processing
-		imageProcessor = new ImageProcessor();
 
 		// Status Bar: Level, PlayerName, PlayerScore
 		LabelStyle lblStyle = new LabelStyle();
@@ -160,9 +158,21 @@ public class GameScreen extends AbstractScreen {
 		stage.addActor(btnBack);
 	}
 
-	public void updateGame(BufferedImage img) {
-		imageProcessor.setImage(img);
+
+
+
+	public void updateGame(ArrayList<Blob> blobs)
+	{
+		// TODO: implement creation of objects in gameWorld
+		ArrayList<Obstacle> newObjects = new ArrayList<Obstacle>();
+		for (Blob b : blobs)
+		{
+			newObjects.add(new Obstacle(world, b.x - b.w / 2f, b.y - b.h / 2f, b.w, b.h));
+		}
+		level.setObjects(newObjects);
+
 	}
+	
 
 	@Override
 	protected void handleInput() {

@@ -2,12 +2,17 @@ package com.aau.auris.game;
 
 import java.awt.Dimension;
 import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
+
+import javax.imageio.ImageIO;
 
 import com.aau.auris.game.Asset.AssetLoader;
 import com.aau.auris.game.data.Player;
 import com.aau.auris.game.data.Preferences;
 import com.aau.auris.game.data.UserData;
+import com.aau.auris.game.imageprocessing.ImageProcessor;
 import com.aau.auris.game.items.Achievement;
 import com.aau.auris.game.items.BallSkin;
 import com.aau.auris.game.level.Level;
@@ -46,9 +51,10 @@ public class AURISGame extends Game
 	public static ArrayList<Level> levels;
 	public static ArrayList<BallSkin> ballSkins;
 
-	// WebcamHandler
+	// ImageProcessing
+	private ImageProcessor imageProcessor;
 	private WebcamHandler webcamHandler;
-	private boolean updateImage = true;
+	private BufferedImage inputImage;
 
 	// Data
 	private Preferences preferences;
@@ -61,7 +67,8 @@ public class AURISGame extends Game
 	@Override
 	public void create()
 	{
-		webcamHandler = new WebcamHandler(this);
+		imageProcessor = new ImageProcessor(this);
+		webcamHandler = new WebcamHandler(imageProcessor);
 
 		AssetLoader.load();
 		preferences = new Preferences();
@@ -78,21 +85,10 @@ public class AURISGame extends Game
 		creditsScreen = new CreditsScreen(this);
 
 		initAchievements();
-		initLevels();
 		initBallSkins();
+		initLevels();
 
 		this.setScreen(menuScreen);
-		// TODO: test
-//		try
-//		{//TODO: debugging
-////			imgTest = ImageIO.read(testFile);
-//		} catch (IOException e)
-//		{
-//			e.printStackTrace();
-//		}
-
-//		update(imgTest);// TODO: debugging
-
 	}
 
 	@Override
@@ -101,20 +97,21 @@ public class AURISGame extends Game
 		super.render();
 	}
 
-	public void update(BufferedImage img)
-	{
-		if (updateImage)
-		{
-			gameScreen.updateGame(img);
-		}
-	}
-
 	private void initAchievements()
 	{
 		achievements = new ArrayList<Achievement>();
 		achievements.add(new Achievement(Achievement.ACHIEVEMENT_ID_1));
 		achievements.add(new Achievement(Achievement.ACHIEVEMENT_ID_2));
 		achievements.add(new Achievement(Achievement.ACHIEVEMENT_ID_3));
+	}
+
+	private void initBallSkins()
+	{
+		ballSkins = new ArrayList<BallSkin>();
+		ballSkins.add(new BallSkin(BallSkin.BALL_SKIN_ID_1));
+		ballSkins.add(new BallSkin(BallSkin.BALL_SKIN_ID_2));
+		ballSkins.add(new BallSkin(BallSkin.BALL_SKIN_ID_3));
+		ballSkins.add(new BallSkin(BallSkin.BALL_SKIN_ID_4));
 	}
 
 	private void initLevels()
@@ -131,50 +128,8 @@ public class AURISGame extends Game
 		levels.add(new Level(this, Level.LEVEL_ID_9));
 	}
 
-	private void initBallSkins()
-	{
-		ballSkins = new ArrayList<BallSkin>();
-		ballSkins.add(new BallSkin(BallSkin.BALL_SKIN_ID_1));
-		ballSkins.add(new BallSkin(BallSkin.BALL_SKIN_ID_2));
-		ballSkins.add(new BallSkin(BallSkin.BALL_SKIN_ID_3));
-		ballSkins.add(new BallSkin(BallSkin.BALL_SKIN_ID_4));
-	}
-
-	public UserData getUserData()
-	{
-		return userdata;
-	}
-
-	public Preferences getPreferences()
-	{
-		return preferences;
-	}
-
-	public Player getPlayer()
-	{
-		return player;
-	}
-
-	public void setPlayer(Player player)
-	{
-		this.player = player;
-		player.checkAchievements();
-	}
-
-	public Level getLevel()
-	{
-		return level;
-	}
-
-	public void setLevel(Level level)
-	{
-		this.level = level;
-		this.level.reset();
-	}
-
 	public void changeScreen(int screenIndex, Screen screen)
 	{
-		updateImage = false;
 		screen.hide();
 		Screen newScreen = null;
 		if (screenIndex == MENU_SCREEN)
@@ -195,15 +150,60 @@ public class AURISGame extends Game
 		} else if (screenIndex == GAME_SCREEN)
 		{
 			newScreen = gameScreen;
-		}
-		if (newScreen != null)
-		{
-			this.setScreen(newScreen);
-			updateImage = true;
 		} else
 		{
-			System.out.println("...failed to switch screens!...");// TODO: debugging
+			newScreen = menuScreen;// default solution
 		}
+		this.setScreen(newScreen);
+	}
+
+	public void setInputImage(BufferedImage img)
+	{
+		this.inputImage = img;
+		try
+		{
+			ImageIO.write(img, "PNG", new File("assets/inputImage.png"));
+		} catch (IOException e)
+		{
+			e.printStackTrace();
+		}
+
+	}
+
+	public BufferedImage getInputImage()
+	{
+		return inputImage;
+	}
+
+	public Preferences getPreferences()
+	{
+		return preferences;
+	}
+
+	public UserData getUserData()
+	{
+		return userdata;
+	}
+
+	public Player getPlayer()
+	{
+		return player;
+	}
+
+	public void setPlayer(Player player)
+	{
+		this.player = player;
+	}
+
+	public Level getLevel()
+	{
+		return level;
+	}
+
+	public void setLevel(Level level)
+	{
+		this.level = level;
+		this.level.reset();
 	}
 
 	public int getWidth()
@@ -221,6 +221,7 @@ public class AURISGame extends Game
 	{
 		super.dispose();
 		userdata.save();
+		webcamHandler.dispose();
 		AssetLoader.dispose();
 	}
 
