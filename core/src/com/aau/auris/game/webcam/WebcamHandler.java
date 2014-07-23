@@ -1,4 +1,4 @@
-package com.aau.auris.game.imageprocessing;
+package com.aau.auris.game.webcam;
 
 import com.github.sarxos.webcam.Webcam;
 import com.github.sarxos.webcam.WebcamListener;
