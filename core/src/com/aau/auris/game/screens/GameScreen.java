@@ -7,6 +7,7 @@ import blobDetection.Blob;
 import com.aau.auris.game.AURISGame;
 import com.aau.auris.game.Asset.AssetLoader;
 import com.aau.auris.game.data.Player;
+import com.aau.auris.game.data.Preferences;
 import com.aau.auris.game.items.BallSkin;
 import com.aau.auris.game.level.Level;
 import com.aau.auris.game.level.gameworld.Ball;
@@ -45,13 +46,11 @@ public class GameScreen extends AbstractScreen
 	private SpriteBatch spriteBatch;
 
 	// Player
-	private int ball_radius;
 	private Ball ball;
 
 	// Other Variables
 	private Player player;// Player Stats: score, achievements, etc.
 	public float runTime;
-	private Texture backGround;
 
 	// UIComponents
 	private Label lblLevel;
@@ -63,10 +62,16 @@ public class GameScreen extends AbstractScreen
 	private TextButton btnBack;
 	private BallSkin ballskin;
 
+	// Preferences
+	private int ball_radius;
+	private boolean debugging;
+
 	public GameScreen(AURISGame game)
 	{
 		super(game);
-		ball_radius = (int) game.getPreferences().getBallRadius() + 12;
+		Preferences prefs = game.getPreferences();
+		ball_radius = (int) prefs.getBallRadius() + 12;
+		debugging = prefs.isDebugging();
 	}
 
 	@Override
@@ -225,19 +230,15 @@ public class GameScreen extends AbstractScreen
 
 		lblStatus.setText(ball.isDead() ? "GAME OVER" : "");
 		spriteBatch.setProjectionMatrix(camera.combined);
-		//		debugRenderer.render(world, camera.combined);
-
+		if (debugging)
+		{
+			debugRenderer.render(world, camera.combined);
+		}
 		spriteBatch.begin();
 		if (level != null)
 		{
 			level.draw(spriteBatch);
 		}
-		//
-		// if (backGround != null)
-		// {
-		// spriteBatch.draw(backGround, 0, 0, game.getWidth(),
-		// game.getHeight());
-		// }
 
 		if (ball != null)
 		{
@@ -252,7 +253,6 @@ public class GameScreen extends AbstractScreen
 						- (ball_radius + 3), ball_radius * 2f, ball_radius * 2f);
 			}
 		}
-
 		spriteBatch.end();
 
 		// physic updates
