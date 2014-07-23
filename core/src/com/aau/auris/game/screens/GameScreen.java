@@ -1,15 +1,18 @@
 package com.aau.auris.game.screens;
 
-import java.awt.image.BufferedImage;
+import java.util.ArrayList;
+
+import blobDetection.Blob;
 
 import com.aau.auris.game.AURISGame;
 import com.aau.auris.game.Asset.AssetLoader;
 import com.aau.auris.game.data.Player;
-import com.aau.auris.game.imageprocessing.ImageProcessor;
+import com.aau.auris.game.data.Preferences;
 import com.aau.auris.game.items.BallSkin;
 import com.aau.auris.game.level.Level;
 import com.aau.auris.game.level.gameworld.Ball;
 import com.aau.auris.game.level.gameworld.CollisionHandler;
+import com.aau.auris.game.level.gameworld.Obstacle;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.graphics.Color;
@@ -29,8 +32,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton.TextButtonStyle;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 
-public class GameScreen extends AbstractScreen
-{
+public class GameScreen extends AbstractScreen {
 	// Assets
 	private TextureAtlas levelButtons;
 
@@ -43,13 +45,13 @@ public class GameScreen extends AbstractScreen
 	private SpriteBatch spriteBatch;
 
 	// Player
-	private int ball_radius;
 	private Ball ball;
 
 	// Other Variables
 	private Player player;// Player Stats: score, achievements, etc.
-	private float runTime;
+	public float runTime;
 	private Texture backGround;
+	LabelStyle overStyle;
 
 	// UIComponents
 	private Label lblLevel;
@@ -61,31 +63,29 @@ public class GameScreen extends AbstractScreen
 	private TextButton btnBack;
 	private BallSkin ballskin;
 
-	// image processing
-	private ImageProcessor imageProcessor;
+	// Preferences
+	private int ball_radius;
+	private boolean debugging;
 
-	public GameScreen(AURISGame game)
-	{
+	public GameScreen(AURISGame game) {
 		super(game);
-		ball_radius = (int) game.getPreferences().getBallRadius()+12;
+		Preferences prefs = game.getPreferences();
+		ball_radius = (int) prefs.getBallRadius() + 12;
+		debugging = prefs.isDebugging();
 	}
 
 	@Override
-	public void loadAsset()
-	{
+	public void loadAsset() {
 		super.loadAsset();
 	}
 
 	@Override
-	public void disposeAsset()
-	{
+	public void disposeAsset() {
 		super.disposeAsset();
 	}
 
 	@Override
-	protected void initComponents()
-	{
-		this.ballskin = new BallSkin();
+	protected void initComponents() {
 		// GameLogic
 		collisionHandler = new CollisionHandler(game, this);
 
@@ -97,9 +97,6 @@ public class GameScreen extends AbstractScreen
 		levelButtons = AssetLoader.levelButtons;
 		skin = new Skin(levelButtons);
 
-		// image processing
-		imageProcessor = new ImageProcessor();
-
 		// Status Bar: Level, PlayerName, PlayerScore
 		LabelStyle lblStyle = new LabelStyle();
 		lblStyle.font = bFont;
@@ -109,27 +106,36 @@ public class GameScreen extends AbstractScreen
 		lblLevel.setBounds(10, s_height - (height / 1.3f), width, height);
 
 		lblPlayerName = new Label("Name:-------", lblStyle);
-		lblPlayerName.setBounds(s_width / 2f - width, lblLevel.getY(), width, height);
+		lblPlayerName.setBounds(s_width / 2f - width, lblLevel.getY(), width,
+				height);
 
 		lblPlayerScore = new Label("Score: ---", lblStyle);
-		lblPlayerScore.setBounds(s_width - width * 1.3f, lblLevel.getY(), width, height);
+		lblPlayerScore.setBounds(s_width - width * 1.3f, lblLevel.getY(),
+				width, height);
 
 		lblPlayerCredits = new Label("Credits: --- $", lblStyle);
-		lblPlayerCredits.setBounds(lblPlayerScore.getX() - lblPlayerScore.getWidth() - width / 2, lblLevel.getY(), width, height);
+		lblPlayerCredits.setBounds(
+				lblPlayerScore.getX() - lblPlayerScore.getWidth() - width / 2,
+				lblLevel.getY(), width, height);
 
-		lblStatus = new Label("", lblStyle);
-		lblStatus.setBounds(s_width / 2 - width, s_height / 2 - height, width, height);
+		overStyle = new LabelStyle();
+		overStyle.font = bFont;
+		overStyle.fontColor = Color.WHITE;
 
-		//Balken LABEL:
+		lblStatus = new Label("", overStyle);
+		lblStatus.setBounds(330, 200, 200, 150);
+
+		// Balken LABEL:
 		LabelStyle lblBalkenStyle = new LabelStyle();
 		lblBalkenStyle.font = bFont;
 		lblBalkenStyle.fontColor = Color.WHITE;
 		lblBalkenStyle.background = skin.getDrawable("balken");
 
 		lblBalken = new Label("", lblBalkenStyle);
-		lblBalken.setBounds(0, game.getHeight() - 40, game.getWidth(), lblLevel.getHeight() + 5);
+		lblBalken.setBounds(0, game.getHeight() - 40, game.getWidth(),
+				lblLevel.getHeight() + 5);
 
-		//Back-Button
+		// Back-Button
 		Pixmap pixmap = new Pixmap(800, 800, Format.RGBA8888);
 		pixmap.setColor(Color.BLUE);
 		pixmap.fill();
@@ -142,12 +148,10 @@ public class GameScreen extends AbstractScreen
 		btnBack = new TextButton("", btnBackStyle);
 		btnBack.setSize(game.getWidth() / 19, game.getHeight() / 4.75f);
 		btnBack.setPosition(0, 0);
-		btnBack.addListener(new ClickListener()
-		{
+		btnBack.addListener(new ClickListener() {
 
 			@Override
-			public void clicked(InputEvent event, float x, float y)
-			{
+			public void clicked(InputEvent event, float x, float y) {
 				super.clicked(event, x, y);
 				game.changeScreen(AURISGame.LEVEL_SCREEN, GameScreen.this);
 			}
@@ -162,48 +166,55 @@ public class GameScreen extends AbstractScreen
 		stage.addActor(btnBack);
 	}
 
-	public void updateGame(BufferedImage img)
-	{
-		imageProcessor.setImage(img);
+	public void updateGame(ArrayList<Blob> blobs) {
+		// TODO: implement creation of objects in gameWorld
+		ArrayList<Obstacle> newObjects = new ArrayList<Obstacle>();
+		for (Blob b : blobs) {
+			newObjects.add(new Obstacle(world, (b.x - b.w / 2f)
+					* Level.WORLD_TO_BOX,
+					(b.y - b.h / 2f) * Level.WORLD_TO_BOX, (b.w)
+							* Level.WORLD_TO_BOX, (b.h) * Level.WORLD_TO_BOX));
+		}
+		level.setObjects(newObjects);
+
 	}
 
 	@Override
-	protected void handleInput()
-	{
-		if (ball.isDead()) { return; }
+	protected void handleInput() {
+		if (ball.isDead()) {
+			return;
+		}
 
-		if (Gdx.input.isKeyPressed(Keys.UP))
-		{
-			ball.getBody().setLinearVelocity(0, 120);
+		if (Gdx.input.isKeyPressed(Keys.UP)) {
+			ball.getBody().setLinearVelocity(0, 100);
 		}
-		if (Gdx.input.isKeyPressed(Keys.DOWN))
-		{
-			ball.getBody().setLinearVelocity(0, -120);
+		if (Gdx.input.isKeyPressed(Keys.DOWN)) {
+			ball.getBody().setLinearVelocity(0, -100);
 		}
-		if (Gdx.input.isKeyPressed(Keys.LEFT))
-		{
+		if (Gdx.input.isKeyPressed(Keys.LEFT)) {
 			ball.getBody().setLinearVelocity(-120, 0);
 		}
-		if (Gdx.input.isKeyPressed(Keys.RIGHT))
-		{
+		if (Gdx.input.isKeyPressed(Keys.RIGHT)) {
 			ball.getBody().setLinearVelocity(120, 0);
+		}
+		if (Gdx.input.isKeyPressed(Keys.ESCAPE)) {
+			game.changeScreen(AURISGame.LEVEL_SCREEN, GameScreen.this);
 		}
 	}
 
-	private void updateStatusBar()
-	{
+	private void updateStatusBar() {
 		lblLevel.setText("Lvl. " + (level.getID() + 1));
 		lblPlayerName.setText("Name: " + player.getName());
 		lblPlayerScore.setText("Score: " + player.getScore());
 		lblPlayerCredits.setText("Credits: " + player.getCredits() + " $");
 	}
 
-	private void updateData()
-	{
-		runTime = 0.0f;
+	private void updateData() {
+		// runTime = 0.0f;
 
 		// GameWorld
 		this.player = game.getPlayer();
+		this.ballskin = new BallSkin(player.getSkinID());
 		this.level = game.getLevel();
 		this.world = level.getWorld();
 		this.ball = level.getBall();
@@ -212,80 +223,96 @@ public class GameScreen extends AbstractScreen
 		this.debugRenderer = level.getDebugRenderer();
 		this.camera = level.getCamera();
 		this.spriteBatch = new SpriteBatch();
+		overStyle.background = null;
+	}
+
+	public void ballDied() {
+
 	}
 
 	@Override
-	public void render(float delta)
-	{
+	public void render(float delta) {
 		super.render(delta);
 		runTime += delta;
 
-		lblStatus.setText(ball.isDead() ? "GAME OVER" : "");
-		spriteBatch.setProjectionMatrix(camera.combined);
-		debugRenderer.render(world, camera.combined);
-
-		spriteBatch.begin();
-
-		if (backGround != null)
-		{
-			spriteBatch.draw(backGround, 0, 0, game.getWidth(), game.getHeight());
-		}
-
-		final int id = player.getSkinID();
-		if (ball != null)
-		{
-			if (ball.isDead())
-			{
-				spriteBatch.draw(ballskin.getPopAnimation(id).getKeyFrame(runTime), ball.getBody().getPosition().x - (ball_radius + 4), ball.getBody().getPosition().y, ball_radius * 2f,
-						ball_radius * 2f);
-			} else
-			{
-				spriteBatch.draw(ballskin.getFlyAnimation(player.getSkinID()).getKeyFrame(runTime), ball.getBody().getPosition().x - (ball_radius + 4), ball.getBody().getPosition().y
-						- (ball_radius + 3), ball_radius * 2f, ball_radius * 2f);
+		if (ball.isDead()) {
+			int id = player.getSkinID();
+			if (id == BallSkin.BALL_SKIN_ID_1) {
+				overStyle.background = skin.getDrawable("over0");
+			} else if (id == BallSkin.BALL_SKIN_ID_2) {
+				overStyle.background = skin.getDrawable("over1");
+			} else if (id == BallSkin.BALL_SKIN_ID_3) {
+				overStyle.background = skin.getDrawable("over2");
+			} else if (id == BallSkin.BALL_SKIN_ID_4) {
+				overStyle.background = skin.getDrawable("over3");
 			}
 		}
+		spriteBatch.setProjectionMatrix(camera.combined);
 
+		if (debugging) {
+			debugRenderer.render(world, camera.combined);
+		}
+		spriteBatch.begin();
+		if (level != null) {
+			
+			level.draw(spriteBatch);
+		}
+
+		if (ball != null) {
+			if (ball.isDead()) {
+				spriteBatch
+						.draw(ballskin.getPopAnimation(player.getSkinID())
+								.getKeyFrame(runTime), ball.getBody()
+								.getPosition().x - (ball_radius + 4), ball
+								.getBody().getPosition().y - (ball_radius + 3),
+								ball_radius * 2f, ball_radius * 2f);
+
+			} else {
+				spriteBatch
+						.draw(ballskin.getFlyAnimation(player.getSkinID())
+								.getKeyFrame(runTime), ball.getBody()
+								.getPosition().x - (ball_radius + 4), ball
+								.getBody().getPosition().y - (ball_radius + 3),
+								ball_radius * 2f, ball_radius * 2f);
+			}
+		}
 		spriteBatch.end();
 
-		//physic updates
-		world.step(Level.BOX_STEP, Level.BOX_VELOCITY_ITERATIONS, Level.BOX_POSITION_ITERATIONS);
+		// physic updates
+		world.step(Level.BOX_STEP, Level.BOX_VELOCITY_ITERATIONS,
+				Level.BOX_POSITION_ITERATIONS);
+
 	}
 
 	@Override
-	public void resize(int width, int height)
-	{
+	public void resize(int width, int height) {
 		super.resize(width, height);
 	}
 
 	@Override
-	public void show()
-	{
+	public void show() {
 		super.show();
 		updateData();
 		updateStatusBar();
 	}
 
 	@Override
-	public void hide()
-	{
+	public void hide() {
 		super.hide();
 	}
 
 	@Override
-	public void pause()
-	{
+	public void pause() {
 		super.pause();
 	}
 
 	@Override
-	public void resume()
-	{
+	public void resume() {
 		super.resume();
 	}
 
 	@Override
-	public void dispose()
-	{
+	public void dispose() {
 		super.dispose();
 	}
 

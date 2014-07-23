@@ -1,5 +1,7 @@
 package com.aau.auris.game.level.gameworld;
 
+import com.aau.auris.game.AURISGame;
+import com.aau.auris.game.level.Level;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.badlogic.gdx.physics.box2d.BodyDef.BodyType;
@@ -14,17 +16,19 @@ public class Ball extends Entity
 	private final float RESTITUTION = 0f;
 
 	// Other
+	private AURISGame game;
 	private boolean dead;
 
-	public Ball(World world, float posX, float posY, float radius)
+	public Ball(Level level, World world, float posX, float posY, float radius)
 	{
+		this.game = level.game;
 		bodyDef = new BodyDef();
 		bodyDef.type = BodyType.DynamicBody;
 		bodyDef.position.set(new Vector2(posX, posY));
 		body = world.createBody(bodyDef);
 
 		CircleShape circleShape = new CircleShape();
-		circleShape.setRadius(radius);
+		circleShape.setRadius(radius-4);
 
 		FixtureDef fixtureDef = new FixtureDef();
 		fixtureDef.shape = circleShape;
@@ -41,7 +45,8 @@ public class Ball extends Entity
 
 	public void die()
 	{
-		this.dead = true;
+		dead = true;
+		game.getGameScreen().runTime = 0;
 	}
 
 	public boolean isDead()

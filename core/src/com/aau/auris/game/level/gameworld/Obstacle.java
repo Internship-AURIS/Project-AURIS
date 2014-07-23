@@ -16,7 +16,7 @@ public class Obstacle extends Entity
 		body = world.createBody(bodyDef);
 
 		PolygonShape polygonShape = new PolygonShape();
-		polygonShape.setAsBox(width / 2, height / 2, new Vector2(posX, posY), 0);
+		polygonShape.setAsBox(width/2 , height/2 , new Vector2(posX, posY), 0);
 		FixtureDef fixtureDef = new FixtureDef();
 		fixtureDef.shape = polygonShape;
 		fixtureDef.friction = 0f;

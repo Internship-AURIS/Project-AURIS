@@ -2,6 +2,7 @@ package com.aau.auris.game.data;
 
 import java.util.ArrayList;
 
+import com.aau.auris.game.AURISGame;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.utils.Json;
@@ -15,9 +16,11 @@ public class UserData
 	private ArrayList<Player> players;
 
 	public UserData()
+	{}
+
+	public UserData(AURISGame game)
 	{
-		players = new ArrayList<Player>();
-		MAX_PLAYERS = 10;
+		MAX_PLAYERS = game.getPreferences().getMaxPlayers();
 	}
 
 	public ArrayList<Player> getPlayers()
@@ -80,7 +83,7 @@ public class UserData
 			UserData data = json.fromJson(UserData.class, text);
 			if (data != null && (data.getPlayers() != null && data.getPlayers().size() > 0))
 			{
-				players.addAll(data.getPlayers());
+				players = data.getPlayers();
 			}
 		}
 	}

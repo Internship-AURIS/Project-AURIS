@@ -125,7 +125,7 @@ public class MenuScreen extends AbstractScreen
 			game.changeScreen(AURISGame.LOGIN_SCREEN, MenuScreen.this);
 		} else if (Gdx.input.isKeyPressed(Keys.E) || Gdx.input.isKeyPressed(Keys.ESCAPE))
 		{
-			game.exit();
+			game.dispose();
 		}
 	}
 
