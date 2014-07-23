@@ -1,6 +1,8 @@
 package com.aau.auris.game.screens;
 
-import java.awt.image.BufferedImage;
+import java.util.ArrayList;
+
+import blobDetection.Blob;
 
 import com.aau.auris.game.AURISGame;
 import com.aau.auris.game.Asset.AssetLoader;
@@ -9,6 +11,7 @@ import com.aau.auris.game.items.BallSkin;
 import com.aau.auris.game.level.Level;
 import com.aau.auris.game.level.gameworld.Ball;
 import com.aau.auris.game.level.gameworld.CollisionHandler;
+import com.aau.auris.game.level.gameworld.Obstacle;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.graphics.Color;
@@ -155,9 +158,15 @@ public class GameScreen extends AbstractScreen
 		stage.addActor(btnBack);
 	}
 
-	public void updateGame(BufferedImage img)
+	public void updateGame(ArrayList<Blob> blobs)
 	{
 		// TODO: implement creation of objects in gameWorld
+		ArrayList<Obstacle> newObjects = new ArrayList<Obstacle>();
+		for (Blob b : blobs)
+		{
+			newObjects.add(new Obstacle(world, b.x, b.y, b.w, b.h));
+		}
+		level.setObjects(newObjects);
 	}
 
 	@Override

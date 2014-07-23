@@ -21,6 +21,9 @@ public class WebcamHandler
 
 	public void dispose()
 	{
-		webcam.close();
+		if (webcam != null)
+		{
+			webcam.close();
+		}
 	}
 }

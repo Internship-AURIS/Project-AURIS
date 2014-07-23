@@ -1,15 +1,13 @@
 package com.aau.auris.game.imageprocessing;
 
 import java.awt.image.BufferedImage;
-import java.io.IOException;
+import java.util.ArrayList;
 
-import javax.imageio.ImageIO;
-
+import blobDetection.Blob;
 import blobDetection.BlobDetection;
-import blobDetection.EdgeDetection;
 
 import com.aau.auris.game.AURISGame;
-import com.badlogic.gdx.Gdx;
+import com.aau.auris.game.screens.GameScreen;
 import com.github.sarxos.webcam.WebcamEvent;
 import com.github.sarxos.webcam.WebcamListener;
 
@@ -27,32 +25,6 @@ public class ImageProcessor implements WebcamListener
 		imageFilter = new ImageFilter();
 	}
 
-	public void setImage(BufferedImage input)
-	{
-		BufferedImage img = imageFilter.modify(input, ImageFilter.GRAYSCALE_FILTER | ImageFilter.THRESHOLD_FILTER);
-		final int width = img.getWidth();
-		final int height = img.getHeight();
-		final int[] pixels = img.getRGB(0, 0, width, height, null, 0, width);
-		//		try
-		//		{
-		//			ImageIO.write(img, "PNG", new File("test.png"));
-		//		} catch (IOException e)
-		//		{
-		//			// TODO Auto-generated catch block
-		//			e.printStackTrace();
-		//		}
-		bd = new BlobDetection(width, height);
-		bd.setPosDiscrimination(false);
-		bd.blobWidthMin = 1;
-		bd.blobHeightMin = 1;
-		bd.setImage(pixels);
-		bd.computeTriangles();
-		bd.computeMesh();
-		bd.computeBlobs(pixels);
-		System.out.println(bd.getBlobNb());
-
-	}
-
 	private BufferedImage imgTmp;
 
 	private void process(BufferedImage input)
@@ -62,17 +34,20 @@ public class ImageProcessor implements WebcamListener
 		final int height = input.getHeight();
 
 		final int[] pixels = imgTmp.getRGB(0, 0, width, height, null, 0, width);
-		System.out.println("processing image: " + pixels.length);//TODO: debugging
 		bd = new BlobDetection(width, height);
-		bd.setPosDiscrimination(false);
+		bd.setPosDiscrimination(true);
 		bd.computeBlobs(pixels);
-		System.out.println("detected blobs: " + bd.getBlobNb());// TODO: debugging
-		try
+		// TODO: implement Blob-processing
+
+		ArrayList<Blob> blobs = new ArrayList<Blob>();
+		for(int i = 0; i < bd.getBlobNb(); i++)
 		{
-			ImageIO.write(imgTmp, "PNG", Gdx.files.internal("asset/inputImage").file());
-		} catch (IOException e)
+			blobs.add(bd.getBlob(i));
+		}
+		
+		if (game.getScreen().getClass() == GameScreen.class)
 		{
-			e.printStackTrace();
+			game.getGameScreen().updateGame(blobs);
 		}
 	}
 
