@@ -72,7 +72,7 @@ public class AURISGame extends Game
 		preferences = new Preferences();
 		//		preferences.save();
 		preferences.load();
-		userdata = new UserData();
+		userdata = new UserData(this);
 		userdata.load();
 
 		// Image Processing
