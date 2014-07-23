@@ -4,6 +4,7 @@ import java.awt.image.BufferedImage;
 import java.awt.image.ColorModel;
 import java.awt.image.WritableRaster;
 
+import com.aau.auris.game.AURISGame;
 import com.jhlabs.image.EdgeFilter;
 import com.jhlabs.image.GrayscaleFilter;
 import com.jhlabs.image.InvertFilter;
@@ -22,16 +23,16 @@ public class ImageFilter
 	private ThresholdFilter thresholdFilter;
 	private InvertFilter invertFilter;
 
-	// ThresholdFilter Settings
-	public float lowThreshold = 0.0f;
-	public float highThreshold = 0.0f;
-
-	public ImageFilter()
+	public ImageFilter(AURISGame game)
 	{
 		this.grayscaleFilter = new GrayscaleFilter();
 		this.edgeFilter = new EdgeFilter();
 		this.thresholdFilter = new ThresholdFilter();
 		this.invertFilter = new InvertFilter();
+
+		// Threshold Filter Settings
+		thresholdFilter.setLowerThreshold(game.getPreferences().getLowerThreshold());
+		thresholdFilter.setUpperThreshold(game.getPreferences().getUpperThreshold());
 	}
 
 	private BufferedImage getGrayScaleFilteredImage(BufferedImage img1, BufferedImage img2)
@@ -83,15 +84,4 @@ public class ImageFilter
 		WritableRaster raster = bi.copyData(null);
 		return new BufferedImage(cm, raster, isAlphaPremultiplied, null);
 	}
-
-	public void setUpperThreshold(float high)
-	{
-		this.highThreshold = high;
-	}
-
-	public void setLowerThreshold(float low)
-	{
-		this.lowThreshold = low;
-	}
-
 }
