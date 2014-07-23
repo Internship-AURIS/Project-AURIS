@@ -40,10 +40,18 @@ public class WebcamHandler implements WebcamListener
 	@Override
 	public void webcamImageObtained(WebcamEvent e)
 	{
-		game.update(e.getImage());
+		game.setInputImage(e.getImage());
 	}
 
 	@Override
 	public void webcamOpen(WebcamEvent e)
 	{}
+
+	public void dispose()
+	{
+		if (webcam != null)
+		{
+			webcam.close();
+		}
+	}
 }
