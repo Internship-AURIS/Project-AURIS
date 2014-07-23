@@ -228,11 +228,6 @@ public class AURISGame extends Game
 		userdata.save();
 		webcamHandler.dispose();
 		AssetLoader.dispose();
-	}
-
-	public void exit()
-	{
-		dispose();
 		System.exit(0);
 	}
 
