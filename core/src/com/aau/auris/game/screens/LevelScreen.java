@@ -70,7 +70,7 @@ public class LevelScreen extends AbstractScreen
 		hoverWhistle1 = AssetLoader.hoverWhistle1;
 		hoverWhistle2 = AssetLoader.hoverWhistle2;
 		hoverWhistle3 = AssetLoader.hoverWhistle3;
-		coinSound= AssetLoader.coinSound;
+		coinSound = AssetLoader.coinSound;
 	}
 
 	@Override
@@ -252,6 +252,15 @@ public class LevelScreen extends AbstractScreen
 				}
 			}
 		});
+		diff2Lvl1Button.addListener(new InputListener()
+		{
+			@Override
+			public void enter(InputEvent event, float x, float y, int pointer, Actor fromActor)
+			{
+				super.enter(event, x, y, pointer, fromActor);
+				hoverWhistle1.play();
+			}
+		});
 
 		tbDiff2Lvl2Style = new TextButtonStyle();
 		tbDiff2Lvl2Style.up = skin.getDrawable("2diff5");
@@ -275,6 +284,15 @@ public class LevelScreen extends AbstractScreen
 				}
 			}
 		});
+		diff2Lvl2Button.addListener(new InputListener()
+		{
+			@Override
+			public void enter(InputEvent event, float x, float y, int pointer, Actor fromActor)
+			{
+				super.enter(event, x, y, pointer, fromActor);
+				hoverWhistle2.play();
+			}
+		});
 
 		tbDiff2Lvl3Style = new TextButtonStyle();
 		tbDiff2Lvl3Style.up = skin.getDrawable("2diff6");
@@ -296,6 +314,15 @@ public class LevelScreen extends AbstractScreen
 					game.setLevel(AURISGame.getLevel(id));
 					game.changeScreen(AURISGame.GAME_SCREEN, LevelScreen.this);
 				}
+			}
+		});
+		diff2Lvl3Button.addListener(new InputListener()
+		{
+			@Override
+			public void enter(InputEvent event, float x, float y, int pointer, Actor fromActor)
+			{
+				super.enter(event, x, y, pointer, fromActor);
+				hoverWhistle3.play();
 			}
 		});
 
@@ -322,6 +349,15 @@ public class LevelScreen extends AbstractScreen
 				}
 			}
 		});
+		diff3Lvl1Button.addListener(new InputListener()
+		{
+			@Override
+			public void enter(InputEvent event, float x, float y, int pointer, Actor fromActor)
+			{
+				super.enter(event, x, y, pointer, fromActor);
+				hoverWhistle1.play();
+			}
+		});
 
 		tbDiff3Lvl2Style = new TextButtonStyle();
 		tbDiff3Lvl2Style.up = skin.getDrawable("3diff8");
@@ -345,6 +381,15 @@ public class LevelScreen extends AbstractScreen
 				}
 			}
 		});
+		diff3Lvl2Button.addListener(new InputListener()
+		{
+			@Override
+			public void enter(InputEvent event, float x, float y, int pointer, Actor fromActor)
+			{
+				super.enter(event, x, y, pointer, fromActor);
+				hoverWhistle2.play();
+			}
+		});
 
 		tbDiff3Lvl3Style = new TextButtonStyle();
 		tbDiff3Lvl3Style.up = skin.getDrawable("3diff9");
@@ -366,6 +411,15 @@ public class LevelScreen extends AbstractScreen
 					game.setLevel(AURISGame.getLevel(id));
 					game.changeScreen(AURISGame.GAME_SCREEN, LevelScreen.this);
 				}
+			}
+		});
+		diff3Lvl3Button.addListener(new InputListener()
+		{
+			@Override
+			public void enter(InputEvent event, float x, float y, int pointer, Actor fromActor)
+			{
+				super.enter(event, x, y, pointer, fromActor);
+				hoverWhistle3.play();
 			}
 		});
 
@@ -461,23 +515,32 @@ public class LevelScreen extends AbstractScreen
 			game.changeScreen(AURISGame.SHOP_SCREEN, LevelScreen.this);
 		}
 		if (Gdx.input.isKeyPressed(Keys.NUM_1))
-		{}
+		{
+		}
 		if (Gdx.input.isKeyPressed(Keys.NUM_2))
-		{}
+		{
+		}
 		if (Gdx.input.isKeyPressed(Keys.NUM_3))
-		{}
+		{
+		}
 		if (Gdx.input.isKeyPressed(Keys.NUM_4))
-		{}
+		{
+		}
 		if (Gdx.input.isKeyPressed(Keys.NUM_5))
-		{}
+		{
+		}
 		if (Gdx.input.isKeyPressed(Keys.NUM_6))
-		{}
+		{
+		}
 		if (Gdx.input.isKeyPressed(Keys.NUM_7))
-		{}
+		{
+		}
 		if (Gdx.input.isKeyPressed(Keys.NUM_8))
-		{}
+		{
+		}
 		if (Gdx.input.isKeyPressed(Keys.NUM_9))
-		{}
+		{
+		}
 	}
 
 	private void update()
