@@ -28,7 +28,7 @@ public class Ball extends Entity
 		body = world.createBody(bodyDef);
 
 		CircleShape circleShape = new CircleShape();
-		circleShape.setRadius(radius);
+		circleShape.setRadius(radius-4);
 
 		FixtureDef fixtureDef = new FixtureDef();
 		fixtureDef.shape = circleShape;

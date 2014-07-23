@@ -67,16 +67,19 @@ public class AURISGame extends Game
 	@Override
 	public void create()
 	{
-		imageProcessor = new ImageProcessor(this);
-		webcamHandler = new WebcamHandler(imageProcessor);
-
+		// Data
 		AssetLoader.load();
 		preferences = new Preferences();
 		//		preferences.save();
 		preferences.load();
-		userdata = new UserData();
+		userdata = new UserData(this);
 		userdata.load();
 
+		// Image Processing
+		imageProcessor = new ImageProcessor(this);
+		webcamHandler = new WebcamHandler(imageProcessor);
+
+		// Screens 
 		menuScreen = new MenuScreen(this);
 		loginScreen = new LoginScreen(this);
 		levelScreen = new LevelScreen(this);
@@ -84,10 +87,12 @@ public class AURISGame extends Game
 		shopScreen = new ShopScreen(this);
 		creditsScreen = new CreditsScreen(this);
 
+		// Initialization
 		initAchievements();
 		initBallSkins();
 		initLevels();
 
+		// Current Screen, StartScreen
 		this.setScreen(menuScreen);
 	}
 
@@ -223,11 +228,6 @@ public class AURISGame extends Game
 		userdata.save();
 		webcamHandler.dispose();
 		AssetLoader.dispose();
-	}
-
-	public void exit()
-	{
-		dispose();
 		System.exit(0);
 	}
 

@@ -1,6 +1,5 @@
 package com.aau.auris.game.screens;
 
-import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 
 import blobDetection.Blob;
@@ -8,6 +7,7 @@ import blobDetection.Blob;
 import com.aau.auris.game.AURISGame;
 import com.aau.auris.game.Asset.AssetLoader;
 import com.aau.auris.game.data.Player;
+import com.aau.auris.game.data.Preferences;
 import com.aau.auris.game.items.BallSkin;
 import com.aau.auris.game.level.Level;
 import com.aau.auris.game.level.gameworld.Ball;
@@ -45,7 +45,6 @@ public class GameScreen extends AbstractScreen {
 	private SpriteBatch spriteBatch;
 
 	// Player
-	private int ball_radius;
 	private Ball ball;
 
 	// Other Variables
@@ -64,10 +63,15 @@ public class GameScreen extends AbstractScreen {
 	private TextButton btnBack;
 	private BallSkin ballskin;
 
-	public GameScreen(AURISGame game)
-	{
+	// Preferences
+	private int ball_radius;
+	private boolean debugging;
+
+	public GameScreen(AURISGame game) {
 		super(game);
-		ball_radius = (int) game.getPreferences().getBallRadius() + 12;
+		Preferences prefs = game.getPreferences();
+		ball_radius = (int) prefs.getBallRadius() + 12;
+		debugging = prefs.isDebugging();
 	}
 
 	@Override
@@ -82,7 +86,6 @@ public class GameScreen extends AbstractScreen {
 
 	@Override
 	protected void initComponents() {
-		this.ballskin = new BallSkin();
 		// GameLogic
 		collisionHandler = new CollisionHandler(game, this);
 
@@ -115,10 +118,10 @@ public class GameScreen extends AbstractScreen {
 				lblPlayerScore.getX() - lblPlayerScore.getWidth() - width / 2,
 				lblLevel.getY(), width, height);
 
-		overStyle=new LabelStyle();
+		overStyle = new LabelStyle();
 		overStyle.font = bFont;
 		overStyle.fontColor = Color.WHITE;
-		
+
 		lblStatus = new Label("", overStyle);
 		lblStatus.setBounds(330, 200, 200, 150);
 
@@ -163,21 +166,18 @@ public class GameScreen extends AbstractScreen {
 		stage.addActor(btnBack);
 	}
 
-
-
-
-	public void updateGame(ArrayList<Blob> blobs)
-	{
+	public void updateGame(ArrayList<Blob> blobs) {
 		// TODO: implement creation of objects in gameWorld
 		ArrayList<Obstacle> newObjects = new ArrayList<Obstacle>();
-		for (Blob b : blobs)
-		{
-			newObjects.add(new Obstacle(world, b.x - b.w / 2f, b.y - b.h / 2f, b.w, b.h));
+		for (Blob b : blobs) {
+			newObjects.add(new Obstacle(world, (b.x - b.w / 2f)
+					* Level.WORLD_TO_BOX,
+					(b.y - b.h / 2f) * Level.WORLD_TO_BOX, (b.w)
+							* Level.WORLD_TO_BOX, (b.h) * Level.WORLD_TO_BOX));
 		}
 		level.setObjects(newObjects);
 
 	}
-	
 
 	@Override
 	protected void handleInput() {
@@ -197,7 +197,7 @@ public class GameScreen extends AbstractScreen {
 		if (Gdx.input.isKeyPressed(Keys.RIGHT)) {
 			ball.getBody().setLinearVelocity(120, 0);
 		}
-		if(Gdx.input.isKeyPressed(Keys.ESCAPE)){
+		if (Gdx.input.isKeyPressed(Keys.ESCAPE)) {
 			game.changeScreen(AURISGame.LEVEL_SCREEN, GameScreen.this);
 		}
 	}
@@ -214,6 +214,7 @@ public class GameScreen extends AbstractScreen {
 
 		// GameWorld
 		this.player = game.getPlayer();
+		this.ballskin = new BallSkin(player.getSkinID());
 		this.level = game.getLevel();
 		this.world = level.getWorld();
 		this.ball = level.getBall();
@@ -222,11 +223,11 @@ public class GameScreen extends AbstractScreen {
 		this.debugRenderer = level.getDebugRenderer();
 		this.camera = level.getCamera();
 		this.spriteBatch = new SpriteBatch();
+		overStyle.background = null;
 	}
-	
-	public void ballDied()
-	{
-	
+
+	public void ballDied() {
+
 	}
 
 	@Override
@@ -234,22 +235,28 @@ public class GameScreen extends AbstractScreen {
 		super.render(delta);
 		runTime += delta;
 
-		if(ball.isDead()){
-			overStyle.background=skin.getDrawable("over1");
+		if (ball.isDead()) {
+			int id = player.getSkinID();
+			if (id == BallSkin.BALL_SKIN_ID_1) {
+				overStyle.background = skin.getDrawable("over0");
+			} else if (id == BallSkin.BALL_SKIN_ID_2) {
+				overStyle.background = skin.getDrawable("over1");
+			} else if (id == BallSkin.BALL_SKIN_ID_3) {
+				overStyle.background = skin.getDrawable("over2");
+			} else if (id == BallSkin.BALL_SKIN_ID_4) {
+				overStyle.background = skin.getDrawable("over3");
+			}
 		}
 		spriteBatch.setProjectionMatrix(camera.combined);
-		debugRenderer.render(world, camera.combined);
 
+		if (debugging) {
+			debugRenderer.render(world, camera.combined);
+		}
 		spriteBatch.begin();
 		if (level != null) {
+			
 			level.draw(spriteBatch);
 		}
-		//
-		// if (backGround != null)
-		// {
-		// spriteBatch.draw(backGround, 0, 0, game.getWidth(),
-		// game.getHeight());
-		// }
 
 		if (ball != null) {
 			if (ball.isDead()) {
@@ -269,7 +276,6 @@ public class GameScreen extends AbstractScreen {
 								ball_radius * 2f, ball_radius * 2f);
 			}
 		}
-
 		spriteBatch.end();
 
 		// physic updates
