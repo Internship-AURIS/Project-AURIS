@@ -16,15 +16,15 @@ public class ImageProcessor implements WebcamListener
 	private AURISGame game;
 	private ImageFilter imageFilter;
 
-	private final float maxBlobHeight, maxBlobWidth;
+	private final float minBlobHeight, minBlobWidth;
 	private BlobDetection bd;
 
 	public ImageProcessor(AURISGame game)
 	{
 		this.game = game;
 		this.imageFilter = new ImageFilter(game);
-		this.maxBlobHeight = game.getPreferences().getMaxBlobHeight();
-		this.maxBlobWidth = game.getPreferences().getMaxBlobWidth();
+		this.minBlobHeight = game.getPreferences().getMinBlobHeight();
+		this.minBlobWidth = game.getPreferences().getMinBlobWidth();
 	}
 
 	public void setBlobDetector(int width, int height)
@@ -50,7 +50,8 @@ public class ImageProcessor implements WebcamListener
 		for (int i = 0; i < bd.getBlobNb(); i++)
 		{
 			b = bd.getBlob(i);
-			if (b.w > maxBlobWidth && b.h > maxBlobHeight)
+			System.out.println("blobSize: " + b.w + "/" + b.h + "; >" + minBlobWidth + "/" + minBlobHeight);
+			if (b.w > minBlobWidth && b.h > minBlobHeight)
 			{
 				blobs.add(bd.getBlob(i));
 			}
