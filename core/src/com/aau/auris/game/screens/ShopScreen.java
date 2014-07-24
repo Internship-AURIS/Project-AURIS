@@ -4,6 +4,7 @@ import com.aau.auris.game.AURISGame;
 import com.aau.auris.game.Asset.AssetLoader;
 import com.aau.auris.game.data.Player;
 import com.aau.auris.game.items.BallSkin;
+import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Pixmap;
@@ -247,15 +248,32 @@ public class ShopScreen extends AbstractScreen
 		//		stage.addActor(infoLbl);
 		stage.addActor(tbBack);
 		stage.addActor(btnDefault);
-	}
 
-	@Override
-	protected void handleInput()
-	{
-		// if (Gdx.input.isKeyPressed(Keys.DEL))
-		// {
-		// game.changeScreen(AURISGame.LEVEL_SCREEN, ShopScreen.this);
-		// }
+		stage.addListener(new InputListener()
+		{
+
+			@Override
+			public boolean keyDown(InputEvent event, int keycode)
+			{
+				if (keycode == Keys.ESCAPE || keycode == Keys.DEL)
+				{
+					game.changeScreen(AURISGame.LEVEL_SCREEN, ShopScreen.this);
+				} else if (keycode == Keys.NUM_1)
+				{
+					purchaseItem(BallSkin.BALL_SKIN_ID_1);
+				} else if (keycode == Keys.NUM_2)
+				{
+					purchaseItem(BallSkin.BALL_SKIN_ID_2);
+				} else if (keycode == Keys.NUM_3)
+				{
+					purchaseItem(BallSkin.BALL_SKIN_ID_3);
+				} else if (keycode == Keys.NUM_4)
+				{
+					purchaseItem(BallSkin.BALL_SKIN_ID_4);
+				}
+				return super.keyDown(event, keycode);
+			}
+		});
 	}
 
 	private void updateShopItemButtons()

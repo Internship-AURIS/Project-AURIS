@@ -60,7 +60,6 @@ public class Level implements Asset
 	private Ball ball;
 
 	private ArrayList<Obstacle> objects;
-	private ArrayList<Obstacle> border;
 	private Home home;
 	private Goal goal;
 	private Skin skin;
@@ -111,67 +110,48 @@ public class Level implements Asset
 
 	public void generateWorld(final int sWidth, final int sHeight)
 	{
-		// initialize GameObjects
-		final float menu_width = 90;
-		final float menu_height = 200;
-		final float goal_width = 40;
-		final float goal_height = 150;
-		final float randomY = (float) goalYRandom.nextInt(330);
-		ball = new Ball(this, world, camera.viewportWidth / 2, camera.viewportHeight / 2, game.getPreferences().getBallRadius());
-		home = new Home(world, 0 * WORLD_TO_BOX, 0 * WORLD_TO_BOX, menu_width * WORLD_TO_BOX, menu_height * WORLD_TO_BOX);
-		goal = new Goal(world, (sWidth - goal_width) * WORLD_TO_BOX, randomY * WORLD_TO_BOX, goal_width, goal_height);
 
 		// Initialize GameBorder
 		final float factor_height = 1.95f;
 		final float factor_width = 0.9367f;
 		final float border_width = 20;// the object
-
 		this.objects = new ArrayList<Obstacle>();
-
 		objects.add(new BorderLine(world, -10 * WORLD_TO_BOX, 0, border_width * WORLD_TO_BOX, (sHeight * factor_height) * WORLD_TO_BOX));
 		objects.add(new BorderLine(world, 0 * WORLD_TO_BOX, -10 * WORLD_TO_BOX, (sWidth * factor_height) * WORLD_TO_BOX, border_width * WORLD_TO_BOX));
 		objects.add(new BorderLine(world, 0 * WORLD_TO_BOX, ((sHeight + border_width) * factor_width) * WORLD_TO_BOX, (sWidth * factor_height) * WORLD_TO_BOX, border_width * WORLD_TO_BOX));
 		objects.add(new BorderLine(world, ((sWidth + border_width * 1.8f) * factor_width) * WORLD_TO_BOX, 0, border_width * WORLD_TO_BOX, (sHeight * factor_height) * WORLD_TO_BOX));
 
+		// Initialize Levels
+		Random r = new Random();
+		int goalHeight = 0;
 		if (id >= LEVEL_ID_1 && id <= LEVEL_ID_3)
 		{
 			// TODO: generate Level Difficulty 1
-			objects.add(new Obstacle(world, (50 / 2 - 50) * WORLD_TO_BOX, (50 / 2 - 50) * WORLD_TO_BOX, 50 * WORLD_TO_BOX, 50 * WORLD_TO_BOX));
-			if (id == LEVEL_ID_2)
-			{
-				objects.add(new Obstacle(world, 150, 20, 50, 50));
-			}
-
+			goalHeight = r.nextInt(sHeight / 2) + sHeight / 4;
+//			objects.add(new Obstacle(world, (50 / 2 - 50) * WORLD_TO_BOX, (50 / 2 - 50) * WORLD_TO_BOX, 50 * WORLD_TO_BOX, 50 * WORLD_TO_BOX));
+			objects.add(new Obstacle(world, 150, 20, 50, 50));
 		} else if (id >= LEVEL_ID_4 && id <= LEVEL_ID_6)
 		{
 			// TODO: generate Level Difficulty 2
+			goalHeight = r.nextInt(sHeight / 2) + sHeight / 4;
 			objects.add(new Obstacle(world, (50 / 2 - 50) * WORLD_TO_BOX, (50 / 2 - 50) * WORLD_TO_BOX, 50 * WORLD_TO_BOX, 50 * WORLD_TO_BOX));
 		} else if (id >= LEVEL_ID_7 && id <= LEVEL_ID_9)
 		{
 			// TODO: generate Level Difficulty 3
+			goalHeight = r.nextInt(sHeight / 2) + sHeight / 4;
 			objects.add(new Obstacle(world, (50 / 2 - 50) * WORLD_TO_BOX, (50 / 2 - 50) * WORLD_TO_BOX, 50 * WORLD_TO_BOX, 50 * WORLD_TO_BOX));
 		}
 
-		this.border = new ArrayList<Obstacle>();
-		border.add(new BorderLine(world, -10 * WORLD_TO_BOX, 0, border_width * WORLD_TO_BOX, (sHeight * factor_height) * WORLD_TO_BOX));
-		border.add(new BorderLine(world, 0 * WORLD_TO_BOX, -10 * WORLD_TO_BOX, (sWidth * factor_height) * WORLD_TO_BOX, border_width * WORLD_TO_BOX));
-		border.add(new BorderLine(world, 0 * WORLD_TO_BOX, ((sHeight + border_width) * factor_width) * WORLD_TO_BOX, (sWidth * factor_height) * WORLD_TO_BOX, border_width * WORLD_TO_BOX));
-		border.add(new BorderLine(world, ((sWidth + border_width * 1.8f) * factor_width) * WORLD_TO_BOX, 0, border_width * WORLD_TO_BOX, (sHeight * factor_height) * WORLD_TO_BOX));
+		// initialize static ever existing GameObjects
+		final float menu_width = 90;
+		final float menu_height = 200;
+		final float goal_width = 40;
+		final float randomY = (float) goalYRandom.nextInt(330);
+		ball = new Ball(this, world, camera.viewportWidth / 2, camera.viewportHeight / 2, game.getPreferences().getBallRadius());
+		home = new Home(world, 0 * WORLD_TO_BOX, 0 * WORLD_TO_BOX, menu_width * WORLD_TO_BOX, menu_height * WORLD_TO_BOX);
+		goal = new Goal(world, (sWidth - goal_width) * WORLD_TO_BOX, randomY * WORLD_TO_BOX, goal_width, goalHeight);
+		
 
-		objects = new ArrayList<Obstacle>();
-		if (id >= 1 && id <= 3)
-		{
-			// TODO: generate Level Difficulty 1, add objects
-			border.add(new Obstacle(world, (50 / 2 - 50) * WORLD_TO_BOX, (50 / 2 - 50) * WORLD_TO_BOX, 50 * WORLD_TO_BOX, 50 * WORLD_TO_BOX));
-		} else if (id >= 4 && id <= 6)
-		{
-			// TODO: generate Level Difficulty 2, add objects	
-			border.add(new Obstacle(world, (50 / 2 - 50) * WORLD_TO_BOX, (50 / 2 - 50) * WORLD_TO_BOX, 50 * WORLD_TO_BOX, 50 * WORLD_TO_BOX));
-		} else if (id >= 7 && id <= 9)
-		{
-			// TODO: generate Level Difficulty 3, add objects	
-			border.add(new Obstacle(world, (50 / 2 - 50) * WORLD_TO_BOX, (50 / 2 - 50) * WORLD_TO_BOX, 50 * WORLD_TO_BOX, 50 * WORLD_TO_BOX));
-		}
 	}
 
 	public void setObjects(ArrayList<Obstacle> newObjects)

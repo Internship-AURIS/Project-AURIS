@@ -7,7 +7,6 @@ import java.util.Random;
 import com.aau.auris.game.AURISGame;
 import com.aau.auris.game.Asset.AssetLoader;
 import com.aau.auris.game.items.MenuBall;
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Texture;
@@ -107,15 +106,19 @@ public class CreditsScreen extends AbstractScreen
 		});
 
 		stage.addActor(tbBack);
-	}
 
-	@Override
-	protected void handleInput()
-	{
-		if (Gdx.input.isKeyPressed(Keys.DEL))
+		stage.addListener(new InputListener()
 		{
-			game.changeScreen(AURISGame.MENU_SCREEN, CreditsScreen.this);
-		}
+			@Override
+			public boolean keyDown(InputEvent event, int keycode)
+			{
+				if (keycode == Keys.ESCAPE || keycode == Keys.DEL)
+				{
+					game.changeScreen(AURISGame.MENU_SCREEN, CreditsScreen.this);
+				}
+				return super.keyDown(event, keycode);
+			}
+		});
 	}
 
 	@Override

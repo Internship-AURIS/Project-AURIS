@@ -501,46 +501,99 @@ public class LevelScreen extends AbstractScreen
 
 		stage.addActor(tbBack);
 		stage.addActor(tbShop);
-	}
 
-	@Override
-	protected void handleInput()
-	{
-		if (Gdx.input.isKeyPressed(Keys.DEL))
+		stage.addListener(new InputListener()
 		{
-			game.changeScreen(AURISGame.MENU_SCREEN, LevelScreen.this);
-		}
-		if (Gdx.input.isKeyPressed(Keys.S))
-		{
-			game.changeScreen(AURISGame.SHOP_SCREEN, LevelScreen.this);
-		}
-		if (Gdx.input.isKeyPressed(Keys.NUM_1))
-		{
-		}
-		if (Gdx.input.isKeyPressed(Keys.NUM_2))
-		{
-		}
-		if (Gdx.input.isKeyPressed(Keys.NUM_3))
-		{
-		}
-		if (Gdx.input.isKeyPressed(Keys.NUM_4))
-		{
-		}
-		if (Gdx.input.isKeyPressed(Keys.NUM_5))
-		{
-		}
-		if (Gdx.input.isKeyPressed(Keys.NUM_6))
-		{
-		}
-		if (Gdx.input.isKeyPressed(Keys.NUM_7))
-		{
-		}
-		if (Gdx.input.isKeyPressed(Keys.NUM_8))
-		{
-		}
-		if (Gdx.input.isKeyPressed(Keys.NUM_9))
-		{
-		}
+
+			@Override
+			public boolean keyDown(InputEvent event, int keycode)
+			{
+				if (keycode == Keys.ESCAPE || keycode == Keys.DEL)
+				{
+					game.changeScreen(AURISGame.MENU_SCREEN, LevelScreen.this);
+				} else if (keycode == Keys.S)
+				{
+					game.changeScreen(AURISGame.SHOP_SCREEN, LevelScreen.this);
+				} else if (keycode == Keys.NUM_1)
+				{
+					final int id = Level.LEVEL_ID_1;
+					if (player.hasLevelUnlocked(id))
+					{
+						game.setLevel(AURISGame.getLevel(id));
+						game.changeScreen(AURISGame.GAME_SCREEN, LevelScreen.this);
+					}
+				} else if (keycode == Keys.NUM_2)
+				{
+					final int id = Level.LEVEL_ID_2;
+					if (player.hasLevelUnlocked(id))
+					{
+						game.setLevel(AURISGame.getLevel(id));
+						game.changeScreen(AURISGame.GAME_SCREEN, LevelScreen.this);
+					}
+				} else if (keycode == Keys.NUM_3)
+				{
+					final int id = Level.LEVEL_ID_3;
+					if (player.hasLevelUnlocked(id))
+					{
+						game.setLevel(AURISGame.getLevel(id));
+						game.changeScreen(AURISGame.GAME_SCREEN, LevelScreen.this);
+					}
+
+				} else if (keycode == Keys.NUM_4)
+				{
+					final int id = Level.LEVEL_ID_4;
+					if (player.hasLevelUnlocked(id))
+					{
+						game.setLevel(AURISGame.getLevel(id));
+						game.changeScreen(AURISGame.GAME_SCREEN, LevelScreen.this);
+					}
+
+				} else if (keycode == Keys.NUM_5)
+				{
+					final int id = Level.LEVEL_ID_5;
+					if (player.hasLevelUnlocked(id))
+					{
+						game.setLevel(AURISGame.getLevel(id));
+						game.changeScreen(AURISGame.GAME_SCREEN, LevelScreen.this);
+					}
+
+				} else if (keycode == Keys.NUM_6)
+				{
+					final int id = Level.LEVEL_ID_6;
+					if (player.hasLevelUnlocked(id))
+					{
+						game.setLevel(AURISGame.getLevel(id));
+						game.changeScreen(AURISGame.GAME_SCREEN, LevelScreen.this);
+					}
+				} else if (keycode == Keys.NUM_7)
+				{
+					final int id = Level.LEVEL_ID_7;
+					if (player.hasLevelUnlocked(id))
+					{
+						game.setLevel(AURISGame.getLevel(id));
+						game.changeScreen(AURISGame.GAME_SCREEN, LevelScreen.this);
+					}
+
+				} else if (keycode == Keys.NUM_8)
+				{
+					final int id = Level.LEVEL_ID_8;
+					if (player.hasLevelUnlocked(id))
+					{
+						game.setLevel(AURISGame.getLevel(id));
+						game.changeScreen(AURISGame.GAME_SCREEN, LevelScreen.this);
+					}
+				} else if (keycode == Keys.NUM_9)
+				{
+					final int id = Level.LEVEL_ID_9;
+					if (player.hasLevelUnlocked(id))
+					{
+						game.setLevel(AURISGame.getLevel(id));
+						game.changeScreen(AURISGame.GAME_SCREEN, LevelScreen.this);
+					}
+				}
+				return super.keyDown(event, keycode);
+			}
+		});
 	}
 
 	private void update()
