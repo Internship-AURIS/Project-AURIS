@@ -7,10 +7,13 @@ import com.aau.auris.game.AURISGame;
 import com.aau.auris.game.Asset.Asset;
 import com.aau.auris.game.Asset.AssetLoader;
 import com.aau.auris.game.data.Player;
-import com.aau.auris.game.level.gameworld.*;
+import com.aau.auris.game.level.gameworld.Ball;
+import com.aau.auris.game.level.gameworld.BorderLine;
+import com.aau.auris.game.level.gameworld.Goal;
+import com.aau.auris.game.level.gameworld.Home;
+import com.aau.auris.game.level.gameworld.Obstacle;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.OrthographicCamera;
-import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.math.Vector2;
@@ -109,7 +112,7 @@ public class Level implements Asset
 		final float goal_width = 40;
 		final float goal_height = 150;
 		final float randomY = (float) goalYRandom.nextInt(330);
-		System.out.println(randomY+"RADNOMY");
+		System.out.println(randomY + "RADNOMY");
 		ball = new Ball(this, world, camera.viewportWidth / 2, camera.viewportHeight / 2, game.getPreferences().getBallRadius());
 		home = new Home(world, 0 * WORLD_TO_BOX, 0 * WORLD_TO_BOX, menu_width * WORLD_TO_BOX, menu_height * WORLD_TO_BOX);
 		goal = new Goal(world, (s_width - goal_width) * WORLD_TO_BOX, randomY * WORLD_TO_BOX, goal_width, goal_height);
@@ -236,9 +239,10 @@ public class Level implements Asset
 			}
 		}
 	}
-	public void draw(SpriteBatch spriteBatch) {
-		skin.getDrawable("goal4Big").draw(spriteBatch, 790,
-				goal.getBody().getPosition().y/WORLD_TO_BOX -160, 60, 150);
-//		System.out.println(	goal.getBody().getPosition().y + "POSITION ZEICHNUNG");
-}
+
+	public void draw(SpriteBatch spriteBatch)
+	{
+		skin.getDrawable("goal4Big").draw(spriteBatch, 790, goal.getBody().getPosition().y / WORLD_TO_BOX - 160, 60, 150);
+		//		System.out.println(	goal.getBody().getPosition().y + "POSITION ZEICHNUNG");
+	}
 }
