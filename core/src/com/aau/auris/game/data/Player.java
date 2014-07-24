@@ -15,10 +15,8 @@ public class Player
 	private ArrayList<Integer> skinUnlocks;
 
 	private String name;// player name
-	private int achievPoints;// get points for unlocking achievements
 	private int credits;// current credits, used for bills
-	private int maxCredits;// maximal credits the player ever reached
-	private int score;// composed of maxCredits + achievements, etc.
+	private int score;// maximal credits the player ever reached
 	private int skinID;
 
 	/*
@@ -27,12 +25,10 @@ public class Player
 	public Player()
 	{}
 
-	public Player(String name, int credits, int maxCredits, int score, ArrayList<Integer> achievementUnlocks, ArrayList<Integer> levelUnlocks, ArrayList<Integer> skinUnlocks, int skinID)
+	public Player(String name, int credits, int score, ArrayList<Integer> achievementUnlocks, ArrayList<Integer> levelUnlocks, ArrayList<Integer> skinUnlocks, int skinID)
 	{
 		this.name = name;
-		this.achievPoints = score - maxCredits;
 		this.credits = credits;
-		this.maxCredits = maxCredits;
 		this.score = score;
 		this.achievementUnlocks = achievementUnlocks;
 		this.levelUnlocks = levelUnlocks;
@@ -43,7 +39,7 @@ public class Player
 
 	public static Player generateNewPlayer(String name)
 	{
-		Player player = new Player(name, 0, 0, 0, AURISGame.getDefaultAchievementUnlocks(), AURISGame.getDefaultLevelUnlocks(), AURISGame.getDefaultSkinUnlocks(), BallSkin.BALL_SKIN_ID_1);
+		Player player = new Player(name, 0, 0, AURISGame.getDefaultAchievementUnlocks(), AURISGame.getDefaultLevelUnlocks(), AURISGame.getDefaultSkinUnlocks(), BallSkin.BALL_SKIN_ID_1);
 		return player;
 	}
 
@@ -110,33 +106,20 @@ public class Player
 		{
 			credits = 999;
 		}
-		if (credits > maxCredits)
-		{
-			setMaxCredits(credits);
-		}
+		addPoints(value);
 	}
 
-	public int getMaxCredits()
+	public void addPoints(int points)
 	{
-		return maxCredits;
-	}
-
-	public void setMaxCredits(int maxC)
-	{
-		if (maxC > 999)
-		{
-			maxC = 999;
-		}
-		this.maxCredits = maxC;
-	}
-
-	public int getScore()
-	{
-		score = achievPoints + credits + maxCredits;
+		score += points;
 		if (score > 999)
 		{
 			score = 999;
 		}
+	}
+
+	public int getScore()
+	{
 		return score;
 	}
 
@@ -172,7 +155,7 @@ public class Player
 		if (!hasAchievementUnlocked(id))
 		{
 			achievementUnlocks.add(id);
-			achievPoints += new Achievement(id).getCreditValue();
+			addPoints(new Achievement(id).getCreditValue());
 		}
 	}
 

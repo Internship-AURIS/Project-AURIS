@@ -84,6 +84,9 @@ public class UserData
 			if (data != null && (data.getPlayers() != null && data.getPlayers().size() > 0))
 			{
 				players = data.getPlayers();
+			} else
+			{
+				players = new ArrayList<Player>();
 			}
 		} else
 		{

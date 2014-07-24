@@ -50,6 +50,10 @@ public class CollisionHandler implements ContactListener
 		{
 			ball.die();
 		}
+		if (classA == Obstacle.class || classB == Obstacle.class)
+		{
+			game.getPlayer().addPoints(1);
+		}
 		//		System.out.println("A: " + classA.getSimpleName() + " B: " + classB.getSimpleName());
 	}
 

@@ -52,6 +52,7 @@ public class Level implements Asset
 	public static final int BOX_VELOCITY_ITERATIONS = 6;
 	public static final int BOX_POSITION_ITERATIONS = 2;
 	public static final float WORLD_TO_BOX = 0.511111f;
+	public static final float BOX_TO_WORLD = 1f;
 
 	// Level
 	private World world;
@@ -82,8 +83,8 @@ public class Level implements Asset
 		world = new World(GRAVITY, true);
 		debugRenderer = new Box2DDebugRenderer();
 		camera = new OrthographicCamera();
-		camera.viewportWidth = Gdx.graphics.getWidth();
-		camera.viewportHeight = Gdx.graphics.getHeight();
+		camera.viewportWidth = game.getWidth();
+		camera.viewportHeight = game.getHeight();
 		camera.position.set(camera.viewportWidth * 0.5f, camera.viewportHeight * 0.5f, 0f);
 		camera.update();
 
@@ -92,7 +93,6 @@ public class Level implements Asset
 
 	public void reset()
 	{
-		ball.setDead(false);
 		world = new World(GRAVITY, true);
 		generateWorld(game.getWidth(), game.getHeight());
 	}
@@ -113,14 +113,15 @@ public class Level implements Asset
 	{
 
 		// Initialize GameBorder
-		final float factor_height = 1.95f;
-		final float factor_width = 0.9367f;
-		final float border_width = 20;// the object
+		final float factorX = camera.viewportWidth / game.getWidth();
+		final float factorY = camera.viewportHeight / game.getHeight();
+		final float border_size = 10;// the object
 		this.border = new ArrayList<BorderLine>();
-		border.add(new BorderLine(-10 * WORLD_TO_BOX, 0, border_width * WORLD_TO_BOX, (sHeight * factor_height) * WORLD_TO_BOX));
-		border.add(new BorderLine(0 * WORLD_TO_BOX, -10 * WORLD_TO_BOX, (sWidth * factor_height) * WORLD_TO_BOX, border_width * WORLD_TO_BOX));
-		border.add(new BorderLine(0 * WORLD_TO_BOX, ((sHeight + border_width) * factor_width) * WORLD_TO_BOX, (sWidth * factor_height) * WORLD_TO_BOX, border_width * WORLD_TO_BOX));
-		border.add(new BorderLine(((sWidth + border_width * 1.8f) * factor_width) * WORLD_TO_BOX, 0, border_width * WORLD_TO_BOX, (sHeight * factor_height) * WORLD_TO_BOX));
+		border.add(new BorderLine((border_size / 2f * -1) * factorX, 0, border_size * factorX, sHeight * factorY));
+		border.add(new BorderLine(0, (border_size / 2f * -1) * factorX, sWidth * factorX, border_size * factorY));
+		border.add(new BorderLine(0, (sHeight - border_size / 2f) * factorY, sWidth * factorX, border_size * factorY));
+		border.add(new BorderLine((sWidth / 2f) * factorX, 10 * factorY, border_size * factorX, sHeight * factorY));
+		createBorder();
 
 		// Initialize Levels
 		this.objects = new ArrayList<Obstacle>();
@@ -128,7 +129,7 @@ public class Level implements Asset
 		int goalHeight = 0;
 		if (id >= LEVEL_ID_1 && id <= LEVEL_ID_3)
 		{
-			goalHeight = r.nextInt(sHeight / 2) + sHeight / 4;
+			goalHeight = r.nextInt(sHeight / 3) + sHeight / 5;
 			//			objects.add(new Obstacle(world, (50 / 2 - 50) * WORLD_TO_BOX, (50 / 2 - 50) * WORLD_TO_BOX, 50 * WORLD_TO_BOX, 50 * WORLD_TO_BOX));
 			objects.add(new Obstacle(150, 20, 50, 50));
 		} else if (id >= LEVEL_ID_4 && id <= LEVEL_ID_6)
@@ -155,6 +156,14 @@ public class Level implements Asset
 
 		// create objects in world
 		createObjects();
+	}
+
+	private void createBorder()
+	{
+		for (Obstacle o : border)
+		{
+			o.create(world);
+		}
 	}
 
 	private void createObjects()

@@ -193,6 +193,12 @@ public class GameScreen extends AbstractScreen
 					{
 						ball.getBody().setLinearVelocity(120, 0);
 					}
+				} else
+				{
+//					if (keycode == Keys.ENTER)
+//					{
+//						level.reset();
+//					}
 				}
 				if (keycode == Keys.ESCAPE)
 				{
@@ -324,6 +330,8 @@ public class GameScreen extends AbstractScreen
 
 		// physic updates
 		world.step(Level.BOX_STEP, Level.BOX_VELOCITY_ITERATIONS, Level.BOX_POSITION_ITERATIONS);
+
+		updateStatusBar();
 	}
 
 	@Override
