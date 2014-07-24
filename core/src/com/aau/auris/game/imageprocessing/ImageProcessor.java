@@ -2,6 +2,8 @@ package com.aau.auris.game.imageprocessing;
 
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 import blobDetection.Blob;
 import blobDetection.BlobDetection;
@@ -18,6 +20,8 @@ public class ImageProcessor implements WebcamListener
 
 	private final float minBlobHeight, minBlobWidth;
 	private BlobDetection bd;
+	
+	private ExecutorService executor = Executors.newCachedThreadPool();
 
 	public ImageProcessor(AURISGame game)
 	{
@@ -46,6 +50,7 @@ public class ImageProcessor implements WebcamListener
 		final int[] pixels = imgTmp.getRGB(0, 0, width, height, null, 0, width);
 		bd.computeBlobs(pixels);
 
+		
 		ArrayList<Blob> blobs = new ArrayList<Blob>();
 		Blob b;
 		for (int i = 0; i < bd.getBlobNb(); i++)
@@ -56,6 +61,7 @@ public class ImageProcessor implements WebcamListener
 				blobs.add(bd.getBlob(i));
 			}
 		}
+		//System.out.println(blobs.size() + " blobs");
 		if (game.getScreen().getClass() == GameScreen.class)
 		{
 			game.getGameScreen().updateGame(blobs);
@@ -73,11 +79,12 @@ public class ImageProcessor implements WebcamListener
 	@Override
 	public void webcamImageObtained(final WebcamEvent e)
 	{
-		new Thread(){
+		executor.execute(new Runnable() {
+			@Override
 			public void run() {
 				process(e.getImage());
 			}
-		}.start();
+		});
 	}
 
 	@Override

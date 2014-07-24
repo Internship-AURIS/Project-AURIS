@@ -180,16 +180,7 @@ public class GameScreen extends AbstractScreen
 		ArrayList<Obstacle> newObjects = new ArrayList<Obstacle>();
 		for (Blob b : blobs)
 		{
-			for (Blob b2 : this.blobs)
-			{
-				if (b.getEdgeNb() != b2.getEdgeNb())
-				{
-					newObjects.add(new Obstacle(world, ((b.x - b.w) * sWidth / 2f) 
-							* Level.WORLD_TO_BOX, ((b.y - b.h) * sHeight / 2f) 
-							* Level.WORLD_TO_BOX, (b.w) * sWidth * Level.WORLD_TO_BOX, (b.h)
-							* sHeight * Level.WORLD_TO_BOX));
-				}
-			}
+			newObjects.add(new Obstacle(world, b.xMin * sWidth, b.yMin * sHeight, b.w *sWidth, b.h * sHeight));
 		}
 		level.setObjects(newObjects);
 		this.blobs = blobs;
@@ -292,17 +283,17 @@ public class GameScreen extends AbstractScreen
 					b = blobs.get(i);
 					if (b.w > 0.1 && b.h > 0.1)
 					{
-						System.out.println("blob to draw");
-						for (int j = 0; j < b.getEdgeNb(); j++)
-						{
-							eA = b.getEdgeVertexA(j);
-							eB = b.getEdgeVertexB(j);
-							if (eA != null && eB != null){
-								shapeRenderer.line(eA.x * sWidth, eA.y * sHeight, eB.x * sWidth, eB.y * sHeight);
-								System.out.println("A: " + eA.x * sWidth + "/" + eA.y * sHeight + ", B: " + eB.x * sWidth + "/" + eB.y * sHeight);
-							}
-						}
-						//shapeRenderer.rect(b.x * w, b.y * h, b.w * w, b.h * h);
+						//System.out.println("blob to draw");
+//						for (int j = 0; j < b.getEdgeNb(); j++)
+//						{
+//							eA = b.getEdgeVertexA(j);
+//							eB = b.getEdgeVertexB(j);
+//							if (eA != null && eB != null){
+//								shapeRenderer.line(eA.x * sWidth, eA.y * sHeight, eB.x * sWidth, eB.y * sHeight);
+//								//System.out.println("A: " + eA.x * sWidth + "/" + eA.y * sHeight + ", B: " + eB.x * sWidth + "/" + eB.y * sHeight);
+//							}
+//						}
+						shapeRenderer.rect(b.xMin * sWidth, b.yMin * sHeight, b.w *sWidth, b.h * sHeight);
 					}
 				}
 			}
