@@ -56,7 +56,7 @@ public class MenuScreen extends AbstractScreen
 
 	// Variables for HighScoreList
 	private HighScore highscore;
-	private ArrayList<Player> playerList;
+	//	private ArrayList<Player> playerList;
 	private Label lblTop1, lblTop2, lblTop3;
 
 	// Decoration
@@ -156,7 +156,6 @@ public class MenuScreen extends AbstractScreen
 	protected void initComponents()
 	{
 		this.highscore = new HighScore(this.game);
-		this.playerList = highscore.getScoreList();
 		this.menuballs = new ArrayList<MenuBall>();
 		this.lastBallTime = 0;
 
@@ -376,7 +375,7 @@ public class MenuScreen extends AbstractScreen
 
 	private void updateHighScoreList()
 	{
-		highscore.sort();
+		ArrayList<Player> playerList = highscore.getScoreList();
 		String[] scoreList = new String[3];
 		for (int i = 0; i < scoreList.length; i++)
 		{
