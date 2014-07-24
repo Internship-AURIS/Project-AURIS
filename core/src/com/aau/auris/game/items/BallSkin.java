@@ -29,6 +29,11 @@ public class BallSkin implements Asset
 	private static Animation ballskinPopAnimation_2;
 	private static Animation ballskinPopAnimation_3;
 	private static Animation ballskinPopAnimation_4;
+	private static Animation ballskinCheerAnimation_1;
+	private static Animation ballskinCheerAnimation_2;
+	private static Animation ballskinCheerAnimation_3;
+	private static Animation ballskinCheerAnimation_4;
+	
 
 	// Other
 	private int id;
@@ -59,6 +64,10 @@ public class BallSkin implements Asset
 		ballskinPopAnimation_2 = AssetLoader.yellowPopAnimation;
 		ballskinPopAnimation_3 = AssetLoader.greenPopAnimation;
 		ballskinPopAnimation_4 = AssetLoader.redPopAnimation;
+//		ballskinCheerAnimation_1=AssetLoader
+//		ballskinCheerAnimation_2
+//		ballskinCheerAnimation_3
+		ballskinCheerAnimation_4=AssetLoader.redCheerAnimation;
 	}
 
 	@Override
@@ -98,6 +107,14 @@ public class BallSkin implements Asset
 		if (id == BALL_SKIN_ID_2) { return ballskinPopAnimation_2; }
 		if (id == BALL_SKIN_ID_3) { return ballskinPopAnimation_3; }
 		if (id == BALL_SKIN_ID_4) { return ballskinPopAnimation_4; }
+		return ballskinPopAnimation_1;
+	}
+	public Animation getCheerAnimation(int id)
+	{
+//		if (id == BALL_SKIN_ID_1) { return ballskinPopAnimation_1; }
+//		if (id == BALL_SKIN_ID_2) { return ballskinPopAnimation_2; }
+//		if (id == BALL_SKIN_ID_3) { return ballskinPopAnimation_3; }
+		if (id == BALL_SKIN_ID_4) { return ballskinCheerAnimation_4; }
 		return ballskinPopAnimation_1;
 	}
 
