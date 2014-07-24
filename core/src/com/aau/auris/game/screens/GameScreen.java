@@ -180,7 +180,8 @@ public class GameScreen extends AbstractScreen
 		ArrayList<Obstacle> newObjects = new ArrayList<Obstacle>();
 		for (Blob b : blobs)
 		{
-			newObjects.add(new Obstacle(world, (b.x - b.w / 2f) * Level.WORLD_TO_BOX, (b.y - b.h / 2f) * Level.WORLD_TO_BOX, (b.w) * Level.WORLD_TO_BOX, (b.h) * Level.WORLD_TO_BOX));
+			newObjects.add(new Obstacle(world, ((b.x - b.w) * sWidth / 2f) * Level.WORLD_TO_BOX, ((b.y - b.h) * sHeight / 2f) * Level.WORLD_TO_BOX, (b.w) * sWidth * Level.WORLD_TO_BOX, (b.h)
+					* sHeight * Level.WORLD_TO_BOX));
 		}
 		level.setObjects(newObjects);
 	}

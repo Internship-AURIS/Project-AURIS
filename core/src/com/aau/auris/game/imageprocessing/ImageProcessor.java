@@ -44,7 +44,6 @@ public class ImageProcessor implements WebcamListener
 
 		final int[] pixels = imgTmp.getRGB(0, 0, width, height, null, 0, width);
 		bd.computeBlobs(pixels);
-		System.out.println(bd.getBlobNb());//TOD: debugging
 		
 		ArrayList<Blob> blobs = new ArrayList<Blob>();
 		Blob b;
