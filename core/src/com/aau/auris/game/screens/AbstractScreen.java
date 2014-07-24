@@ -21,19 +21,24 @@ public abstract class AbstractScreen implements Screen, Asset
 	protected Skin skin;
 	protected Ball ball;
 
+	// Screen Settings
+	protected int sWidth, sHeight;
+
 	public AbstractScreen(AURISGame game)
 	{
 		this.game = game;
 		this.stage = new Stage();
 		skin = new Skin();
-		
+
+		this.sWidth = Gdx.graphics.getWidth();
+		this.sHeight = Gdx.graphics.getHeight();
 
 		loadAsset();
 		initComponents();
 	}
 
 	protected abstract void initComponents();
-	
+
 	protected abstract void handleInput();
 
 	@Override
@@ -56,7 +61,7 @@ public abstract class AbstractScreen implements Screen, Asset
 
 		stage.act(delta);
 		stage.draw();
-		
+
 		handleInput();
 	}
 
@@ -64,6 +69,8 @@ public abstract class AbstractScreen implements Screen, Asset
 	public void show()
 	{
 		Gdx.input.setInputProcessor(stage);
+		this.sWidth = Gdx.graphics.getWidth();
+		this.sHeight = Gdx.graphics.getHeight();
 	}
 
 	@Override

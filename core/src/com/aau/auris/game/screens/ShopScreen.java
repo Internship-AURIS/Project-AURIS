@@ -1,7 +1,5 @@
 package com.aau.auris.game.screens;
 
-import java.util.Random;
-
 import com.aau.auris.game.AURISGame;
 import com.aau.auris.game.Asset.AssetLoader;
 import com.aau.auris.game.data.Player;
@@ -11,7 +9,6 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.Pixmap.Format;
 import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
@@ -44,12 +41,8 @@ public class ShopScreen extends AbstractScreen
 	private final float LABEL_HEIGHT = 45f;
 	private Label playerLbl;
 	private Label creditsLbl;
-	private Label infoLbl;
-	private Animation boringMoves;
 	private SpriteBatch batch;
 	private float runTime;
-	private TextureRegion currentFrame;
-	private Random r;
 	private BallSkin ballSkin;
 
 	public ShopScreen(AURISGame game)
@@ -65,10 +58,8 @@ public class ShopScreen extends AbstractScreen
 		clickSound = AssetLoader.clickSound;
 		hoverSound = AssetLoader.hoverSound1;
 		background = AssetLoader.background_Shop;
-		boringMoves = AssetLoader.ballskinDefault_animation;
 		coinSound = AssetLoader.coinSound;
 		batch = new SpriteBatch();
-		r = new Random();
 	}
 
 	@Override
@@ -110,7 +101,6 @@ public class ShopScreen extends AbstractScreen
 			{
 				super.touchUp(event, x, y, pointer, button);
 				coinSound.play();
-				// System.out.println("Shop-->purchase: " + event.getButton());
 				purchaseItem(BallSkin.BALL_SKIN_ID_2);
 			}
 		});
@@ -146,7 +136,6 @@ public class ShopScreen extends AbstractScreen
 		});
 		shopItem2.addListener(new InputListener()
 		{
-
 			@Override
 			public void enter(InputEvent event, float x, float y, int pointer, Actor fromActor)
 			{
@@ -176,7 +165,6 @@ public class ShopScreen extends AbstractScreen
 		});
 		shopItem3.addListener(new InputListener()
 		{
-
 			@Override
 			public void enter(InputEvent event, float x, float y, int pointer, Actor fromActor)
 			{
@@ -232,9 +220,7 @@ public class ShopScreen extends AbstractScreen
 			{
 				super.touchUp(event, x, y, pointer, button);
 				clickSound.play();
-
-				player.setSkin(BallSkin.BALL_SKIN_ID_1);
-
+				purchaseItem(BallSkin.BALL_SKIN_ID_1);
 			}
 		});
 
@@ -259,7 +245,6 @@ public class ShopScreen extends AbstractScreen
 		stage.addActor(playerLbl);
 		stage.addActor(creditsLbl);
 		//		stage.addActor(infoLbl);
-
 		stage.addActor(tbBack);
 		stage.addActor(btnDefault);
 	}
@@ -275,8 +260,8 @@ public class ShopScreen extends AbstractScreen
 
 	private void updateShopItemButtons()
 	{
-
 		player = game.getPlayer();
+		ballSkin.setId(player.getSkinID());
 		playerLbl.setText("Player: " + player.getName());
 		creditsLbl.setText("Credits: " + player.getCredits() + " $");
 		// shopItem1Style.imageUp = skin.getDrawable("");
@@ -286,19 +271,15 @@ public class ShopScreen extends AbstractScreen
 
 	private void purchaseItem(int id)
 	{
-		if (!player.hasSkinUnlocked(id))
-		{
-			if (player.addBallSkinID(id))
-			{
-				player.setSkin(id);
-			} else
-			{
-				System.out.println("...not enough credits!...");
-			}
-
-		} else
+		if (player.hasSkinUnlocked(id))
 		{
 			player.setSkin(id);
+		} else if (player.addBallSkinID(id))
+		{
+			player.setSkin(id);
+		} else
+		{
+			System.out.println("...not enough credits!...");
 		}
 		updateShopItemButtons();
 	}
@@ -307,20 +288,13 @@ public class ShopScreen extends AbstractScreen
 	public void render(float delta)
 	{
 		super.render(delta);
-		// System.out.println(player.getSkinID());
 		runTime += delta;
-		ballSkin.setId(player.getSkinID());
 		if (player != null)
 		{
-			currentFrame = ballSkin.getSkinAnimation().getKeyFrame(runTime, true);
 			batch.begin();
-			//			batch.draw(currentFrame, game.getWidth() / 2 - game.getWidth()
-			//					/ 5.3f - 25,
-			//					game.getHeight() / 2 - game.getHeight() / 6.3f);
-			batch.draw(currentFrame, 230, 162);
+			batch.draw(ballSkin.getSkinAnimation().getKeyFrame(runTime, true), 230, 162);
 			batch.end();
 		}
-
 	}
 
 	@Override

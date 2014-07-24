@@ -6,7 +6,7 @@ import com.badlogic.gdx.graphics.g2d.Animation;
 
 public class BallSkin implements Asset
 {
-	// Ball Settings
+	// BallSkin Settings
 	public static final int BALL_SKIN_ID_1 = 0;
 	public static final int BALL_SKIN_ID_2 = 1;
 	public static final int BALL_SKIN_ID_3 = 2;
@@ -75,15 +75,6 @@ public class BallSkin implements Asset
 	}
 
 	public Animation getSkinAnimation()
-	{
-		if (id == BALL_SKIN_ID_1) { return ballskinAnimation_1; }
-		if (id == BALL_SKIN_ID_2) { return ballskinAnimation_2; }
-		if (id == BALL_SKIN_ID_3) { return ballskinAnimation_3; }
-		if (id == BALL_SKIN_ID_4) { return ballskinAnimation_4; }
-		return ballskinAnimation_1;
-	}
-
-	public Animation getSkinAnimation(int id)
 	{
 		if (id == BALL_SKIN_ID_1) { return ballskinAnimation_1; }
 		if (id == BALL_SKIN_ID_2) { return ballskinAnimation_2; }
