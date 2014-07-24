@@ -22,6 +22,7 @@ import com.aau.auris.game.screens.LevelScreen;
 import com.aau.auris.game.screens.LoginScreen;
 import com.aau.auris.game.screens.MenuScreen;
 import com.aau.auris.game.screens.ShopScreen;
+import com.aau.auris.game.screens.VictoryScreen;
 import com.aau.auris.game.webcam.WebcamHandler;
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
@@ -38,6 +39,7 @@ public class AURISGame extends Game
 	public static final int CREDITS_SCREEN = 3;
 	public static final int SHOP_SCREEN = 4;
 	public static final int GAME_SCREEN = 5;
+	public static final int VICTORY_SCREEN=6;
 
 	private MenuScreen menuScreen;
 	private LoginScreen loginScreen;
@@ -45,6 +47,7 @@ public class AURISGame extends Game
 	private GameScreen gameScreen;
 	private ShopScreen shopScreen;
 	private CreditsScreen creditsScreen;
+	private VictoryScreen victoryScreen;
 
 	// Features
 	public static ArrayList<Achievement> achievements;
@@ -82,6 +85,7 @@ public class AURISGame extends Game
 		gameScreen = new GameScreen(this);
 		shopScreen = new ShopScreen(this);
 		creditsScreen = new CreditsScreen(this);
+		victoryScreen = new VictoryScreen(this);
 
 		// Initialization
 		initAchievements();
@@ -155,7 +159,10 @@ public class AURISGame extends Game
 		} else if (screenIndex == GAME_SCREEN)
 		{
 			newScreen = gameScreen;
-		} else
+		}else if(screenIndex==VICTORY_SCREEN)
+		{
+			newScreen=victoryScreen;
+		}else 
 		{
 			newScreen = menuScreen;// default solution
 		}

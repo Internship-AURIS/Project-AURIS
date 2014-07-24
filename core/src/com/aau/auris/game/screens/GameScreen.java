@@ -14,7 +14,6 @@ import com.aau.auris.game.level.Level;
 import com.aau.auris.game.level.gameworld.Ball;
 import com.aau.auris.game.level.gameworld.CollisionHandler;
 import com.aau.auris.game.level.gameworld.Obstacle;
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.OrthographicCamera;
@@ -27,6 +26,7 @@ import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
 import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
+import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Label.LabelStyle;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
@@ -171,52 +171,54 @@ public class GameScreen extends AbstractScreen
 		stage.addActor(lblPlayerScore);
 		stage.addActor(lblStatus);
 		stage.addActor(btnBack);
+
+		stage.addListener(new InputListener()
+		{
+
+			@Override
+			public boolean keyDown(InputEvent event, int keycode)
+			{
+				if (!ball.isDead())
+				{
+					if (keycode == Keys.UP)
+					{
+						ball.getBody().setLinearVelocity(0, 100);
+					} else if (keycode == Keys.DOWN)
+					{
+						ball.getBody().setLinearVelocity(0, -100);
+					} else if (keycode == Keys.LEFT)
+					{
+						ball.getBody().setLinearVelocity(-120, 0);
+					} else if (keycode == Keys.RIGHT)
+					{
+						ball.getBody().setLinearVelocity(120, 0);
+					}
+				} else
+				{
+					//					if (keycode == Keys.ENTER)
+					//					{
+					//						level.reset();
+					//					}
+				}
+				if (keycode == Keys.ESCAPE)
+				{
+					game.changeScreen(AURISGame.LEVEL_SCREEN, GameScreen.this);
+				}
+				return super.keyDown(event, keycode);
+			}
+		});
 	}
 
 	public void updateGame(ArrayList<Blob> blobs)
 	{
-		// TODO: implement creation of objects in gameWorld
-		this.blobs = blobs;
 		ArrayList<Obstacle> newObjects = new ArrayList<Obstacle>();
 		for (Blob b : blobs)
 		{
-			for (Blob b2 : this.blobs)
-			{
-				if (b.getEdgeNb() != b2.getEdgeNb())
-				{
-					newObjects.add(new Obstacle(world, ((b.x - b.w) * sWidth / 2f) * Level.WORLD_TO_BOX, ((b.y - b.h) * sHeight / 2f) * Level.WORLD_TO_BOX, (b.w) * sWidth * Level.WORLD_TO_BOX, (b.h)
-							* sHeight * Level.WORLD_TO_BOX));
-				}
-			}
+			Obstacle o = new Obstacle(((b.x - b.w) * sWidth / 2f) * Level.factorX, ((b.y - b.h) * sHeight / 2f) * Level.factorY, (b.w) * sWidth * Level.factorX, (b.h) * sHeight * Level.factorY);
+			newObjects.add(o);
 		}
 		level.setObjects(newObjects);
-	}
-
-	@Override
-	protected void handleInput()
-	{
-		if (ball.isDead()) { return; }
-
-		if (Gdx.input.isKeyPressed(Keys.UP))
-		{
-			ball.getBody().setLinearVelocity(0, 100);
-		}
-		if (Gdx.input.isKeyPressed(Keys.DOWN))
-		{
-			ball.getBody().setLinearVelocity(0, -100);
-		}
-		if (Gdx.input.isKeyPressed(Keys.LEFT))
-		{
-			ball.getBody().setLinearVelocity(-120, 0);
-		}
-		if (Gdx.input.isKeyPressed(Keys.RIGHT))
-		{
-			ball.getBody().setLinearVelocity(120, 0);
-		}
-		if (Gdx.input.isKeyPressed(Keys.ESCAPE))
-		{
-			game.changeScreen(AURISGame.LEVEL_SCREEN, GameScreen.this);
-		}
+		this.blobs = blobs;
 	}
 
 	private void updateStatusBar()
@@ -241,9 +243,11 @@ public class GameScreen extends AbstractScreen
 		this.spriteBatch = new SpriteBatch();
 		overStyle.background = null;
 
-		// TODO: debugging
-		shapeRenderer.setColor(Color.RED);
-		shapeRenderer.setProjectionMatrix(camera.combined);
+		if (debugging)
+		{
+			shapeRenderer.setColor(Color.RED);
+			shapeRenderer.setProjectionMatrix(camera.combined);
+		}
 	}
 
 	public void ballDied()
@@ -281,35 +285,36 @@ public class GameScreen extends AbstractScreen
 			shapeRenderer.begin(ShapeRenderer.ShapeType.Line);
 			Blob b;
 			EdgeVertex eA, eB;
-			// Graphics g = thresholdImage.getGraphics();
-			// g.setColor(Color.RED);
-			for (int i = 0; i < blobs.size(); i++)
+			synchronized (blobs)
 			{
-				b = blobs.get(i);
-				if (b.w > 0.1 && b.h > 0.1)
+				for (int i = 0; i < blobs.size(); i++)
 				{
-					for (int j = 0; j < b.getEdgeNb(); j++)
+					b = blobs.get(i);
+					if (b.w > 0.1 && b.h > 0.1)
 					{
-						eA = b.getEdgeVertexA(j);
-						eB = b.getEdgeVertexB(j);
-						shapeRenderer.line(eA.x * sWidth, eA.y * sHeight, eB.x * sWidth, eB.y * sHeight);
-						System.out.println("A: " + eA.x * sWidth + "/" + eA.y * sHeight + ", B: " + eB.x * sWidth + "/" + eB.y * sHeight);
+						System.out.println("blob to draw");
+						for (int j = 0; j < b.getEdgeNb(); j++)
+						{
+							eA = b.getEdgeVertexA(j);
+							eB = b.getEdgeVertexB(j);
+							if (eA != null && eB != null)
+							{
+								shapeRenderer.line(eA.x * sWidth, eA.y * sHeight, eB.x * sWidth, eB.y * sHeight);
+								System.out.println("A: " + eA.x * sWidth + "/" + eA.y * sHeight + ", B: " + eB.x * sWidth + "/" + eB.y * sHeight);
+							}
+						}
+						//shapeRenderer.rect(b.x * w, b.y * h, b.w * w, b.h * h);
 					}
-					// shapeRenderer.rect(b.x * w, b.y * h, b.w * w, b.h * h);
 				}
 			}
 			shapeRenderer.end();
-
 			debugRenderer.render(world, camera.combined);
 		}
+
 		spriteBatch.begin();
-		if (level != null)
+		if (level != null && ball != null)
 		{
 			level.draw(spriteBatch);
-		}
-
-		if (ball != null)
-		{
 			if (ball.isDead())
 			{
 				spriteBatch.draw(ballskin.getPopAnimation(player.getSkinID()).getKeyFrame(runTime), ball.getBody().getPosition().x - (ball_radius + 4), ball.getBody().getPosition().y
@@ -324,6 +329,8 @@ public class GameScreen extends AbstractScreen
 
 		// physic updates
 		world.step(Level.BOX_STEP, Level.BOX_VELOCITY_ITERATIONS, Level.BOX_POSITION_ITERATIONS);
+
+		updateStatusBar();
 	}
 
 	@Override

@@ -44,11 +44,15 @@ public class CollisionHandler implements ContactListener
 		{
 			// TODO: change way of exit gameScreen
 			level.finished();
-			game.changeScreen(AURISGame.LEVEL_SCREEN, screen);
+			game.changeScreen(AURISGame.VICTORY_SCREEN, screen);
 		}
 		if (classA == BorderLine.class || classB == BorderLine.class)
 		{
 			ball.die();
+		}
+		if (classA == Obstacle.class || classB == Obstacle.class)
+		{
+			game.getPlayer().addPoints(1);
 		}
 		//		System.out.println("A: " + classA.getSimpleName() + " B: " + classB.getSimpleName());
 	}

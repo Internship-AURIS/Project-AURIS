@@ -182,6 +182,22 @@ public class LoginScreen extends AbstractScreen
 
 		stage.addActor(tbBack);
 		stage.addActor(tbStart);
+
+		stage.addListener(new InputListener()
+		{
+			@Override
+			public boolean keyDown(InputEvent event, int keycode)
+			{
+				if (keycode == Keys.ENTER)
+				{
+					login();
+				} else if (keycode == Keys.ESCAPE)
+				{
+					game.changeScreen(AURISGame.MENU_SCREEN, LoginScreen.this);
+				}
+				return super.keyDown(event, keycode);
+			}
+		});
 	}
 
 	private void login()
@@ -210,19 +226,6 @@ public class LoginScreen extends AbstractScreen
 		}
 		game.setPlayer(loginPlayer);
 		game.changeScreen(AURISGame.LEVEL_SCREEN, LoginScreen.this);
-	}
-
-	@Override
-	protected void handleInput()
-	{
-		//		if (Gdx.input.isKeyPressed(Keys.DEL))
-		//		{
-		//			game.changeScreen(AURISGame.MENU_SCREEN, LoginScreen.this);
-		//		}
-		if (Gdx.input.isKeyPressed(Keys.ENTER))
-		{
-			login();
-		}
 	}
 
 	@Override
@@ -280,6 +283,7 @@ public class LoginScreen extends AbstractScreen
 	public void show()
 	{
 		super.show();
+		stage.setKeyboardFocus(txtName);
 	}
 
 	@Override
