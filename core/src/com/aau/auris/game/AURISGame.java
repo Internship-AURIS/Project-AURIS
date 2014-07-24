@@ -220,6 +220,11 @@ public class AURISGame extends Game
 	{
 		return Gdx.graphics.getHeight();
 	}
+	
+	public WebcamHandler getWebcamHandler()
+	{
+		return webcamHandler;
+	}
 
 	@Override
 	public void dispose()

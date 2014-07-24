@@ -27,6 +27,13 @@ public class ImageProcessor implements WebcamListener
 		this.maxBlobWidth = game.getPreferences().getMaxBlobWidth();
 	}
 
+	public void setBlobDetector(int width, int height)
+	{
+		this.bd = new BlobDetection(width, height);
+		bd.setPosDiscrimination(false);
+		bd.setThreshold(0.5f);
+	}
+
 	private BufferedImage imgTmp;
 
 	private void process(BufferedImage input)
@@ -36,11 +43,9 @@ public class ImageProcessor implements WebcamListener
 		final int height = input.getHeight();
 
 		final int[] pixels = imgTmp.getRGB(0, 0, width, height, null, 0, width);
-		bd = new BlobDetection(width, height);
-		bd.setPosDiscrimination(true);
 		bd.computeBlobs(pixels);
-		// TODO: implement Blob-processing
-
+		System.out.println(bd.getBlobNb());//TOD: debugging
+		
 		ArrayList<Blob> blobs = new ArrayList<Blob>();
 		Blob b;
 		for (int i = 0; i < bd.getBlobNb(); i++)
@@ -70,7 +75,6 @@ public class ImageProcessor implements WebcamListener
 	public void webcamImageObtained(WebcamEvent e)
 	{
 		process(e.getImage());
-		System.out.println("image obtained");
 	}
 
 	@Override
