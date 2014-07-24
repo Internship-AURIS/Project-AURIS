@@ -214,8 +214,10 @@ public class GameScreen extends AbstractScreen
 			{
 				if (b.getEdgeNb() != b2.getEdgeNb())
 				{
-					newObjects.add(new Obstacle(world, ((b.x - b.w) * sWidth / 2f) * Level.WORLD_TO_BOX, ((b.y - b.h) * sHeight / 2f) * Level.WORLD_TO_BOX, (b.w) * sWidth * Level.WORLD_TO_BOX, (b.h)
-							* sHeight * Level.WORLD_TO_BOX));
+					Obstacle o = new Obstacle(((b.x - b.w) * sWidth / 2f) * Level.WORLD_TO_BOX, ((b.y - b.h) * sHeight / 2f) * Level.WORLD_TO_BOX, (b.w) * sWidth * Level.WORLD_TO_BOX, (b.h) * sHeight
+							* Level.WORLD_TO_BOX);
+					newObjects.add(o);
+					o.create(world);
 				}
 			}
 		}
