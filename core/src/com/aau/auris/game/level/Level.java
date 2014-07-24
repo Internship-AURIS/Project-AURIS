@@ -172,6 +172,16 @@ public class Level implements Asset
 
 	public void setObjects(ArrayList<Obstacle> newObjects)
 	{
+		for(Obstacle obs1 : this.objects)
+		{
+			for(Obstacle obs2 : newObjects)
+			{
+				if(obs1.getBody() == obs2.getBody())
+				{
+					System.out.println("Level.setObjects() --> same!!!!");
+				}
+			}
+		}
 		for (Obstacle o : objects)
 		{
 			world.destroyBody(o.getBody());

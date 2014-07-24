@@ -50,7 +50,6 @@ public class ImageProcessor implements WebcamListener
 		for (int i = 0; i < bd.getBlobNb(); i++)
 		{
 			b = bd.getBlob(i);
-			System.out.println("blobSize: " + b.w + "/" + b.h + "; >" + minBlobWidth + "/" + minBlobHeight);
 			if (b.w > minBlobWidth && b.h > minBlobHeight)
 			{
 				blobs.add(bd.getBlob(i));

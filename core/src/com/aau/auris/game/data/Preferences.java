@@ -14,8 +14,8 @@ public class Preferences
 	private boolean debugging;
 	private float ballRadius;
 	private boolean hackEnabled;
-	private int minBlobHeight;//in %
-	private int minBlobWidth;// in %
+	private float minBlobHeight;//in %
+	private float minBlobWidth;// in %
 	private int lowerThreshold;
 	private int upperThreshold;
 
@@ -33,8 +33,8 @@ public class Preferences
 		debugging = false;
 		ballRadius = 60f;
 		hackEnabled = false;
-		minBlobWidth = 1;
-		minBlobHeight = 1;
+		minBlobWidth = .5f;
+		minBlobHeight = .5f;
 		lowerThreshold = 10;
 		upperThreshold = 200;
 		Json json = new Json();
@@ -55,8 +55,8 @@ public class Preferences
 				soundEnabled = data.isSoundEnabled();
 				debugging = data.isDebugging();
 				ballRadius = data.getBallRadius();
-				minBlobWidth = (int) (data.getMinBlobWidth() * 100);
-				minBlobHeight = (int) (data.getMinBlobHeight() * 100);
+				minBlobWidth = data.getMinBlobWidth() * 100f;
+				minBlobHeight = data.getMinBlobHeight() * 100f;
 				lowerThreshold = data.getLowerThreshold();
 				upperThreshold = data.getUpperThreshold();
 			}
