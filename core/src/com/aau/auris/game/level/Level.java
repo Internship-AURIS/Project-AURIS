@@ -169,19 +169,9 @@ public class Level implements Asset
 			border.add(new Obstacle(world, (50 / 2 - 50) * WORLD_TO_BOX, (50 / 2 - 50) * WORLD_TO_BOX, 50 * WORLD_TO_BOX, 50 * WORLD_TO_BOX));
 		}
 	}
-
+	
 	public void setObjects(ArrayList<Obstacle> newObjects)
 	{
-		for(Obstacle obs1 : this.objects)
-		{
-			for(Obstacle obs2 : newObjects)
-			{
-				if(obs1.getBody() == obs2.getBody())
-				{
-					System.out.println("Level.setObjects() --> same!!!!");
-				}
-			}
-		}
 		for (Obstacle o : objects)
 		{
 			world.destroyBody(o.getBody());
