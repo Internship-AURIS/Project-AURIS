@@ -114,33 +114,34 @@ public class Player
 
 	public void addCredits(int amount)
 	{
-		this.credits += amount;
-		if (credits > maxCredits)
-		{
-			maxCredits = credits;
-		}
-		if (credits >= 1000)
-		{
-			credits = 999;
-		}
+		setCredits(this.credits + amount);
 	}
 
 	public void setCredits(int credits)
 	{
-		this.credits = credits;
-		if (credits > maxCredits)
-		{
-			maxCredits = credits;
-		}
+		this.credits += credits;
 		if (credits >= 1000)
 		{
 			credits = 999;
+		}
+		if (credits > maxCredits)
+		{
+			setMaxCredits(credits);
 		}
 	}
 
 	public int getMaxCredits()
 	{
 		return maxCredits;
+	}
+
+	public void setMaxCredits(int maxC)
+	{
+		if (maxC > 999)
+		{
+			maxC = 999;
+		}
+		this.maxCredits = maxC;
 	}
 
 	public int getScore()

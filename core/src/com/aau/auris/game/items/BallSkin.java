@@ -64,9 +64,9 @@ public class BallSkin implements Asset
 		ballskinPopAnimation_2 = AssetLoader.yellowPopAnimation;
 		ballskinPopAnimation_3 = AssetLoader.greenPopAnimation;
 		ballskinPopAnimation_4 = AssetLoader.redPopAnimation;
-//		ballskinCheerAnimation_1=AssetLoader
+		ballskinCheerAnimation_1=AssetLoader.defaultCheerAnimation;
 //		ballskinCheerAnimation_2
-//		ballskinCheerAnimation_3
+		ballskinCheerAnimation_3=AssetLoader.greenCheerAnimation;
 		ballskinCheerAnimation_4=AssetLoader.redCheerAnimation;
 	}
 
@@ -109,13 +109,13 @@ public class BallSkin implements Asset
 		if (id == BALL_SKIN_ID_4) { return ballskinPopAnimation_4; }
 		return ballskinPopAnimation_1;
 	}
-	public Animation getCheerAnimation(int id)
+	public Animation getCheerAnimation()
 	{
-//		if (id == BALL_SKIN_ID_1) { return ballskinPopAnimation_1; }
+		if (id == BALL_SKIN_ID_1) { return ballskinCheerAnimation_1; }
 //		if (id == BALL_SKIN_ID_2) { return ballskinPopAnimation_2; }
-//		if (id == BALL_SKIN_ID_3) { return ballskinPopAnimation_3; }
+		if (id == BALL_SKIN_ID_3) { return ballskinCheerAnimation_3; }
 		if (id == BALL_SKIN_ID_4) { return ballskinCheerAnimation_4; }
-		return ballskinPopAnimation_1;
+		return ballskinCheerAnimation_1;
 	}
 
 	public int getID()

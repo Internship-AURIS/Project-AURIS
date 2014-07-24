@@ -85,6 +85,10 @@ public class UserData
 			{
 				players = data.getPlayers();
 			}
+		} else
+		{
+			players = new ArrayList<Player>();
+			save();
 		}
 	}
 }

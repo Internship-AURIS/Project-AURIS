@@ -14,8 +14,8 @@ public class Preferences
 	private boolean debugging;
 	private float ballRadius;
 	private boolean hackEnabled;
-	private int maxBlobHeight;//in %
-	private int maxBlobWidth;// in %
+	private float minBlobHeight;//in %
+	private float minBlobWidth;// in %
 	private int lowerThreshold;
 	private int upperThreshold;
 
@@ -33,8 +33,8 @@ public class Preferences
 		debugging = false;
 		ballRadius = 60f;
 		hackEnabled = false;
-		maxBlobWidth = 1;
-		maxBlobHeight = 1;
+		minBlobWidth = .5f;
+		minBlobHeight = .5f;
 		lowerThreshold = 10;
 		upperThreshold = 200;
 		Json json = new Json();
@@ -55,8 +55,10 @@ public class Preferences
 				soundEnabled = data.isSoundEnabled();
 				debugging = data.isDebugging();
 				ballRadius = data.getBallRadius();
-				maxBlobWidth = (int) (data.getMaxBlobWidth() * 100);
-				maxBlobHeight = (int) (data.getMaxBlobHeight() * 100);
+				minBlobWidth = data.getMinBlobWidth() * 100f;
+				minBlobHeight = data.getMinBlobHeight() * 100f;
+				lowerThreshold = data.getLowerThreshold();
+				upperThreshold = data.getUpperThreshold();
 			}
 		}
 	}
@@ -86,14 +88,14 @@ public class Preferences
 		return hackEnabled;
 	}
 
-	public float getMaxBlobWidth()
+	public float getMinBlobWidth()
 	{
-		return maxBlobWidth / 100f;
+		return minBlobWidth / 100f;
 	}
 
-	public float getMaxBlobHeight()
+	public float getMinBlobHeight()
 	{
-		return maxBlobHeight / 100f;
+		return minBlobHeight / 100f;
 	}
 
 	public int getLowerThreshold()

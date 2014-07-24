@@ -120,6 +120,8 @@ public class AssetLoader
 		TextureRegion[] greenFlyFrames = new TextureRegion[FLY_COLS];
 		TextureRegion[] defaultFlyFrames = new TextureRegion[FLY_COLS];
 		TextureRegion[] redCheerFrames= new TextureRegion[FLY_COLS];
+		TextureRegion[] defaultCheerFrames= new TextureRegion[FLY_COLS];
+		TextureRegion[] greenCheerFrames= new TextureRegion[FLY_COLS];
 
 		for (int i = 0; i < FLY_COLS; i++)
 		{
@@ -139,6 +141,8 @@ public class AssetLoader
 			greenFlyFrames[i] = tmpGreen[1][i];
 			defaultFlyFrames[i] = tmpDefault[1][i];
 			redCheerFrames[i]=tmpRed[3][i];
+			defaultCheerFrames[i]=tmpDefault[3][i];
+			greenCheerFrames[i]=tmpGreen[3][i];
 		}
 		defaultPopFrames[7] = tmpDefault[4][1];
 		yellowPopFrames[7] = tmpYellow[4][1];
@@ -182,7 +186,11 @@ public class AssetLoader
 		//Cheer
 		redCheerAnimation=new Animation(0.08f,redCheerFrames);
 		redCheerAnimation.setPlayMode(Animation.PlayMode.LOOP);
-
+		defaultCheerAnimation=new Animation(0.08f,defaultCheerFrames);
+		defaultCheerAnimation.setPlayMode(Animation.PlayMode.LOOP_PINGPONG);
+		greenCheerAnimation=new Animation(0.08f,greenCheerFrames);
+		greenCheerAnimation.setPlayMode(Animation.PlayMode.LOOP_PINGPONG);
+		
 		// Sounds
 		hoverSound1 = Gdx.audio.newSound(Gdx.files.internal("sounds/hover1.wav"));
 		hoverSound2 = Gdx.audio.newSound(Gdx.files.internal("sounds/hover2.wav"));

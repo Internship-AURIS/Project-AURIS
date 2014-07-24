@@ -16,42 +16,46 @@ public class ImageProcessor implements WebcamListener
 	private AURISGame game;
 	private ImageFilter imageFilter;
 
-	private final float maxBlobHeight, maxBlobWidth;
+	private final float minBlobHeight, minBlobWidth;
 	private BlobDetection bd;
 
 	public ImageProcessor(AURISGame game)
 	{
 		this.game = game;
 		this.imageFilter = new ImageFilter(game);
-		this.maxBlobHeight = game.getPreferences().getMaxBlobHeight();
-		this.maxBlobWidth = game.getPreferences().getMaxBlobWidth();
+		this.minBlobHeight = game.getPreferences().getMinBlobHeight();
+		this.minBlobWidth = game.getPreferences().getMinBlobWidth();
+	}
+
+	public void setBlobDetector(int width, int height)
+	{
+		this.bd = new BlobDetection(width, height);
+		bd.setPosDiscrimination(false);
+		bd.setThreshold(0.5f);
 	}
 
 	private BufferedImage imgTmp;
 
 	private void process(BufferedImage input)
 	{
-		imgTmp = imageFilter.modify(input, ImageFilter.GRAYSCALE_FILTER | ImageFilter.THRESHOLD_FILTER | ImageFilter.INVERT_FILTER);
+		// TODO: blob/camera error?!?
+		imgTmp = imageFilter.modify(input, ImageFilter.GRAYSCALE_FILTER | ImageFilter.THRESHOLD_FILTER);
 		final int width = input.getWidth();
 		final int height = input.getHeight();
 
 		final int[] pixels = imgTmp.getRGB(0, 0, width, height, null, 0, width);
-		bd = new BlobDetection(width, height);
-		bd.setPosDiscrimination(true);
 		bd.computeBlobs(pixels);
-		// TODO: implement Blob-processing
 
 		ArrayList<Blob> blobs = new ArrayList<Blob>();
 		Blob b;
 		for (int i = 0; i < bd.getBlobNb(); i++)
 		{
 			b = bd.getBlob(i);
-			if (b.w > maxBlobWidth && b.h > maxBlobHeight)
+			if (b.w > minBlobWidth && b.h > minBlobHeight)
 			{
 				blobs.add(bd.getBlob(i));
 			}
 		}
-
 		if (game.getScreen().getClass() == GameScreen.class)
 		{
 			game.getGameScreen().updateGame(blobs);

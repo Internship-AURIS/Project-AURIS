@@ -48,7 +48,6 @@ public class VictoryScreen extends AbstractScreen {
 	public VictoryScreen(AURISGame game) {
 
 		super(game);
-		batch=new SpriteBatch();
 
 	}
 
@@ -58,6 +57,7 @@ public class VictoryScreen extends AbstractScreen {
 		TextureRegion backTextRegion = new TextureRegion(background, 848, 480);
 		Image img = new Image(backTextRegion);
 		stage.addActor(img);
+		batch=new SpriteBatch();
 		ballSkin = new BallSkin();
 		
 		// LABELS
@@ -96,7 +96,7 @@ public class VictoryScreen extends AbstractScreen {
 				clickSound.play();
 				final int nextId = game.getLevel().getID() + 1;
 				if (nextId <= Level.LEVEL_ID_9) {
-					game.setLevel(game.getLevel(nextId));
+					game.setLevel(AURISGame.getLevel(nextId));
 				} else {
 					game.changeScreen(AURISGame.LEVEL_SCREEN,
 							VictoryScreen.this);
@@ -145,6 +145,7 @@ public class VictoryScreen extends AbstractScreen {
 		super.show();
 		
 		player = game.getPlayer();
+		ballSkin.setId(player.getSkinID());
 		if(player != null){
 		lblPlayer.setText("Player: " + player.getName());
 
@@ -186,7 +187,7 @@ public class VictoryScreen extends AbstractScreen {
 		if (player != null)
 		{
 			batch.begin();
-			batch.draw(ballSkin.getCheerAnimation(BallSkin.BALL_SKIN_ID_4).getKeyFrame(runTime, true), 455, 200);
+			batch.draw(ballSkin.getCheerAnimation().getKeyFrame(runTime, true), 455, 200);
 			batch.end();
 		}
 	}

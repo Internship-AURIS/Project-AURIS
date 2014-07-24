@@ -36,7 +36,15 @@ public class Level implements Asset
 	public static final int LEVEL_ID_7 = 6;
 	public static final int LEVEL_ID_8 = 7;
 	public static final int LEVEL_ID_9 = 8;
-	public static final int[] costs = new int[] { 5, 6, 7, 10, 12, 14, 18, 22, 26 };
+	public static final int LEVEL_ID_1_POINTS = 5;
+	public static final int LEVEL_ID_2_POINTS = 6;
+	public static final int LEVEL_ID_3_POINTS = 7;
+	public static final int LEVEL_ID_4_POINTS = 10;
+	public static final int LEVEL_ID_5_POINTS = 12;
+	public static final int LEVEL_ID_6_POINTS = 14;
+	public static final int LEVEL_ID_7_POINTS = 18;
+	public static final int LEVEL_ID_8_POINTS = 22;
+	public static final int LEVEL_ID_9_POINTS = 26;
 
 	// GameLogic Settings
 	public static final Vector2 GRAVITY = new Vector2(0, 0);
@@ -59,7 +67,6 @@ public class Level implements Asset
 	private Random goalYRandom;
 
 	// Asset
-	// TODO: add asset for level display
 	private TextureAtlas goalTextures;
 
 	// Other
@@ -80,14 +87,14 @@ public class Level implements Asset
 		camera.position.set(camera.viewportWidth * 0.5f, camera.viewportHeight * 0.5f, 0f);
 		camera.update();
 
-		generateWorld();
+		generateWorld(game.getWidth(), game.getHeight());
 	}
 
 	public void reset()
 	{
 		ball.setDead(false);
 		world = new World(GRAVITY, true);
-		generateWorld();
+		generateWorld(game.getWidth(), game.getHeight());
 	}
 
 	@Override
@@ -102,11 +109,9 @@ public class Level implements Asset
 	public void disposeAsset()
 	{}
 
-	public void generateWorld()
+	public void generateWorld(final int sWidth, final int sHeight)
 	{
 		// initialize GameObjects
-		final int s_width = Gdx.graphics.getWidth();
-		final int s_height = Gdx.graphics.getHeight();
 		final float menu_width = 90;
 		final float menu_height = 200;
 		final float goal_width = 40;
@@ -114,7 +119,7 @@ public class Level implements Asset
 		final float randomY = (float) goalYRandom.nextInt(330);
 		ball = new Ball(this, world, camera.viewportWidth / 2, camera.viewportHeight / 2, game.getPreferences().getBallRadius());
 		home = new Home(world, 0 * WORLD_TO_BOX, 0 * WORLD_TO_BOX, menu_width * WORLD_TO_BOX, menu_height * WORLD_TO_BOX);
-		goal = new Goal(world, (s_width - goal_width) * WORLD_TO_BOX, randomY * WORLD_TO_BOX, goal_width, goal_height);
+		goal = new Goal(world, (sWidth - goal_width) * WORLD_TO_BOX, randomY * WORLD_TO_BOX, goal_width, goal_height);
 
 		// Initialize GameBorder
 		final float factor_height = 1.95f;
@@ -123,35 +128,35 @@ public class Level implements Asset
 
 		this.objects = new ArrayList<Obstacle>();
 
-		objects.add(new BorderLine(world, -10 * WORLD_TO_BOX, 0, border_width * WORLD_TO_BOX, (s_height * factor_height) * WORLD_TO_BOX));
-		objects.add(new BorderLine(world, 0 * WORLD_TO_BOX, -10 * WORLD_TO_BOX, (s_width * factor_height) * WORLD_TO_BOX, border_width * WORLD_TO_BOX));
-		objects.add(new BorderLine(world, 0 * WORLD_TO_BOX, ((s_height + border_width) * factor_width) * WORLD_TO_BOX, (s_width * factor_height) * WORLD_TO_BOX, border_width * WORLD_TO_BOX));
-		objects.add(new BorderLine(world, ((s_width + border_width * 1.8f) * factor_width) * WORLD_TO_BOX, 0, border_width * WORLD_TO_BOX, (s_height * factor_height) * WORLD_TO_BOX));
+		objects.add(new BorderLine(world, -10 * WORLD_TO_BOX, 0, border_width * WORLD_TO_BOX, (sHeight * factor_height) * WORLD_TO_BOX));
+		objects.add(new BorderLine(world, 0 * WORLD_TO_BOX, -10 * WORLD_TO_BOX, (sWidth * factor_height) * WORLD_TO_BOX, border_width * WORLD_TO_BOX));
+		objects.add(new BorderLine(world, 0 * WORLD_TO_BOX, ((sHeight + border_width) * factor_width) * WORLD_TO_BOX, (sWidth * factor_height) * WORLD_TO_BOX, border_width * WORLD_TO_BOX));
+		objects.add(new BorderLine(world, ((sWidth + border_width * 1.8f) * factor_width) * WORLD_TO_BOX, 0, border_width * WORLD_TO_BOX, (sHeight * factor_height) * WORLD_TO_BOX));
 
-		if (id >= 1 && id <= 3)
+		if (id >= LEVEL_ID_1 && id <= LEVEL_ID_3)
 		{
 			// TODO: generate Level Difficulty 1
 			objects.add(new Obstacle(world, (50 / 2 - 50) * WORLD_TO_BOX, (50 / 2 - 50) * WORLD_TO_BOX, 50 * WORLD_TO_BOX, 50 * WORLD_TO_BOX));
-			if (id == 1)
+			if (id == LEVEL_ID_2)
 			{
 				objects.add(new Obstacle(world, 150, 20, 50, 50));
 			}
 
-		} else if (id >= 4 && id <= 6)
+		} else if (id >= LEVEL_ID_4 && id <= LEVEL_ID_6)
 		{
 			// TODO: generate Level Difficulty 2
 			objects.add(new Obstacle(world, (50 / 2 - 50) * WORLD_TO_BOX, (50 / 2 - 50) * WORLD_TO_BOX, 50 * WORLD_TO_BOX, 50 * WORLD_TO_BOX));
-		} else if (id >= 7 && id <= 9)
+		} else if (id >= LEVEL_ID_7 && id <= LEVEL_ID_9)
 		{
 			// TODO: generate Level Difficulty 3
 			objects.add(new Obstacle(world, (50 / 2 - 50) * WORLD_TO_BOX, (50 / 2 - 50) * WORLD_TO_BOX, 50 * WORLD_TO_BOX, 50 * WORLD_TO_BOX));
 		}
 
 		this.border = new ArrayList<Obstacle>();
-		border.add(new BorderLine(world, -10 * WORLD_TO_BOX, 0, border_width * WORLD_TO_BOX, (s_height * factor_height) * WORLD_TO_BOX));
-		border.add(new BorderLine(world, 0 * WORLD_TO_BOX, -10 * WORLD_TO_BOX, (s_width * factor_height) * WORLD_TO_BOX, border_width * WORLD_TO_BOX));
-		border.add(new BorderLine(world, 0 * WORLD_TO_BOX, ((s_height + border_width) * factor_width) * WORLD_TO_BOX, (s_width * factor_height) * WORLD_TO_BOX, border_width * WORLD_TO_BOX));
-		border.add(new BorderLine(world, ((s_width + border_width * 1.8f) * factor_width) * WORLD_TO_BOX, 0, border_width * WORLD_TO_BOX, (s_height * factor_height) * WORLD_TO_BOX));
+		border.add(new BorderLine(world, -10 * WORLD_TO_BOX, 0, border_width * WORLD_TO_BOX, (sHeight * factor_height) * WORLD_TO_BOX));
+		border.add(new BorderLine(world, 0 * WORLD_TO_BOX, -10 * WORLD_TO_BOX, (sWidth * factor_height) * WORLD_TO_BOX, border_width * WORLD_TO_BOX));
+		border.add(new BorderLine(world, 0 * WORLD_TO_BOX, ((sHeight + border_width) * factor_width) * WORLD_TO_BOX, (sWidth * factor_height) * WORLD_TO_BOX, border_width * WORLD_TO_BOX));
+		border.add(new BorderLine(world, ((sWidth + border_width * 1.8f) * factor_width) * WORLD_TO_BOX, 0, border_width * WORLD_TO_BOX, (sHeight * factor_height) * WORLD_TO_BOX));
 
 		objects = new ArrayList<Obstacle>();
 		if (id >= 1 && id <= 3)
@@ -171,6 +176,7 @@ public class Level implements Asset
 
 	public void setObjects(ArrayList<Obstacle> newObjects)
 	{
+		// TODO: blob/camera error?!?
 		for (Obstacle o : objects)
 		{
 			world.destroyBody(o.getBody());
@@ -178,7 +184,6 @@ public class Level implements Asset
 			o = null;
 		}
 		this.objects = newObjects;
-
 	}
 
 	public int getID()
@@ -218,7 +223,15 @@ public class Level implements Asset
 
 	public int getCreditValue()
 	{
-		if (id - 1 >= 0 && id - 1 < costs.length) { return costs[id - 1]; }
+		if (id == LEVEL_ID_1) { return LEVEL_ID_1_POINTS; }
+		if (id == LEVEL_ID_2) { return LEVEL_ID_2_POINTS; }
+		if (id == LEVEL_ID_3) { return LEVEL_ID_3_POINTS; }
+		if (id == LEVEL_ID_4) { return LEVEL_ID_4_POINTS; }
+		if (id == LEVEL_ID_5) { return LEVEL_ID_5_POINTS; }
+		if (id == LEVEL_ID_6) { return LEVEL_ID_6_POINTS; }
+		if (id == LEVEL_ID_7) { return LEVEL_ID_7_POINTS; }
+		if (id == LEVEL_ID_8) { return LEVEL_ID_8_POINTS; }
+		if (id == LEVEL_ID_9) { return LEVEL_ID_9_POINTS; }
 		return 0;
 	}
 
@@ -237,6 +250,7 @@ public class Level implements Asset
 				player.checkAchievements();
 			}
 		}
+		game.getUserData().save();
 	}
 
 	public void draw(SpriteBatch spriteBatch)

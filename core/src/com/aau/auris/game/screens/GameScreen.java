@@ -180,7 +180,14 @@ public class GameScreen extends AbstractScreen
 		ArrayList<Obstacle> newObjects = new ArrayList<Obstacle>();
 		for (Blob b : blobs)
 		{
-			newObjects.add(new Obstacle(world, (b.x - b.w / 2f) * Level.WORLD_TO_BOX, (b.y - b.h / 2f) * Level.WORLD_TO_BOX, (b.w) * Level.WORLD_TO_BOX, (b.h) * Level.WORLD_TO_BOX));
+			for (Blob b2 : this.blobs)
+			{
+				if (b.getEdgeNb() != b2.getEdgeNb())
+				{
+					newObjects.add(new Obstacle(world, ((b.x - b.w) * sWidth / 2f) * Level.WORLD_TO_BOX, ((b.y - b.h) * sHeight / 2f) * Level.WORLD_TO_BOX, (b.w) * sWidth * Level.WORLD_TO_BOX, (b.h)
+							* sHeight * Level.WORLD_TO_BOX));
+				}
+			}
 		}
 		level.setObjects(newObjects);
 	}
@@ -281,20 +288,12 @@ public class GameScreen extends AbstractScreen
 				b = blobs.get(i);
 				if (b.w > 0.1 && b.h > 0.1)
 				{
-					// g.drawRect((int) (b.xMin * w), (int) (b.yMin * h), (int)
-					// (b.w
-					// * w), (int) (b.h * h));final int x = (int) (b.xMin *
-					// width),
-					// y = (int) (b.yMin * height), w = (int) (b.w * width), h =
-					// (int) (b.h * height);
 					for (int j = 0; j < b.getEdgeNb(); j++)
 					{
 						eA = b.getEdgeVertexA(j);
 						eB = b.getEdgeVertexB(j);
 						shapeRenderer.line(eA.x * sWidth, eA.y * sHeight, eB.x * sWidth, eB.y * sHeight);
-						// System.out.println("A: " + eA.x + "/" + eA.y +
-						// ", B: " +
-						// eB.x + "/" + eB.y);
+						System.out.println("A: " + eA.x * sWidth + "/" + eA.y * sHeight + ", B: " + eB.x * sWidth + "/" + eB.y * sHeight);
 					}
 					// shapeRenderer.rect(b.x * w, b.y * h, b.w * w, b.h * h);
 				}
