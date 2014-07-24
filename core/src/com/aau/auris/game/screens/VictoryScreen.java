@@ -43,6 +43,7 @@ public class VictoryScreen extends AbstractScreen {
 	private TextureAtlas levelButtons;
 	private Sound clickSound;
 	private Sound hoverSound;
+	private Sound finishedSound;
 	private Texture background;
 	private Animation redCheerAnimation;
 
@@ -54,6 +55,7 @@ public class VictoryScreen extends AbstractScreen {
 
 	@Override
 	protected void initComponents() {
+		
 
 		TextureRegion backTextRegion = new TextureRegion(background, 848, 480);
 		Image img = new Image(backTextRegion);
@@ -166,7 +168,7 @@ public class VictoryScreen extends AbstractScreen {
 	@Override
 	public void show() {
 		super.show();
-		
+		finishedSound.play();
 		player = game.getPlayer();
 		ballSkin.setId(player.getSkinID());
 		if(player != null){
@@ -188,6 +190,7 @@ public class VictoryScreen extends AbstractScreen {
 		skin = new Skin(levelButtons);
 		background=AssetLoader.background_Victory;
 		redCheerAnimation=AssetLoader.redCheerAnimation;
+		finishedSound=AssetLoader.finished;
 
 	}
 

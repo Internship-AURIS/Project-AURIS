@@ -1,7 +1,9 @@
 package com.aau.auris.game.level.gameworld;
 
 import com.aau.auris.game.AURISGame;
+import com.aau.auris.game.Asset.AssetLoader;
 import com.aau.auris.game.level.Level;
+import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.badlogic.gdx.physics.box2d.BodyDef.BodyType;
@@ -14,10 +16,12 @@ public class Ball extends Entity
 	private final float DENSITY = 5f;
 	private final float FRICTION = 0.0f;
 	private final float RESTITUTION = 0f;
+	
 
 	// Other
 	private AURISGame game;
 	private boolean dead;
+	private Sound popSound;
 
 	private float posX, posY;
 	private float radius;
@@ -30,6 +34,7 @@ public class Ball extends Entity
 		this.posX = posX;
 		this.posY = posY;
 		this.radius = radius;
+		popSound=AssetLoader.explosion;
 	}
 
 	public void create(World world)
@@ -55,6 +60,7 @@ public class Ball extends Entity
 	public void die()
 	{
 		dead = true;
+		popSound.play();
 		game.getGameScreen().runTime = 0;
 	}
 

@@ -76,6 +76,8 @@ public class AssetLoader
 	public static Sound hoverWhistle3;
 	public static Sound clickPlop;
 	public static Sound coinSound;
+	public static Sound finished;
+	public static Sound explosion;
 
 	// Font
 	public static BitmapFont bFont;
@@ -207,6 +209,8 @@ public class AssetLoader
 		hoverWhistle2 = Gdx.audio.newSound(Gdx.files.internal("sounds/pfiff2.wav"));
 		hoverWhistle3 = Gdx.audio.newSound(Gdx.files.internal("sounds/pfiff3.wav"));
 		coinSound = Gdx.audio.newSound(Gdx.files.internal("sounds/coins.wav"));
+		finished= Gdx.audio.newSound(Gdx.files.internal("sounds/fanfare.wav"));
+		explosion=Gdx.audio.newSound(Gdx.files.internal("sounds/exp.wav"));
 
 		// Buttons
 		menu_buttons = new TextureAtlas(Gdx.files.internal("menuButtons.atlas"));
