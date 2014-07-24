@@ -78,6 +78,7 @@ public class AssetLoader
 	public static Sound coinSound;
 	public static Sound finished;
 	public static Sound explosion;
+	public static Sound lostSound;
 
 	// Font
 	public static BitmapFont bFont;
@@ -211,6 +212,7 @@ public class AssetLoader
 		coinSound = Gdx.audio.newSound(Gdx.files.internal("sounds/coins.wav"));
 		finished= Gdx.audio.newSound(Gdx.files.internal("sounds/fanfare.wav"));
 		explosion=Gdx.audio.newSound(Gdx.files.internal("sounds/exp.wav"));
+		lostSound=Gdx.audio.newSound(Gdx.files.internal("sounds/lost.wav"));
 
 		// Buttons
 		menu_buttons = new TextureAtlas(Gdx.files.internal("menuButtons.atlas"));

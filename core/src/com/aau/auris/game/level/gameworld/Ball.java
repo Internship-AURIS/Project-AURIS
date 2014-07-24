@@ -22,6 +22,7 @@ public class Ball extends Entity
 	private AURISGame game;
 	private boolean dead;
 	private Sound popSound;
+	private Sound lost;
 
 	private float posX, posY;
 	private float radius;
@@ -35,6 +36,7 @@ public class Ball extends Entity
 		this.posY = posY;
 		this.radius = radius;
 		popSound=AssetLoader.explosion;
+		lost=AssetLoader.lostSound;
 	}
 
 	public void create(World world)
@@ -61,6 +63,7 @@ public class Ball extends Entity
 	{
 		dead = true;
 		popSound.play();
+		lost.play();
 		game.getGameScreen().runTime = 0;
 	}
 
