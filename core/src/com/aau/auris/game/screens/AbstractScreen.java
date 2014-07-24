@@ -8,8 +8,10 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
+import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
+import com.badlogic.gdx.utils.Array;
 
 public abstract class AbstractScreen implements Screen, Asset
 {
@@ -21,20 +23,23 @@ public abstract class AbstractScreen implements Screen, Asset
 	protected Skin skin;
 	protected Ball ball;
 
+	// Screen Settings
+	protected int sWidth, sHeight;
+
 	public AbstractScreen(AURISGame game)
 	{
 		this.game = game;
 		this.stage = new Stage();
 		skin = new Skin();
-		
+
+		this.sWidth = Gdx.graphics.getWidth();
+		this.sHeight = Gdx.graphics.getHeight();
 
 		loadAsset();
 		initComponents();
 	}
 
 	protected abstract void initComponents();
-	
-	protected abstract void handleInput();
 
 	@Override
 	public void loadAsset()
@@ -56,14 +61,14 @@ public abstract class AbstractScreen implements Screen, Asset
 
 		stage.act(delta);
 		stage.draw();
-		
-		handleInput();
 	}
 
 	@Override
 	public void show()
 	{
 		Gdx.input.setInputProcessor(stage);
+		this.sWidth = Gdx.graphics.getWidth();
+		this.sHeight = Gdx.graphics.getHeight();
 	}
 
 	@Override
@@ -87,8 +92,15 @@ public abstract class AbstractScreen implements Screen, Asset
 	@Override
 	public void dispose()
 	{
+		Array<Actor> actors = stage.getActors();
+		for (Actor a : actors)
+		{
+			a.clearListeners();
+			a.getListeners().clear();
+			a.getCaptureListeners().clear();
+		}
 		disposeAsset();
-		stage.dispose();
 		skin.dispose();
+		stage.dispose();
 	}
 }

@@ -13,6 +13,7 @@ public class AssetLoader
 	// SpriteSheet Properties
 	public static final int FLY_COLS = 7;
 	public static final int FLY_ROWS = 4;
+	public static final int SPRITE_ROWS=5;
 	public static final int BALL_COLS = 6;
 	public static final int BALL_ROWS = 6;
 
@@ -35,8 +36,9 @@ public class AssetLoader
 	public static Texture menu_background_blank2;
 	public static Texture background_Credits;
 	public static Texture background_Shop;
+	public static Texture background_Victory;
 	public static Texture levelBalken;
-
+	
 	// Animations
 	public static Animation parachuteBallAnimation1;
 	public static Animation parachuteBallAnimation2;
@@ -56,6 +58,11 @@ public class AssetLoader
 	public static Animation yellowFlyAnimation;
 	public static Animation greenFlyAnimation;
 	public static Animation redFlyAnimation;
+	
+	public static Animation defaultCheerAnimation;
+	public static Animation yellowCheerAnimation;
+	public static Animation greenCheerAnimation;
+	public static Animation redCheerAnimation;
 
 	// Sounds
 	public static Sound hoverSound1;
@@ -69,6 +76,9 @@ public class AssetLoader
 	public static Sound hoverWhistle3;
 	public static Sound clickPlop;
 	public static Sound coinSound;
+	public static Sound finished;
+	public static Sound explosion;
+	public static Sound lostSound;
 
 	// Font
 	public static BitmapFont bFont;
@@ -88,12 +98,13 @@ public class AssetLoader
 		background_Shop = new Texture(Gdx.files.internal("textures/backShop.png"));
 		background_Credits = new Texture(Gdx.files.internal("textures/backCredits.png"));
 		levelBalken = new Texture(Gdx.files.internal("textures/balken.png"));
+		background_Victory=new Texture(Gdx.files.internal("textures/victoryBack.png"));
 
 		tmp = TextureRegion.split(spritesheet, spritesheet.getWidth() / FLY_COLS, spritesheet.getHeight() / FLY_ROWS);
-		tmpDefault = TextureRegion.split(defaultBall, defaultBall.getWidth() / FLY_COLS, defaultBall.getHeight() / FLY_ROWS);
-		tmpGreen = TextureRegion.split(greenBall, greenBall.getWidth() / FLY_COLS, greenBall.getHeight() / FLY_ROWS);
-		tmpYellow = TextureRegion.split(yellowBall, yellowBall.getWidth() / FLY_COLS, yellowBall.getHeight() / FLY_ROWS);
-		tmpRed = TextureRegion.split(redBall, redBall.getWidth() / FLY_COLS, redBall.getHeight() / FLY_ROWS);
+		tmpDefault = TextureRegion.split(defaultBall, defaultBall.getWidth() / FLY_COLS, defaultBall.getHeight() / SPRITE_ROWS);
+		tmpGreen = TextureRegion.split(greenBall, greenBall.getWidth() / FLY_COLS, greenBall.getHeight() / SPRITE_ROWS);
+		tmpYellow = TextureRegion.split(yellowBall, yellowBall.getWidth() / FLY_COLS, yellowBall.getHeight() / SPRITE_ROWS);
+		tmpRed = TextureRegion.split(redBall, redBall.getWidth() / FLY_COLS, redBall.getHeight() / SPRITE_ROWS);
 
 		// Animations
 		TextureRegion[] parachuteFrames1 = new TextureRegion[FLY_COLS];
@@ -111,6 +122,10 @@ public class AssetLoader
 		TextureRegion[] yellowFlyFrames = new TextureRegion[FLY_COLS];
 		TextureRegion[] greenFlyFrames = new TextureRegion[FLY_COLS];
 		TextureRegion[] defaultFlyFrames = new TextureRegion[FLY_COLS];
+		TextureRegion[] redCheerFrames= new TextureRegion[FLY_COLS];
+		TextureRegion[] defaultCheerFrames= new TextureRegion[FLY_COLS];
+		TextureRegion[] greenCheerFrames= new TextureRegion[FLY_COLS];
+		TextureRegion[] yellowCheerFrames= new TextureRegion[FLY_COLS];
 
 		for (int i = 0; i < FLY_COLS; i++)
 		{
@@ -129,11 +144,15 @@ public class AssetLoader
 			yellowFlyFrames[i] = tmpYellow[1][i];
 			greenFlyFrames[i] = tmpGreen[1][i];
 			defaultFlyFrames[i] = tmpDefault[1][i];
+			redCheerFrames[i]=tmpRed[3][i];
+			defaultCheerFrames[i]=tmpDefault[3][i];
+			greenCheerFrames[i]=tmpGreen[3][i];
+			yellowCheerFrames[i]=tmpYellow[3][i];
 		}
-		defaultPopFrames[7] = tmpDefault[3][1];
-		yellowPopFrames[7] = tmpYellow[3][1];
-		greenPopFrames[7] = tmpGreen[3][1];
-		redPopFrames[7] = tmpRed[3][1];
+		defaultPopFrames[7] = tmpDefault[4][1];
+		yellowPopFrames[7] = tmpYellow[4][1];
+		greenPopFrames[7] = tmpGreen[4][1];
+		redPopFrames[7] = tmpRed[4][1];
 
 		//Parachute
 		parachuteBallAnimation1 = new Animation(0.08f, parachuteFrames1);
@@ -169,7 +188,16 @@ public class AssetLoader
 		greenFlyAnimation.setPlayMode(Animation.PlayMode.LOOP);
 		defaultFlyAnimation = new Animation(0.08f, defaultFlyFrames);
 		defaultFlyAnimation.setPlayMode(Animation.PlayMode.LOOP);
-
+		//Cheer
+		redCheerAnimation=new Animation(0.08f,redCheerFrames);
+		redCheerAnimation.setPlayMode(Animation.PlayMode.LOOP);
+		defaultCheerAnimation=new Animation(0.08f,defaultCheerFrames);
+		defaultCheerAnimation.setPlayMode(Animation.PlayMode.LOOP_PINGPONG);
+		greenCheerAnimation=new Animation(0.08f,greenCheerFrames);
+		greenCheerAnimation.setPlayMode(Animation.PlayMode.LOOP_PINGPONG);
+		yellowCheerAnimation=new Animation(0.08f,yellowCheerFrames);
+		yellowCheerAnimation.setPlayMode(Animation.PlayMode.LOOP_PINGPONG);
+		
 		// Sounds
 		hoverSound1 = Gdx.audio.newSound(Gdx.files.internal("sounds/hover1.wav"));
 		hoverSound2 = Gdx.audio.newSound(Gdx.files.internal("sounds/hover2.wav"));
@@ -182,6 +210,9 @@ public class AssetLoader
 		hoverWhistle2 = Gdx.audio.newSound(Gdx.files.internal("sounds/pfiff2.wav"));
 		hoverWhistle3 = Gdx.audio.newSound(Gdx.files.internal("sounds/pfiff3.wav"));
 		coinSound = Gdx.audio.newSound(Gdx.files.internal("sounds/coins.wav"));
+		finished= Gdx.audio.newSound(Gdx.files.internal("sounds/fanfare.wav"));
+		explosion=Gdx.audio.newSound(Gdx.files.internal("sounds/exp.wav"));
+		lostSound=Gdx.audio.newSound(Gdx.files.internal("sounds/lost.wav"));
 
 		// Buttons
 		menu_buttons = new TextureAtlas(Gdx.files.internal("menuButtons.atlas"));

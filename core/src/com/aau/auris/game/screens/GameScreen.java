@@ -3,6 +3,7 @@ package com.aau.auris.game.screens;
 import java.util.ArrayList;
 
 import blobDetection.Blob;
+import blobDetection.EdgeVertex;
 
 import com.aau.auris.game.AURISGame;
 import com.aau.auris.game.Asset.AssetLoader;
@@ -13,7 +14,6 @@ import com.aau.auris.game.level.Level;
 import com.aau.auris.game.level.gameworld.Ball;
 import com.aau.auris.game.level.gameworld.CollisionHandler;
 import com.aau.auris.game.level.gameworld.Obstacle;
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.OrthographicCamera;
@@ -22,9 +22,11 @@ import com.badlogic.gdx.graphics.Pixmap.Format;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
+import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
 import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
+import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Label.LabelStyle;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
@@ -32,7 +34,8 @@ import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton.TextButtonStyle;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 
-public class GameScreen extends AbstractScreen {
+public class GameScreen extends AbstractScreen
+{
 	// Assets
 	private TextureAtlas levelButtons;
 
@@ -50,7 +53,6 @@ public class GameScreen extends AbstractScreen {
 	// Other Variables
 	private Player player;// Player Stats: score, achievements, etc.
 	public float runTime;
-	private Texture backGround;
 	LabelStyle overStyle;
 
 	// UIComponents
@@ -67,7 +69,12 @@ public class GameScreen extends AbstractScreen {
 	private int ball_radius;
 	private boolean debugging;
 
-	public GameScreen(AURISGame game) {
+	// Debugging, Test
+	private ArrayList<Blob> blobs = new ArrayList<Blob>();
+	private ShapeRenderer shapeRenderer = new ShapeRenderer();
+
+	public GameScreen(AURISGame game)
+	{
 		super(game);
 		Preferences prefs = game.getPreferences();
 		ball_radius = (int) prefs.getBallRadius() + 12;
@@ -75,17 +82,20 @@ public class GameScreen extends AbstractScreen {
 	}
 
 	@Override
-	public void loadAsset() {
+	public void loadAsset()
+	{
 		super.loadAsset();
 	}
 
 	@Override
-	public void disposeAsset() {
+	public void disposeAsset()
+	{
 		super.disposeAsset();
 	}
 
 	@Override
-	protected void initComponents() {
+	protected void initComponents()
+	{
 		// GameLogic
 		collisionHandler = new CollisionHandler(game, this);
 
@@ -106,17 +116,13 @@ public class GameScreen extends AbstractScreen {
 		lblLevel.setBounds(10, s_height - (height / 1.3f), width, height);
 
 		lblPlayerName = new Label("Name:-------", lblStyle);
-		lblPlayerName.setBounds(s_width / 2f - width, lblLevel.getY(), width,
-				height);
+		lblPlayerName.setBounds(s_width / 2f - width, lblLevel.getY(), width, height);
 
 		lblPlayerScore = new Label("Score: ---", lblStyle);
-		lblPlayerScore.setBounds(s_width - width * 1.3f, lblLevel.getY(),
-				width, height);
+		lblPlayerScore.setBounds(s_width - width * 1.3f, lblLevel.getY(), width, height);
 
 		lblPlayerCredits = new Label("Credits: --- $", lblStyle);
-		lblPlayerCredits.setBounds(
-				lblPlayerScore.getX() - lblPlayerScore.getWidth() - width / 2,
-				lblLevel.getY(), width, height);
+		lblPlayerCredits.setBounds(lblPlayerScore.getX() - lblPlayerScore.getWidth() - width / 2, lblLevel.getY(), width, height);
 
 		overStyle = new LabelStyle();
 		overStyle.font = bFont;
@@ -132,8 +138,7 @@ public class GameScreen extends AbstractScreen {
 		lblBalkenStyle.background = skin.getDrawable("balken");
 
 		lblBalken = new Label("", lblBalkenStyle);
-		lblBalken.setBounds(0, game.getHeight() - 40, game.getWidth(),
-				lblLevel.getHeight() + 5);
+		lblBalken.setBounds(0, game.getHeight() - 40, game.getWidth(), lblLevel.getHeight() + 5);
 
 		// Back-Button
 		Pixmap pixmap = new Pixmap(800, 800, Format.RGBA8888);
@@ -148,10 +153,12 @@ public class GameScreen extends AbstractScreen {
 		btnBack = new TextButton("", btnBackStyle);
 		btnBack.setSize(game.getWidth() / 19, game.getHeight() / 4.75f);
 		btnBack.setPosition(0, 0);
-		btnBack.addListener(new ClickListener() {
+		btnBack.addListener(new ClickListener()
+		{
 
 			@Override
-			public void clicked(InputEvent event, float x, float y) {
+			public void clicked(InputEvent event, float x, float y)
+			{
 				super.clicked(event, x, y);
 				game.changeScreen(AURISGame.LEVEL_SCREEN, GameScreen.this);
 			}
@@ -164,55 +171,66 @@ public class GameScreen extends AbstractScreen {
 		stage.addActor(lblPlayerScore);
 		stage.addActor(lblStatus);
 		stage.addActor(btnBack);
+
+		stage.addListener(new InputListener()
+		{
+
+			@Override
+			public boolean keyDown(InputEvent event, int keycode)
+			{
+				if (!ball.isDead())
+				{
+					if (keycode == Keys.UP)
+					{
+						ball.getBody().setLinearVelocity(0, 100);
+					} else if (keycode == Keys.DOWN)
+					{
+						ball.getBody().setLinearVelocity(0, -100);
+					} else if (keycode == Keys.LEFT)
+					{
+						ball.getBody().setLinearVelocity(-120, 0);
+					} else if (keycode == Keys.RIGHT)
+					{
+						ball.getBody().setLinearVelocity(120, 0);
+					}
+				} else
+				{
+					//					if (keycode == Keys.ENTER)
+					//					{
+					//						level.reset();
+					//					}
+				}
+				if (keycode == Keys.ESCAPE)
+				{
+					game.changeScreen(AURISGame.LEVEL_SCREEN, GameScreen.this);
+				}
+				return super.keyDown(event, keycode);
+			}
+		});
 	}
 
-	public void updateGame(ArrayList<Blob> blobs) {
-		// TODO: implement creation of objects in gameWorld
+	public void updateGame(ArrayList<Blob> blobs)
+	{
 		ArrayList<Obstacle> newObjects = new ArrayList<Obstacle>();
-		for (Blob b : blobs) {
-			newObjects.add(new Obstacle(world, (b.x - b.w / 2f)
-					* Level.WORLD_TO_BOX,
-					(b.y - b.h / 2f) * Level.WORLD_TO_BOX, (b.w)
-							* Level.WORLD_TO_BOX, (b.h) * Level.WORLD_TO_BOX));
+		for (Blob b : blobs)
+		{
+			Obstacle o = new Obstacle(((b.x - b.w) * sWidth / 2f) * Level.factorX, ((b.y - b.h) * sHeight / 2f) * Level.factorY, (b.w) * sWidth * Level.factorX, (b.h) * sHeight * Level.factorY);
+			newObjects.add(o);
 		}
 		level.setObjects(newObjects);
-
+		this.blobs = blobs;
 	}
 
-	@Override
-	protected void handleInput() {
-		if (ball.isDead()) {
-			return;
-		}
-
-		if (Gdx.input.isKeyPressed(Keys.UP)) {
-			ball.getBody().setLinearVelocity(0, 100);
-		}
-		if (Gdx.input.isKeyPressed(Keys.DOWN)) {
-			ball.getBody().setLinearVelocity(0, -100);
-		}
-		if (Gdx.input.isKeyPressed(Keys.LEFT)) {
-			ball.getBody().setLinearVelocity(-120, 0);
-		}
-		if (Gdx.input.isKeyPressed(Keys.RIGHT)) {
-			ball.getBody().setLinearVelocity(120, 0);
-		}
-		if (Gdx.input.isKeyPressed(Keys.ESCAPE)) {
-			game.changeScreen(AURISGame.LEVEL_SCREEN, GameScreen.this);
-		}
-	}
-
-	private void updateStatusBar() {
+	private void updateStatusBar()
+	{
 		lblLevel.setText("Lvl. " + (level.getID() + 1));
 		lblPlayerName.setText("Name: " + player.getName());
 		lblPlayerScore.setText("Score: " + player.getScore());
 		lblPlayerCredits.setText("Credits: " + player.getCredits() + " $");
 	}
 
-	private void updateData() {
-		// runTime = 0.0f;
-
-		// GameWorld
+	private void updateData()
+	{
 		this.player = game.getPlayer();
 		this.ballskin = new BallSkin(player.getSkinID());
 		this.level = game.getLevel();
@@ -224,95 +242,132 @@ public class GameScreen extends AbstractScreen {
 		this.camera = level.getCamera();
 		this.spriteBatch = new SpriteBatch();
 		overStyle.background = null;
+
+		if (debugging)
+		{
+			shapeRenderer.setColor(Color.RED);
+			shapeRenderer.setProjectionMatrix(camera.combined);
+		}
 	}
 
-	public void ballDied() {
-
+	public void ballDied()
+	{
+		runTime = 0.0f;
 	}
 
 	@Override
-	public void render(float delta) {
+	public void render(float delta)
+	{
 		super.render(delta);
 		runTime += delta;
 
-		if (ball.isDead()) {
-			int id = player.getSkinID();
-			if (id == BallSkin.BALL_SKIN_ID_1) {
+		if (ball.isDead())
+		{
+			int id = ballskin.getID();
+			if (id == BallSkin.BALL_SKIN_ID_1)
+			{
 				overStyle.background = skin.getDrawable("over0");
-			} else if (id == BallSkin.BALL_SKIN_ID_2) {
+			} else if (id == BallSkin.BALL_SKIN_ID_2)
+			{
 				overStyle.background = skin.getDrawable("over1");
-			} else if (id == BallSkin.BALL_SKIN_ID_3) {
+			} else if (id == BallSkin.BALL_SKIN_ID_3)
+			{
 				overStyle.background = skin.getDrawable("over2");
-			} else if (id == BallSkin.BALL_SKIN_ID_4) {
+			} else if (id == BallSkin.BALL_SKIN_ID_4)
+			{
 				overStyle.background = skin.getDrawable("over3");
 			}
 		}
 		spriteBatch.setProjectionMatrix(camera.combined);
 
-		if (debugging) {
+		if (debugging)
+		{
+			shapeRenderer.begin(ShapeRenderer.ShapeType.Line);
+			Blob b;
+			EdgeVertex eA, eB;
+			synchronized (blobs)
+			{
+				for (int i = 0; i < blobs.size(); i++)
+				{
+					b = blobs.get(i);
+					if (b.w > 0.1 && b.h > 0.1)
+					{
+						System.out.println("blob to draw");
+						for (int j = 0; j < b.getEdgeNb(); j++)
+						{
+							eA = b.getEdgeVertexA(j);
+							eB = b.getEdgeVertexB(j);
+							if (eA != null && eB != null)
+							{
+								shapeRenderer.line(eA.x * sWidth, eA.y * sHeight, eB.x * sWidth, eB.y * sHeight);
+								System.out.println("A: " + eA.x * sWidth + "/" + eA.y * sHeight + ", B: " + eB.x * sWidth + "/" + eB.y * sHeight);
+							}
+						}
+						//shapeRenderer.rect(b.x * w, b.y * h, b.w * w, b.h * h);
+					}
+				}
+			}
+			shapeRenderer.end();
 			debugRenderer.render(world, camera.combined);
 		}
+
 		spriteBatch.begin();
-		if (level != null) {
-			
+		if (level != null && ball != null)
+		{
 			level.draw(spriteBatch);
-		}
-
-		if (ball != null) {
-			if (ball.isDead()) {
-				spriteBatch
-						.draw(ballskin.getPopAnimation(player.getSkinID())
-								.getKeyFrame(runTime), ball.getBody()
-								.getPosition().x - (ball_radius + 4), ball
-								.getBody().getPosition().y - (ball_radius + 3),
-								ball_radius * 2f, ball_radius * 2f);
-
-			} else {
-				spriteBatch
-						.draw(ballskin.getFlyAnimation(player.getSkinID())
-								.getKeyFrame(runTime), ball.getBody()
-								.getPosition().x - (ball_radius + 4), ball
-								.getBody().getPosition().y - (ball_radius + 3),
-								ball_radius * 2f, ball_radius * 2f);
+			if (ball.isDead())
+			{
+				spriteBatch.draw(ballskin.getPopAnimation(player.getSkinID()).getKeyFrame(runTime), ball.getBody().getPosition().x - (ball_radius + 4), ball.getBody().getPosition().y
+						- (ball_radius + 3), ball_radius * 2f, ball_radius * 2f);
+			} else
+			{
+				spriteBatch.draw(ballskin.getFlyAnimation(player.getSkinID()).getKeyFrame(runTime), ball.getBody().getPosition().x - (ball_radius + 4), ball.getBody().getPosition().y
+						- (ball_radius + 3), ball_radius * 2f, ball_radius * 2f);
 			}
 		}
 		spriteBatch.end();
 
 		// physic updates
-		world.step(Level.BOX_STEP, Level.BOX_VELOCITY_ITERATIONS,
-				Level.BOX_POSITION_ITERATIONS);
+		world.step(Level.BOX_STEP, Level.BOX_VELOCITY_ITERATIONS, Level.BOX_POSITION_ITERATIONS);
 
+		updateStatusBar();
 	}
 
 	@Override
-	public void resize(int width, int height) {
+	public void resize(int width, int height)
+	{
 		super.resize(width, height);
 	}
 
 	@Override
-	public void show() {
+	public void show()
+	{
 		super.show();
 		updateData();
 		updateStatusBar();
 	}
 
 	@Override
-	public void hide() {
+	public void hide()
+	{
 		super.hide();
 	}
 
 	@Override
-	public void pause() {
+	public void pause()
+	{
 		super.pause();
 	}
 
 	@Override
-	public void resume() {
+	public void resume()
+	{
 		super.resume();
 	}
 
 	@Override
-	public void dispose() {
+	public void dispose()
+	{
 		super.dispose();
 	}
 

@@ -18,7 +18,7 @@ public class HighScore
 		this.scoreList = this.game.getUserData().getPlayers();
 	}
 
-	private void sort()
+	public void sort()
 	{
 		Collections.sort(scoreList, new Comparator<Player>()
 		{
