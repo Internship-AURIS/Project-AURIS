@@ -49,6 +49,7 @@ public class ImageProcessor implements WebcamListener
 			if (b.w > maxBlobWidth && b.h > maxBlobHeight)
 			{
 				blobs.add(bd.getBlob(i));
+				System.out.println("added blob");
 			}
 		}
 
