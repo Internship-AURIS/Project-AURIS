@@ -195,10 +195,10 @@ public class GameScreen extends AbstractScreen
 					}
 				} else
 				{
-//					if (keycode == Keys.ENTER)
-//					{
-//						level.reset();
-//					}
+					//					if (keycode == Keys.ENTER)
+					//					{
+					//						level.reset();
+					//					}
 				}
 				if (keycode == Keys.ESCAPE)
 				{
@@ -220,8 +220,8 @@ public class GameScreen extends AbstractScreen
 			{
 				if (b.getEdgeNb() != b2.getEdgeNb())
 				{
-					Obstacle o = new Obstacle(((b.x - b.w) * sWidth / 2f) * Level.WORLD_TO_BOX, ((b.y - b.h) * sHeight / 2f) * Level.WORLD_TO_BOX, (b.w) * sWidth * Level.WORLD_TO_BOX, (b.h) * sHeight
-							* Level.WORLD_TO_BOX);
+					Obstacle o = new Obstacle(((b.x - b.w) * sWidth / 2f) * Level.factorX, ((b.y - b.h) * sHeight / 2f) * Level.factorY, (b.w) * sWidth * Level.factorX, (b.h) * sHeight
+							* Level.factorY);
 					newObjects.add(o);
 					o.create(world);
 				}
