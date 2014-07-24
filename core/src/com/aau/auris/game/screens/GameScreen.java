@@ -14,7 +14,6 @@ import com.aau.auris.game.level.Level;
 import com.aau.auris.game.level.gameworld.Ball;
 import com.aau.auris.game.level.gameworld.CollisionHandler;
 import com.aau.auris.game.level.gameworld.Obstacle;
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.OrthographicCamera;
@@ -27,6 +26,7 @@ import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
 import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
+import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Label.LabelStyle;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
@@ -171,6 +171,36 @@ public class GameScreen extends AbstractScreen
 		stage.addActor(lblPlayerScore);
 		stage.addActor(lblStatus);
 		stage.addActor(btnBack);
+
+		stage.addListener(new InputListener()
+		{
+
+			@Override
+			public boolean keyDown(InputEvent event, int keycode)
+			{
+				if (!ball.isDead())
+				{
+					if (keycode == Keys.UP)
+					{
+						ball.getBody().setLinearVelocity(0, 100);
+					} else if (keycode == Keys.DOWN)
+					{
+						ball.getBody().setLinearVelocity(0, -100);
+					} else if (keycode == Keys.LEFT)
+					{
+						ball.getBody().setLinearVelocity(-120, 0);
+					} else if (keycode == Keys.RIGHT)
+					{
+						ball.getBody().setLinearVelocity(120, 0);
+					}
+				}
+				if (keycode == Keys.ESCAPE)
+				{
+					game.changeScreen(AURISGame.LEVEL_SCREEN, GameScreen.this);
+				}
+				return super.keyDown(event, keycode);
+			}
+		});
 	}
 
 	public void updateGame(ArrayList<Blob> blobs)
@@ -190,33 +220,6 @@ public class GameScreen extends AbstractScreen
 			}
 		}
 		level.setObjects(newObjects);
-	}
-
-	@Override
-	protected void handleInput()
-	{
-		if (ball.isDead()) { return; }
-
-		if (Gdx.input.isKeyPressed(Keys.UP))
-		{
-			ball.getBody().setLinearVelocity(0, 100);
-		}
-		if (Gdx.input.isKeyPressed(Keys.DOWN))
-		{
-			ball.getBody().setLinearVelocity(0, -100);
-		}
-		if (Gdx.input.isKeyPressed(Keys.LEFT))
-		{
-			ball.getBody().setLinearVelocity(-120, 0);
-		}
-		if (Gdx.input.isKeyPressed(Keys.RIGHT))
-		{
-			ball.getBody().setLinearVelocity(120, 0);
-		}
-		if (Gdx.input.isKeyPressed(Keys.ESCAPE))
-		{
-			game.changeScreen(AURISGame.LEVEL_SCREEN, GameScreen.this);
-		}
 	}
 
 	private void updateStatusBar()

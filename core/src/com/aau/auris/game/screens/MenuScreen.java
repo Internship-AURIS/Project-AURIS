@@ -9,7 +9,6 @@ import com.aau.auris.game.Asset.AssetLoader;
 import com.aau.auris.game.data.Player;
 import com.aau.auris.game.items.HighScore;
 import com.aau.auris.game.items.MenuBall;
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Color;
@@ -112,21 +111,6 @@ public class MenuScreen extends AbstractScreen
 		clickSound = null;
 		background = null;
 		menuButtons = null;
-	}
-
-	@Override
-	protected void handleInput()
-	{
-		if (Gdx.input.isKeyPressed(Keys.C))
-		{
-			game.changeScreen(AURISGame.CREDITS_SCREEN, MenuScreen.this);
-		} else if (Gdx.input.isKeyPressed(Keys.ENTER))
-		{
-			game.changeScreen(AURISGame.LOGIN_SCREEN, MenuScreen.this);
-		} else if (Gdx.input.isKeyPressed(Keys.E) || Gdx.input.isKeyPressed(Keys.ESCAPE))
-		{
-			game.dispose();
-		}
 	}
 
 	private void spawnBall()
@@ -342,6 +326,31 @@ public class MenuScreen extends AbstractScreen
 		stage.addActor(lblTop2);
 		stage.addActor(lblTop3);
 		stage.addActor(btnPyramid);
+
+		stage.addListener(new InputListener()
+		{
+			@Override
+			public void touchUp(InputEvent event, float x, float y, int pointer, int button)
+			{
+				super.touchUp(event, x, y, pointer, button);
+			}
+
+			@Override
+			public boolean keyDown(InputEvent event, int keycode)
+			{
+				if (keycode == Keys.ENTER || keycode == Keys.S)
+				{
+					game.changeScreen(AURISGame.LOGIN_SCREEN, MenuScreen.this);
+				} else if (keycode == Keys.C)
+				{
+					game.changeScreen(AURISGame.CREDITS_SCREEN, MenuScreen.this);
+				} else if (keycode == Keys.E || keycode == Keys.ESCAPE)
+				{
+					dispose();
+				}
+				return super.keyDown(event, keycode);
+			}
+		});
 	}
 
 	@Override

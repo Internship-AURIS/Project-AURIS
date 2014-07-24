@@ -65,15 +65,6 @@ public class Player
 		}
 	}
 
-	private void calcScore()
-	{
-		this.score = maxCredits + achievPoints;
-		if (score >= 1000)
-		{
-			score = 999;
-		}
-	}
-
 	public void setSkin(int skinID)
 	{
 		for (int i = 0; i < skinUnlocks.size(); i++)
@@ -114,13 +105,8 @@ public class Player
 
 	public void addCredits(int amount)
 	{
-		setCredits(this.credits + amount);
-	}
-
-	public void setCredits(int credits)
-	{
-		this.credits += credits;
-		if (credits >= 1000)
+		this.credits += amount;
+		if (credits > 999)
 		{
 			credits = 999;
 		}
@@ -146,21 +132,13 @@ public class Player
 
 	public int getScore()
 	{
-		calcScore();
-		return score;
-	}
-
-	public void addPoints(int amount)
-	{
-		this.score += score;
-		if (score >= 1000)
+		score = achievPoints + maxCredits;
+		if (score > 999)
 		{
 			score = 999;
 		}
+		return score;
 	}
-
-	public void setMaxScore(int mScore)
-	{}
 
 	public boolean hasAchievementUnlocked(int id)
 	{
@@ -194,7 +172,7 @@ public class Player
 		if (!hasAchievementUnlocked(id))
 		{
 			achievementUnlocks.add(id);
-			score += new Achievement(id).getCreditValue();
+			achievPoints += new Achievement(id).getCreditValue();
 		}
 	}
 
