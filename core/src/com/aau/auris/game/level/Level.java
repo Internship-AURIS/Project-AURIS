@@ -36,7 +36,15 @@ public class Level implements Asset
 	public static final int LEVEL_ID_7 = 6;
 	public static final int LEVEL_ID_8 = 7;
 	public static final int LEVEL_ID_9 = 8;
-	public static final int[] costs = new int[] { 5, 6, 7, 10, 12, 14, 18, 22, 26 };
+	public static final int LEVEL_ID_1_POINTS = 5;
+	public static final int LEVEL_ID_2_POINTS = 6;
+	public static final int LEVEL_ID_3_POINTS = 7;
+	public static final int LEVEL_ID_4_POINTS = 10;
+	public static final int LEVEL_ID_5_POINTS = 12;
+	public static final int LEVEL_ID_6_POINTS = 14;
+	public static final int LEVEL_ID_7_POINTS = 18;
+	public static final int LEVEL_ID_8_POINTS = 22;
+	public static final int LEVEL_ID_9_POINTS = 26;
 
 	// GameLogic Settings
 	public static final Vector2 GRAVITY = new Vector2(0, 0);
@@ -112,7 +120,6 @@ public class Level implements Asset
 		final float goal_width = 40;
 		final float goal_height = 150;
 		final float randomY = (float) goalYRandom.nextInt(330);
-		System.out.println(randomY + "RADNOMY");
 		ball = new Ball(this, world, camera.viewportWidth / 2, camera.viewportHeight / 2, game.getPreferences().getBallRadius());
 		home = new Home(world, 0 * WORLD_TO_BOX, 0 * WORLD_TO_BOX, menu_width * WORLD_TO_BOX, menu_height * WORLD_TO_BOX);
 		goal = new Goal(world, (s_width - goal_width) * WORLD_TO_BOX, randomY * WORLD_TO_BOX, goal_width, goal_height);
@@ -169,7 +176,7 @@ public class Level implements Asset
 			border.add(new Obstacle(world, (50 / 2 - 50) * WORLD_TO_BOX, (50 / 2 - 50) * WORLD_TO_BOX, 50 * WORLD_TO_BOX, 50 * WORLD_TO_BOX));
 		}
 	}
-	
+
 	public void setObjects(ArrayList<Obstacle> newObjects)
 	{
 		for (Obstacle o : objects)
@@ -219,7 +226,15 @@ public class Level implements Asset
 
 	public int getCreditValue()
 	{
-		if (id - 1 >= 0 && id - 1 < costs.length) { return costs[id - 1]; }
+		if (id == LEVEL_ID_1) { return LEVEL_ID_1_POINTS; }
+		if (id == LEVEL_ID_2) { return LEVEL_ID_2_POINTS; }
+		if (id == LEVEL_ID_3) { return LEVEL_ID_3_POINTS; }
+		if (id == LEVEL_ID_4) { return LEVEL_ID_4_POINTS; }
+		if (id == LEVEL_ID_5) { return LEVEL_ID_5_POINTS; }
+		if (id == LEVEL_ID_6) { return LEVEL_ID_6_POINTS; }
+		if (id == LEVEL_ID_7) { return LEVEL_ID_7_POINTS; }
+		if (id == LEVEL_ID_8) { return LEVEL_ID_8_POINTS; }
+		if (id == LEVEL_ID_9) { return LEVEL_ID_9_POINTS; }
 		return 0;
 	}
 
@@ -238,6 +253,7 @@ public class Level implements Asset
 				player.checkAchievements();
 			}
 		}
+		game.getUserData().save();
 	}
 
 	public void draw(SpriteBatch spriteBatch)

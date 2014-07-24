@@ -367,6 +367,7 @@ public class MenuScreen extends AbstractScreen
 
 	private void updateHighScoreList()
 	{
+		highscore.sort();
 		String[] scoreList = new String[3];
 		for (int i = 0; i < scoreList.length; i++)
 		{
