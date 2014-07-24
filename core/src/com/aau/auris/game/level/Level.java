@@ -142,7 +142,7 @@ public class Level implements Asset
 		final int goalWidth = 60;
 		ball = new Ball(this, sWidth / 2 * factorX, sHeight / 2 * factorY, game.getPreferences().getBallRadius() * factorY);
 		home = new Home(0, 0, 44 * factorX, 101 * factorY);
-		goal = new Goal(300 * factorX, 300 * factorY, goalWidth * factorX, goalHeight * factorY);
+		goal = new Goal(410 * factorX, 100 * factorY, goalWidth * factorX, goalHeight * factorY);
 		ball.create(world);
 		home.create(world);
 		goal.create(world);
@@ -259,6 +259,6 @@ public class Level implements Asset
 
 	public void draw(SpriteBatch spriteBatch)
 	{
-		skin.getDrawable("goal4Big").draw(spriteBatch, 790, goal.getPosY() / factorX, 60, 150);
+		skin.getDrawable("goal4Big").draw(spriteBatch, 790, goal.getPosY() / factorY+105, 60, 150);
 	}
 }

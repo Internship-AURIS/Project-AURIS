@@ -191,7 +191,7 @@ public class LoginScreen extends AbstractScreen
 				if (keycode == Keys.ENTER)
 				{
 					login();
-				} else if (keycode == Keys.ESCAPE || keycode == Keys.DEL)
+				} else if (keycode == Keys.ESCAPE)
 				{
 					game.changeScreen(AURISGame.MENU_SCREEN, LoginScreen.this);
 				}
