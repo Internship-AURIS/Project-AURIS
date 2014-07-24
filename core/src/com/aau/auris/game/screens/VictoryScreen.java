@@ -16,6 +16,7 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
+import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Label.LabelStyle;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
@@ -124,7 +125,6 @@ public class VictoryScreen extends AbstractScreen {
 				// TODO Auto-generated method stub
 				super.touchUp(event, x, y, pointer, button);
 				clickSound.play();
-				final int nextId = game.getLevel().getID() + 1;
 
 				game.changeScreen(AURISGame.LEVEL_SCREEN, VictoryScreen.this);
 			}
@@ -138,6 +138,29 @@ public class VictoryScreen extends AbstractScreen {
 
 		stage.addActor(btnContinue);
 		stage.addActor(btnBack);
+		stage.addListener(new InputListener()
+		{
+
+			@Override
+			public boolean keyDown(InputEvent event, int keycode) {
+				
+				if(keycode==Keys.ENTER){
+					final int nextId = game.getLevel().getID() + 1;
+					if (nextId <= Level.LEVEL_ID_9) {
+						game.setLevel(AURISGame.getLevel(nextId));
+					} else {
+						game.changeScreen(AURISGame.LEVEL_SCREEN,
+								VictoryScreen.this);
+					}
+					game.changeScreen(AURISGame.GAME_SCREEN, VictoryScreen.this);
+				}
+				if(keycode==Keys.ESCAPE){
+					game.changeScreen(AURISGame.LEVEL_SCREEN, VictoryScreen.this);
+				}
+				return super.keyDown(event, keycode);
+			}
+		
+		});
 	}
 
 	@Override
@@ -155,13 +178,6 @@ public class VictoryScreen extends AbstractScreen {
 		}
 	}
 
-	@Override
-	protected void handleInput() {
-//		if (Gdx.input.isKeyPressed(Keys.ENTER)) {
-//			game.changeScreen(AURISGame.GAME_SCREEN, VictoryScreen.this);
-//		}
-
-	}
 
 	@Override
 	public void loadAsset() {
