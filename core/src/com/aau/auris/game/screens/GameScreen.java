@@ -1,6 +1,7 @@
 package com.aau.auris.game.screens;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 
 import blobDetection.Blob;
 import blobDetection.EdgeVertex;
@@ -70,6 +71,7 @@ public class GameScreen extends AbstractScreen
 	private boolean debugging;
 
 	// Debugging, Test
+	ArrayList<Obstacle> newObjects = new ArrayList<Obstacle>();
 	private ArrayList<Blob> blobs = new ArrayList<Blob>();
 	private ShapeRenderer shapeRenderer = new ShapeRenderer();
 
@@ -172,6 +174,7 @@ public class GameScreen extends AbstractScreen
 		stage.addActor(lblStatus);
 		stage.addActor(btnBack);
 
+<<<<<<< HEAD
 		stage.addListener(new InputListener()
 		{
 
@@ -207,6 +210,11 @@ public class GameScreen extends AbstractScreen
 				return super.keyDown(event, keycode);
 			}
 		});
+=======
+	public void updateGame(ArrayList<Blob> blobs)
+	{
+		this.blobs = blobs;
+>>>>>>> remotes/origin/fix_race_condition
 	}
 
 	public void updateGame(ArrayList<Blob> blobs)
@@ -282,6 +290,7 @@ public class GameScreen extends AbstractScreen
 
 		if (debugging)
 		{
+<<<<<<< HEAD
 			shapeRenderer.begin(ShapeRenderer.ShapeType.Line);
 			Blob b;
 			EdgeVertex eA, eB;
@@ -308,6 +317,35 @@ public class GameScreen extends AbstractScreen
 				}
 			}
 			shapeRenderer.end();
+=======
+//			shapeRenderer.begin(ShapeRenderer.ShapeType.Line);
+//			Blob b;
+//			EdgeVertex eA, eB;
+//			// Graphics g = thresholdImage.getGraphics();
+//			// g.setColor(Color.RED);
+//			synchronized (blobs) {
+//				for (int i = 0; i < blobs.size(); i++)
+//				{
+//					b = blobs.get(i);
+//					if (b.w > 0.1 && b.h > 0.1)
+//					{
+//						//System.out.println("blob to draw");
+////						for (int j = 0; j < b.getEdgeNb(); j++)
+////						{
+////							eA = b.getEdgeVertexA(j);
+////							eB = b.getEdgeVertexB(j);
+////							if (eA != null && eB != null){
+////								shapeRenderer.line(eA.x * sWidth, eA.y * sHeight, eB.x * sWidth, eB.y * sHeight);
+////								//System.out.println("A: " + eA.x * sWidth + "/" + eA.y * sHeight + ", B: " + eB.x * sWidth + "/" + eB.y * sHeight);
+////							}
+////						}
+//						shapeRenderer.rect(b.xMin * sWidth, b.yMin * sHeight, b.w *sWidth, b.h * sHeight);
+//					}
+//				}
+//			}
+//			shapeRenderer.end();
+
+>>>>>>> remotes/origin/fix_race_condition
 			debugRenderer.render(world, camera.combined);
 		}
 
@@ -329,8 +367,31 @@ public class GameScreen extends AbstractScreen
 
 		// physic updates
 		world.step(Level.BOX_STEP, Level.BOX_VELOCITY_ITERATIONS, Level.BOX_POSITION_ITERATIONS);
+<<<<<<< HEAD
 
 		updateStatusBar();
+=======
+		
+		// must be called after world.step is called, because it adds and removes bodies from the world
+		updateObstacles();
+		
+	}
+
+	private void updateObstacles() {
+		newObjects.clear();
+		
+		synchronized (world) {
+			Blob b = null;
+			for (Iterator<Blob> iter = blobs.iterator(); iter.hasNext();)
+			{
+				b = iter.next();
+				newObjects.add(new Obstacle(world, b.xMin * sWidth, b.yMin * sHeight, b.w *sWidth, b.h * sHeight));
+			}
+			level.destroyObjects();
+			level.getObjects().clear();
+			level.getObjects().addAll(newObjects);
+		}
+>>>>>>> remotes/origin/fix_race_condition
 	}
 
 	@Override
