@@ -174,10 +174,8 @@ public class GameScreen extends AbstractScreen
 		stage.addActor(lblStatus);
 		stage.addActor(btnBack);
 
-<<<<<<< HEAD
 		stage.addListener(new InputListener()
 		{
-
 			@Override
 			public boolean keyDown(InputEvent event, int keycode)
 			{
@@ -210,22 +208,9 @@ public class GameScreen extends AbstractScreen
 				return super.keyDown(event, keycode);
 			}
 		});
-=======
-	public void updateGame(ArrayList<Blob> blobs)
-	{
-		this.blobs = blobs;
->>>>>>> remotes/origin/fix_race_condition
 	}
-
 	public void updateGame(ArrayList<Blob> blobs)
 	{
-		ArrayList<Obstacle> newObjects = new ArrayList<Obstacle>();
-		for (Blob b : blobs)
-		{
-			Obstacle o = new Obstacle(((b.x - b.w) * sWidth / 2f) * Level.factorX, ((b.y - b.h) * sHeight / 2f) * Level.factorY, (b.w) * sWidth * Level.factorX, (b.h) * sHeight * Level.factorY);
-			newObjects.add(o);
-		}
-		level.setObjects(newObjects);
 		this.blobs = blobs;
 	}
 
@@ -290,7 +275,6 @@ public class GameScreen extends AbstractScreen
 
 		if (debugging)
 		{
-<<<<<<< HEAD
 			shapeRenderer.begin(ShapeRenderer.ShapeType.Line);
 			Blob b;
 			EdgeVertex eA, eB;
@@ -317,7 +301,6 @@ public class GameScreen extends AbstractScreen
 				}
 			}
 			shapeRenderer.end();
-=======
 //			shapeRenderer.begin(ShapeRenderer.ShapeType.Line);
 //			Blob b;
 //			EdgeVertex eA, eB;
@@ -344,8 +327,6 @@ public class GameScreen extends AbstractScreen
 //				}
 //			}
 //			shapeRenderer.end();
-
->>>>>>> remotes/origin/fix_race_condition
 			debugRenderer.render(world, camera.combined);
 		}
 
@@ -367,11 +348,8 @@ public class GameScreen extends AbstractScreen
 
 		// physic updates
 		world.step(Level.BOX_STEP, Level.BOX_VELOCITY_ITERATIONS, Level.BOX_POSITION_ITERATIONS);
-<<<<<<< HEAD
-
-		updateStatusBar();
-=======
 		
+		updateStatusBar();
 		// must be called after world.step is called, because it adds and removes bodies from the world
 		updateObstacles();
 		
@@ -385,13 +363,13 @@ public class GameScreen extends AbstractScreen
 			for (Iterator<Blob> iter = blobs.iterator(); iter.hasNext();)
 			{
 				b = iter.next();
-				newObjects.add(new Obstacle(world, b.xMin * sWidth, b.yMin * sHeight, b.w *sWidth, b.h * sHeight));
+				Obstacle o = new Obstacle(b.xMin * sWidth, b.yMin * sHeight, b.w *sWidth, b.h * sHeight);
+				newObjects.add(o);
 			}
 			level.destroyObjects();
 			level.getObjects().clear();
 			level.getObjects().addAll(newObjects);
 		}
->>>>>>> remotes/origin/fix_race_condition
 	}
 
 	@Override

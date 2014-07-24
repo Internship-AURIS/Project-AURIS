@@ -35,7 +35,12 @@ public class Obstacle extends Entity
 		polygonShape.dispose();
 	}
 
-<<<<<<< HEAD
+	public void setBodyNull()
+	{
+		body.setUserData(null);
+		body = null;
+	}
+
 	public float getPosX()
 	{
 		return posX;
@@ -54,10 +59,5 @@ public class Obstacle extends Entity
 	public float getHeight()
 	{
 		return height;
-=======
-	public void setBodyNull(){
-		body.setUserData(null);
-		body = null;
->>>>>>> remotes/origin/fix_race_condition
 	}
 }

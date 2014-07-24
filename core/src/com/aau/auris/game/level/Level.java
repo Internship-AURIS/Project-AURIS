@@ -1,11 +1,7 @@
 package com.aau.auris.game.level;
 
 import java.util.ArrayList;
-<<<<<<< HEAD
-=======
 import java.util.Iterator;
-import java.util.Random;
->>>>>>> remotes/origin/fix_race_condition
 
 import com.aau.auris.game.AURISGame;
 import com.aau.auris.game.Asset.Asset;
@@ -64,8 +60,7 @@ public class Level implements Asset
 	private Ball ball;
 
 	private ArrayList<BorderLine> border;
-	private ArrayList<Obstacle> levelDefinedObjects;
-	private ArrayList<Obstacle> environmentObjects;
+	private ArrayList<Obstacle> levelObjects;
 	private Home home;
 	private Goal goal;
 	private Skin skin;
@@ -116,23 +111,11 @@ public class Level implements Asset
 
 	public void generateWorld(int sWidth, int sHeight)
 	{
-		// Initialize GameBorder
-<<<<<<< HEAD
-=======
-		final float factor_height = 1.95f;
-		final float factor_width = 0.9367f;
-		final float border_width = 20;// the object
-
-		objects = new ArrayList<Obstacle>();
-
-		objects.add(new BorderLine(world, -10 * WORLD_TO_BOX, 0, border_width * WORLD_TO_BOX, (sHeight * factor_height) * WORLD_TO_BOX));
-		objects.add(new BorderLine(world, 0 * WORLD_TO_BOX, -10 * WORLD_TO_BOX, (sWidth * factor_height) * WORLD_TO_BOX, border_width * WORLD_TO_BOX));
-		objects.add(new BorderLine(world, 0 * WORLD_TO_BOX, ((sHeight + border_width) * factor_width) * WORLD_TO_BOX, (sWidth * factor_height) * WORLD_TO_BOX, border_width * WORLD_TO_BOX));
-		objects.add(new BorderLine(world, ((sWidth + border_width * 1.8f) * factor_width) * WORLD_TO_BOX, 0, border_width * WORLD_TO_BOX, (sHeight * factor_height) * WORLD_TO_BOX));
->>>>>>> remotes/origin/fix_race_condition
-
 		final float border_size = 10;// the object
 		this.border = new ArrayList<BorderLine>();
+		this.levelObjects = new ArrayList<Obstacle>();
+		
+		// Initialize GameBorder
 		border.add(new BorderLine((border_size / 2f * -1) * factorX, 0, border_size * factorX, sHeight * factorY));
 		border.add(new BorderLine(0, (border_size / 2f * -1) * factorX, sWidth * factorX, border_size * factorY));
 		border.add(new BorderLine(0, sHeight / 2 * factorY, sWidth * factorX, border_size * factorY));
@@ -140,18 +123,16 @@ public class Level implements Asset
 		createBorder();
 
 		// Initialize Levels
-		this.levelDefinedObjects = new ArrayList<Obstacle>();
-		this.environmentObjects = new ArrayList<Obstacle>();
+		this.levelObjects = new ArrayList<Obstacle>();
 		if (id >= LEVEL_ID_1 && id <= LEVEL_ID_3)
 		{
-			//			objects.add(new Obstacle(world, (50 / 2 - 50) * WORLD_TO_BOX, (50 / 2 - 50) * WORLD_TO_BOX, 50 * WORLD_TO_BOX, 50 * WORLD_TO_BOX));
-			levelDefinedObjects.add(new Obstacle(150, 20, 50, 50));
+			levelObjects.add(new Obstacle(150, 20, 50, 50));
 		} else if (id >= LEVEL_ID_4 && id <= LEVEL_ID_6)
 		{
-			levelDefinedObjects.add(new Obstacle((50 / 2 - 50) * factorX, (50 / 2 - 50) * factorY, 50 * factorX, 50 * factorY));
+			levelObjects.add(new Obstacle((50 / 2 - 50) * factorX, (50 / 2 - 50) * factorY, 50 * factorX, 50 * factorY));
 		} else if (id >= LEVEL_ID_7 && id <= LEVEL_ID_9)
 		{
-			levelDefinedObjects.add(new Obstacle((50 / 2 - 50) * factorX, (50 / 2 - 50) * factorY, 50 * factorX, 50 * factorY));
+			levelObjects.add(new Obstacle((50 / 2 - 50) * factorX, (50 / 2 - 50) * factorY, 50 * factorX, 50 * factorY));
 		}
 
 		// initialize ever existing GameObjects
@@ -165,22 +146,12 @@ public class Level implements Asset
 		goal.create(world);
 
 		// create objects in world
-		createObjects(levelDefinedObjects);
+		createObjects(levelObjects);
 	}
 
-<<<<<<< HEAD
 	private void createBorder()
 	{
-		for (Obstacle o : border)
-=======
-		objects.clear();
-		if (id >= 1 && id <= 3)
-		{
-			// TODO: generate Level Difficulty 1, add objects
-			border.add(new Obstacle(world, (50 / 2 - 50) * WORLD_TO_BOX, (50 / 2 - 50) * WORLD_TO_BOX, 50 * WORLD_TO_BOX, 50 * WORLD_TO_BOX));
-		} else if (id >= 4 && id <= 6)
->>>>>>> remotes/origin/fix_race_condition
-		{
+		for (Obstacle o : border){
 			o.create(world);
 		}
 	}
@@ -193,40 +164,23 @@ public class Level implements Asset
 		}
 	}
 
-<<<<<<< HEAD
-	private void destroyObjects(ArrayList<Obstacle> obstacles)
-	{
-		for (Obstacle o : obstacles)
-		{
-=======
 	public ArrayList<Obstacle> getObjects(){
-		return this.objects;
-	}
-	public void setObjects(ArrayList<Obstacle> newObjects)
-	{
-		// TODO: blob/camera error?!?
-		this.objects = newObjects;
+		return this.levelObjects;
 	}
 
 	public synchronized void destroyObjects() {
 		Obstacle o = null;
-		for (Iterator<Obstacle> iter = objects.iterator(); iter.hasNext();) {
+		for (Iterator<Obstacle> iter = levelObjects.iterator(); iter.hasNext();) {
 			o = iter.next();
->>>>>>> remotes/origin/fix_race_condition
 			world.destroyBody(o.getBody());
 			o.setBodyNull();
 		}
-<<<<<<< HEAD
-		levelDefinedObjects.clear();
+		levelObjects.clear();
 	}
 
 	public void setObjects(ArrayList<Obstacle> newObjects)
 	{
-		destroyObjects(environmentObjects);
-		createObjects(newObjects);
-		this.levelDefinedObjects = newObjects;
-=======
->>>>>>> remotes/origin/fix_race_condition
+		this.levelObjects = newObjects;
 	}
 
 	public int getID()
