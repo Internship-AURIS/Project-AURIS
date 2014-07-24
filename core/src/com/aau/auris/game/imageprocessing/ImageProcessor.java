@@ -59,7 +59,6 @@ public class ImageProcessor implements WebcamListener
 				blobs.add(bd.getBlob(i));
 			}
 		}
-		//System.out.println(blobs.size() + " blobs");
 		if (game.getScreen().getClass() == GameScreen.class)
 		{
 			game.getGameScreen().updateGame(blobs);

@@ -114,7 +114,7 @@ public class Level implements Asset
 		final float border_size = 10;// the object
 		this.border = new ArrayList<BorderLine>();
 		this.levelObjects = new ArrayList<Obstacle>();
-		
+
 		// Initialize GameBorder
 		border.add(new BorderLine((border_size / 2f * -1) * factorX, 0, border_size * factorX, sHeight * factorY));
 		border.add(new BorderLine(0, (border_size / 2f * -1) * factorX, sWidth * factorX, border_size * factorY));
@@ -134,6 +134,7 @@ public class Level implements Asset
 		{
 			levelObjects.add(new Obstacle((50 / 2 - 50) * factorX, (50 / 2 - 50) * factorY, 50 * factorX, 50 * factorY));
 		}
+		levelObjects.clear();// TODO: debugging; place levelDefined objects in other ArrayList
 
 		// initialize ever existing GameObjects
 		final int goalHeight = 150;
@@ -151,7 +152,8 @@ public class Level implements Asset
 
 	private void createBorder()
 	{
-		for (Obstacle o : border){
+		for (Obstacle o : border)
+		{
 			o.create(world);
 		}
 	}
@@ -164,13 +166,16 @@ public class Level implements Asset
 		}
 	}
 
-	public ArrayList<Obstacle> getObjects(){
+	public ArrayList<Obstacle> getObjects()
+	{
 		return this.levelObjects;
 	}
 
-	public synchronized void destroyObjects() {
+	public synchronized void destroyObjects()
+	{
 		Obstacle o = null;
-		for (Iterator<Obstacle> iter = levelObjects.iterator(); iter.hasNext();) {
+		for (Iterator<Obstacle> iter = levelObjects.iterator(); iter.hasNext();)
+		{
 			o = iter.next();
 			world.destroyBody(o.getBody());
 			o.setBodyNull();
@@ -252,6 +257,6 @@ public class Level implements Asset
 
 	public void draw(SpriteBatch spriteBatch)
 	{
-		skin.getDrawable("goal4Big").draw(spriteBatch, 790, goal.getPosY() / factorY+105, 60, 150);
+		skin.getDrawable("goal4Big").draw(spriteBatch, 790, goal.getPosY() / factorY + 105, 60, 150);
 	}
 }

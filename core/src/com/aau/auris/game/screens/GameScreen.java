@@ -209,6 +209,7 @@ public class GameScreen extends AbstractScreen
 			}
 		});
 	}
+
 	public void updateGame(ArrayList<Blob> blobs)
 	{
 		this.blobs = blobs;
@@ -283,50 +284,19 @@ public class GameScreen extends AbstractScreen
 				for (int i = 0; i < blobs.size(); i++)
 				{
 					b = blobs.get(i);
-					if (b.w > 0.1 && b.h > 0.1)
+					for (int j = 0; j < b.getEdgeNb(); j++)
 					{
-						System.out.println("blob to draw");
-						for (int j = 0; j < b.getEdgeNb(); j++)
+						eA = b.getEdgeVertexA(j);
+						eB = b.getEdgeVertexB(j);
+						if (eA != null && eB != null)
 						{
-							eA = b.getEdgeVertexA(j);
-							eB = b.getEdgeVertexB(j);
-							if (eA != null && eB != null)
-							{
-								shapeRenderer.line(eA.x * sWidth, eA.y * sHeight, eB.x * sWidth, eB.y * sHeight);
-								System.out.println("A: " + eA.x * sWidth + "/" + eA.y * sHeight + ", B: " + eB.x * sWidth + "/" + eB.y * sHeight);
-							}
+							shapeRenderer.line(eA.x * sWidth, eA.y * sHeight, eB.x * sWidth, eB.y * sHeight);
+							// System.out.println("A: " + eA.x * sWidth + "/" + eA.y * sHeight + ", B: " + eB.x * sWidth + "/" + eB.y * sHeight);
 						}
-						//shapeRenderer.rect(b.x * w, b.y * h, b.w * w, b.h * h);
 					}
 				}
 			}
 			shapeRenderer.end();
-//			shapeRenderer.begin(ShapeRenderer.ShapeType.Line);
-//			Blob b;
-//			EdgeVertex eA, eB;
-//			// Graphics g = thresholdImage.getGraphics();
-//			// g.setColor(Color.RED);
-//			synchronized (blobs) {
-//				for (int i = 0; i < blobs.size(); i++)
-//				{
-//					b = blobs.get(i);
-//					if (b.w > 0.1 && b.h > 0.1)
-//					{
-//						//System.out.println("blob to draw");
-////						for (int j = 0; j < b.getEdgeNb(); j++)
-////						{
-////							eA = b.getEdgeVertexA(j);
-////							eB = b.getEdgeVertexB(j);
-////							if (eA != null && eB != null){
-////								shapeRenderer.line(eA.x * sWidth, eA.y * sHeight, eB.x * sWidth, eB.y * sHeight);
-////								//System.out.println("A: " + eA.x * sWidth + "/" + eA.y * sHeight + ", B: " + eB.x * sWidth + "/" + eB.y * sHeight);
-////							}
-////						}
-//						shapeRenderer.rect(b.xMin * sWidth, b.yMin * sHeight, b.w *sWidth, b.h * sHeight);
-//					}
-//				}
-//			}
-//			shapeRenderer.end();
 			debugRenderer.render(world, camera.combined);
 		}
 
@@ -336,34 +306,34 @@ public class GameScreen extends AbstractScreen
 			level.draw(spriteBatch);
 			if (ball.isDead())
 			{
-				spriteBatch.draw(ballskin.getPopAnimation(player.getSkinID()).getKeyFrame(runTime), ball.getBody().getPosition().x - (ball_radius + 4), ball.getBody().getPosition().y
-						- (ball_radius + 3), ball_radius * 2f, ball_radius * 2f);
+				spriteBatch.draw(ballskin.getPopAnimation(player.getSkinID()).getKeyFrame(runTime), ball.getBody().getPosition().x - (ball_radius + 4), ball.getBody().getPosition().y - (ball_radius + 3), ball_radius * 2f, ball_radius * 2f);
 			} else
 			{
-				spriteBatch.draw(ballskin.getFlyAnimation(player.getSkinID()).getKeyFrame(runTime), ball.getBody().getPosition().x - (ball_radius + 4), ball.getBody().getPosition().y
-						- (ball_radius + 3), ball_radius * 2f, ball_radius * 2f);
+				spriteBatch.draw(ballskin.getFlyAnimation(player.getSkinID()).getKeyFrame(runTime), ball.getBody().getPosition().x - (ball_radius + 4), ball.getBody().getPosition().y - (ball_radius + 3), ball_radius * 2f, ball_radius * 2f);
 			}
 		}
 		spriteBatch.end();
 
 		// physic updates
 		world.step(Level.BOX_STEP, Level.BOX_VELOCITY_ITERATIONS, Level.BOX_POSITION_ITERATIONS);
-		
+
 		updateStatusBar();
+
 		// must be called after world.step is called, because it adds and removes bodies from the world
 		updateObstacles();
-		
 	}
 
-	private void updateObstacles() {
+	private void updateObstacles()
+	{
 		newObjects.clear();
-		
-		synchronized (world) {
+		synchronized (world)
+		{
 			Blob b = null;
 			for (Iterator<Blob> iter = blobs.iterator(); iter.hasNext();)
 			{
 				b = iter.next();
-				Obstacle o = new Obstacle(b.xMin * sWidth, b.yMin * sHeight, b.w *sWidth, b.h * sHeight);
+				Obstacle o = new Obstacle(b.xMin * sWidth, b.yMin * sHeight, b.w * sWidth, b.h * sHeight);
+				o.create(world);
 				newObjects.add(o);
 			}
 			level.destroyObjects();
