@@ -57,6 +57,8 @@ public class Preferences
 				ballRadius = data.getBallRadius();
 				maxBlobWidth = (int) (data.getMaxBlobWidth() * 100);
 				maxBlobHeight = (int) (data.getMaxBlobHeight() * 100);
+				lowerThreshold = data.getLowerThreshold();
+				upperThreshold = data.getUpperThreshold();
 			}
 		}
 	}

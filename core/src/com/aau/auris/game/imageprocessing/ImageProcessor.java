@@ -38,7 +38,7 @@ public class ImageProcessor implements WebcamListener
 
 	private void process(BufferedImage input)
 	{
-		imgTmp = imageFilter.modify(input, ImageFilter.GRAYSCALE_FILTER | ImageFilter.THRESHOLD_FILTER | ImageFilter.INVERT_FILTER);
+		imgTmp = imageFilter.modify(input, ImageFilter.GRAYSCALE_FILTER | ImageFilter.THRESHOLD_FILTER);
 		final int width = input.getWidth();
 		final int height = input.getHeight();
 
@@ -56,7 +56,6 @@ public class ImageProcessor implements WebcamListener
 				blobs.add(bd.getBlob(i));
 			}
 		}
-
 		if (game.getScreen().getClass() == GameScreen.class)
 		{
 			game.getGameScreen().updateGame(blobs);
