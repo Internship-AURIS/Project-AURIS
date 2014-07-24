@@ -19,16 +19,28 @@ public class Ball extends Entity
 	private AURISGame game;
 	private boolean dead;
 
-	public Ball(Level level, World world, float posX, float posY, float radius)
+	private float posX, posY;
+	private float radius;
+
+	public Ball(Level level, float posX, float posY, float radius)
 	{
 		this.game = level.game;
+		this.dead = false;
+
+		this.posX = posX;
+		this.posY = posY;
+		this.radius = radius;
+	}
+
+	public void create(World world)
+	{
 		bodyDef = new BodyDef();
 		bodyDef.type = BodyType.DynamicBody;
 		bodyDef.position.set(new Vector2(posX, posY));
 		body = world.createBody(bodyDef);
 
 		CircleShape circleShape = new CircleShape();
-		circleShape.setRadius(radius-4);
+		circleShape.setRadius(radius - 4);
 
 		FixtureDef fixtureDef = new FixtureDef();
 		fixtureDef.shape = circleShape;
@@ -37,9 +49,6 @@ public class Ball extends Entity
 		fixtureDef.restitution = RESTITUTION;
 		body.createFixture(fixtureDef);
 		body.setUserData(this);
-
-		dead = false;
-
 		circleShape.dispose();
 	}
 

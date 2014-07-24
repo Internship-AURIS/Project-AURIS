@@ -2,6 +2,8 @@ package com.aau.auris.game.data;
 
 import java.util.ArrayList;
 
+import sun.font.CreatedFontTracker;
+
 import com.aau.auris.game.AURISGame;
 import com.aau.auris.game.items.Achievement;
 import com.aau.auris.game.items.BallSkin;
@@ -132,7 +134,7 @@ public class Player
 
 	public int getScore()
 	{
-		score = achievPoints + maxCredits;
+		score = achievPoints + credits + maxCredits;
 		if (score > 999)
 		{
 			score = 999;
