@@ -26,4 +26,8 @@ public class Obstacle extends Entity
 		polygonShape.dispose();
 	}
 
+	public void setBodyNull(){
+		body.setUserData(null);
+		body = null;
+	}
 }

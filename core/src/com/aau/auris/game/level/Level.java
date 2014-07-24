@@ -1,6 +1,7 @@
 package com.aau.auris.game.level;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.Random;
 
 import com.aau.auris.game.AURISGame;
@@ -126,7 +127,7 @@ public class Level implements Asset
 		final float factor_width = 0.9367f;
 		final float border_width = 20;// the object
 
-		this.objects = new ArrayList<Obstacle>();
+		objects = new ArrayList<Obstacle>();
 
 		objects.add(new BorderLine(world, -10 * WORLD_TO_BOX, 0, border_width * WORLD_TO_BOX, (sHeight * factor_height) * WORLD_TO_BOX));
 		objects.add(new BorderLine(world, 0 * WORLD_TO_BOX, -10 * WORLD_TO_BOX, (sWidth * factor_height) * WORLD_TO_BOX, border_width * WORLD_TO_BOX));
@@ -158,7 +159,7 @@ public class Level implements Asset
 		border.add(new BorderLine(world, 0 * WORLD_TO_BOX, ((sHeight + border_width) * factor_width) * WORLD_TO_BOX, (sWidth * factor_height) * WORLD_TO_BOX, border_width * WORLD_TO_BOX));
 		border.add(new BorderLine(world, ((sWidth + border_width * 1.8f) * factor_width) * WORLD_TO_BOX, 0, border_width * WORLD_TO_BOX, (sHeight * factor_height) * WORLD_TO_BOX));
 
-		objects = new ArrayList<Obstacle>();
+		objects.clear();
 		if (id >= 1 && id <= 3)
 		{
 			// TODO: generate Level Difficulty 1, add objects
@@ -174,16 +175,22 @@ public class Level implements Asset
 		}
 	}
 
+	public ArrayList<Obstacle> getObjects(){
+		return this.objects;
+	}
 	public void setObjects(ArrayList<Obstacle> newObjects)
 	{
 		// TODO: blob/camera error?!?
-		for (Obstacle o : objects)
-		{
-			world.destroyBody(o.getBody());
-			o.getBody().setUserData(null);
-			o = null;
-		}
 		this.objects = newObjects;
+	}
+
+	public synchronized void destroyObjects() {
+		Obstacle o = null;
+		for (Iterator<Obstacle> iter = objects.iterator(); iter.hasNext();) {
+			o = iter.next();
+			world.destroyBody(o.getBody());
+			o.setBodyNull();
+		}
 	}
 
 	public int getID()

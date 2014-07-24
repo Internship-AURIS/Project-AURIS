@@ -40,9 +40,8 @@ public class ImageProcessor implements WebcamListener
 
 	private BufferedImage imgTmp;
 
-	private synchronized void process(BufferedImage input)
+	private void process(BufferedImage input)
 	{
-		// TODO: blob/camera error?!?
 		imgTmp = imageFilter.modify(input, ImageFilter.GRAYSCALE_FILTER | ImageFilter.THRESHOLD_FILTER);
 		final int width = input.getWidth();
 		final int height = input.getHeight();
@@ -50,7 +49,6 @@ public class ImageProcessor implements WebcamListener
 		final int[] pixels = imgTmp.getRGB(0, 0, width, height, null, 0, width);
 		bd.computeBlobs(pixels);
 
-		
 		ArrayList<Blob> blobs = new ArrayList<Blob>();
 		Blob b;
 		for (int i = 0; i < bd.getBlobNb(); i++)
