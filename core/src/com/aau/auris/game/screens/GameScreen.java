@@ -244,9 +244,11 @@ public class GameScreen extends AbstractScreen
 		this.spriteBatch = new SpriteBatch();
 		overStyle.background = null;
 
-		// TODO: debugging
-		shapeRenderer.setColor(Color.RED);
-		shapeRenderer.setProjectionMatrix(camera.combined);
+		if (debugging)
+		{
+			shapeRenderer.setColor(Color.RED);
+			shapeRenderer.setProjectionMatrix(camera.combined);
+		}
 	}
 
 	public void ballDied()
@@ -284,8 +286,6 @@ public class GameScreen extends AbstractScreen
 			shapeRenderer.begin(ShapeRenderer.ShapeType.Line);
 			Blob b;
 			EdgeVertex eA, eB;
-			// Graphics g = thresholdImage.getGraphics();
-			// g.setColor(Color.RED);
 			for (int i = 0; i < blobs.size(); i++)
 			{
 				b = blobs.get(i);
@@ -298,21 +298,16 @@ public class GameScreen extends AbstractScreen
 						shapeRenderer.line(eA.x * sWidth, eA.y * sHeight, eB.x * sWidth, eB.y * sHeight);
 						System.out.println("A: " + eA.x * sWidth + "/" + eA.y * sHeight + ", B: " + eB.x * sWidth + "/" + eB.y * sHeight);
 					}
-					// shapeRenderer.rect(b.x * w, b.y * h, b.w * w, b.h * h);
 				}
 			}
 			shapeRenderer.end();
-
 			debugRenderer.render(world, camera.combined);
 		}
+
 		spriteBatch.begin();
-		if (level != null)
+		if (level != null && ball != null)
 		{
 			level.draw(spriteBatch);
-		}
-
-		if (ball != null)
-		{
 			if (ball.isDead())
 			{
 				spriteBatch.draw(ballskin.getPopAnimation(player.getSkinID()).getKeyFrame(runTime), ball.getBody().getPosition().x - (ball_radius + 4), ball.getBody().getPosition().y

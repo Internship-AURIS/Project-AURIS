@@ -91,7 +91,7 @@ public abstract class AbstractScreen implements Screen, Asset
 	public void dispose()
 	{
 		disposeAsset();
-		stage.dispose();
 		skin.dispose();
+		stage.dispose();
 	}
 }

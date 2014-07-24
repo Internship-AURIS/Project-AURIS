@@ -191,6 +191,9 @@ public class LoginScreen extends AbstractScreen
 				if (keycode == Keys.ENTER)
 				{
 					login();
+				} else if (keycode == Keys.ESCAPE || keycode == Keys.DEL)
+				{
+					game.changeScreen(AURISGame.MENU_SCREEN, LoginScreen.this);
 				}
 				return super.keyDown(event, keycode);
 			}
@@ -280,6 +283,7 @@ public class LoginScreen extends AbstractScreen
 	public void show()
 	{
 		super.show();
+		stage.setKeyboardFocus(txtName);
 	}
 
 	@Override
