@@ -3,6 +3,7 @@ package com.aau.auris.game.screens;
 import java.util.ArrayList;
 
 import blobDetection.Blob;
+import blobDetection.EdgeVertex;
 
 import com.aau.auris.game.AURISGame;
 import com.aau.auris.game.Asset.AssetLoader;
@@ -22,6 +23,7 @@ import com.badlogic.gdx.graphics.Pixmap.Format;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
+import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
 import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
@@ -66,6 +68,10 @@ public class GameScreen extends AbstractScreen
 	// Preferences
 	private int ball_radius;
 	private boolean debugging;
+
+	// Debugging, Test
+	private ArrayList<Blob> blobs = new ArrayList<Blob>();
+	private ShapeRenderer shapeRenderer = new ShapeRenderer();
 
 	public GameScreen(AURISGame game)
 	{
@@ -170,6 +176,7 @@ public class GameScreen extends AbstractScreen
 	public void updateGame(ArrayList<Blob> blobs)
 	{
 		// TODO: implement creation of objects in gameWorld
+		this.blobs = blobs;
 		ArrayList<Obstacle> newObjects = new ArrayList<Obstacle>();
 		for (Blob b : blobs)
 		{
@@ -226,6 +233,10 @@ public class GameScreen extends AbstractScreen
 		this.camera = level.getCamera();
 		this.spriteBatch = new SpriteBatch();
 		overStyle.background = null;
+
+		// TODO: debugging
+		shapeRenderer.setColor(Color.RED);
+		shapeRenderer.setProjectionMatrix(camera.combined);
 	}
 
 	public void ballDied()
@@ -260,6 +271,36 @@ public class GameScreen extends AbstractScreen
 
 		if (debugging)
 		{
+			shapeRenderer.begin(ShapeRenderer.ShapeType.Line);
+			Blob b;
+			EdgeVertex eA, eB;
+			// Graphics g = thresholdImage.getGraphics();
+			// g.setColor(Color.RED);
+			for (int i = 0; i < blobs.size(); i++)
+			{
+				b = blobs.get(i);
+				if (b.w > 0.1 && b.h > 0.1)
+				{
+					// g.drawRect((int) (b.xMin * w), (int) (b.yMin * h), (int)
+					// (b.w
+					// * w), (int) (b.h * h));final int x = (int) (b.xMin *
+					// width),
+					// y = (int) (b.yMin * height), w = (int) (b.w * width), h =
+					// (int) (b.h * height);
+					for (int j = 0; j < b.getEdgeNb(); j++)
+					{
+						eA = b.getEdgeVertexA(j);
+						eB = b.getEdgeVertexB(j);
+						shapeRenderer.line(eA.x * sWidth, eA.y * sHeight, eB.x * sWidth, eB.y * sHeight);
+						// System.out.println("A: " + eA.x + "/" + eA.y +
+						// ", B: " +
+						// eB.x + "/" + eB.y);
+					}
+					// shapeRenderer.rect(b.x * w, b.y * h, b.w * w, b.h * h);
+				}
+			}
+			shapeRenderer.end();
+
 			debugRenderer.render(world, camera.combined);
 		}
 		spriteBatch.begin();
