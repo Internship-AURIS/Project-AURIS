@@ -220,7 +220,7 @@ public class ShopScreen extends AbstractScreen
 			{
 				super.touchUp(event, x, y, pointer, button);
 				clickSound.play();
-				player.setSkin(BallSkin.BALL_SKIN_ID_1);
+				purchaseItem(BallSkin.BALL_SKIN_ID_1);
 			}
 		});
 
@@ -271,18 +271,15 @@ public class ShopScreen extends AbstractScreen
 
 	private void purchaseItem(int id)
 	{
-		if (!player.hasSkinUnlocked(id))
-		{
-			if (player.addBallSkinID(id))
-			{
-				player.setSkin(id);
-			} else
-			{
-				System.out.println("...not enough credits!...");
-			}
-		} else
+		if (player.hasSkinUnlocked(id))
 		{
 			player.setSkin(id);
+		} else if (player.addBallSkinID(id))
+		{
+			player.setSkin(id);
+		} else
+		{
+			System.out.println("...not enough credits!...");
 		}
 		updateShopItemButtons();
 	}
