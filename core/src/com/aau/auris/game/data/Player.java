@@ -2,8 +2,6 @@ package com.aau.auris.game.data;
 
 import java.util.ArrayList;
 
-import sun.font.CreatedFontTracker;
-
 import com.aau.auris.game.AURISGame;
 import com.aau.auris.game.items.Achievement;
 import com.aau.auris.game.items.BallSkin;
@@ -105,9 +103,9 @@ public class Player
 		return credits;
 	}
 
-	public void addCredits(int amount)
+	public void addCredits(int value)
 	{
-		this.credits += amount;
+		this.credits += value;
 		if (credits > 999)
 		{
 			credits = 999;
