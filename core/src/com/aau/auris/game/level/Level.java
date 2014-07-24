@@ -1,7 +1,6 @@
 package com.aau.auris.game.level;
 
 import java.util.ArrayList;
-import java.util.Random;
 
 import com.aau.auris.game.AURISGame;
 import com.aau.auris.game.Asset.Asset;
@@ -60,11 +59,11 @@ public class Level implements Asset
 	private Ball ball;
 
 	private ArrayList<BorderLine> border;
-	private ArrayList<Obstacle> objects;
+	private ArrayList<Obstacle> levelDefinedObjects;
+	private ArrayList<Obstacle> environmentObjects;
 	private Home home;
 	private Goal goal;
 	private Skin skin;
-	private Random goalYRandom;
 
 	// Asset
 	private TextureAtlas goalTextures;
@@ -104,7 +103,6 @@ public class Level implements Asset
 	{
 		goalTextures = AssetLoader.levelgoals;
 		skin = new Skin(goalTextures);
-		goalYRandom = new Random();
 	}
 
 	@Override
@@ -124,17 +122,18 @@ public class Level implements Asset
 		createBorder();
 
 		// Initialize Levels
-		this.objects = new ArrayList<Obstacle>();
+		this.levelDefinedObjects = new ArrayList<Obstacle>();
+		this.environmentObjects = new ArrayList<Obstacle>();
 		if (id >= LEVEL_ID_1 && id <= LEVEL_ID_3)
 		{
 			//			objects.add(new Obstacle(world, (50 / 2 - 50) * WORLD_TO_BOX, (50 / 2 - 50) * WORLD_TO_BOX, 50 * WORLD_TO_BOX, 50 * WORLD_TO_BOX));
-			objects.add(new Obstacle(150, 20, 50, 50));
+			levelDefinedObjects.add(new Obstacle(150, 20, 50, 50));
 		} else if (id >= LEVEL_ID_4 && id <= LEVEL_ID_6)
 		{
-			objects.add(new Obstacle((50 / 2 - 50) * factorX, (50 / 2 - 50) * factorY, 50 * factorX, 50 * factorY));
+			levelDefinedObjects.add(new Obstacle((50 / 2 - 50) * factorX, (50 / 2 - 50) * factorY, 50 * factorX, 50 * factorY));
 		} else if (id >= LEVEL_ID_7 && id <= LEVEL_ID_9)
 		{
-			objects.add(new Obstacle((50 / 2 - 50) * factorX, (50 / 2 - 50) * factorY, 50 * factorX, 50 * factorY));
+			levelDefinedObjects.add(new Obstacle((50 / 2 - 50) * factorX, (50 / 2 - 50) * factorY, 50 * factorX, 50 * factorY));
 		}
 
 		// initialize ever existing GameObjects
@@ -148,7 +147,7 @@ public class Level implements Asset
 		goal.create(world);
 
 		// create objects in world
-		createObjects();
+		createObjects(levelDefinedObjects);
 	}
 
 	private void createBorder()
@@ -159,35 +158,30 @@ public class Level implements Asset
 		}
 	}
 
-	private void createObjects()
+	private void createObjects(ArrayList<Obstacle> obstacles)
 	{
-		for (Obstacle o : objects)
+		for (Obstacle o : obstacles)
 		{
 			o.create(world);
 		}
 	}
 
-	private void destroyObjects()
+	private void destroyObjects(ArrayList<Obstacle> obstacles)
 	{
-		for (Obstacle o : objects)
+		for (Obstacle o : obstacles)
 		{
 			world.destroyBody(o.getBody());
 			o.getBody().setUserData(null);
 			o = null;
 		}
-		objects.clear();
+		levelDefinedObjects.clear();
 	}
 
 	public void setObjects(ArrayList<Obstacle> newObjects)
 	{
-		// TODO: blob/camera error?!?
-		//		for (Obstacle o : objects)
-		//		{
-		//			world.destroyBody(o.getBody());
-		//			o.getBody().setUserData(null);
-		//			o = null;
-		//		}
-		//		this.objects = newObjects;
+		destroyObjects(environmentObjects);
+		createObjects(newObjects);
+		this.levelDefinedObjects = newObjects;
 	}
 
 	public int getID()
