@@ -36,7 +36,7 @@ public class ImageProcessor implements WebcamListener
 
 	private BufferedImage imgTmp;
 
-	private void process(BufferedImage input)
+	private synchronized void process(BufferedImage input)
 	{
 		// TODO: blob/camera error?!?
 		imgTmp = imageFilter.modify(input, ImageFilter.GRAYSCALE_FILTER | ImageFilter.THRESHOLD_FILTER);
@@ -71,9 +71,13 @@ public class ImageProcessor implements WebcamListener
 	{}
 
 	@Override
-	public void webcamImageObtained(WebcamEvent e)
+	public void webcamImageObtained(final WebcamEvent e)
 	{
-		process(e.getImage());
+		new Thread(){
+			public void run() {
+				process(e.getImage());
+			}
+		}.start();
 	}
 
 	@Override

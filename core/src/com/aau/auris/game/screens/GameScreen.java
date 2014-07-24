@@ -176,7 +176,7 @@ public class GameScreen extends AbstractScreen
 	public void updateGame(ArrayList<Blob> blobs)
 	{
 		// TODO: implement creation of objects in gameWorld
-		this.blobs = blobs;
+		
 		ArrayList<Obstacle> newObjects = new ArrayList<Obstacle>();
 		for (Blob b : blobs)
 		{
@@ -184,12 +184,15 @@ public class GameScreen extends AbstractScreen
 			{
 				if (b.getEdgeNb() != b2.getEdgeNb())
 				{
-					newObjects.add(new Obstacle(world, ((b.x - b.w) * sWidth / 2f) * Level.WORLD_TO_BOX, ((b.y - b.h) * sHeight / 2f) * Level.WORLD_TO_BOX, (b.w) * sWidth * Level.WORLD_TO_BOX, (b.h)
+					newObjects.add(new Obstacle(world, ((b.x - b.w) * sWidth / 2f) 
+							* Level.WORLD_TO_BOX, ((b.y - b.h) * sHeight / 2f) 
+							* Level.WORLD_TO_BOX, (b.w) * sWidth * Level.WORLD_TO_BOX, (b.h)
 							* sHeight * Level.WORLD_TO_BOX));
 				}
 			}
 		}
 		level.setObjects(newObjects);
+		this.blobs = blobs;
 	}
 
 	@Override
@@ -283,19 +286,24 @@ public class GameScreen extends AbstractScreen
 			EdgeVertex eA, eB;
 			// Graphics g = thresholdImage.getGraphics();
 			// g.setColor(Color.RED);
-			for (int i = 0; i < blobs.size(); i++)
-			{
-				b = blobs.get(i);
-				if (b.w > 0.1 && b.h > 0.1)
+			synchronized (blobs) {
+				for (int i = 0; i < blobs.size(); i++)
 				{
-					for (int j = 0; j < b.getEdgeNb(); j++)
+					b = blobs.get(i);
+					if (b.w > 0.1 && b.h > 0.1)
 					{
-						eA = b.getEdgeVertexA(j);
-						eB = b.getEdgeVertexB(j);
-						shapeRenderer.line(eA.x * sWidth, eA.y * sHeight, eB.x * sWidth, eB.y * sHeight);
-						System.out.println("A: " + eA.x * sWidth + "/" + eA.y * sHeight + ", B: " + eB.x * sWidth + "/" + eB.y * sHeight);
+						System.out.println("blob to draw");
+						for (int j = 0; j < b.getEdgeNb(); j++)
+						{
+							eA = b.getEdgeVertexA(j);
+							eB = b.getEdgeVertexB(j);
+							if (eA != null && eB != null){
+								shapeRenderer.line(eA.x * sWidth, eA.y * sHeight, eB.x * sWidth, eB.y * sHeight);
+								System.out.println("A: " + eA.x * sWidth + "/" + eA.y * sHeight + ", B: " + eB.x * sWidth + "/" + eB.y * sHeight);
+							}
+						}
+						//shapeRenderer.rect(b.x * w, b.y * h, b.w * w, b.h * h);
 					}
-					// shapeRenderer.rect(b.x * w, b.y * h, b.w * w, b.h * h);
 				}
 			}
 			shapeRenderer.end();
