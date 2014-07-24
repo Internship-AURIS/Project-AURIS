@@ -75,10 +75,6 @@ public class AURISGame extends Game
 		userdata = new UserData(this);
 		userdata.load();
 
-		// Image Processing
-		imageProcessor = new ImageProcessor(this);
-		webcamHandler = new WebcamHandler(imageProcessor);
-
 		// Screens 
 		menuScreen = new MenuScreen(this);
 		loginScreen = new LoginScreen(this);
@@ -94,6 +90,10 @@ public class AURISGame extends Game
 
 		// Current Screen, StartScreen
 		this.setScreen(menuScreen);
+
+		// Image Processing
+		imageProcessor = new ImageProcessor(this);
+		webcamHandler = new WebcamHandler(imageProcessor);
 	}
 
 	@Override
@@ -220,7 +220,7 @@ public class AURISGame extends Game
 	{
 		return Gdx.graphics.getHeight();
 	}
-	
+
 	public WebcamHandler getWebcamHandler()
 	{
 		return webcamHandler;
