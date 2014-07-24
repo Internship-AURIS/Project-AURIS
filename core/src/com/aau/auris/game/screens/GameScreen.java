@@ -281,20 +281,12 @@ public class GameScreen extends AbstractScreen
 				b = blobs.get(i);
 				if (b.w > 0.1 && b.h > 0.1)
 				{
-					// g.drawRect((int) (b.xMin * w), (int) (b.yMin * h), (int)
-					// (b.w
-					// * w), (int) (b.h * h));final int x = (int) (b.xMin *
-					// width),
-					// y = (int) (b.yMin * height), w = (int) (b.w * width), h =
-					// (int) (b.h * height);
 					for (int j = 0; j < b.getEdgeNb(); j++)
 					{
 						eA = b.getEdgeVertexA(j);
 						eB = b.getEdgeVertexB(j);
 						shapeRenderer.line(eA.x * sWidth, eA.y * sHeight, eB.x * sWidth, eB.y * sHeight);
-						// System.out.println("A: " + eA.x + "/" + eA.y +
-						// ", B: " +
-						// eB.x + "/" + eB.y);
+						System.out.println("A: " + eA.x * sWidth + "/" + eA.y * sHeight + ", B: " + eB.x * sWidth + "/" + eB.y * sHeight);
 					}
 					// shapeRenderer.rect(b.x * w, b.y * h, b.w * w, b.h * h);
 				}
