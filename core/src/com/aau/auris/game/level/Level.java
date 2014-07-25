@@ -223,7 +223,7 @@ public class Level implements Asset
 	{
 		return goal;
 	}
-
+	
 	public int getCreditValue()
 	{
 		if (id == LEVEL_ID_1) { return LEVEL_ID_1_POINTS; }

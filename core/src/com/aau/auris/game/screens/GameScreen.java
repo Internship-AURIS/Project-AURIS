@@ -291,7 +291,7 @@ public class GameScreen extends AbstractScreen
 						eB = b.getEdgeVertexB(j);
 						if (eA != null && eB != null)
 						{
-							shapeRenderer.line(eA.x * sWidth, eA.y * sHeight, eB.x * sWidth, eB.y * sHeight);
+							shapeRenderer.line(eA.x * sWidth, sHeight - eA.y * sHeight, eB.x * sWidth, sHeight- eB.y * sHeight);
 							// System.out.println("A: " + eA.x * sWidth + "/" + eA.y * sHeight + ", B: " + eB.x * sWidth + "/" + eB.y * sHeight);
 						}
 					}
@@ -333,7 +333,14 @@ public class GameScreen extends AbstractScreen
 			for (Iterator<Blob> iter = blobs.iterator(); iter.hasNext();)
 			{
 				b = iter.next();
-				Obstacle o = new Obstacle(b.xMin * sWidth, b.yMin * sHeight, b.w * sWidth, b.h * sHeight, EntityCategory.OBSTACLE, EntityCategory.BALL);
+				Obstacle o = new Obstacle(
+						b.xMin * sWidth, 
+						sHeight - b.yMin * sHeight, 
+						b.w * sWidth, 
+						sHeight - b.h * sHeight, 
+						EntityCategory.OBSTACLE, 
+						EntityCategory.BALL
+				);
 				o.create(world);
 				newObjects.add(o);
 			}
