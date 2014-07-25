@@ -39,7 +39,7 @@ public class AURISGame extends Game
 	public static final int CREDITS_SCREEN = 3;
 	public static final int SHOP_SCREEN = 4;
 	public static final int GAME_SCREEN = 5;
-	public static final int VICTORY_SCREEN=6;
+	public static final int VICTORY_SCREEN = 6;
 
 	private MenuScreen menuScreen;
 	private LoginScreen loginScreen;
@@ -97,7 +97,7 @@ public class AURISGame extends Game
 
 		// Image Processing
 		imageProcessor = new ImageProcessor(this);
-		webcamHandler = new WebcamHandler(imageProcessor);
+		webcamHandler = new WebcamHandler(this, imageProcessor);
 	}
 
 	@Override
@@ -159,10 +159,10 @@ public class AURISGame extends Game
 		} else if (screenIndex == GAME_SCREEN)
 		{
 			newScreen = gameScreen;
-		}else if(screenIndex==VICTORY_SCREEN)
+		} else if (screenIndex == VICTORY_SCREEN)
 		{
-			newScreen=victoryScreen;
-		}else 
+			newScreen = victoryScreen;
+		} else
 		{
 			newScreen = menuScreen;// default solution
 		}
@@ -267,7 +267,10 @@ public class AURISGame extends Game
 	{
 		for (Level lvl : levels)
 		{
-			if (lvl.getID() == id) { return lvl; }
+			if (lvl.getID() == id)
+			{
+				return lvl;
+			}
 		}
 		return null;
 	}
