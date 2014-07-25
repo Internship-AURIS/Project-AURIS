@@ -1,6 +1,7 @@
 package com.aau.auris.game.screens;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 
 import blobDetection.Blob;
 import blobDetection.EdgeVertex;
@@ -13,6 +14,7 @@ import com.aau.auris.game.items.BallSkin;
 import com.aau.auris.game.level.Level;
 import com.aau.auris.game.level.gameworld.Ball;
 import com.aau.auris.game.level.gameworld.CollisionHandler;
+import com.aau.auris.game.level.gameworld.EntityCategory;
 import com.aau.auris.game.level.gameworld.Obstacle;
 import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.graphics.Color;
@@ -70,6 +72,7 @@ public class GameScreen extends AbstractScreen
 	private boolean debugging;
 
 	// Debugging, Test
+	ArrayList<Obstacle> newObjects = new ArrayList<Obstacle>();
 	private ArrayList<Blob> blobs = new ArrayList<Blob>();
 	private ShapeRenderer shapeRenderer = new ShapeRenderer();
 
@@ -174,7 +177,6 @@ public class GameScreen extends AbstractScreen
 
 		stage.addListener(new InputListener()
 		{
-
 			@Override
 			public boolean keyDown(InputEvent event, int keycode)
 			{
@@ -211,13 +213,6 @@ public class GameScreen extends AbstractScreen
 
 	public void updateGame(ArrayList<Blob> blobs)
 	{
-		ArrayList<Obstacle> newObjects = new ArrayList<Obstacle>();
-		for (Blob b : blobs)
-		{
-			Obstacle o = new Obstacle(((b.x - b.w) * sWidth / 2f) * Level.factorX, ((b.y - b.h) * sHeight / 2f) * Level.factorY, (b.w) * sWidth * Level.factorX, (b.h) * sHeight * Level.factorY);
-			newObjects.add(o);
-		}
-		level.setObjects(newObjects);
 		this.blobs = blobs;
 	}
 
@@ -290,20 +285,15 @@ public class GameScreen extends AbstractScreen
 				for (int i = 0; i < blobs.size(); i++)
 				{
 					b = blobs.get(i);
-					if (b.w > 0.1 && b.h > 0.1)
+					for (int j = 0; j < b.getEdgeNb(); j++)
 					{
-						System.out.println("blob to draw");
-						for (int j = 0; j < b.getEdgeNb(); j++)
+						eA = b.getEdgeVertexA(j);
+						eB = b.getEdgeVertexB(j);
+						if (eA != null && eB != null)
 						{
-							eA = b.getEdgeVertexA(j);
-							eB = b.getEdgeVertexB(j);
-							if (eA != null && eB != null)
-							{
-								shapeRenderer.line(eA.x * sWidth, eA.y * sHeight, eB.x * sWidth, eB.y * sHeight);
-								System.out.println("A: " + eA.x * sWidth + "/" + eA.y * sHeight + ", B: " + eB.x * sWidth + "/" + eB.y * sHeight);
-							}
+							shapeRenderer.line(eA.x * sWidth, eA.y * sHeight, eB.x * sWidth, eB.y * sHeight);
+							// System.out.println("A: " + eA.x * sWidth + "/" + eA.y * sHeight + ", B: " + eB.x * sWidth + "/" + eB.y * sHeight);
 						}
-						//shapeRenderer.rect(b.x * w, b.y * h, b.w * w, b.h * h);
 					}
 				}
 			}
@@ -317,12 +307,10 @@ public class GameScreen extends AbstractScreen
 			level.draw(spriteBatch);
 			if (ball.isDead())
 			{
-				spriteBatch.draw(ballskin.getPopAnimation(player.getSkinID()).getKeyFrame(runTime), ball.getBody().getPosition().x - (ball_radius + 4), ball.getBody().getPosition().y
-						- (ball_radius + 3), ball_radius * 2f, ball_radius * 2f);
+				spriteBatch.draw(ballskin.getPopAnimation(player.getSkinID()).getKeyFrame(runTime), ball.getBody().getPosition().x - (ball_radius + 4), ball.getBody().getPosition().y - (ball_radius + 3), ball_radius * 2f, ball_radius * 2f);
 			} else
 			{
-				spriteBatch.draw(ballskin.getFlyAnimation(player.getSkinID()).getKeyFrame(runTime), ball.getBody().getPosition().x - (ball_radius + 4), ball.getBody().getPosition().y
-						- (ball_radius + 3), ball_radius * 2f, ball_radius * 2f);
+				spriteBatch.draw(ballskin.getFlyAnimation(player.getSkinID()).getKeyFrame(runTime), ball.getBody().getPosition().x - (ball_radius + 4), ball.getBody().getPosition().y - (ball_radius + 3), ball_radius * 2f, ball_radius * 2f);
 			}
 		}
 		spriteBatch.end();
@@ -331,6 +319,28 @@ public class GameScreen extends AbstractScreen
 		world.step(Level.BOX_STEP, Level.BOX_VELOCITY_ITERATIONS, Level.BOX_POSITION_ITERATIONS);
 
 		updateStatusBar();
+
+		// must be called after world.step is called, because it adds and removes bodies from the world
+		updateObstacles();
+	}
+
+	private void updateObstacles()
+	{
+		newObjects.clear();
+		synchronized (world)
+		{
+			Blob b = null;
+			for (Iterator<Blob> iter = blobs.iterator(); iter.hasNext();)
+			{
+				b = iter.next();
+				Obstacle o = new Obstacle(b.xMin * sWidth, b.yMin * sHeight, b.w * sWidth, b.h * sHeight, EntityCategory.OBSTACLE, EntityCategory.BALL);
+				o.create(world);
+				newObjects.add(o);
+			}
+			level.destroyObjects();
+			level.getObjects().clear();
+			level.getObjects().addAll(newObjects);
+		}
 	}
 
 	@Override

@@ -1,6 +1,7 @@
 package com.aau.auris.game.level;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 
 import com.aau.auris.game.AURISGame;
 import com.aau.auris.game.Asset.Asset;
@@ -8,6 +9,7 @@ import com.aau.auris.game.Asset.AssetLoader;
 import com.aau.auris.game.data.Player;
 import com.aau.auris.game.level.gameworld.Ball;
 import com.aau.auris.game.level.gameworld.BorderLine;
+import com.aau.auris.game.level.gameworld.EntityCategory;
 import com.aau.auris.game.level.gameworld.Goal;
 import com.aau.auris.game.level.gameworld.Home;
 import com.aau.auris.game.level.gameworld.Obstacle;
@@ -59,8 +61,7 @@ public class Level implements Asset
 	private Ball ball;
 
 	private ArrayList<BorderLine> border;
-	private ArrayList<Obstacle> levelDefinedObjects;
-	private ArrayList<Obstacle> environmentObjects;
+	private ArrayList<Obstacle> levelObjects;
 	private Home home;
 	private Goal goal;
 	private Skin skin;
@@ -111,10 +112,11 @@ public class Level implements Asset
 
 	public void generateWorld(int sWidth, int sHeight)
 	{
-		// Initialize GameBorder
-
 		final float border_size = 10;// the object
 		this.border = new ArrayList<BorderLine>();
+		this.levelObjects = new ArrayList<Obstacle>();
+
+		// Initialize GameBorder
 		border.add(new BorderLine((border_size / 2f * -1) * factorX, 0, border_size * factorX, sHeight * factorY));
 		border.add(new BorderLine(0, (border_size / 2f * -1) * factorX, sWidth * factorX, border_size * factorY));
 		border.add(new BorderLine(0, sHeight / 2 * factorY, sWidth * factorX, border_size * factorY));
@@ -122,19 +124,18 @@ public class Level implements Asset
 		createBorder();
 
 		// Initialize Levels
-		this.levelDefinedObjects = new ArrayList<Obstacle>();
-		this.environmentObjects = new ArrayList<Obstacle>();
+		this.levelObjects = new ArrayList<Obstacle>();
 		if (id >= LEVEL_ID_1 && id <= LEVEL_ID_3)
 		{
-			//			objects.add(new Obstacle(world, (50 / 2 - 50) * WORLD_TO_BOX, (50 / 2 - 50) * WORLD_TO_BOX, 50 * WORLD_TO_BOX, 50 * WORLD_TO_BOX));
-			levelDefinedObjects.add(new Obstacle(150, 20, 50, 50));
+			levelObjects.add(new Obstacle(150, 20, 50, 50, EntityCategory.OBSTACLE, EntityCategory.BALL));
 		} else if (id >= LEVEL_ID_4 && id <= LEVEL_ID_6)
 		{
-			levelDefinedObjects.add(new Obstacle((50 / 2 - 50) * factorX, (50 / 2 - 50) * factorY, 50 * factorX, 50 * factorY));
+			levelObjects.add(new Obstacle((50 / 2 - 50) * factorX, (50 / 2 - 50) * factorY, 50 * factorX, 50 * factorY, EntityCategory.OBSTACLE, EntityCategory.BALL));
 		} else if (id >= LEVEL_ID_7 && id <= LEVEL_ID_9)
 		{
-			levelDefinedObjects.add(new Obstacle((50 / 2 - 50) * factorX, (50 / 2 - 50) * factorY, 50 * factorX, 50 * factorY));
+			levelObjects.add(new Obstacle((50 / 2 - 50) * factorX, (50 / 2 - 50) * factorY, 50 * factorX, 50 * factorY, EntityCategory.OBSTACLE, EntityCategory.BALL));
 		}
+		levelObjects.clear();// TODO: debugging; place levelDefined objects in other ArrayList
 
 		// initialize ever existing GameObjects
 		final int goalHeight = 150;
@@ -147,7 +148,7 @@ public class Level implements Asset
 		goal.create(world);
 
 		// create objects in world
-		createObjects(levelDefinedObjects);
+		createObjects(levelObjects);
 	}
 
 	private void createBorder()
@@ -166,22 +167,26 @@ public class Level implements Asset
 		}
 	}
 
-	private void destroyObjects(ArrayList<Obstacle> obstacles)
+	public ArrayList<Obstacle> getObjects()
 	{
-		for (Obstacle o : obstacles)
+		return this.levelObjects;
+	}
+
+	public synchronized void destroyObjects()
+	{
+		Obstacle o = null;
+		for (Iterator<Obstacle> iter = levelObjects.iterator(); iter.hasNext();)
 		{
+			o = iter.next();
 			world.destroyBody(o.getBody());
-			o.getBody().setUserData(null);
-			o = null;
+			o.setBodyNull();
 		}
-		levelDefinedObjects.clear();
+		levelObjects.clear();
 	}
 
 	public void setObjects(ArrayList<Obstacle> newObjects)
 	{
-		destroyObjects(environmentObjects);
-		createObjects(newObjects);
-		this.levelDefinedObjects = newObjects;
+		this.levelObjects = newObjects;
 	}
 
 	public int getID()
@@ -253,6 +258,6 @@ public class Level implements Asset
 
 	public void draw(SpriteBatch spriteBatch)
 	{
-		skin.getDrawable("goal4Big").draw(spriteBatch, 790, goal.getPosY() / factorY+105, 60, 150);
+		skin.getDrawable("goal4Big").draw(spriteBatch, 790, goal.getPosY() / factorY + 105, 60, 150);
 	}
 }

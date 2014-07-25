@@ -13,9 +13,9 @@ public class WebcamHandler
 		this.webcam = Webcam.getDefault();
 		if (webcam != null)
 		{
-			listener.setBlobDetector(webcam.getViewSize().width, webcam.getViewSize().height);
 			webcam.addWebcamListener(listener);
-			webcam.setViewSize(WebcamResolution.QQVGA.getSize());
+			webcam.setViewSize(WebcamResolution.QVGA.getSize());
+			listener.setBlobDetector(webcam.getViewSize().width, webcam.getViewSize().height);
 			webcam.open(true);
 		}
 	}
