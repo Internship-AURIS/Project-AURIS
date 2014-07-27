@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.Iterator;
 
 import blobDetection.Blob;
-import blobDetection.EdgeVertex;
 
 import com.aau.auris.game.AURISGame;
 import com.aau.auris.game.Asset.AssetLoader;
@@ -277,27 +276,27 @@ public class GameScreen extends AbstractScreen
 
 		if (debugging)
 		{
-			shapeRenderer.begin(ShapeRenderer.ShapeType.Line);
-			Blob b;
-			EdgeVertex eA, eB;
-			synchronized (blobs)
-			{
-				for (int i = 0; i < blobs.size(); i++)
-				{
-					b = blobs.get(i);
-					for (int j = 0; j < b.getEdgeNb(); j++)
-					{
-						eA = b.getEdgeVertexA(j);
-						eB = b.getEdgeVertexB(j);
-						if (eA != null && eB != null)
-						{
-							shapeRenderer.line(eA.x * sWidth, eA.y * sHeight, eB.x * sWidth, eB.y * sHeight);
-							// System.out.println("A: " + eA.x * sWidth + "/" + eA.y * sHeight + ", B: " + eB.x * sWidth + "/" + eB.y * sHeight);
-						}
-					}
-				}
-			}
-			shapeRenderer.end();
+			//			shapeRenderer.begin(ShapeRenderer.ShapeType.Line);
+			//			Blob b;
+			//			EdgeVertex eA, eB;
+			//			synchronized (blobs)
+			//			{
+			//				for (int i = 0; i < blobs.size(); i++)
+			//				{
+			//					b = blobs.get(i);
+			//					for (int j = 0; j < b.getEdgeNb(); j++)
+			//					{
+			//						eA = b.getEdgeVertexA(j);
+			//						eB = b.getEdgeVertexB(j);
+			//						if (eA != null && eB != null)
+			//						{
+			//							shapeRenderer.line(eA.x * sWidth, eA.y * sHeight, eB.x * sWidth, eB.y * sHeight);
+			//							// System.out.println("A: " + eA.x * sWidth + "/" + eA.y * sHeight + ", B: " + eB.x * sWidth + "/" + eB.y * sHeight);
+			//						}
+			//					}
+			//				}
+			//			}
+			//			shapeRenderer.end();
 			debugRenderer.render(world, camera.combined);
 		}
 
