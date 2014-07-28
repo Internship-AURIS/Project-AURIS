@@ -70,6 +70,8 @@ public class GameScreen extends AbstractScreen
 	// Preferences
 	private int ball_radius;
 	private boolean debugging;
+	private boolean debug_shape_polygons;
+	private boolean debug_shape_vertices;
 
 	// Debugging, Test
 	ArrayList<Obstacle> newObjects = new ArrayList<Obstacle>();
@@ -195,12 +197,6 @@ public class GameScreen extends AbstractScreen
 					{
 						ball.getBody().setLinearVelocity(120, 0);
 					}
-				} else
-				{
-					//					if (keycode == Keys.ENTER)
-					//					{
-					//						level.reset();
-					//					}
 				}
 				if (keycode == Keys.ESCAPE)
 				{
@@ -285,14 +281,20 @@ public class GameScreen extends AbstractScreen
 				for (int i = 0; i < blobs.size(); i++)
 				{
 					b = blobs.get(i);
-					for (int j = 0; j < b.getEdgeNb(); j++)
+					if (debug_shape_polygons)
 					{
-						eA = b.getEdgeVertexA(j);
-						eB = b.getEdgeVertexB(j);
-						if (eA != null && eB != null)
+						shapeRenderer.rect(b.xMin * sWidth, b.yMin * sHeight, b.w * sWidth, b.h * sHeight);
+					} else if (debug_shape_vertices)
+					{
+						for (int j = 0; j < b.getEdgeNb(); j++)
 						{
-							shapeRenderer.line(eA.x * sWidth, sHeight - eA.y * sHeight, eB.x * sWidth, sHeight- eB.y * sHeight);
-							// System.out.println("A: " + eA.x * sWidth + "/" + eA.y * sHeight + ", B: " + eB.x * sWidth + "/" + eB.y * sHeight);
+							eA = b.getEdgeVertexA(j);
+							eB = b.getEdgeVertexB(j);
+							if (eA != null && eB != null)
+							{
+								shapeRenderer.line(eA.x * sWidth, sHeight - eA.y * sHeight, eB.x * sWidth, sHeight - eB.y * sHeight);
+								// System.out.println("A: " + eA.x * sWidth + "/" + eA.y * sHeight + ", B: " + eB.x * sWidth + "/" + eB.y * sHeight);
+							}
 						}
 					}
 				}
@@ -307,10 +309,12 @@ public class GameScreen extends AbstractScreen
 			level.draw(spriteBatch);
 			if (ball.isDead())
 			{
-				spriteBatch.draw(ballskin.getPopAnimation(player.getSkinID()).getKeyFrame(runTime), ball.getBody().getPosition().x - (ball_radius + 4), ball.getBody().getPosition().y - (ball_radius + 3), ball_radius * 2f, ball_radius * 2f);
+				spriteBatch.draw(ballskin.getPopAnimation(player.getSkinID()).getKeyFrame(runTime), ball.getBody().getPosition().x - (ball_radius + 4), ball.getBody().getPosition().y
+						- (ball_radius + 3), ball_radius * 2f, ball_radius * 2f);
 			} else
 			{
-				spriteBatch.draw(ballskin.getFlyAnimation(player.getSkinID()).getKeyFrame(runTime), ball.getBody().getPosition().x - (ball_radius + 4), ball.getBody().getPosition().y - (ball_radius + 3), ball_radius * 2f, ball_radius * 2f);
+				spriteBatch.draw(ballskin.getFlyAnimation(player.getSkinID()).getKeyFrame(runTime), ball.getBody().getPosition().x - (ball_radius + 4), ball.getBody().getPosition().y
+						- (ball_radius + 3), ball_radius * 2f, ball_radius * 2f);
 			}
 		}
 		spriteBatch.end();
@@ -333,14 +337,7 @@ public class GameScreen extends AbstractScreen
 			for (Iterator<Blob> iter = blobs.iterator(); iter.hasNext();)
 			{
 				b = iter.next();
-				Obstacle o = new Obstacle(
-						b.xMin * sWidth, 
-						sHeight - b.yMin * sHeight, 
-						b.w * sWidth, 
-						sHeight - b.h * sHeight, 
-						EntityCategory.OBSTACLE, 
-						EntityCategory.BALL
-				);
+				Obstacle o = new Obstacle(b.xMin * sWidth, sHeight - b.yMin * sHeight, b.w * sWidth, sHeight - b.h * sHeight, EntityCategory.OBSTACLE, EntityCategory.BALL);
 				o.create(world);
 				newObjects.add(o);
 			}

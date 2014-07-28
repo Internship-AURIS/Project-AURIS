@@ -10,10 +10,10 @@ public class Preferences
 	private transient FileHandle file = Gdx.files.local(FILENAME);
 
 	private int maxPlayers;
-	private boolean soundEnabled;
 	private boolean debugging;
+	private boolean debug_shape_polygons;
+	private boolean debug_shape_vertices;
 	private float ballRadius;
-	private boolean hackEnabled;
 	private float minBlobHeight;//in %
 	private float minBlobWidth;// in %
 	private int lowerThreshold;
@@ -29,14 +29,14 @@ public class Preferences
 	public void save()
 	{
 		maxPlayers = 10;
-		soundEnabled = true;
-		debugging = false;
+		debugging = true;
+		debug_shape_polygons = true;
+		debug_shape_vertices = true;
 		ballRadius = 60f;
-		hackEnabled = false;
-		minBlobWidth = .5f;
-		minBlobHeight = .5f;
-		lowerThreshold = 10;
-		upperThreshold = 200;
+		minBlobWidth = .1f;
+		minBlobHeight = .1f;
+		lowerThreshold = 75;
+		upperThreshold = 10;
 		Json json = new Json();
 		final String text = json.toJson(this);
 		file.writeString(text, false);
@@ -52,7 +52,8 @@ public class Preferences
 			if (data != null)
 			{
 				maxPlayers = data.getMaxPlayers();
-				soundEnabled = data.isSoundEnabled();
+				debug_shape_polygons = data.isDebuggingShapePolygons();
+				debug_shape_vertices = data.isDebuggingShapeVertices();
 				debugging = data.isDebugging();
 				ballRadius = data.getBallRadius();
 				minBlobWidth = data.getMinBlobWidth() * 100f;
@@ -68,11 +69,6 @@ public class Preferences
 		return maxPlayers;
 	}
 
-	public boolean isSoundEnabled()
-	{
-		return soundEnabled;
-	}
-
 	public boolean isDebugging()
 	{
 		return debugging;
@@ -81,11 +77,6 @@ public class Preferences
 	public float getBallRadius()
 	{
 		return ballRadius;
-	}
-
-	public boolean isHackEnabled()
-	{
-		return hackEnabled;
 	}
 
 	public float getMinBlobWidth()
@@ -106,6 +97,16 @@ public class Preferences
 	public int getUpperThreshold()
 	{
 		return upperThreshold;
+	}
+
+	public boolean isDebuggingShapePolygons()
+	{
+		return debug_shape_polygons;
+	}
+
+	public boolean isDebuggingShapeVertices()
+	{
+		return debug_shape_vertices;
 	}
 
 }
