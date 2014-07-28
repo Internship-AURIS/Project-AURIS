@@ -61,8 +61,7 @@ public class Level implements Asset
 	private Ball ball;
 
 	private ArrayList<BorderLine> border;
-	private ArrayList<Obstacle> defObjects;
-	private ArrayList<Obstacle> objects;
+	private ArrayList<Obstacle> levelObjects;
 	private Home home;
 	private Goal goal;
 	private Skin skin;
@@ -115,8 +114,7 @@ public class Level implements Asset
 	{
 		final float border_size = 10;// the object
 		this.border = new ArrayList<BorderLine>();
-		this.objects = new ArrayList<Obstacle>();
-		this.defObjects = new ArrayList<Obstacle>();
+		this.levelObjects = new ArrayList<Obstacle>();
 
 		// Initialize GameBorder
 		border.add(new BorderLine((border_size / 2f * -1) * factorX, 0, border_size * factorX, sHeight * factorY));
@@ -126,47 +124,18 @@ public class Level implements Asset
 		createBorder();
 
 		// Initialize Levels
-		// general level initialization
-//		if (id >= LEVEL_ID_1 && id <= LEVEL_ID_3)
-//		{
-//			defObjects.add(new Obstacle(150, 20, 50, 50, EntityCategory.OBSTACLE, EntityCategory.BALL));
-//		} else if (id >= LEVEL_ID_4 && id <= LEVEL_ID_6)
-//		{
-//			defObjects.add(new Obstacle((50 / 2 - 50) * factorX, (50 / 2 - 50) * factorY, 50 * factorX, 50 * factorY, EntityCategory.OBSTACLE, EntityCategory.BALL));
-//		} else if (id >= LEVEL_ID_7 && id <= LEVEL_ID_9)
-//		{
-//			defObjects.add(new Obstacle((50 / 2 - 50) * factorX, (50 / 2 - 50) * factorY, 50 * factorX, 50 * factorY, EntityCategory.OBSTACLE, EntityCategory.BALL));
-//		}
-
-		// specific level initialization
-		if (id == LEVEL_ID_1)
+		this.levelObjects = new ArrayList<Obstacle>();
+		if (id >= LEVEL_ID_1 && id <= LEVEL_ID_3)
 		{
-
-		} else if (id == LEVEL_ID_2)
+			levelObjects.add(new Obstacle(150, 20, 50, 50, EntityCategory.OBSTACLE, EntityCategory.BALL));
+		} else if (id >= LEVEL_ID_4 && id <= LEVEL_ID_6)
 		{
-			defObjects.add(new Obstacle((sWidth / 2f - 50) * factorX, (sHeight / 2f - 50) * factorY, 50 * factorX, 50 * factorY, EntityCategory.OBSTACLE, EntityCategory.BALL));
-		} else if (id == LEVEL_ID_3)
+			levelObjects.add(new Obstacle((50 / 2 - 50) * factorX, (50 / 2 - 50) * factorY, 50 * factorX, 50 * factorY, EntityCategory.OBSTACLE, EntityCategory.BALL));
+		} else if (id >= LEVEL_ID_7 && id <= LEVEL_ID_9)
 		{
-
-		} else if (id == LEVEL_ID_4)
-		{
-
-		} else if (id == LEVEL_ID_5)
-		{
-
-		} else if (id == LEVEL_ID_6)
-		{
-
-		} else if (id == LEVEL_ID_7)
-		{
-
-		} else if (id == LEVEL_ID_8)
-		{
-
-		} else if (id == LEVEL_ID_9)
-		{
-
+			levelObjects.add(new Obstacle((50 / 2 - 50) * factorX, (50 / 2 - 50) * factorY, 50 * factorX, 50 * factorY, EntityCategory.OBSTACLE, EntityCategory.BALL));
 		}
+		levelObjects.clear();// TODO: debugging; place levelDefined objects in other ArrayList
 
 		// initialize ever existing GameObjects
 		final int goalHeight = 150;
@@ -178,8 +147,8 @@ public class Level implements Asset
 		home.create(world);
 		goal.create(world);
 
-		// create defined objects in world
-		createObjects(defObjects);
+		// create objects in world
+		createObjects(levelObjects);
 	}
 
 	private void createBorder()
@@ -198,26 +167,26 @@ public class Level implements Asset
 		}
 	}
 
+	public ArrayList<Obstacle> getObjects()
+	{
+		return this.levelObjects;
+	}
+
 	public synchronized void destroyObjects()
 	{
 		Obstacle o = null;
-		for (Iterator<Obstacle> iter = objects.iterator(); iter.hasNext();)
+		for (Iterator<Obstacle> iter = levelObjects.iterator(); iter.hasNext();)
 		{
 			o = iter.next();
 			world.destroyBody(o.getBody());
 			o.setBodyNull();
 		}
-		objects.clear();
+		levelObjects.clear();
 	}
 
-	public ArrayList<Obstacle> getObjects()
+	public void setObjects(ArrayList<Obstacle> newObjects)
 	{
-		return this.objects;
-	}
-
-	public ArrayList<Obstacle> getDefObjects()
-	{
-		return defObjects;
+		this.levelObjects = newObjects;
 	}
 
 	public int getID()
@@ -254,7 +223,7 @@ public class Level implements Asset
 	{
 		return goal;
 	}
-
+	
 	public int getCreditValue()
 	{
 		if (id == LEVEL_ID_1) { return LEVEL_ID_1_POINTS; }
