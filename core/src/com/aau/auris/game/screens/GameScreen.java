@@ -285,7 +285,7 @@ public class GameScreen extends AbstractScreen
 					b = blobs.get(i);
 					if (debug_shape_polygons)
 					{
-						shapeRenderer.rect(b.xMin * sWidth, sHeight-b.yMin * sHeight, b.w * sWidth, b.h * sHeight);
+						shapeRenderer.rect(b.xMin * sWidth, sHeight - b.yMax * sHeight, b.w * sWidth, b.h * sHeight);
 					}
 					if (debug_shape_vertices)
 					{
@@ -296,7 +296,9 @@ public class GameScreen extends AbstractScreen
 							if (eA != null && eB != null)
 							{
 								shapeRenderer.line(eA.x * sWidth, sHeight - eA.y * sHeight, eB.x * sWidth, sHeight - eB.y * sHeight);
-								// System.out.println("A: " + eA.x * sWidth + "/" + eA.y * sHeight + ", B: " + eB.x * sWidth + "/" + eB.y * sHeight);
+								// System.out.println("A: " + eA.x * sWidth +
+								// "/" + eA.y * sHeight + ", B: " + eB.x *
+								// sWidth + "/" + eB.y * sHeight);
 							}
 						}
 					}
@@ -312,12 +314,10 @@ public class GameScreen extends AbstractScreen
 			level.draw(spriteBatch);
 			if (ball.isDead())
 			{
-				spriteBatch.draw(ballskin.getPopAnimation(player.getSkinID()).getKeyFrame(runTime), ball.getBody().getPosition().x - (ball_radius + 4), ball.getBody().getPosition().y
-						- (ball_radius + 3), ball_radius * 2f, ball_radius * 2f);
+				spriteBatch.draw(ballskin.getPopAnimation(player.getSkinID()).getKeyFrame(runTime), ball.getBody().getPosition().x - (ball_radius + 4), ball.getBody().getPosition().y - (ball_radius + 3), ball_radius * 2f, ball_radius * 2f);
 			} else
 			{
-				spriteBatch.draw(ballskin.getFlyAnimation(player.getSkinID()).getKeyFrame(runTime), ball.getBody().getPosition().x - (ball_radius + 4), ball.getBody().getPosition().y
-						- (ball_radius + 3), ball_radius * 2f, ball_radius * 2f);
+				spriteBatch.draw(ballskin.getFlyAnimation(player.getSkinID()).getKeyFrame(runTime), ball.getBody().getPosition().x - (ball_radius + 4), ball.getBody().getPosition().y - (ball_radius + 3), ball_radius * 2f, ball_radius * 2f);
 			}
 		}
 		spriteBatch.end();
@@ -327,7 +327,8 @@ public class GameScreen extends AbstractScreen
 
 		updateStatusBar();
 
-		// must be called after world.step is called, because it adds and removes bodies from the world
+		// must be called after world.step is called, because it adds and
+		// removes bodies from the world
 		updateObstacles();
 	}
 
@@ -340,7 +341,7 @@ public class GameScreen extends AbstractScreen
 			for (Iterator<Blob> iter = blobs.iterator(); iter.hasNext();)
 			{
 				b = iter.next();
-				Obstacle o = new Obstacle(b.xMin * sWidth, sHeight - b.yMin * sHeight, b.w * sWidth, sHeight - b.h * sHeight, EntityCategory.OBSTACLE, EntityCategory.BALL);
+				Obstacle o = new Obstacle(b.xMin * sWidth, sHeight - b.yMax * sHeight, b.w * sWidth, b.h * sHeight, EntityCategory.OBSTACLE, EntityCategory.BALL);
 				newObjects.add(o);
 			}
 			level.destroyObjects();
