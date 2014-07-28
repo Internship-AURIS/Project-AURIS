@@ -341,11 +341,11 @@ public class GameScreen extends AbstractScreen
 			{
 				b = iter.next();
 				Obstacle o = new Obstacle(b.xMin * sWidth, sHeight - b.yMin * sHeight, b.w * sWidth, sHeight - b.h * sHeight, EntityCategory.OBSTACLE, EntityCategory.BALL);
-				o.create(world);
 				newObjects.add(o);
 			}
 			level.destroyObjects();
 			level.setObjects(newObjects);
+			level.createLevelObjects();
 		}
 	}
 
