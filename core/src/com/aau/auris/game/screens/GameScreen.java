@@ -285,8 +285,9 @@ public class GameScreen extends AbstractScreen
 					b = blobs.get(i);
 					if (debug_shape_polygons)
 					{
-						shapeRenderer.rect(b.xMin * sWidth, b.yMin * sHeight, b.w * sWidth, b.h * sHeight);
-					} else if (debug_shape_vertices)
+						shapeRenderer.rect(b.xMin * sWidth, sHeight-b.yMin * sHeight, b.w * sWidth, b.h * sHeight);
+					}
+					if (debug_shape_vertices)
 					{
 						for (int j = 0; j < b.getEdgeNb(); j++)
 						{
@@ -344,8 +345,7 @@ public class GameScreen extends AbstractScreen
 				newObjects.add(o);
 			}
 			level.destroyObjects();
-			level.getObjects().clear();
-			level.getObjects().addAll(newObjects);
+			level.setObjects(newObjects);
 		}
 	}
 
