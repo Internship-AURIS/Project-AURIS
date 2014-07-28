@@ -326,10 +326,10 @@ public class GameScreen extends AbstractScreen
 			for (Iterator<Blob> iter = blobs.iterator(); iter.hasNext();)
 			{
 				b = iter.next();
-				final float x = b.xMin * sWidth;
-				final float y = sHeight - b.yMin;
-				final float width = b.w * sWidth;
-				final float height = sHeight - b.h * sHeight;
+				final float x = (b.xMin * sWidth)*Level.factorX;
+				final float y = (sHeight - b.yMin)*Level.factorY;
+				final float width = (b.w * sWidth)*Level.factorX;
+				final float height = (sHeight - b.h * sHeight)*Level.factorY;
 				Obstacle o = new Obstacle(x, y, width, height, EntityCategory.OBSTACLE, EntityCategory.BALL);
 				o.create(world);
 				newObjects.add(o);

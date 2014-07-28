@@ -126,16 +126,46 @@ public class Level implements Asset
 		createBorder();
 
 		// Initialize Levels
-		this.objects = new ArrayList<Obstacle>();
-		if (id >= LEVEL_ID_1 && id <= LEVEL_ID_3)
+		// general level initialization
+//		if (id >= LEVEL_ID_1 && id <= LEVEL_ID_3)
+//		{
+//			defObjects.add(new Obstacle(150, 20, 50, 50, EntityCategory.OBSTACLE, EntityCategory.BALL));
+//		} else if (id >= LEVEL_ID_4 && id <= LEVEL_ID_6)
+//		{
+//			defObjects.add(new Obstacle((50 / 2 - 50) * factorX, (50 / 2 - 50) * factorY, 50 * factorX, 50 * factorY, EntityCategory.OBSTACLE, EntityCategory.BALL));
+//		} else if (id >= LEVEL_ID_7 && id <= LEVEL_ID_9)
+//		{
+//			defObjects.add(new Obstacle((50 / 2 - 50) * factorX, (50 / 2 - 50) * factorY, 50 * factorX, 50 * factorY, EntityCategory.OBSTACLE, EntityCategory.BALL));
+//		}
+
+		// specific level initialization
+		if (id == LEVEL_ID_1)
 		{
-			defObjects.add(new Obstacle(150, 20, 50, 50, EntityCategory.OBSTACLE, EntityCategory.BALL));
-		} else if (id >= LEVEL_ID_4 && id <= LEVEL_ID_6)
+
+		} else if (id == LEVEL_ID_2)
 		{
-			defObjects.add(new Obstacle((50 / 2 - 50) * factorX, (50 / 2 - 50) * factorY, 50 * factorX, 50 * factorY, EntityCategory.OBSTACLE, EntityCategory.BALL));
-		} else if (id >= LEVEL_ID_7 && id <= LEVEL_ID_9)
+			defObjects.add(new Obstacle((sWidth / 2f - 50) * factorX, (sHeight / 2f - 50) * factorY, 50 * factorX, 50 * factorY, EntityCategory.OBSTACLE, EntityCategory.BALL));
+		} else if (id == LEVEL_ID_3)
 		{
-			defObjects.add(new Obstacle((50 / 2 - 50) * factorX, (50 / 2 - 50) * factorY, 50 * factorX, 50 * factorY, EntityCategory.OBSTACLE, EntityCategory.BALL));
+
+		} else if (id == LEVEL_ID_4)
+		{
+
+		} else if (id == LEVEL_ID_5)
+		{
+
+		} else if (id == LEVEL_ID_6)
+		{
+
+		} else if (id == LEVEL_ID_7)
+		{
+
+		} else if (id == LEVEL_ID_8)
+		{
+
+		} else if (id == LEVEL_ID_9)
+		{
+
 		}
 
 		// initialize ever existing GameObjects
