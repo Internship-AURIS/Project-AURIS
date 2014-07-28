@@ -148,7 +148,7 @@ public class Level implements Asset
 		home.create(world);
 		goal.create(world);
 
-		// create objects in world
+		// create defined objects in world
 		createObjects(defObjects);
 	}
 

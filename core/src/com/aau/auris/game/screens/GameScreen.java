@@ -158,14 +158,12 @@ public class GameScreen extends AbstractScreen
 		btnBack.setPosition(0, 0);
 		btnBack.addListener(new ClickListener()
 		{
-
 			@Override
 			public void clicked(InputEvent event, float x, float y)
 			{
 				super.clicked(event, x, y);
 				game.changeScreen(AURISGame.LEVEL_SCREEN, GameScreen.this);
 			}
-
 		});
 		stage.addActor(lblBalken);
 		stage.addActor(lblLevel);
@@ -174,7 +172,6 @@ public class GameScreen extends AbstractScreen
 		stage.addActor(lblPlayerScore);
 		stage.addActor(lblStatus);
 		stage.addActor(btnBack);
-
 		stage.addListener(new InputListener()
 		{
 			@Override
@@ -195,12 +192,6 @@ public class GameScreen extends AbstractScreen
 					{
 						ball.getBody().setLinearVelocity(120, 0);
 					}
-				} else
-				{
-					//					if (keycode == Keys.ENTER)
-					//					{
-					//						level.reset();
-					//					}
 				}
 				if (keycode == Keys.ESCAPE)
 				{
@@ -291,7 +282,7 @@ public class GameScreen extends AbstractScreen
 						eB = b.getEdgeVertexB(j);
 						if (eA != null && eB != null)
 						{
-							shapeRenderer.line(eA.x * sWidth, sHeight - eA.y * sHeight, eB.x * sWidth, sHeight- eB.y * sHeight);
+							shapeRenderer.line(eA.x * sWidth, sHeight - eA.y * sHeight, eB.x * sWidth, sHeight - eB.y * sHeight);
 							// System.out.println("A: " + eA.x * sWidth + "/" + eA.y * sHeight + ", B: " + eB.x * sWidth + "/" + eB.y * sHeight);
 						}
 					}
@@ -307,10 +298,12 @@ public class GameScreen extends AbstractScreen
 			level.draw(spriteBatch);
 			if (ball.isDead())
 			{
-				spriteBatch.draw(ballskin.getPopAnimation(player.getSkinID()).getKeyFrame(runTime), ball.getBody().getPosition().x - (ball_radius + 4), ball.getBody().getPosition().y - (ball_radius + 3), ball_radius * 2f, ball_radius * 2f);
+				spriteBatch.draw(ballskin.getPopAnimation(player.getSkinID()).getKeyFrame(runTime), ball.getBody().getPosition().x - (ball_radius + 4), ball.getBody().getPosition().y
+						- (ball_radius + 3), ball_radius * 2f, ball_radius * 2f);
 			} else
 			{
-				spriteBatch.draw(ballskin.getFlyAnimation(player.getSkinID()).getKeyFrame(runTime), ball.getBody().getPosition().x - (ball_radius + 4), ball.getBody().getPosition().y - (ball_radius + 3), ball_radius * 2f, ball_radius * 2f);
+				spriteBatch.draw(ballskin.getFlyAnimation(player.getSkinID()).getKeyFrame(runTime), ball.getBody().getPosition().x - (ball_radius + 4), ball.getBody().getPosition().y
+						- (ball_radius + 3), ball_radius * 2f, ball_radius * 2f);
 			}
 		}
 		spriteBatch.end();
@@ -333,14 +326,11 @@ public class GameScreen extends AbstractScreen
 			for (Iterator<Blob> iter = blobs.iterator(); iter.hasNext();)
 			{
 				b = iter.next();
-				Obstacle o = new Obstacle(
-						b.xMin * sWidth, 
-						sHeight - b.yMin * sHeight, 
-						b.w * sWidth, 
-						sHeight - b.h * sHeight, 
-						EntityCategory.OBSTACLE, 
-						EntityCategory.BALL
-				);
+				final float x = b.xMin * sWidth;
+				final float y = sHeight - b.yMin;
+				final float width = b.w * sWidth;
+				final float height = sHeight - b.h * sHeight;
+				Obstacle o = new Obstacle(x, y, width, height, EntityCategory.OBSTACLE, EntityCategory.BALL);
 				o.create(world);
 				newObjects.add(o);
 			}
