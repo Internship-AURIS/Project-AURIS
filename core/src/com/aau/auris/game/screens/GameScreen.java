@@ -285,7 +285,7 @@ public class GameScreen extends AbstractScreen
 					b = blobs.get(i);
 					if (debug_shape_polygons)
 					{
-						shapeRenderer.rect(b.xMin * sWidth, sHeight-b.yMin * sHeight, b.w * sWidth, b.h * sHeight);
+						shapeRenderer.rect(b.xMin * sWidth, b.yMin * sHeight, b.w * sWidth, b.h * sHeight);
 					}
 					if (debug_shape_vertices)
 					{
@@ -340,7 +340,7 @@ public class GameScreen extends AbstractScreen
 			for (Iterator<Blob> iter = blobs.iterator(); iter.hasNext();)
 			{
 				b = iter.next();
-				Obstacle o = new Obstacle(b.xMin * sWidth, sHeight - b.yMin * sHeight, b.w * sWidth, sHeight - b.h * sHeight, EntityCategory.OBSTACLE, EntityCategory.BALL);
+				Obstacle o = new Obstacle(b.xMin * sWidth - b.w * sWidth, b.yMin * sHeight, b.w * sWidth, b.h * sHeight, EntityCategory.OBSTACLE, EntityCategory.BALL);
 				newObjects.add(o);
 			}
 			level.destroyObjects();

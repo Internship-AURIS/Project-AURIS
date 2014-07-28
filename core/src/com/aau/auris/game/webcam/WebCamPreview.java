@@ -18,7 +18,7 @@ public class WebCamPreview extends WebcamPanel
 		JFrame window = new JFrame("Test webcam panel");
 		window.add(this);
 		window.setResizable(true);
-		window.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		window.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		window.pack();
 		window.setVisible(true);
 	}

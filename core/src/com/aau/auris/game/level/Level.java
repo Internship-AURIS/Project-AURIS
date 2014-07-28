@@ -166,7 +166,7 @@ public class Level implements Asset
 			o.create(world);
 		}
 	}
-	
+
 	public void createLevelObjects()
 	{
 		createObjects(levelObjects);
@@ -181,7 +181,6 @@ public class Level implements Asset
 			world.destroyBody(o.getBody());
 			o.setBodyNull();
 		}
-		levelObjects.clear();
 	}
 
 	public void setObjects(ArrayList<Obstacle> newObjects)
