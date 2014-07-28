@@ -61,6 +61,9 @@ public class Preferences
 				lowerThreshold = data.getLowerThreshold();
 				upperThreshold = data.getUpperThreshold();
 			}
+		}else
+		{
+			save();
 		}
 	}
 

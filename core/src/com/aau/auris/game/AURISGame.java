@@ -73,7 +73,6 @@ public class AURISGame extends Game
 		// Data
 		AssetLoader.load();
 		preferences = new Preferences();
-				preferences.save();
 		preferences.load();
 		userdata = new UserData(this);
 		userdata.load();

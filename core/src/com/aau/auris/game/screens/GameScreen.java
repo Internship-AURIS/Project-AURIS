@@ -84,6 +84,8 @@ public class GameScreen extends AbstractScreen
 		Preferences prefs = game.getPreferences();
 		ball_radius = (int) prefs.getBallRadius() + 12;
 		debugging = prefs.isDebugging();
+		debug_shape_polygons = prefs.isDebuggingShapePolygons();
+		debug_shape_vertices = prefs.isDebuggingShapeVertices();
 	}
 
 	@Override
