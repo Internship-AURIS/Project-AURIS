@@ -210,11 +210,6 @@ public class Level implements Asset
 		objects.clear();
 	}
 
-	public void setObjects(ArrayList<Obstacle> newObjects)
-	{
-		this.objects = newObjects;
-	}
-
 	public ArrayList<Obstacle> getObjects()
 	{
 		return this.objects;

@@ -10,8 +10,8 @@ public class Obstacle extends Entity
 {
 	protected float posX, posY;
 	protected float width, height;
-	protected final short categoryBits;
-	protected final short maskBits;
+	protected final short categoryBits;// what the obstacle is
+	protected final short maskBits;// with what it should collide
 
 	public Obstacle(float posX, float posY, float width, float height, EntityCategory categoryBits, EntityCategory maskBits)
 	{
@@ -29,7 +29,7 @@ public class Obstacle extends Entity
 		bodyDef.position.set(new Vector2(posX + width / 2, posY + height / 2));
 		body = world.createBody(bodyDef);
 		PolygonShape polygonShape = new PolygonShape();
-		polygonShape.setAsBox(width / 2f, height / 2f, new Vector2(posX + width / 2f, posY + height / 2f), 0);
+		polygonShape.setAsBox(width / 2f, height / 2f);
 		FixtureDef fixtureDef = new FixtureDef();
 		fixtureDef.shape = polygonShape;
 		fixtureDef.friction = 0f;

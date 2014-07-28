@@ -319,6 +319,7 @@ public class GameScreen extends AbstractScreen
 
 	private void updateObstacles()
 	{
+		float x, y, width, height;
 		newObjects.clear();
 		synchronized (world)
 		{
@@ -326,16 +327,16 @@ public class GameScreen extends AbstractScreen
 			for (Iterator<Blob> iter = blobs.iterator(); iter.hasNext();)
 			{
 				b = iter.next();
-				final float x = (b.xMin * sWidth)*Level.factorX;
-				final float y = (sHeight - b.yMin)*Level.factorY;
-				final float width = (b.w * sWidth)*Level.factorX;
-				final float height = (sHeight - b.h * sHeight)*Level.factorY;
+				x = (b.xMin * sWidth) * Level.factorX;
+				y = (sHeight - b.yMin) * Level.factorY;
+				width = (b.w * sWidth) * Level.factorX;
+				height = (sHeight - b.h * sHeight) * Level.factorY;
 				Obstacle o = new Obstacle(x, y, width, height, EntityCategory.OBSTACLE, EntityCategory.BALL);
+				System.out.println("x:" + x + ", y:" + y + ", w:" + width + ", h:" + height);// TODO: debugging
 				o.create(world);
 				newObjects.add(o);
 			}
 			level.destroyObjects();
-			level.getObjects().clear();
 			level.getObjects().addAll(newObjects);
 		}
 	}
