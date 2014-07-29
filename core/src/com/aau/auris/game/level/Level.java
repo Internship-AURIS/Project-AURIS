@@ -165,11 +165,11 @@ public class Level implements Asset
 		final int goalHeight = 150;
 		final int goalWidth = 60;
 		ball = new Ball(this, sWidth / 2, sHeight / 2, game.getPreferences().getBallRadius());
-		home = new Home(0, 0, 44, 101);
-		goal = new Goal(toWorldCoord(sWidth - goalWidth), toWorldCoord(goalHeight), goalWidth, goalHeight);
+		home = new Home(toWorldCoord(0), toWorldCoord(0), 44, 101);
+		goal = new Goal(toWorldCoord(sWidth - goalWidth), toWorldCoord(goalHeight), toWorldCoord(goalWidth), toWorldCoord(goalHeight));
 		ball.create(world);
 		home.create(world);
-		goal.create(world);
+		goal.create1(world);
 
 		// create defined objects in world
 		createObjects(defObjects);
