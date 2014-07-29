@@ -1,4 +1,4 @@
-Project-AURIS
+<h1>Project-AURIS</h1>
 =============
 
 AURIS stands for AUgmented Reality Interactive System 
@@ -8,7 +8,7 @@ Complete up to 9 levels to earn credits and spend them on new skins or try to be
 the programmer's highscore! ;)
 
 The game "AURIS" was developed at Alpen-Adria-Universität under the supervision of Bonifaz Kaufmann 
-by Peter Pfaffeneder and Andreas Bitzan.
+by Peter Pfaffeneder and Andreas Bitzan. 
 
 Features:
 -Augmented Reality and Ambience Interaction
