@@ -2,6 +2,8 @@ package com.aau.auris.game.imageprocessing;
 
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 import blobDetection.Blob;
 import blobDetection.BlobDetection;
@@ -18,6 +20,8 @@ public class ImageProcessor implements WebcamListener
 
 	private final float minBlobHeight, minBlobWidth;
 	private BlobDetection bd;
+	
+	private ExecutorService executor = Executors.newCachedThreadPool();
 
 	public ImageProcessor(AURISGame game)
 	{
@@ -36,9 +40,8 @@ public class ImageProcessor implements WebcamListener
 
 	private BufferedImage imgTmp;
 
-	private synchronized void process(BufferedImage input)
+	private void process(BufferedImage input)
 	{
-		// TODO: blob/camera error?!?
 		imgTmp = imageFilter.modify(input, ImageFilter.GRAYSCALE_FILTER | ImageFilter.THRESHOLD_FILTER);
 		final int width = input.getWidth();
 		final int height = input.getHeight();
@@ -73,11 +76,12 @@ public class ImageProcessor implements WebcamListener
 	@Override
 	public void webcamImageObtained(final WebcamEvent e)
 	{
-		new Thread(){
+		executor.execute(new Runnable() {
+			@Override
 			public void run() {
 				process(e.getImage());
 			}
-		}.start();
+		});
 	}
 
 	@Override

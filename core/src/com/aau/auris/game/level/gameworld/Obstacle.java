@@ -10,13 +10,17 @@ public class Obstacle extends Entity
 {
 	protected float posX, posY;
 	protected float width, height;
+	protected final short categoryBits;
+	protected final short maskBits;
 
-	public Obstacle(float posX, float posY, float width, float height)
+	public Obstacle(float posX, float posY, float width, float height, EntityCategory categoryBits, EntityCategory maskBits)
 	{
 		this.posX = posX;
 		this.posY = posY;
 		this.width = width;
 		this.height = height;
+		this.categoryBits = categoryBits.index;
+		this.maskBits = maskBits.index;
 	}
 
 	public void create(World world)
@@ -29,10 +33,18 @@ public class Obstacle extends Entity
 		FixtureDef fixtureDef = new FixtureDef();
 		fixtureDef.shape = polygonShape;
 		fixtureDef.friction = 0f;
+		fixtureDef.filter.categoryBits = categoryBits;
+		fixtureDef.filter.maskBits = maskBits;
 		body.createFixture(fixtureDef);
 		body.setUserData(this);
 
 		polygonShape.dispose();
+	}
+
+	public void setBodyNull()
+	{
+		body.setUserData(null);
+		body = null;
 	}
 
 	public float getPosX()

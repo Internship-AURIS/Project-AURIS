@@ -54,6 +54,8 @@ public class Ball extends Entity
 		fixtureDef.density = DENSITY;
 		fixtureDef.friction = FRICTION;
 		fixtureDef.restitution = RESTITUTION;
+		fixtureDef.filter.categoryBits = EntityCategory.BALL.index;
+		fixtureDef.filter.maskBits = EntityCategory.OBSTACLE.index;
 		body.createFixture(fixtureDef);
 		body.setUserData(this);
 		circleShape.dispose();

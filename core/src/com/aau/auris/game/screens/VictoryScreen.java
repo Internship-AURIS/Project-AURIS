@@ -8,7 +8,6 @@ import com.aau.auris.game.level.Level;
 import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
@@ -40,21 +39,17 @@ public class VictoryScreen extends AbstractScreen
 	// Assets
 	private TextureAtlas levelButtons;
 	private Sound clickSound;
-	private Sound hoverSound;
 	private Sound finishedSound;
 	private Texture background;
-	private Animation redCheerAnimation;
 
 	public VictoryScreen(AURISGame game)
 	{
-
 		super(game);
-
 	}
 
 	@Override
-	protected void initComponents() {
-		
+	protected void initComponents()
+	{
 		TextureRegion backTextRegion = new TextureRegion(background, 848, 480);
 		Image img = new Image(backTextRegion);
 		stage.addActor(img);
@@ -86,11 +81,9 @@ public class VictoryScreen extends AbstractScreen
 		btnContinue.setPosition(lblCredits.getX() - 20, lblCredits.getY() - 110);
 		btnContinue.addListener(new ClickListener()
 		{
-
 			@Override
 			public void touchUp(InputEvent event, float x, float y, int pointer, int button)
 			{
-				// TODO Auto-generated method stub
 				super.touchUp(event, x, y, pointer, button);
 				clickSound.play();
 				final int nextId = game.getLevel().getID() + 1;
@@ -122,10 +115,8 @@ public class VictoryScreen extends AbstractScreen
 			@Override
 			public void touchUp(InputEvent event, float x, float y, int pointer, int button)
 			{
-				// TODO Auto-generated method stub
 				super.touchUp(event, x, y, pointer, button);
 				clickSound.play();
-
 				game.changeScreen(AURISGame.LEVEL_SCREEN, VictoryScreen.this);
 			}
 
@@ -140,11 +131,9 @@ public class VictoryScreen extends AbstractScreen
 		stage.addActor(btnBack);
 		stage.addListener(new InputListener()
 		{
-
 			@Override
 			public boolean keyDown(InputEvent event, int keycode)
 			{
-
 				if (keycode == Keys.ENTER)
 				{
 					final int nextId = game.getLevel().getID() + 1;
@@ -163,7 +152,6 @@ public class VictoryScreen extends AbstractScreen
 				}
 				return super.keyDown(event, keycode);
 			}
-
 		});
 	}
 
@@ -171,7 +159,7 @@ public class VictoryScreen extends AbstractScreen
 	public void show()
 	{
 		super.show();
-		
+
 		finishedSound.play();
 		player = game.getPlayer();
 		ballSkin.setId(player.getSkinID());
@@ -191,14 +179,10 @@ public class VictoryScreen extends AbstractScreen
 		super.loadAsset();
 		levelButtons = AssetLoader.levelButtons;
 		clickSound = AssetLoader.clickSound;
-		hoverSound = AssetLoader.hoverSound1;
 		skin = new Skin(levelButtons);
-		
-		background=AssetLoader.background_Victory;
-		redCheerAnimation=AssetLoader.redCheerAnimation;
-		finishedSound=AssetLoader.finished;
 
-
+		background = AssetLoader.background_Victory;
+		finishedSound = AssetLoader.finished;
 	}
 
 	@Override
@@ -219,5 +203,4 @@ public class VictoryScreen extends AbstractScreen
 			batch.end();
 		}
 	}
-
 }

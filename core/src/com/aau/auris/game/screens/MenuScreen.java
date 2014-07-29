@@ -46,7 +46,6 @@ public class MenuScreen extends AbstractScreen
 	// Button Properties
 	private static final float BUTTON_WIDTH = 200f;
 	private static final float BUTTON_HEIGHT = 80f;
-	// private static final float BUTTON_SPACING = 10f;
 	private static final float BUTTON_POS_X = 240f;
 	private static final float BUTTON_POS_Y = 300f;
 
@@ -57,7 +56,6 @@ public class MenuScreen extends AbstractScreen
 
 	// Variables for HighScoreList
 	private HighScore highscore;
-	//	private ArrayList<Player> playerList;
 	private Label lblTop1, lblTop2, lblTop3;
 
 	// Decoration
@@ -202,7 +200,6 @@ public class MenuScreen extends AbstractScreen
 		TextButton btnPyramid = new TextButton("", textbuttonStylePyramid);
 		btnPyramid.setSize(20, 50);
 		btnPyramid.setPosition(game.getWidth() / 2 - game.getWidth() / 3 - btnPyramid.getWidth(), game.getHeight() / 2);
-
 		btnPyramid.addListener(new ClickListener()
 		{
 			@Override
@@ -218,7 +215,6 @@ public class MenuScreen extends AbstractScreen
 				}
 				Timer.schedule(new Timer.Task()
 				{
-					
 					@Override
 					public void run()
 					{
@@ -364,9 +360,6 @@ public class MenuScreen extends AbstractScreen
 		super.render(delta);
 		runTime += delta;
 
-		// menuBalls logic
-		updateMenuBalls(delta);
-
 		batch.begin();
 		for (MenuBall ball : menuballs)
 		{
@@ -377,6 +370,9 @@ public class MenuScreen extends AbstractScreen
 		{
 			spawnBall();
 		}
+
+		// menuBalls logic
+		updateMenuBalls(delta);
 	}
 
 	private void updateHighScoreList()

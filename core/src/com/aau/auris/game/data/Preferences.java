@@ -10,18 +10,14 @@ public class Preferences
 	private transient FileHandle file = Gdx.files.local(FILENAME);
 
 	private int maxPlayers;
-	private boolean soundEnabled;
 	private boolean debugging;
+	private boolean debug_shape_polygons;
+	private boolean debug_shape_vertices;
 	private float ballRadius;
-	private boolean hackEnabled;
-	private float minBlobHeight;//in %
+	private float minBlobHeight;// in %
 	private float minBlobWidth;// in %
 	private int lowerThreshold;
 	private int upperThreshold;
-
-	/*
-	 * TODO: currently not used!!!
-	 */
 
 	public Preferences()
 	{}
@@ -29,14 +25,14 @@ public class Preferences
 	public void save()
 	{
 		maxPlayers = 10;
-		soundEnabled = true;
-		debugging = false;
+		debugging = true;
+		debug_shape_polygons = true;
+		debug_shape_vertices = true;
 		ballRadius = 60f;
-		hackEnabled = false;
-		minBlobWidth = .5f;
-		minBlobHeight = .5f;
-		lowerThreshold = 10;
-		upperThreshold = 200;
+		minBlobWidth = .1f;
+		minBlobHeight = .1f;
+		lowerThreshold = 75;
+		upperThreshold = 10;
 		Json json = new Json();
 		final String text = json.toJson(this);
 		file.writeString(text, false);
@@ -52,25 +48,24 @@ public class Preferences
 			if (data != null)
 			{
 				maxPlayers = data.getMaxPlayers();
-				soundEnabled = data.isSoundEnabled();
+				debug_shape_polygons = data.isDebuggingShapePolygons();
+				debug_shape_vertices = data.isDebuggingShapeVertices();
 				debugging = data.isDebugging();
 				ballRadius = data.getBallRadius();
-				minBlobWidth = data.getMinBlobWidth() * 100f;
-				minBlobHeight = data.getMinBlobHeight() * 100f;
+				minBlobWidth = data.getMinBlobWidth();
+				minBlobHeight = data.getMinBlobHeight();
 				lowerThreshold = data.getLowerThreshold();
 				upperThreshold = data.getUpperThreshold();
 			}
+		} else
+		{
+			save();
 		}
 	}
 
 	public int getMaxPlayers()
 	{
 		return maxPlayers;
-	}
-
-	public boolean isSoundEnabled()
-	{
-		return soundEnabled;
 	}
 
 	public boolean isDebugging()
@@ -83,19 +78,14 @@ public class Preferences
 		return ballRadius;
 	}
 
-	public boolean isHackEnabled()
-	{
-		return hackEnabled;
-	}
-
 	public float getMinBlobWidth()
 	{
-		return minBlobWidth / 100f;
+		return minBlobWidth;
 	}
 
 	public float getMinBlobHeight()
 	{
-		return minBlobHeight / 100f;
+		return minBlobHeight;
 	}
 
 	public int getLowerThreshold()
@@ -106,6 +96,16 @@ public class Preferences
 	public int getUpperThreshold()
 	{
 		return upperThreshold;
+	}
+
+	public boolean isDebuggingShapePolygons()
+	{
+		return debug_shape_polygons;
+	}
+
+	public boolean isDebuggingShapeVertices()
+	{
+		return debug_shape_vertices;
 	}
 
 }
