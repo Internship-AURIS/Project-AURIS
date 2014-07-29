@@ -75,6 +75,8 @@ public abstract class AbstractScreen implements Screen, Asset
 	public void resize(int width, int height)
 	{
 		stage.getViewport().update(width, height);
+		sWidth = width;
+		sHeight = height;
 	}
 
 	@Override

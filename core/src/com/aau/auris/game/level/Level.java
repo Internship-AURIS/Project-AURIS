@@ -2,6 +2,7 @@ package com.aau.auris.game.level;
 
 import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.Random;
 
 import com.aau.auris.game.AURISGame;
 import com.aau.auris.game.Asset.Asset;
@@ -12,6 +13,7 @@ import com.aau.auris.game.level.gameworld.BorderLine;
 import com.aau.auris.game.level.gameworld.EntityCategory;
 import com.aau.auris.game.level.gameworld.Goal;
 import com.aau.auris.game.level.gameworld.Home;
+import com.aau.auris.game.level.gameworld.Laser;
 import com.aau.auris.game.level.gameworld.Obstacle;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
@@ -119,7 +121,7 @@ public class Level implements Asset
 		border.add(new BorderLine(sWidth / 2, 0, border_size, sHeight));
 		createBorder();
 
-		// Initialize Levels
+		// General Level Initialization
 		if (id >= LEVEL_ID_1 && id <= LEVEL_ID_3)
 		{
 			defObjects.add(new Obstacle(toWorldCoord(50), toWorldCoord(50), toWorldCoord(50), (50), EntityCategory.OBSTACLE, EntityCategory.BALL));
@@ -131,18 +133,55 @@ public class Level implements Asset
 			defObjects.add(new Obstacle(toWorldCoord(50), toWorldCoord(50), toWorldCoord(50), toWorldCoord(50), EntityCategory.OBSTACLE, EntityCategory.BALL));
 		}
 
+		// Specific Level Initialization
+		if (id == LEVEL_ID_1)
+		{
+			Laser l1 = new Laser(toWorldCoord(sWidth / 2), toWorldCoord(sHeight / 4), toWorldCoord(100), toWorldCoord(50), EntityCategory.OBSTACLE, EntityCategory.BALL);
+			defObjects.add(l1);
+		} else if (id == LEVEL_ID_2)
+		{
+
+		} else if (id == LEVEL_ID_3)
+		{
+
+		} else if (id == LEVEL_ID_4)
+		{
+
+		} else if (id == LEVEL_ID_5)
+		{
+
+		} else if (id == LEVEL_ID_6)
+		{
+
+		} else if (id == LEVEL_ID_7)
+		{
+
+		} else if (id == LEVEL_ID_8)
+		{
+
+		} else if (id == LEVEL_ID_9)
+		{
+
+		}
+
 		// initialize ever existing GameObjects
 		final int goalHeight = 150;
 		final int goalWidth = 60;
 		ball = new Ball(this, sWidth / 2, sHeight / 2, game.getPreferences().getBallRadius());
 		home = new Home(0, 0, 44, 101);
-		goal = new Goal(410, 100, goalWidth, goalHeight);
+		goal = new Goal(410, getRandom(toWorldCoord(goalHeight / 2f), toWorldCoord(sHeight - goalHeight * 2)), goalWidth, goalHeight);
 		ball.create(world);
 		home.create(world);
 		goal.create(world);
 
 		// create defined objects in world
 		createObjects(defObjects);
+	}
+
+	private float getRandom(float min, float max)
+	{
+		Random r = new Random();
+		return min + r.nextInt((int) max);
 	}
 
 	private void createBorder()
@@ -257,11 +296,16 @@ public class Level implements Asset
 
 	public void draw(SpriteBatch spriteBatch)
 	{
-		skin.getDrawable("goal4Big").draw(spriteBatch, 790, goal.getPosY() + 105, 60, 150);
+		skin.getDrawable("goal4Big").draw(spriteBatch, 790, toBoxCoord(goal.getPosY()), 60, 150);
 	}
 
 	public float toWorldCoord(float a)
 	{
 		return a * BOX_TO_WORLD;
+	}
+
+	public float toBoxCoord(float a)
+	{
+		return a / BOX_TO_WORLD;
 	}
 }
