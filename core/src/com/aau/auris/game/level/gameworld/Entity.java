@@ -7,6 +7,7 @@ public abstract class Entity
 {
 	protected BodyDef bodyDef;
 	protected Body body;
+	protected boolean deadly = false;
 
 	public Body getBody()
 	{
@@ -17,4 +18,15 @@ public abstract class Entity
 	{
 		return bodyDef;
 	}
+
+	public boolean isDeadly()
+	{
+		return deadly;
+	}
+
+	public void setDeadly(boolean deadly)
+	{
+		this.deadly = deadly;
+	}
+
 }

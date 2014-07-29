@@ -2,6 +2,7 @@ package com.aau.auris.game.level;
 
 import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.Random;
 
 import com.aau.auris.game.AURISGame;
 import com.aau.auris.game.Asset.Asset;
@@ -12,6 +13,7 @@ import com.aau.auris.game.level.gameworld.BorderLine;
 import com.aau.auris.game.level.gameworld.EntityCategory;
 import com.aau.auris.game.level.gameworld.Goal;
 import com.aau.auris.game.level.gameworld.Home;
+import com.aau.auris.game.level.gameworld.Laser;
 import com.aau.auris.game.level.gameworld.Obstacle;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
@@ -134,7 +136,12 @@ public class Level implements Asset
 		// Specific Level Initialization
 		if (id == LEVEL_ID_1)
 		{
+<<<<<<< HEAD
 
+=======
+			Laser l1 = new Laser(toWorldCoord(sWidth / 2), toWorldCoord(sHeight / 4), toWorldCoord(100), toWorldCoord(50), EntityCategory.OBSTACLE, EntityCategory.BALL);
+			defObjects.add(l1);
+>>>>>>> 7c8a600a0aba92ce7830b84bcfa17105e73e3052
 		} else if (id == LEVEL_ID_2)
 		{
 
@@ -166,13 +173,19 @@ public class Level implements Asset
 		final int goalWidth = 60;
 		ball = new Ball(this, sWidth / 2, sHeight / 2, game.getPreferences().getBallRadius());
 		home = new Home(toWorldCoord(0), toWorldCoord(0), 44, 101);
-		goal = new Goal(toWorldCoord(sWidth - goalWidth), toWorldCoord(goalHeight), toWorldCoord(goalWidth), toWorldCoord(goalHeight));
+		goal = new Goal(410, getRandom(toWorldCoord(goalHeight / 2f), toWorldCoord(sHeight - goalHeight * 2)), goalWidth, goalHeight);
 		ball.create(world);
 		home.create(world);
 		goal.create1(world);
 
 		// create defined objects in world
 		createObjects(defObjects);
+	}
+
+	private float getRandom(float min, float max)
+	{
+		Random r = new Random();
+		return min + r.nextInt((int) max);
 	}
 
 	private void createBorder()
@@ -287,7 +300,7 @@ public class Level implements Asset
 
 	public void draw(SpriteBatch spriteBatch)
 	{
-		skin.getDrawable("goal4Big").draw(spriteBatch, 790, goal.getPosY() + 105, 60, 150);
+		skin.getDrawable("goal4Big").draw(spriteBatch, 790, toBoxCoord(goal.getPosY()), 60, 150);
 	}
 
 	/*
@@ -298,9 +311,12 @@ public class Level implements Asset
 		return a * BOX_TO_WORLD;
 	}
 
+<<<<<<< HEAD
 	/*
 	 * return value from world to screen coordinates
 	 */
+=======
+>>>>>>> 7c8a600a0aba92ce7830b84bcfa17105e73e3052
 	public float toBoxCoord(float a)
 	{
 		return a / BOX_TO_WORLD;
