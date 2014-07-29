@@ -51,7 +51,13 @@ public class CollisionHandler implements ContactListener
 		}
 		if (classA == Obstacle.class || classB == Obstacle.class)
 		{
-			game.getPlayer().addPoints(1);
+			Entity e1 = (Entity) fixtureA.getBody().getUserData();
+			Entity e2 = (Entity) fixtureB.getBody().getUserData();
+			if (e1.isDeadly() || e2.isDeadly())
+			{
+				ball.die();
+				System.out.println("died");
+			}
 		}
 	}
 

@@ -136,15 +136,7 @@ public class VictoryScreen extends AbstractScreen
 			{
 				if (keycode == Keys.ENTER)
 				{
-					final int nextId = game.getLevel().getID() + 1;
-					if (nextId <= Level.LEVEL_ID_9)
-					{
-						game.setLevel(AURISGame.getLevel(nextId));
-					} else
-					{
-						game.changeScreen(AURISGame.LEVEL_SCREEN, VictoryScreen.this);
-					}
-					game.changeScreen(AURISGame.GAME_SCREEN, VictoryScreen.this);
+					jumpToNextLevel();
 				}
 				if (keycode == Keys.ESCAPE)
 				{
@@ -153,6 +145,19 @@ public class VictoryScreen extends AbstractScreen
 				return super.keyDown(event, keycode);
 			}
 		});
+	}
+
+	public void jumpToNextLevel()
+	{
+		final int nextId = game.getLevel().getID() + 1;
+		if (nextId <= Level.LEVEL_ID_9)
+		{
+			game.setLevel(AURISGame.getLevel(nextId));
+		} else
+		{
+			game.setLevel(AURISGame.getLevel(Level.LEVEL_ID_9));
+		}
+		game.changeScreen(AURISGame.LEVEL_SCREEN, VictoryScreen.this);
 	}
 
 	@Override

@@ -213,8 +213,8 @@ public class AURISGame extends Game
 
 	public void setLevel(Level level)
 	{
+		level.reset();
 		this.level = level;
-		this.level.reset();
 	}
 
 	public int getWidth()

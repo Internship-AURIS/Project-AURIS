@@ -9,16 +9,16 @@ import com.badlogic.gdx.physics.box2d.World;
 public class Obstacle extends Entity
 {
 	protected float posX, posY;
-	protected float width, height;
+	protected float hx, hy;
 	protected final short categoryBits;
 	protected final short maskBits;
 
-	public Obstacle(float posX, float posY, float width, float height, EntityCategory categoryBits, EntityCategory maskBits)
+	public Obstacle(float centerX, float centerY, float hx, float hy, EntityCategory categoryBits, EntityCategory maskBits)
 	{
-		this.posX = posX;
-		this.posY = posY;
-		this.width = width;
-		this.height = height;
+		this.posX = centerX;
+		this.posY = centerY;
+		this.hx = hx;
+		this.hy = hy;
 		this.categoryBits = categoryBits.index;
 		this.maskBits = maskBits.index;
 	}
@@ -26,10 +26,27 @@ public class Obstacle extends Entity
 	public void create(World world)
 	{
 		bodyDef = new BodyDef();
-		bodyDef.position.set(new Vector2(posX + width / 2, posY + height / 2));
+		bodyDef.position.set(new Vector2(posX + hx / 2, posY + hy / 2));
 		body = world.createBody(bodyDef);
 		PolygonShape polygonShape = new PolygonShape();
-		polygonShape.setAsBox(width / 2, height / 2, new Vector2(posX, posY), 0);
+		polygonShape.setAsBox(hx / 2, hy / 2, new Vector2(posX, posY), 0);
+		FixtureDef fixtureDef = new FixtureDef();
+		fixtureDef.shape = polygonShape;
+		fixtureDef.friction = 0f;
+		fixtureDef.filter.categoryBits = categoryBits;
+		fixtureDef.filter.maskBits = maskBits;
+		body.createFixture(fixtureDef);
+		body.setUserData(this);
+
+		polygonShape.dispose();
+	}
+	public void create1(World world)
+	{
+		bodyDef = new BodyDef();
+		bodyDef.position.set(new Vector2(posX, posY));
+		body = world.createBody(bodyDef);
+		PolygonShape polygonShape = new PolygonShape();
+		polygonShape.setAsBox(hx, hy, new Vector2(posX, posY), 0);
 		FixtureDef fixtureDef = new FixtureDef();
 		fixtureDef.shape = polygonShape;
 		fixtureDef.friction = 0f;
@@ -59,11 +76,11 @@ public class Obstacle extends Entity
 
 	public float getWidth()
 	{
-		return width;
+		return hx;
 	}
 
 	public float getHeight()
 	{
-		return height;
+		return hy;
 	}
 }

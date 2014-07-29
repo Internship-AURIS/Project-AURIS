@@ -25,6 +25,7 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
+import com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType;
 import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
 import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
@@ -68,10 +69,11 @@ public class GameScreen extends AbstractScreen
 	private BallSkin ballskin;
 
 	// Preferences
-	private int ball_radius;
-	private boolean debugging;
-	private boolean debug_shape_polygons;
-	private boolean debug_shape_vertices;
+	private final int ball_radius;
+	private final boolean debugging;
+	private final boolean debug_shape_filled;
+	private final boolean debug_shape_polygons;
+	private final boolean debug_shape_vertices;
 
 	// Debugging, Test
 	ArrayList<Obstacle> newObjects = new ArrayList<Obstacle>();
@@ -84,6 +86,7 @@ public class GameScreen extends AbstractScreen
 		Preferences prefs = game.getPreferences();
 		ball_radius = (int) prefs.getBallRadius() + 12;
 		debugging = prefs.isDebugging();
+		debug_shape_filled = prefs.isDebugginShapeFilled();
 		debug_shape_polygons = prefs.isDebuggingShapePolygons();
 		debug_shape_vertices = prefs.isDebuggingShapeVertices();
 	}
@@ -233,12 +236,6 @@ public class GameScreen extends AbstractScreen
 		this.camera = level.getCamera();
 		this.spriteBatch = new SpriteBatch();
 		overStyle.background = null;
-
-		if (debugging)
-		{
-			shapeRenderer.setColor(Color.RED);
-			shapeRenderer.setProjectionMatrix(camera.combined);
-		}
 	}
 
 	public void ballDied()
@@ -276,7 +273,8 @@ public class GameScreen extends AbstractScreen
 
 		if (debugging)
 		{
-			shapeRenderer.begin(ShapeRenderer.ShapeType.Line);
+			shapeRenderer.setColor(Color.RED);
+			shapeRenderer.begin(debug_shape_filled ? ShapeType.Filled : ShapeType.Line);
 			Blob b;
 			EdgeVertex eA, eB;
 			synchronized (blobs)
@@ -312,10 +310,12 @@ public class GameScreen extends AbstractScreen
 			level.draw(spriteBatch);
 			if (ball.isDead())
 			{
-				spriteBatch.draw(ballskin.getPopAnimation(player.getSkinID()).getKeyFrame(runTime), ball.getBody().getPosition().x - (ball_radius + 4), ball.getBody().getPosition().y - (ball_radius + 3), ball_radius * 2f, ball_radius * 2f);
+				spriteBatch.draw(ballskin.getPopAnimation(player.getSkinID()).getKeyFrame(runTime), ball.getBody().getPosition().x - (ball_radius + 4), ball.getBody().getPosition().y
+						- (ball_radius + 3), ball_radius * 2f, ball_radius * 2f);
 			} else
 			{
-				spriteBatch.draw(ballskin.getFlyAnimation(player.getSkinID()).getKeyFrame(runTime), ball.getBody().getPosition().x - (ball_radius + 4), ball.getBody().getPosition().y - (ball_radius + 3), ball_radius * 2f, ball_radius * 2f);
+				spriteBatch.draw(ballskin.getFlyAnimation(player.getSkinID()).getKeyFrame(runTime), ball.getBody().getPosition().x - (ball_radius + 4), ball.getBody().getPosition().y
+						- (ball_radius + 3), ball_radius * 2f, ball_radius * 2f);
 			}
 		}
 		spriteBatch.end();
@@ -339,7 +339,8 @@ public class GameScreen extends AbstractScreen
 			for (Iterator<Blob> iter = blobs.iterator(); iter.hasNext();)
 			{
 				b = iter.next();
-				Obstacle o = new Obstacle(level.toWorldCoord(b.xMin * sWidth), level.toWorldCoord(sHeight - b.yMax * sHeight), b.w * sWidth, b.h * sHeight, EntityCategory.OBSTACLE, EntityCategory.BALL);
+				Obstacle o = new Obstacle(level.toWorldCoord(b.xMin * sWidth), level.toWorldCoord(sHeight - b.yMax * sHeight), b.w * sWidth, b.h * sHeight, EntityCategory.OBSTACLE,
+						EntityCategory.BALL);
 				newObjects.add(o);
 			}
 			level.destroyObjects();
