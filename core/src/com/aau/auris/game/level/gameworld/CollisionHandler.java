@@ -45,7 +45,7 @@ public class CollisionHandler implements ContactListener
 			level.finished();
 			game.changeScreen(AURISGame.VICTORY_SCREEN, screen);
 		}
-		if (classA == BorderLine.class || classB == BorderLine.class)
+		if ((classA == BorderLine.class || classB == BorderLine.class) && !ball.isDead())
 		{
 			ball.die();
 		}
