@@ -53,7 +53,6 @@ public class CollisionHandler implements ContactListener
 		{
 			game.getPlayer().addPoints(1);
 		}
-		//		System.out.println("A: " + classA.getSimpleName() + " B: " + classB.getSimpleName());
 	}
 
 	@Override

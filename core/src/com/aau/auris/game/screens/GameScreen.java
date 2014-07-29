@@ -162,14 +162,12 @@ public class GameScreen extends AbstractScreen
 		btnBack.setPosition(0, 0);
 		btnBack.addListener(new ClickListener()
 		{
-
 			@Override
 			public void clicked(InputEvent event, float x, float y)
 			{
 				super.clicked(event, x, y);
 				game.changeScreen(AURISGame.LEVEL_SCREEN, GameScreen.this);
 			}
-
 		});
 		stage.addActor(lblBalken);
 		stage.addActor(lblLevel);
