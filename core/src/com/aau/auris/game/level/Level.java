@@ -119,10 +119,10 @@ public class Level implements Asset
 		border.add(new BorderLine(sWidth / 2, 0, border_size, sHeight));
 		createBorder();
 
-		// Initialize Levels
+		// General Level Initialization
 		if (id >= LEVEL_ID_1 && id <= LEVEL_ID_3)
 		{
-			defObjects.add(new Obstacle(toWorldCoord(50), toWorldCoord(50), toWorldCoord(50), (50), EntityCategory.OBSTACLE, EntityCategory.BALL));
+			defObjects.add(new Obstacle(toWorldCoord(sWidth / 2 - 100), toWorldCoord(sHeight / 2), toWorldCoord(50), (50), EntityCategory.OBSTACLE, EntityCategory.BALL));
 		} else if (id >= LEVEL_ID_4 && id <= LEVEL_ID_6)
 		{
 			defObjects.add(new Obstacle(toWorldCoord(50), toWorldCoord(50), toWorldCoord(50), (50), EntityCategory.OBSTACLE, EntityCategory.BALL));
@@ -131,12 +131,42 @@ public class Level implements Asset
 			defObjects.add(new Obstacle(toWorldCoord(50), toWorldCoord(50), toWorldCoord(50), toWorldCoord(50), EntityCategory.OBSTACLE, EntityCategory.BALL));
 		}
 
+		// Specific Level Initialization
+		if (id == LEVEL_ID_1)
+		{
+
+		} else if (id == LEVEL_ID_2)
+		{
+
+		} else if (id == LEVEL_ID_3)
+		{
+
+		} else if (id == LEVEL_ID_4)
+		{
+
+		} else if (id == LEVEL_ID_5)
+		{
+
+		} else if (id == LEVEL_ID_6)
+		{
+
+		} else if (id == LEVEL_ID_7)
+		{
+
+		} else if (id == LEVEL_ID_8)
+		{
+
+		} else if (id == LEVEL_ID_9)
+		{
+
+		}
+
 		// initialize ever existing GameObjects
 		final int goalHeight = 150;
 		final int goalWidth = 60;
 		ball = new Ball(this, sWidth / 2, sHeight / 2, game.getPreferences().getBallRadius());
 		home = new Home(0, 0, 44, 101);
-		goal = new Goal(410, 100, goalWidth, goalHeight);
+		goal = new Goal(toWorldCoord(sWidth - goalWidth), toWorldCoord(goalHeight), goalWidth, goalHeight);
 		ball.create(world);
 		home.create(world);
 		goal.create(world);
@@ -260,8 +290,19 @@ public class Level implements Asset
 		skin.getDrawable("goal4Big").draw(spriteBatch, 790, goal.getPosY() + 105, 60, 150);
 	}
 
+	/*
+	 * return value from screen to world coordinates
+	 */
 	public float toWorldCoord(float a)
 	{
 		return a * BOX_TO_WORLD;
+	}
+
+	/*
+	 * return value from world to screen coordinates
+	 */
+	public float toBoxCoord(float a)
+	{
+		return a / BOX_TO_WORLD;
 	}
 }
