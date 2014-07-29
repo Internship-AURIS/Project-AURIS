@@ -166,7 +166,7 @@ public class Level implements Asset
 
 		// initialize ever existing GameObjects
 		final int goalHeight = 150;
-		final int goalWidth = 60;
+		final int goalWidth = 40;
 		final int homeWidth = 44;
 		final int homeHeight = 101;
 		ball = new Ball(this, sWidth / 2, sHeight / 2, game.getPreferences().getBallRadius());
