@@ -8,9 +8,9 @@ public class Achievement implements Asset
 	public static final int ACHIEVEMENT_ID_1 = 3;
 	public static final int ACHIEVEMENT_ID_2 = 4;
 	public static final int ACHIEVEMENT_ID_3 = 5;
-	public static final int ACHIEVEMENT_1_POINTS = 5;
-	public static final int ACHIEVEMENT_2_POINTS = 5;
-	public static final int ACHIEVEMENT_3_POINTS = 5;
+	public static final int ACHIEVEMENT_1_POINTS = 19;
+	public static final int ACHIEVEMENT_2_POINTS = 200;
+	public static final int ACHIEVEMENT_3_POINTS = 100;
 
 	// Object Variables
 	private int id;

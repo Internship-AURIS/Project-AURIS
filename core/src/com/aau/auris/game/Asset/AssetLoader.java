@@ -23,12 +23,14 @@ public class AssetLoader
 	public static Texture greenBall;
 	public static Texture yellowBall;
 	public static Texture redBall;
+	public static Texture laserSheet;
 	public static Texture menu_background;
 	public static TextureRegion[][] tmp;
 	public static TextureRegion[][] tmpDefault;
 	public static TextureRegion[][] tmpGreen;
 	public static TextureRegion[][] tmpYellow;
 	public static TextureRegion[][] tmpRed;
+	public static TextureRegion[][] tmpLaser;
 	public static TextureAtlas menu_buttons;
 	public static TextureAtlas levelButtons;
 	public static TextureAtlas levelgoals;
@@ -63,6 +65,8 @@ public class AssetLoader
 	public static Animation yellowCheerAnimation;
 	public static Animation greenCheerAnimation;
 	public static Animation redCheerAnimation;
+	
+	public static Animation laserAnimation;
 
 	// Sounds
 	public static Sound hoverSound1;
@@ -91,6 +95,7 @@ public class AssetLoader
 		greenBall = new Texture(Gdx.files.internal("textures/greenBored.png"));
 		yellowBall = new Texture(Gdx.files.internal("textures/yellowBored.png"));
 		redBall = new Texture(Gdx.files.internal("textures/redBored.png"));
+		laserSheet= new Texture(Gdx.files.internal("textures/laserSheet.png"));
 		menu_background = new Texture(Gdx.files.internal("textures/menu_background.png"));
 		menu_background_blank = new Texture(Gdx.files.internal("textures/backBlank2.png"));
 		menu_background_blank2 = new Texture(Gdx.files.internal("textures/backLevels.png"));
@@ -105,7 +110,8 @@ public class AssetLoader
 		tmpGreen = TextureRegion.split(greenBall, greenBall.getWidth() / FLY_COLS, greenBall.getHeight() / SPRITE_ROWS);
 		tmpYellow = TextureRegion.split(yellowBall, yellowBall.getWidth() / FLY_COLS, yellowBall.getHeight() / SPRITE_ROWS);
 		tmpRed = TextureRegion.split(redBall, redBall.getWidth() / FLY_COLS, redBall.getHeight() / SPRITE_ROWS);
-
+		tmpLaser = TextureRegion.split(laserSheet, laserSheet.getWidth() / FLY_COLS, laserSheet.getHeight() / 1);
+		
 		// Animations
 		TextureRegion[] parachuteFrames1 = new TextureRegion[FLY_COLS];
 		TextureRegion[] parachuteFrames2 = new TextureRegion[FLY_COLS];
@@ -126,6 +132,7 @@ public class AssetLoader
 		TextureRegion[] defaultCheerFrames= new TextureRegion[FLY_COLS];
 		TextureRegion[] greenCheerFrames= new TextureRegion[FLY_COLS];
 		TextureRegion[] yellowCheerFrames= new TextureRegion[FLY_COLS];
+		TextureRegion[] laserFrames= new TextureRegion[FLY_COLS];
 
 		for (int i = 0; i < FLY_COLS; i++)
 		{
@@ -148,6 +155,7 @@ public class AssetLoader
 			defaultCheerFrames[i]=tmpDefault[3][i];
 			greenCheerFrames[i]=tmpGreen[3][i];
 			yellowCheerFrames[i]=tmpYellow[3][i];
+			laserFrames[i]=tmpLaser[0][i];
 		}
 		defaultPopFrames[7] = tmpDefault[4][1];
 		yellowPopFrames[7] = tmpYellow[4][1];
@@ -197,7 +205,9 @@ public class AssetLoader
 		greenCheerAnimation.setPlayMode(Animation.PlayMode.LOOP_PINGPONG);
 		yellowCheerAnimation=new Animation(0.08f,yellowCheerFrames);
 		yellowCheerAnimation.setPlayMode(Animation.PlayMode.LOOP_PINGPONG);
-		
+		//Laser
+		laserAnimation= new Animation(0.08f,laserFrames);
+		laserAnimation.setPlayMode(Animation.PlayMode.LOOP);
 		// Sounds
 		hoverSound1 = Gdx.audio.newSound(Gdx.files.internal("sounds/hover1.wav"));
 		hoverSound2 = Gdx.audio.newSound(Gdx.files.internal("sounds/hover2.wav"));

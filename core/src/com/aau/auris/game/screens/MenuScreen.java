@@ -53,6 +53,7 @@ public class MenuScreen extends AbstractScreen
 	// Local variables
 	private SpriteBatch batch;
 	private float runTime;
+	Player player;
 
 	// Variables for HighScoreList
 	private HighScore highscore;
@@ -155,6 +156,7 @@ public class MenuScreen extends AbstractScreen
 
 	protected void initComponents()
 	{
+	
 		this.highscore = new HighScore(this.game);
 		this.menuballs = new ArrayList<MenuBall>();
 		this.lastBallTime = 0;
@@ -210,9 +212,13 @@ public class MenuScreen extends AbstractScreen
 				enableIlluminati = true;
 				menuMusic.pause();
 				chorusSound.play();
+				if(player != null){
+				player.addAchievementID(5);
+				
+				}
 				Timer.schedule(new Timer.Task()
 				{
-
+					
 					@Override
 					public void run()
 					{
@@ -397,6 +403,7 @@ public class MenuScreen extends AbstractScreen
 	public void show()
 	{
 		super.show();
+		player=game.getPlayer();
 		updateHighScoreList();
 	}
 

@@ -353,9 +353,23 @@ achLevels
   orig: 50, 50
   offset: 0, 0
   index: -1
-secret
+illuminatiAch
   rotate: false
   xy: 330, 447
+  size: 50, 50
+  orig: 50, 50
+  offset: 0, 0
+  index: -1
+secret
+  rotate: false
+  xy: 200, 9
+  size: 50, 50
+  orig: 50, 50
+  offset: 0, 0
+  index: -1
+skinsAch
+  rotate: false
+  xy: 250, 9
   size: 50, 50
   orig: 50, 50
   offset: 0, 0
