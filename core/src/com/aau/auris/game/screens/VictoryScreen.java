@@ -108,7 +108,6 @@ public class VictoryScreen extends AbstractScreen
 		TextButton btnBack = new TextButton("", btnBackStyle);
 		btnBack.setSize(btnContinue.getWidth() - 60, btnContinue.getHeight() - 20);
 		btnBack.setPosition(btnContinue.getX() + btnContinue.getWidth() + 10, btnContinue.getY());
-		System.out.println(btnContinue.getX());
 		btnBack.addListener(new ClickListener()
 		{
 
