@@ -136,12 +136,8 @@ public class Level implements Asset
 		// Specific Level Initialization
 		if (id == LEVEL_ID_1)
 		{
-<<<<<<< HEAD
-
-=======
 			Laser l1 = new Laser(toWorldCoord(sWidth / 2), toWorldCoord(sHeight / 4), toWorldCoord(100), toWorldCoord(50), EntityCategory.OBSTACLE, EntityCategory.BALL);
 			defObjects.add(l1);
->>>>>>> 7c8a600a0aba92ce7830b84bcfa17105e73e3052
 		} else if (id == LEVEL_ID_2)
 		{
 
@@ -311,12 +307,9 @@ public class Level implements Asset
 		return a * BOX_TO_WORLD;
 	}
 
-<<<<<<< HEAD
 	/*
 	 * return value from world to screen coordinates
 	 */
-=======
->>>>>>> 7c8a600a0aba92ce7830b84bcfa17105e73e3052
 	public float toBoxCoord(float a)
 	{
 		return a / BOX_TO_WORLD;
