@@ -40,6 +40,23 @@ public class Obstacle extends Entity
 
 		polygonShape.dispose();
 	}
+	public void create1(World world)
+	{
+		bodyDef = new BodyDef();
+		bodyDef.position.set(new Vector2(posX, posY));
+		body = world.createBody(bodyDef);
+		PolygonShape polygonShape = new PolygonShape();
+		polygonShape.setAsBox(width, height, new Vector2(posX, posY), 0);
+		FixtureDef fixtureDef = new FixtureDef();
+		fixtureDef.shape = polygonShape;
+		fixtureDef.friction = 0f;
+		fixtureDef.filter.categoryBits = categoryBits;
+		fixtureDef.filter.maskBits = maskBits;
+		body.createFixture(fixtureDef);
+		body.setUserData(this);
+
+		polygonShape.dispose();
+	}
 
 	public void setBodyNull()
 	{
