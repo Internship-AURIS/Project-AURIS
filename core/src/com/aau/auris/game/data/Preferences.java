@@ -14,14 +14,10 @@ public class Preferences
 	private boolean debug_shape_polygons;
 	private boolean debug_shape_vertices;
 	private float ballRadius;
-	private float minBlobHeight;//in %
+	private float minBlobHeight;// in %
 	private float minBlobWidth;// in %
 	private int lowerThreshold;
 	private int upperThreshold;
-
-	/*
-	 * TODO: currently not used!!!
-	 */
 
 	public Preferences()
 	{}
@@ -56,12 +52,12 @@ public class Preferences
 				debug_shape_vertices = data.isDebuggingShapeVertices();
 				debugging = data.isDebugging();
 				ballRadius = data.getBallRadius();
-				minBlobWidth = data.getMinBlobWidth() * 100f;
-				minBlobHeight = data.getMinBlobHeight() * 100f;
+				minBlobWidth = data.getMinBlobWidth();
+				minBlobHeight = data.getMinBlobHeight();
 				lowerThreshold = data.getLowerThreshold();
 				upperThreshold = data.getUpperThreshold();
 			}
-		}else
+		} else
 		{
 			save();
 		}
@@ -84,12 +80,12 @@ public class Preferences
 
 	public float getMinBlobWidth()
 	{
-		return minBlobWidth / 100f;
+		return minBlobWidth;
 	}
 
 	public float getMinBlobHeight()
 	{
-		return minBlobHeight / 100f;
+		return minBlobHeight;
 	}
 
 	public int getLowerThreshold()
