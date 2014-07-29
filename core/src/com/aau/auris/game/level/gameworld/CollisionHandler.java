@@ -40,9 +40,8 @@ public class CollisionHandler implements ContactListener
 		{
 			game.changeScreen(AURISGame.LEVEL_SCREEN, screen);
 		}
-		if (classA == Goal.class || classB == Goal.class)
+		if ((classA == Goal.class || classB == Goal.class) && !ball.isDead())
 		{
-			// TODO: change way of exit gameScreen
 			level.finished();
 			game.changeScreen(AURISGame.VICTORY_SCREEN, screen);
 		}
@@ -54,7 +53,6 @@ public class CollisionHandler implements ContactListener
 		{
 			game.getPlayer().addPoints(1);
 		}
-		//		System.out.println("A: " + classA.getSimpleName() + " B: " + classB.getSimpleName());
 	}
 
 	@Override

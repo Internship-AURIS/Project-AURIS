@@ -166,7 +166,7 @@ public class Level implements Asset
 			o.create(world);
 		}
 	}
-	
+
 	public void createLevelObjects()
 	{
 		createObjects(levelObjects);
