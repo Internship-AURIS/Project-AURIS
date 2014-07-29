@@ -8,7 +8,7 @@ Complete up to 9 levels to earn credits and spend them on new skins or try to be
 the programmer's highscore! ;) <br>
 Keep your ball alive by not touching the edges of the screen and try to reach as many goals as you can to be the best in "AURIS"! :) <br>
 
-The game "AURIS" was created at [Alpen-Adria-Universität] (http://www.uni-klu.ac.at/main/inhalt/1.htm) under the supervision of *Bonifaz Kaufmann* <br>
+The game "AURIS" was created at the [Alpen-Adria-Universität Klagenfurt] (http://ias.aau.at) under the supervision of [Bonifaz Kaufmann] (http://www.bonifazkaufmann.com) <br>
 by *Peter Pfaffeneder* and *Andreas Bitzan*. <br>
 
 **Features:**<br>

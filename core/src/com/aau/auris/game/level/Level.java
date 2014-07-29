@@ -125,6 +125,7 @@ public class Level implements Asset
 		if (id >= LEVEL_ID_1 && id <= LEVEL_ID_3)
 		{
 			defObjects.add(new Obstacle(toWorldCoord(50), toWorldCoord(50), toWorldCoord(50), (50), EntityCategory.OBSTACLE, EntityCategory.BALL));
+
 		} else if (id >= LEVEL_ID_4 && id <= LEVEL_ID_6)
 		{
 			defObjects.add(new Obstacle(toWorldCoord(50), toWorldCoord(50), toWorldCoord(50), (50), EntityCategory.OBSTACLE, EntityCategory.BALL));
