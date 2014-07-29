@@ -51,8 +51,7 @@ public class Level implements Asset
 	public static final float BOX_STEP = 1 / 60f;
 	public static final int BOX_VELOCITY_ITERATIONS = 6;
 	public static final int BOX_POSITION_ITERATIONS = 2;
-	public static float factorX;
-	public static float factorY;
+	public static final float BOX_TO_WORLD = 0.5f;
 
 	// Level
 	private World world;
@@ -82,14 +81,9 @@ public class Level implements Asset
 
 		world = new World(GRAVITY, true);
 		debugRenderer = new Box2DDebugRenderer();
-		camera = new OrthographicCamera();
-		camera.viewportWidth = game.getWidth();
-		camera.viewportHeight = game.getHeight();
-		camera.position.set(camera.viewportWidth * 0.5f, camera.viewportHeight * 0.5f, 0f);
+		camera = new OrthographicCamera(game.getWidth(), game.getHeight());
+		camera.setToOrtho(false, game.getWidth(), game.getHeight());
 		camera.update();
-
-		factorX = camera.viewportWidth / game.getWidth();
-		factorY = camera.viewportHeight / game.getHeight();
 
 		generateWorld(game.getWidth(), game.getHeight());
 	}
@@ -119,35 +113,31 @@ public class Level implements Asset
 		this.levelObjects = new ArrayList<Obstacle>();
 
 		// Initialize GameBorder
-		border.add(new BorderLine((border_size / 2f * -1) * factorX, 0, border_size * factorX, sHeight * factorY));
-		border.add(new BorderLine(0, (border_size / 2f * -1) * factorX, sWidth * factorX, border_size * factorY));
-		border.add(new BorderLine(0, sHeight / 2 * factorY, sWidth * factorX, border_size * factorY));
-		border.add(new BorderLine(sWidth / 2 * factorX, 0, border_size * factorX, sHeight * factorY));
+		border.add(new BorderLine((border_size / 2f * -1), 0, border_size, sHeight));
+		border.add(new BorderLine(0, (border_size / 2f * -1), sWidth, border_size));
+		border.add(new BorderLine(0, sHeight / 2, sWidth, border_size));
+		border.add(new BorderLine(sWidth / 2, 0, border_size, sHeight));
 		createBorder();
 
 		// Initialize Levels
 		if (id >= LEVEL_ID_1 && id <= LEVEL_ID_3)
 		{
-			defObjects.add(new Obstacle(150, 20, 50, 50, EntityCategory.OBSTACLE, EntityCategory.BALL));
-			
-			if(id==1){
-				
-			}
-			
+			defObjects.add(new Obstacle(toWorldCoord(50), toWorldCoord(50), toWorldCoord(50), (50), EntityCategory.OBSTACLE, EntityCategory.BALL));
+
 		} else if (id >= LEVEL_ID_4 && id <= LEVEL_ID_6)
 		{
-			defObjects.add(new Obstacle((50 / 2 - 50) * factorX, (50 / 2 - 50) * factorY, 50 * factorX, 50 * factorY, EntityCategory.OBSTACLE, EntityCategory.BALL));
+			defObjects.add(new Obstacle(toWorldCoord(50), toWorldCoord(50), toWorldCoord(50), (50), EntityCategory.OBSTACLE, EntityCategory.BALL));
 		} else if (id >= LEVEL_ID_7 && id <= LEVEL_ID_9)
 		{
-			defObjects.add(new Obstacle((50 / 2 - 50) * factorX, (50 / 2 - 50) * factorY, 50 * factorX, 50 * factorY, EntityCategory.OBSTACLE, EntityCategory.BALL));
+			defObjects.add(new Obstacle(toWorldCoord(50), toWorldCoord(50), toWorldCoord(50), toWorldCoord(50), EntityCategory.OBSTACLE, EntityCategory.BALL));
 		}
 
 		// initialize ever existing GameObjects
 		final int goalHeight = 150;
 		final int goalWidth = 60;
-		ball = new Ball(this, sWidth / 2 * factorX, sHeight / 2 * factorY, game.getPreferences().getBallRadius() * factorY);
-		home = new Home(0, 0, 44 * factorX, 101 * factorY);
-		goal = new Goal(410 * factorX, 100 * factorY, goalWidth * factorX, goalHeight * factorY);
+		ball = new Ball(this, sWidth / 2, sHeight / 2, game.getPreferences().getBallRadius());
+		home = new Home(0, 0, 44, 101);
+		goal = new Goal(410, 100, goalWidth, goalHeight);
 		ball.create(world);
 		home.create(world);
 		goal.create(world);
@@ -191,7 +181,7 @@ public class Level implements Asset
 	public void setObjects(ArrayList<Obstacle> newObjects)
 	{
 		levelObjects.clear();
-		this.levelObjects.addAll(newObjects);
+		levelObjects.addAll(newObjects);
 	}
 
 	public ArrayList<Obstacle> getObjects()
@@ -268,6 +258,11 @@ public class Level implements Asset
 
 	public void draw(SpriteBatch spriteBatch)
 	{
-		skin.getDrawable("goal4Big").draw(spriteBatch, 790, goal.getPosY() / factorY + 105, 60, 150);
+		skin.getDrawable("goal4Big").draw(spriteBatch, 790, goal.getPosY() + 105, 60, 150);
+	}
+
+	public float toWorldCoord(float a)
+	{
+		return a * BOX_TO_WORLD;
 	}
 }

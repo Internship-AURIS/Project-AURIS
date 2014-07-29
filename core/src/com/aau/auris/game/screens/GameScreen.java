@@ -250,6 +250,10 @@ public class GameScreen extends AbstractScreen
 	public void render(float delta)
 	{
 		super.render(delta);
+		camera.update();
+		spriteBatch.setProjectionMatrix(camera.combined);
+		shapeRenderer.setProjectionMatrix(camera.combined);
+
 		runTime += delta;
 
 		if (ball.isDead())
@@ -269,7 +273,6 @@ public class GameScreen extends AbstractScreen
 				overStyle.background = skin.getDrawable("over3");
 			}
 		}
-		spriteBatch.setProjectionMatrix(camera.combined);
 
 		if (debugging)
 		{
@@ -336,7 +339,7 @@ public class GameScreen extends AbstractScreen
 			for (Iterator<Blob> iter = blobs.iterator(); iter.hasNext();)
 			{
 				b = iter.next();
-				Obstacle o = new Obstacle(b.xMin * sWidth, sHeight - b.yMax * sHeight, b.w * sWidth, b.h * sHeight, EntityCategory.OBSTACLE, EntityCategory.BALL);
+				Obstacle o = new Obstacle(level.toWorldCoord(b.xMin * sWidth), level.toWorldCoord(sHeight - b.yMax * sHeight), b.w * sWidth, b.h * sHeight, EntityCategory.OBSTACLE, EntityCategory.BALL);
 				newObjects.add(o);
 			}
 			level.destroyObjects();
