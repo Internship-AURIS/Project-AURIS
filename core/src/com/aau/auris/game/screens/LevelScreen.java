@@ -20,6 +20,8 @@ import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.ImageTextButton;
 import com.badlogic.gdx.scenes.scene2d.ui.ImageTextButton.ImageTextButtonStyle;
+import com.badlogic.gdx.scenes.scene2d.ui.Label;
+import com.badlogic.gdx.scenes.scene2d.ui.Label.LabelStyle;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton.TextButtonStyle;
@@ -27,7 +29,7 @@ import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 
 public class LevelScreen extends AbstractScreen
 {
-	//Asset
+	// Asset
 	private Texture background;
 	private TextureAtlas levelButtons;
 	private Sound clickSound;
@@ -50,6 +52,7 @@ public class LevelScreen extends AbstractScreen
 	private TextButtonStyle tbDiff3Lvl1Style;
 	private TextButtonStyle tbDiff3Lvl2Style;
 	private TextButtonStyle tbDiff3Lvl3Style;
+	private Label infoLabel;
 
 	// Other
 	private Player player;
@@ -71,6 +74,7 @@ public class LevelScreen extends AbstractScreen
 		hoverWhistle2 = AssetLoader.hoverWhistle2;
 		hoverWhistle3 = AssetLoader.hoverWhistle3;
 		coinSound = AssetLoader.coinSound;
+
 	}
 
 	@Override
@@ -84,6 +88,10 @@ public class LevelScreen extends AbstractScreen
 	{
 		player = game.getPlayer();
 
+		LabelStyle infoStyle = new LabelStyle();
+		infoStyle.font = bFont;
+		infoLabel = new Label("", infoStyle);
+		infoLabel.setPosition(game.getWidth() / 2.2f, game.getHeight() - game.getHeight() / 10);
 		skin = new Skin(levelButtons);
 		skin.add("default", bFont);
 
@@ -96,8 +104,15 @@ public class LevelScreen extends AbstractScreen
 		itbStyle.fontColor = Color.WHITE;
 		itbStyle.imageUp = skin.getDrawable("secret");
 
-		final int s_width = Gdx.graphics.getWidth(), s_height = Gdx.graphics.getHeight();//screen dimension
-		final float width = s_width / 6.5f, height = s_height / 6.5f;//box dimension, dimension of achievement-labels and level-labels
+		final int s_width = Gdx.graphics.getWidth(), s_height = Gdx.graphics.getHeight();// screen
+																							// dimension
+		final float width = s_width / 6.5f, height = s_height / 6.5f;// box
+																		// dimension,
+																		// dimension
+																		// of
+																		// achievement-labels
+																		// and
+																		// level-labels
 
 		final float factor = 1.5f;
 		final float x = width * 1.3f;
@@ -114,24 +129,74 @@ public class LevelScreen extends AbstractScreen
 		itbAchiev1.setBounds(x + 50, (s_height - (height)) - 55, achiev_w, achiev_h);
 		itbAchiev1.add(itbAchiev1.getImage()).row();
 		itbAchiev1.add(itbAchiev1.getLabel());
+		itbAchiev1.addListener(new InputListener()
+		{
+			@Override
+			public void enter(InputEvent event, float x, float y, int pointer, Actor fromActor)
+			{
+				super.enter(event, x, y, pointer, fromActor);
+				infoLabel.setText("Unlock all 9 levels! (+19$)");
+			}
+
+			@Override
+			public void exit(InputEvent event, float x, float y, int pointer, Actor toActor)
+			{
+				super.exit(event, x, y, pointer, toActor);
+				infoLabel.setText("");
+			}
+		});
 
 		itbAchiev2Style = new ImageTextButtonStyle();
 		itbAchiev2Style.font = bFont;
 		itbAchiev2Style.fontColor = Color.WHITE;
-		itbAchiev2Style.imageUp = skin.getDrawable("achLevels");
+		itbAchiev2Style.imageUp = skin.getDrawable("skinsAch");
 		ImageTextButton itbAchiev2 = new ImageTextButton("", itbAchiev2Style);
 		itbAchiev2.setBounds(itbAchiev1.getX() + (itbAchiev1.getWidth() * factor), itbAchiev1.getY(), itbAchiev1.getWidth(), itbAchiev1.getHeight());
 		itbAchiev2.add(itbAchiev2.getImage()).row();
 		itbAchiev2.add(itbAchiev2.getLabel());
+		itbAchiev2.addListener(new InputListener()
+		{
+			@Override
+			public void enter(InputEvent event, float x, float y, int pointer, Actor fromActor)
+			{
+				super.enter(event, x, y, pointer, fromActor);
+				infoLabel.setPosition(game.getWidth() / 2.8f, game.getHeight() - game.getHeight() / 10);
+				infoLabel.setText("Buy all skins in the shop!(+200 Score)");
+			}
+
+			@Override
+			public void exit(InputEvent event, float x, float y, int pointer, Actor toActor)
+			{
+				super.exit(event, x, y, pointer, toActor);
+				infoLabel.setText("");
+				infoLabel.setPosition(game.getWidth() / 2.2f, game.getHeight() - game.getHeight() / 10);
+			}
+		});
 
 		itbAchiev3Style = new ImageTextButtonStyle();
 		itbAchiev3Style.font = bFont;
 		itbAchiev3Style.fontColor = Color.WHITE;
-		itbAchiev3Style.imageUp = skin.getDrawable("achLevels");
+		itbAchiev3Style.imageUp = skin.getDrawable("illuminatiAch");
 		ImageTextButton itbAchiev3 = new ImageTextButton("", itbAchiev3Style);
 		itbAchiev3.setBounds(itbAchiev2.getX() + (itbAchiev2.getWidth() * factor) - 15, itbAchiev2.getY(), itbAchiev1.getWidth(), itbAchiev1.getHeight());
 		itbAchiev3.add(itbAchiev3.getImage()).row();
 		itbAchiev3.add(itbAchiev3.getLabel());
+		itbAchiev3.addListener(new InputListener()
+		{
+			@Override
+			public void enter(InputEvent event, float x, float y, int pointer, Actor fromActor)
+			{
+				super.enter(event, x, y, pointer, fromActor);
+				infoLabel.setText("Find the easter egg! (+100$)");
+			}
+
+			@Override
+			public void exit(InputEvent event, float x, float y, int pointer, Actor toActor)
+			{
+				super.exit(event, x, y, pointer, toActor);
+				infoLabel.setText("");
+			}
+		});
 
 		// Level Difficulty 1
 		tbDiff1Lvl1Style = new TextButtonStyle();
@@ -502,6 +567,8 @@ public class LevelScreen extends AbstractScreen
 		stage.addActor(tbBack);
 		stage.addActor(tbShop);
 
+		stage.addActor(infoLabel);
+
 		stage.addListener(new InputListener()
 		{
 
@@ -610,10 +677,10 @@ public class LevelScreen extends AbstractScreen
 				itbAchiev1Style.imageUp = skin.getDrawable("achLevels");
 			} else if (id == Achievement.ACHIEVEMENT_ID_2)
 			{
-				itbAchiev2Style.imageUp = skin.getDrawable("achLevels");
+				itbAchiev2Style.imageUp = skin.getDrawable("skinsAch");
 			} else if (id == Achievement.ACHIEVEMENT_ID_3)
 			{
-				itbAchiev3Style.imageUp = skin.getDrawable("achLevels");
+				itbAchiev3Style.imageUp = skin.getDrawable("illuminatiAch");
 			}
 		}
 	}

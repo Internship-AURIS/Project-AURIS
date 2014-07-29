@@ -73,7 +73,6 @@ public class AURISGame extends Game
 		// Data
 		AssetLoader.load();
 		preferences = new Preferences();
-		//		preferences.save();
 		preferences.load();
 		userdata = new UserData(this);
 		userdata.load();
@@ -214,8 +213,8 @@ public class AURISGame extends Game
 
 	public void setLevel(Level level)
 	{
+		level.reset();
 		this.level = level;
-		this.level.reset();
 	}
 
 	public int getWidth()

@@ -4,6 +4,6 @@ public class Home extends Obstacle
 {
 	public Home(float posX, float posY, float width, float height)
 	{
-		super(posX, posY, width, height, EntityCategory.OBSTACLE, EntityCategory.BALL);
+		super(posX, posY, width, height, false);
 	}
 }

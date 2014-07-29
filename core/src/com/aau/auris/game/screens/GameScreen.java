@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Iterator;
 
 import blobDetection.Blob;
+import blobDetection.EdgeVertex;
 
 import com.aau.auris.game.AURISGame;
 import com.aau.auris.game.Asset.AssetLoader;
@@ -13,7 +14,6 @@ import com.aau.auris.game.items.BallSkin;
 import com.aau.auris.game.level.Level;
 import com.aau.auris.game.level.gameworld.Ball;
 import com.aau.auris.game.level.gameworld.CollisionHandler;
-import com.aau.auris.game.level.gameworld.EntityCategory;
 import com.aau.auris.game.level.gameworld.Obstacle;
 import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.graphics.Color;
@@ -24,6 +24,7 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
+import com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType;
 import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
 import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
@@ -67,8 +68,11 @@ public class GameScreen extends AbstractScreen
 	private BallSkin ballskin;
 
 	// Preferences
-	private int ball_radius;
-	private boolean debugging;
+	private final int ball_radius;
+	private final boolean debugging;
+	private final boolean debug_shape_filled;
+	private final boolean debug_shape_polygons;
+	private final boolean debug_shape_vertices;
 
 	// Debugging, Test
 	ArrayList<Obstacle> newObjects = new ArrayList<Obstacle>();
@@ -81,6 +85,9 @@ public class GameScreen extends AbstractScreen
 		Preferences prefs = game.getPreferences();
 		ball_radius = (int) prefs.getBallRadius() + 12;
 		debugging = prefs.isDebugging();
+		debug_shape_filled = prefs.isDebugginShapeFilled();
+		debug_shape_polygons = prefs.isDebuggingShapePolygons();
+		debug_shape_vertices = prefs.isDebuggingShapeVertices();
 	}
 
 	@Override
@@ -157,14 +164,12 @@ public class GameScreen extends AbstractScreen
 		btnBack.setPosition(0, 0);
 		btnBack.addListener(new ClickListener()
 		{
-
 			@Override
 			public void clicked(InputEvent event, float x, float y)
 			{
 				super.clicked(event, x, y);
 				game.changeScreen(AURISGame.LEVEL_SCREEN, GameScreen.this);
 			}
-
 		});
 		stage.addActor(lblBalken);
 		stage.addActor(lblLevel);
@@ -194,12 +199,6 @@ public class GameScreen extends AbstractScreen
 					{
 						ball.getBody().setLinearVelocity(120, 0);
 					}
-				} else
-				{
-					//					if (keycode == Keys.ENTER)
-					//					{
-					//						level.reset();
-					//					}
 				}
 				if (keycode == Keys.ESCAPE)
 				{
@@ -236,12 +235,6 @@ public class GameScreen extends AbstractScreen
 		this.camera = level.getCamera();
 		this.spriteBatch = new SpriteBatch();
 		overStyle.background = null;
-
-		if (debugging)
-		{
-			shapeRenderer.setColor(Color.RED);
-			shapeRenderer.setProjectionMatrix(camera.combined);
-		}
 	}
 
 	public void ballDied()
@@ -253,6 +246,10 @@ public class GameScreen extends AbstractScreen
 	public void render(float delta)
 	{
 		super.render(delta);
+		camera.update();
+		spriteBatch.setProjectionMatrix(camera.combined);
+		shapeRenderer.setProjectionMatrix(camera.combined);
+
 		runTime += delta;
 
 		if (ball.isDead())
@@ -272,38 +269,44 @@ public class GameScreen extends AbstractScreen
 				overStyle.background = skin.getDrawable("over3");
 			}
 		}
-		spriteBatch.setProjectionMatrix(camera.combined);
 
 		if (debugging)
 		{
-			//			shapeRenderer.begin(ShapeRenderer.ShapeType.Line);
-			//			Blob b;
-			//			EdgeVertex eA, eB;
-			//			synchronized (blobs)
-			//			{
-			//				for (int i = 0; i < blobs.size(); i++)
-			//				{
-			//					b = blobs.get(i);
-			//					for (int j = 0; j < b.getEdgeNb(); j++)
-			//					{
-			//						eA = b.getEdgeVertexA(j);
-			//						eB = b.getEdgeVertexB(j);
-			//						if (eA != null && eB != null)
-			//						{
-			//							shapeRenderer.line(eA.x * sWidth, eA.y * sHeight, eB.x * sWidth, eB.y * sHeight);
-			//							// System.out.println("A: " + eA.x * sWidth + "/" + eA.y * sHeight + ", B: " + eB.x * sWidth + "/" + eB.y * sHeight);
-			//						}
-			//					}
-			//				}
-			//			}
-			//			shapeRenderer.end();
+			shapeRenderer.setColor(Color.RED);
+			shapeRenderer.begin(debug_shape_filled ? ShapeType.Filled : ShapeType.Line);
+			Blob b;
+			EdgeVertex eA, eB;
+			synchronized (blobs)
+			{
+				for (int i = 0; i < blobs.size(); i++)
+				{
+					b = blobs.get(i);
+					if (debug_shape_polygons)
+					{
+						shapeRenderer.rect(b.xMin * sWidth, sHeight - b.yMax * sHeight, b.w * sWidth, b.h * sHeight);
+					}
+					if (debug_shape_vertices)
+					{
+						for (int j = 0; j < b.getEdgeNb(); j++)
+						{
+							eA = b.getEdgeVertexA(j);
+							eB = b.getEdgeVertexB(j);
+							if (eA != null && eB != null)
+							{
+								shapeRenderer.line(eA.x * sWidth, sHeight - eA.y * sHeight, eB.x * sWidth, sHeight - eB.y * sHeight);
+							}
+						}
+					}
+				}
+			}
+			shapeRenderer.end();
 			debugRenderer.render(world, camera.combined);
 		}
 
 		spriteBatch.begin();
 		if (level != null && ball != null)
 		{
-			level.draw(spriteBatch);
+			level.draw(spriteBatch, delta);
 			if (ball.isDead())
 			{
 				spriteBatch.draw(ballskin.getPopAnimation(player.getSkinID()).getKeyFrame(runTime), ball.getBody().getPosition().x - (ball_radius + 4), ball.getBody().getPosition().y - (ball_radius + 3), ball_radius * 2f, ball_radius * 2f);
@@ -319,7 +322,8 @@ public class GameScreen extends AbstractScreen
 
 		updateStatusBar();
 
-		// must be called after world.step is called, because it adds and removes bodies from the world
+		// must be called after world.step is called, because it adds and
+		// removes bodies from the world
 		updateObstacles();
 	}
 
@@ -332,13 +336,12 @@ public class GameScreen extends AbstractScreen
 			for (Iterator<Blob> iter = blobs.iterator(); iter.hasNext();)
 			{
 				b = iter.next();
-				Obstacle o = new Obstacle(b.xMin * sWidth, b.yMin * sHeight, b.w * sWidth, b.h * sHeight, EntityCategory.OBSTACLE, EntityCategory.BALL);
-				o.create(world);
+				Obstacle o = new Obstacle(level.toWorldCoord(b.x * sWidth), level.toWorldCoord(sHeight - b.y * sHeight), b.w * sWidth / 2f, b.h * sHeight / 2f, false);
 				newObjects.add(o);
 			}
 			level.destroyObjects();
-			level.getObjects().clear();
-			level.getObjects().addAll(newObjects);
+			level.setObjects(newObjects);
+			level.createLevelObjects();
 		}
 	}
 
