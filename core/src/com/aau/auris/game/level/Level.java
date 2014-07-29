@@ -10,12 +10,12 @@ import com.aau.auris.game.Asset.AssetLoader;
 import com.aau.auris.game.data.Player;
 import com.aau.auris.game.level.gameworld.Ball;
 import com.aau.auris.game.level.gameworld.BorderLine;
-import com.aau.auris.game.level.gameworld.EntityCategory;
 import com.aau.auris.game.level.gameworld.Goal;
 import com.aau.auris.game.level.gameworld.Home;
 import com.aau.auris.game.level.gameworld.Laser;
 import com.aau.auris.game.level.gameworld.Obstacle;
 import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.math.Vector2;
@@ -67,9 +67,11 @@ public class Level implements Asset
 	private Home home;
 	private Goal goal;
 	private Skin skin;
+	private float runTime;
 
 	// Asset
 	private TextureAtlas goalTextures;
+	private Animation laserAnimation;
 
 	// Other
 	public AURISGame game;
@@ -94,12 +96,14 @@ public class Level implements Asset
 	{
 		world = new World(GRAVITY, true);
 		generateWorld(game.getWidth(), game.getHeight());
+		runTime = 0f;
 	}
 
 	@Override
 	public void loadAsset()
 	{
 		goalTextures = AssetLoader.levelgoals;
+		laserAnimation = AssetLoader.laserAnimation;
 		skin = new Skin(goalTextures);
 	}
 
@@ -110,6 +114,7 @@ public class Level implements Asset
 	public void generateWorld(int sWidth, int sHeight)
 	{
 		final float borderWidth = 1;// the object
+		final float laserWidth = 10;
 		this.border = new ArrayList<BorderLine>();
 		this.defObjects = new ArrayList<Obstacle>();
 		this.levelObjects = new ArrayList<Obstacle>();
@@ -122,37 +127,27 @@ public class Level implements Asset
 		createBorder();
 
 		// General Level Initialization
-		if (id >= LEVEL_ID_1 && id <= LEVEL_ID_3)
+		if (id >= LEVEL_ID_2 && id <= LEVEL_ID_3)
 		{
-			defObjects.add(new Obstacle(toWorldCoord(sWidth / 2 - 100), toWorldCoord(sHeight / 2), toWorldCoord(50), (50), EntityCategory.OBSTACLE, EntityCategory.BALL));
-		} else if (id >= LEVEL_ID_4 && id <= LEVEL_ID_6)
+			defObjects.add(new Obstacle(toWorldCoord(sWidth - sWidth / 4), toWorldCoord(getRandom(sHeight / 4f, sHeight - sHeight / 4f)), toWorldCoord(getRandom(10, sWidth / 8f)), toWorldCoord(getRandom(10, sHeight / 4f)), false));
+		} else if (id >= LEVEL_ID_4 && id <= LEVEL_ID_5)
 		{
-			defObjects.add(new Obstacle(toWorldCoord(50), toWorldCoord(50), toWorldCoord(50), (50), EntityCategory.OBSTACLE, EntityCategory.BALL));
+			defObjects.add(new Laser(toWorldCoord(sWidth - sWidth / 3f), toWorldCoord(0), toWorldCoord(laserWidth), toWorldCoord(getRandom(sHeight / 2f, sHeight))));// bottom laser
 		} else if (id >= LEVEL_ID_7 && id <= LEVEL_ID_9)
 		{
-			defObjects.add(new Obstacle(toWorldCoord(50), toWorldCoord(50), toWorldCoord(50), toWorldCoord(50), EntityCategory.OBSTACLE, EntityCategory.BALL));
+			defObjects.add(new Obstacle(toWorldCoord(50), toWorldCoord(50), toWorldCoord(50), toWorldCoord(50), false));
 		}
 
 		// Specific Level Initialization
 		if (id == LEVEL_ID_1)
+		{} else if (id == LEVEL_ID_2)
+		{} else if (id == LEVEL_ID_3)
+		{} else if (id == LEVEL_ID_4)
+		{} else if (id == LEVEL_ID_5)
+		{} else if (id == LEVEL_ID_6)
 		{
-			Laser l1 = new Laser(toWorldCoord(sWidth / 2), toWorldCoord(sHeight / 4), toWorldCoord(100), toWorldCoord(50), EntityCategory.OBSTACLE, EntityCategory.BALL);
-			defObjects.add(l1);
-		} else if (id == LEVEL_ID_2)
-		{
-
-		} else if (id == LEVEL_ID_3)
-		{
-
-		} else if (id == LEVEL_ID_4)
-		{
-
-		} else if (id == LEVEL_ID_5)
-		{
-
-		} else if (id == LEVEL_ID_6)
-		{
-
+			defObjects.add(new Laser(toWorldCoord(sWidth - sWidth / 2f), toWorldCoord(sHeight), toWorldCoord(laserWidth), toWorldCoord(getRandom(sHeight / 3f, sHeight/2f))));// top laser
+			defObjects.add(new Laser(toWorldCoord(sWidth - sWidth / 3.5f), toWorldCoord(0), toWorldCoord(laserWidth), toWorldCoord(getRandom(sHeight / 3f, sHeight/3f))));// bottom laser
 		} else if (id == LEVEL_ID_7)
 		{
 
@@ -165,16 +160,17 @@ public class Level implements Asset
 		}
 
 		// initialize ever existing GameObjects
+		final float ballRadius = game.getPreferences().getBallRadius();
 		final int goalHeight = 150;
 		final int goalWidth = 40;
 		final int homeWidth = 44;
 		final int homeHeight = 101;
-		ball = new Ball(this, sWidth / 2, sHeight / 2, game.getPreferences().getBallRadius());
+		ball = new Ball(this, toWorldCoord(getRandom(sWidth / 3f, sWidth / 2f)), sHeight / 2, ballRadius);
 		home = new Home(toWorldCoord(homeWidth / 2f), toWorldCoord(homeHeight / 2f), toWorldCoord(homeWidth), toWorldCoord(homeHeight));
-		goal = new Goal(410, getRandom(toWorldCoord(goalHeight / 2f), toWorldCoord(sHeight - goalHeight * 2)), toWorldCoord(goalWidth), toWorldCoord(goalHeight));
+		goal = new Goal(toWorldCoord(sWidth - goalWidth / 2f), getRandom(toWorldCoord(goalHeight / 2f), toWorldCoord(sHeight - goalHeight * 2)), toWorldCoord(goalWidth), toWorldCoord(goalHeight));
 		ball.create(world);
-		home.create1(world);
-		goal.create1(world);
+		home.create(world);
+		goal.create(world);
 
 		// create defined objects in world
 		createObjects(defObjects);
@@ -190,8 +186,7 @@ public class Level implements Asset
 	{
 		for (Obstacle o : border)
 		{
-			// o.create(world);
-			o.create1(world);
+			o.create(world);
 		}
 	}
 
@@ -297,9 +292,17 @@ public class Level implements Asset
 		game.getUserData().save();
 	}
 
-	public void draw(SpriteBatch spriteBatch)
+	public void draw(SpriteBatch spriteBatch, float delta)
 	{
-		skin.getDrawable("goal4Big").draw(spriteBatch, 790, toBoxCoord(goal.getPosY() - goal.getHeight() / 2f), 60, 150);
+		runTime += delta;
+		skin.getDrawable("goal4Big").draw(spriteBatch, 790, toBoxCoord(goal.getPosY() - goal.getHeight() / 2f), 60, toBoxCoord(goal.getHeight()));
+		for (Obstacle l : defObjects)
+		{
+			if (l instanceof Laser)
+			{
+				spriteBatch.draw(laserAnimation.getKeyFrame(runTime, true), toBoxCoord(l.getPosX() - 16), toBoxCoord(l.getPosY() - l.getHeight() / 2f) - 4, 60, toBoxCoord(l.getHeight() + 7));
+			}
+		}
 	}
 
 	/*

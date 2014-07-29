@@ -14,7 +14,6 @@ import com.aau.auris.game.items.BallSkin;
 import com.aau.auris.game.level.Level;
 import com.aau.auris.game.level.gameworld.Ball;
 import com.aau.auris.game.level.gameworld.CollisionHandler;
-import com.aau.auris.game.level.gameworld.EntityCategory;
 import com.aau.auris.game.level.gameworld.Obstacle;
 import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.graphics.Color;
@@ -307,15 +306,13 @@ public class GameScreen extends AbstractScreen
 		spriteBatch.begin();
 		if (level != null && ball != null)
 		{
-			level.draw(spriteBatch);
+			level.draw(spriteBatch, delta);
 			if (ball.isDead())
 			{
-				spriteBatch.draw(ballskin.getPopAnimation(player.getSkinID()).getKeyFrame(runTime), ball.getBody().getPosition().x - (ball_radius + 4), ball.getBody().getPosition().y
-						- (ball_radius + 3), ball_radius * 2f, ball_radius * 2f);
+				spriteBatch.draw(ballskin.getPopAnimation(player.getSkinID()).getKeyFrame(runTime), ball.getBody().getPosition().x - (ball_radius + 4), ball.getBody().getPosition().y - (ball_radius + 3), ball_radius * 2f, ball_radius * 2f);
 			} else
 			{
-				spriteBatch.draw(ballskin.getFlyAnimation(player.getSkinID()).getKeyFrame(runTime), ball.getBody().getPosition().x - (ball_radius + 4), ball.getBody().getPosition().y
-						- (ball_radius + 3), ball_radius * 2f, ball_radius * 2f);
+				spriteBatch.draw(ballskin.getFlyAnimation(player.getSkinID()).getKeyFrame(runTime), ball.getBody().getPosition().x - (ball_radius + 4), ball.getBody().getPosition().y - (ball_radius + 3), ball_radius * 2f, ball_radius * 2f);
 			}
 		}
 		spriteBatch.end();
@@ -339,8 +336,7 @@ public class GameScreen extends AbstractScreen
 			for (Iterator<Blob> iter = blobs.iterator(); iter.hasNext();)
 			{
 				b = iter.next();
-				Obstacle o = new Obstacle(level.toWorldCoord(b.xMin * sWidth), level.toWorldCoord(sHeight - b.yMax * sHeight), b.w * sWidth, b.h * sHeight, EntityCategory.OBSTACLE,
-						EntityCategory.BALL);
+				Obstacle o = new Obstacle(level.toWorldCoord(b.x * sWidth), level.toWorldCoord(sHeight - b.y * sHeight), b.w * sWidth / 2f, b.h * sHeight / 2f, false);
 				newObjects.add(o);
 			}
 			level.destroyObjects();

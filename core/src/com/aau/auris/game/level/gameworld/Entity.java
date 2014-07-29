@@ -7,7 +7,7 @@ public abstract class Entity
 {
 	protected BodyDef bodyDef;
 	protected Body body;
-	protected boolean deadly = false;
+	protected boolean deadly;
 
 	public Body getBody()
 	{
