@@ -294,9 +294,6 @@ public class GameScreen extends AbstractScreen
 							if (eA != null && eB != null)
 							{
 								shapeRenderer.line(eA.x * sWidth, sHeight - eA.y * sHeight, eB.x * sWidth, sHeight - eB.y * sHeight);
-								// System.out.println("A: " + eA.x * sWidth +
-								// "/" + eA.y * sHeight + ", B: " + eB.x *
-								// sWidth + "/" + eB.y * sHeight);
 							}
 						}
 					}
