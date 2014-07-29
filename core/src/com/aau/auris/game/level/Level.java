@@ -115,12 +115,6 @@ public class Level implements Asset
 		this.levelObjects = new ArrayList<Obstacle>();
 
 		// Initialize GameBorder
-		// border.add(new BorderLine((border_size / 2f * -1), 0, border_size,
-		// sHeight));
-		// border.add(new BorderLine(0, (border_size / 2f * -1), sWidth,
-		// border_size));
-		// border.add(new BorderLine(0, sHeight / 2, sWidth, border_size));
-		// border.add(new BorderLine(sWidth / 2, 0, border_size, sHeight));
 		border.add(new BorderLine(toWorldCoord((borderWidth / 2f) * -1), toWorldCoord(sHeight / 2f), toWorldCoord(borderWidth), toWorldCoord(sHeight)));// left border
 		border.add(new BorderLine(toWorldCoord(sWidth / 2f), toWorldCoord((borderWidth / 2f) * -1), toWorldCoord(sWidth), toWorldCoord(borderWidth)));// bottom border
 		border.add(new BorderLine(toWorldCoord(sWidth / 2f), toWorldCoord(sHeight + borderWidth / 2f), toWorldCoord(sWidth), toWorldCoord(borderWidth)));// top border
