@@ -3,9 +3,10 @@
 
 AURIS stands for AUgmented Reality Interactive System 
 and is a game which interacts with the ambience (edge-detection-collision) and 
-the goal to move a projected ball to a specific position. 
+the goal to move a projected ball to a specific position. <br>
 Complete up to 9 levels to earn credits and spend them on new skins or try to beat
 the programmer's highscore! ;) <br>
+Keep your ball alive by not touching the edges of the screen and try to reach as many goals as you can to be the best in "AURIS"! :) <br>
 
 The game "AURIS" was developed at Alpen-Adria-Universität under the supervision of Bonifaz Kaufmann <br>
 by Peter Pfaffeneder and Andreas Bitzan. <br>
