@@ -5,6 +5,6 @@ public class Laser extends Obstacle
 
 	public Laser(float posX, float posY, float width, float height)
 	{
-		super(posX, posY, width, height, EntityCategory.OBSTACLE, EntityCategory.BALL, true);
+		super(posX, posY, width, height, true);
 	}
 }

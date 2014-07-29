@@ -13,35 +13,35 @@ public class Obstacle extends Entity
 	protected final short categoryBits;
 	protected final short maskBits;
 
-	public Obstacle(float centerX, float centerY, float hx, float hy, EntityCategory categoryBits, EntityCategory maskBits, boolean deadly)
+	public Obstacle(float centerX, float centerY, float hx, float hy, boolean deadly)
 	{
 		this.posX = centerX;
 		this.posY = centerY;
 		this.hx = hx;
 		this.hy = hy;
-		this.categoryBits = categoryBits.index;
-		this.maskBits = maskBits.index;
+		this.categoryBits = EntityCategory.OBSTACLE.index;
+		this.maskBits = EntityCategory.BALL.index;
 		this.deadly = deadly;
 	}
 
+	//	public void create(World world)
+	//	{
+	//		bodyDef = new BodyDef();
+	//		bodyDef.position.set(new Vector2(posX + hx / 2, posY + hy / 2));
+	//		body = world.createBody(bodyDef);
+	//		PolygonShape polygonShape = new PolygonShape();
+	//		polygonShape.setAsBox(hx / 2, hy / 2, new Vector2(posX, posY), 0);
+	//		FixtureDef fixtureDef = new FixtureDef();
+	//		fixtureDef.shape = polygonShape;
+	//		fixtureDef.friction = 0f;
+	//		fixtureDef.filter.categoryBits = categoryBits;
+	//		fixtureDef.filter.maskBits = maskBits;
+	//		body.createFixture(fixtureDef);
+	//		body.setUserData(this);
+	//
+	//		polygonShape.dispose();
+	//	}
 	public void create(World world)
-	{
-		bodyDef = new BodyDef();
-		bodyDef.position.set(new Vector2(posX + hx / 2, posY + hy / 2));
-		body = world.createBody(bodyDef);
-		PolygonShape polygonShape = new PolygonShape();
-		polygonShape.setAsBox(hx / 2, hy / 2, new Vector2(posX, posY), 0);
-		FixtureDef fixtureDef = new FixtureDef();
-		fixtureDef.shape = polygonShape;
-		fixtureDef.friction = 0f;
-		fixtureDef.filter.categoryBits = categoryBits;
-		fixtureDef.filter.maskBits = maskBits;
-		body.createFixture(fixtureDef);
-		body.setUserData(this);
-
-		polygonShape.dispose();
-	}
-	public void create1(World world)
 	{
 		bodyDef = new BodyDef();
 		bodyDef.position.set(new Vector2(posX, posY));
