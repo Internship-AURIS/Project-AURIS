@@ -56,8 +56,10 @@ public class Player
 			}
 		}
 		if (allLevelsCleared)
-		{
+		{			
 			addAchievementID(Achievement.ACHIEVEMENT_ID_1);
+			//TODO: 19 coins EINMALIG adden
+
 		}
 	}
 
@@ -155,8 +157,14 @@ public class Player
 		if (!hasAchievementUnlocked(id))
 		{
 			achievementUnlocks.add(id);
+			if(id==5){
+			addCredits(new Achievement(id).getCreditValue());	
+			}else
+			{
 			addPoints(new Achievement(id).getCreditValue());
+			}
 		}
+		
 	}
 
 	public boolean addBallSkinID(int id)
@@ -168,6 +176,10 @@ public class Player
 			{
 				skinUnlocks.add(id);
 				credits -= costs;
+				if(getSkinUnlocks().size()==4){
+					addAchievementID(4);
+
+				}
 				return true;
 			}
 		}
