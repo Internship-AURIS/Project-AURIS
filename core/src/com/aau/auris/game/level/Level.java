@@ -124,19 +124,19 @@ public class Level implements Asset
 		// General Level Initialization
 		if (id >= LEVEL_ID_1 && id <= LEVEL_ID_3)
 		{
-			defObjects.add(new Obstacle(toWorldCoord(sWidth / 2 - 100), toWorldCoord(sHeight / 2), toWorldCoord(50), (50), EntityCategory.OBSTACLE, EntityCategory.BALL));
+			defObjects.add(new Obstacle(toWorldCoord(sWidth / 2 - 100), toWorldCoord(sHeight / 2), toWorldCoord(50), (50), EntityCategory.OBSTACLE, EntityCategory.BALL, false));
 		} else if (id >= LEVEL_ID_4 && id <= LEVEL_ID_6)
 		{
-			defObjects.add(new Obstacle(toWorldCoord(50), toWorldCoord(50), toWorldCoord(50), (50), EntityCategory.OBSTACLE, EntityCategory.BALL));
+			defObjects.add(new Obstacle(toWorldCoord(50), toWorldCoord(50), toWorldCoord(50), (50), EntityCategory.OBSTACLE, EntityCategory.BALL, false));
 		} else if (id >= LEVEL_ID_7 && id <= LEVEL_ID_9)
 		{
-			defObjects.add(new Obstacle(toWorldCoord(50), toWorldCoord(50), toWorldCoord(50), toWorldCoord(50), EntityCategory.OBSTACLE, EntityCategory.BALL));
+			defObjects.add(new Obstacle(toWorldCoord(50), toWorldCoord(50), toWorldCoord(50), toWorldCoord(50), EntityCategory.OBSTACLE, EntityCategory.BALL, false));
 		}
 
 		// Specific Level Initialization
 		if (id == LEVEL_ID_1)
 		{
-			Laser l1 = new Laser(toWorldCoord(sWidth / 2), toWorldCoord(sHeight / 4), toWorldCoord(100), toWorldCoord(50), EntityCategory.OBSTACLE, EntityCategory.BALL);
+			Laser l1 = new Laser(toWorldCoord(sWidth / 4f), toWorldCoord(sHeight / 6f), toWorldCoord(50), toWorldCoord(100));
 			defObjects.add(l1);
 		} else if (id == LEVEL_ID_2)
 		{
@@ -171,7 +171,7 @@ public class Level implements Asset
 		final int homeHeight = 101;
 		ball = new Ball(this, sWidth / 2, sHeight / 2, game.getPreferences().getBallRadius());
 		home = new Home(toWorldCoord(homeWidth / 2f), toWorldCoord(homeHeight / 2f), toWorldCoord(homeWidth), toWorldCoord(homeHeight));
-		goal = new Goal(410, getRandom(toWorldCoord(goalHeight / 2f), toWorldCoord(sHeight - goalHeight * 2)), toWorldCoord(goalWidth), toWorldCoord(goalHeight));
+		goal = new Goal(toWorldCoord(sWidth - goalWidth / 2f), getRandom(toWorldCoord(goalHeight / 2f), toWorldCoord(sHeight - goalHeight * 2)), toWorldCoord(goalWidth), toWorldCoord(goalHeight));
 		ball.create(world);
 		home.create1(world);
 		goal.create1(world);

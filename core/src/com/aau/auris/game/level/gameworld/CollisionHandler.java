@@ -28,6 +28,11 @@ public class CollisionHandler implements ContactListener
 		this.ball = game.getLevel().getBall();
 	}
 
+	/*
+	 * With the maskBits and categoryBits set, it should objects only be possible
+	 * to collide ball & obstacle
+	 * 
+	 */
 	@Override
 	public void beginContact(Contact contact)
 	{
@@ -45,19 +50,11 @@ public class CollisionHandler implements ContactListener
 			level.finished();
 			game.changeScreen(AURISGame.VICTORY_SCREEN, screen);
 		}
-		if ((classA == BorderLine.class || classB == BorderLine.class) && !ball.isDead())
+		Entity e1 = (Entity) fixtureA.getBody().getUserData();
+		Entity e2 = (Entity) fixtureB.getBody().getUserData();
+		if (e1.isDeadly() || e2.isDeadly())
 		{
 			ball.die();
-		}
-		if (classA == Obstacle.class || classB == Obstacle.class)
-		{
-			Entity e1 = (Entity) fixtureA.getBody().getUserData();
-			Entity e2 = (Entity) fixtureB.getBody().getUserData();
-			if (e1.isDeadly() || e2.isDeadly())
-			{
-				ball.die();
-				System.out.println("died");
-			}
 		}
 	}
 

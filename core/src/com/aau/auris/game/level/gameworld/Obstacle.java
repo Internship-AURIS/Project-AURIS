@@ -13,7 +13,7 @@ public class Obstacle extends Entity
 	protected final short categoryBits;
 	protected final short maskBits;
 
-	public Obstacle(float centerX, float centerY, float hx, float hy, EntityCategory categoryBits, EntityCategory maskBits)
+	public Obstacle(float centerX, float centerY, float hx, float hy, EntityCategory categoryBits, EntityCategory maskBits, boolean deadly)
 	{
 		this.posX = centerX;
 		this.posY = centerY;
@@ -21,6 +21,7 @@ public class Obstacle extends Entity
 		this.hy = hy;
 		this.categoryBits = categoryBits.index;
 		this.maskBits = maskBits.index;
+		this.deadly = deadly;
 	}
 
 	public void create(World world)
