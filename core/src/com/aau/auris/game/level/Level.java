@@ -16,6 +16,7 @@ import com.aau.auris.game.level.gameworld.Home;
 import com.aau.auris.game.level.gameworld.Laser;
 import com.aau.auris.game.level.gameworld.Obstacle;
 import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.math.Vector2;
@@ -67,9 +68,11 @@ public class Level implements Asset
 	private Home home;
 	private Goal goal;
 	private Skin skin;
+	private float runTime;
 
 	// Asset
 	private TextureAtlas goalTextures;
+	private Animation laserAnimation;
 
 	// Other
 	public AURISGame game;
@@ -94,12 +97,14 @@ public class Level implements Asset
 	{
 		world = new World(GRAVITY, true);
 		generateWorld(game.getWidth(), game.getHeight());
+		runTime = 0f;
 	}
 
 	@Override
 	public void loadAsset()
 	{
 		goalTextures = AssetLoader.levelgoals;
+		laserAnimation = AssetLoader.laserAnimation;
 		skin = new Skin(goalTextures);
 	}
 
@@ -297,9 +302,17 @@ public class Level implements Asset
 		game.getUserData().save();
 	}
 
-	public void draw(SpriteBatch spriteBatch)
+	public void draw(SpriteBatch spriteBatch, float delta)
 	{
+		runTime += delta;
 		skin.getDrawable("goal4Big").draw(spriteBatch, 790, toBoxCoord(goal.getPosY() - goal.getHeight() / 2f), 60, 150);
+		for (Obstacle o : defObjects)
+		{
+			if (o instanceof Laser)
+			{
+				spriteBatch.draw(laserAnimation.getKeyFrame(runTime, true), toBoxCoord(o.getPosX()), toBoxCoord(o.getPosY()), o.getWidth()*2, o.getHeight());
+			}
+		}
 	}
 
 	/*

@@ -307,7 +307,7 @@ public class GameScreen extends AbstractScreen
 		spriteBatch.begin();
 		if (level != null && ball != null)
 		{
-			level.draw(spriteBatch);
+			level.draw(spriteBatch, delta);
 			if (ball.isDead())
 			{
 				spriteBatch.draw(ballskin.getPopAnimation(player.getSkinID()).getKeyFrame(runTime), ball.getBody().getPosition().x - (ball_radius + 4), ball.getBody().getPosition().y - (ball_radius + 3), ball_radius * 2f, ball_radius * 2f);
