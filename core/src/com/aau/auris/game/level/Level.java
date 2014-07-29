@@ -186,7 +186,7 @@ public class Level implements Asset
 	public void setObjects(ArrayList<Obstacle> newObjects)
 	{
 		levelObjects.clear();
-		this.levelObjects.addAll(newObjects);
+		levelObjects.addAll(newObjects);
 	}
 
 	public ArrayList<Obstacle> getObjects()
