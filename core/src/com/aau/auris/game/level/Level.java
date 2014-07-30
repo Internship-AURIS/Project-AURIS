@@ -295,7 +295,7 @@ public class Level implements Asset
 	public void draw(SpriteBatch spriteBatch, float delta)
 	{
 		runTime += delta;
-		skin.getDrawable("goal4Big").draw(spriteBatch, 790, toBoxCoord(goal.getPosY() - goal.getHeight() / 2f), 60, toBoxCoord(goal.getHeight()));
+		skin.getDrawable("goal4Big").draw(spriteBatch, game.getWidth()-40, toBoxCoord(goal.getPosY() - goal.getHeight() / 2f), 60, toBoxCoord(goal.getHeight()));
 		for (Obstacle l : defObjects)
 		{
 			if (l instanceof Laser)
@@ -319,5 +319,13 @@ public class Level implements Asset
 	public float toBoxCoord(float a)
 	{
 		return a / BOX_TO_WORLD;
+	}
+
+	public void adapt(int width, int height)
+	{
+		camera.viewportWidth = width;
+		camera.viewportHeight = height;
+		camera.position.set(camera.viewportWidth*0.5f, camera.viewportHeight*0.5f, 0f);
+		camera.update();
 	}
 }

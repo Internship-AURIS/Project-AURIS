@@ -348,6 +348,7 @@ public class GameScreen extends AbstractScreen
 	public void resize(int width, int height)
 	{
 		super.resize(width, height);
+		level.adapt(width, height);
 	}
 
 	@Override

@@ -1,12 +1,7 @@
 package com.aau.auris.game;
 
 import java.awt.Dimension;
-import java.awt.image.BufferedImage;
-import java.io.File;
-import java.io.IOException;
 import java.util.ArrayList;
-
-import javax.imageio.ImageIO;
 
 import com.aau.auris.game.Asset.AssetLoader;
 import com.aau.auris.game.data.Player;
@@ -39,7 +34,7 @@ public class AURISGame extends Game
 	public static final int CREDITS_SCREEN = 3;
 	public static final int SHOP_SCREEN = 4;
 	public static final int GAME_SCREEN = 5;
-	public static final int VICTORY_SCREEN=6;
+	public static final int VICTORY_SCREEN = 6;
 
 	private MenuScreen menuScreen;
 	private LoginScreen loginScreen;
@@ -57,7 +52,6 @@ public class AURISGame extends Game
 	// ImageProcessing
 	private ImageProcessor imageProcessor;
 	private WebcamHandler webcamHandler;
-	private BufferedImage inputImage;
 
 	// Data
 	private Preferences preferences;
@@ -158,32 +152,14 @@ public class AURISGame extends Game
 		} else if (screenIndex == GAME_SCREEN)
 		{
 			newScreen = gameScreen;
-		}else if(screenIndex==VICTORY_SCREEN)
+		} else if (screenIndex == VICTORY_SCREEN)
 		{
-			newScreen=victoryScreen;
-		}else 
+			newScreen = victoryScreen;
+		} else
 		{
 			newScreen = menuScreen;// default solution
 		}
 		this.setScreen(newScreen);
-	}
-
-	public void setInputImage(BufferedImage img)
-	{
-		this.inputImage = img;
-		try
-		{
-			ImageIO.write(img, "PNG", new File("assets/inputImage.png"));
-		} catch (IOException e)
-		{
-			e.printStackTrace();
-		}
-
-	}
-
-	public BufferedImage getInputImage()
-	{
-		return inputImage;
 	}
 
 	public Preferences getPreferences()
