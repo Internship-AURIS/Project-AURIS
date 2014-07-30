@@ -70,7 +70,6 @@ public class GameScreen extends AbstractScreen
 	// Preferences
 	private final int ball_radius;
 	private final boolean debugging;
-	private final boolean debug_shape_filled;
 	private final boolean debug_shape_polygons;
 	private final boolean debug_shape_vertices;
 
@@ -85,7 +84,6 @@ public class GameScreen extends AbstractScreen
 		Preferences prefs = game.getPreferences();
 		ball_radius = (int) prefs.getBallRadius() + 12;
 		debugging = prefs.isDebugging();
-		debug_shape_filled = prefs.isDebugginShapeFilled();
 		debug_shape_polygons = prefs.isDebuggingShapePolygons();
 		debug_shape_vertices = prefs.isDebuggingShapeVertices();
 	}
@@ -273,7 +271,8 @@ public class GameScreen extends AbstractScreen
 		if (debugging)
 		{
 			shapeRenderer.setColor(Color.RED);
-			shapeRenderer.begin(debug_shape_filled ? ShapeType.Filled : ShapeType.Line);
+			shapeRenderer.begin(ShapeType.Line);
+
 			Blob b;
 			EdgeVertex eA, eB;
 			synchronized (blobs)

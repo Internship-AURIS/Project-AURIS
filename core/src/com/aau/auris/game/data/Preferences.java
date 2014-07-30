@@ -11,7 +11,6 @@ public class Preferences
 
 	private int maxPlayers;
 	private boolean debugging;
-	private boolean debug_shape_filled;
 	private boolean debug_shape_polygons;
 	private boolean debug_shape_vertices;
 	private float ballRadius;
@@ -29,7 +28,6 @@ public class Preferences
 		debugging = true;
 		debug_shape_polygons = true;
 		debug_shape_vertices = true;
-		debug_shape_filled = true;
 		ballRadius = 60f;
 		minBlobWidth = .1f;
 		minBlobHeight = .1f;
@@ -51,7 +49,6 @@ public class Preferences
 			{
 				maxPlayers = data.getMaxPlayers();
 				debugging = data.isDebugging();
-				debug_shape_filled = data.isDebugginShapeFilled();
 				debug_shape_polygons = data.isDebuggingShapePolygons();
 				debug_shape_vertices = data.isDebuggingShapeVertices();
 				ballRadius = data.getBallRadius();
@@ -99,11 +96,6 @@ public class Preferences
 	public boolean isDebugging()
 	{
 		return debugging;
-	}
-
-	public boolean isDebugginShapeFilled()
-	{
-		return debug_shape_filled;
 	}
 
 	public boolean isDebuggingShapePolygons()
