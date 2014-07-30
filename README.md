@@ -11,6 +11,9 @@ Keep your ball alive by not touching the edges of the screen and try to reach as
 The game "AURIS" was created at the [Alpen-Adria-Universität Klagenfurt] (http://ias.aau.at) under the supervision of [Bonifaz Kaufmann] (http://www.bonifazkaufmann.com) <br>
 by *Peter Pfaffeneder* and *Andreas Bitzan*. <br>
 
+For detailed informations visit our website at: <br>
+http://internship-auris.github.io/Project-AURIS/  <br>
+
 **Features:**<br>
 - Augmented Reality and Ambience Interaction <br>
 - Achievements to gain even more credits <br>
