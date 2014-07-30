@@ -56,6 +56,11 @@ public class ImageProcessor implements WebcamListener
 			b = bd.getBlob(i);
 			if (b.w > minBlobWidth && b.h > minBlobHeight)
 			{
+				// TODO: adapt blobs to screen
+//				b.x *= 0.5f;
+//				b.y *= 0.5;
+//				b.w *= 0.5f;
+//				b.h *= 0.5f;
 				blobs.add(bd.getBlob(i));
 			}
 		}
