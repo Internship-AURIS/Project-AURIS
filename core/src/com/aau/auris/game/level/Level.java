@@ -135,7 +135,7 @@ public class Level implements Asset
 			defObjects.add(new Laser(toWorldCoord(sWidth - sWidth / 3f), toWorldCoord(0), toWorldCoord(laserWidth), toWorldCoord(getRandom(sHeight / 2f, sHeight))));// bottom laser
 		} else if (id >= LEVEL_ID_7 && id <= LEVEL_ID_9)
 		{
-			defObjects.add(new Obstacle(toWorldCoord(50), toWorldCoord(50), toWorldCoord(50), toWorldCoord(50), false));
+			//			defObjects.add(new Obstacle(toWorldCoord(50), toWorldCoord(50), toWorldCoord(50), toWorldCoord(50), false));
 		}
 
 		// Specific Level Initialization
@@ -146,17 +146,20 @@ public class Level implements Asset
 		{} else if (id == LEVEL_ID_5)
 		{} else if (id == LEVEL_ID_6)
 		{
-			defObjects.add(new Laser(toWorldCoord(sWidth - sWidth / 2f), toWorldCoord(sHeight), toWorldCoord(laserWidth), toWorldCoord(getRandom(sHeight / 3f, sHeight/2f))));// top laser
-			defObjects.add(new Laser(toWorldCoord(sWidth - sWidth / 3.5f), toWorldCoord(0), toWorldCoord(laserWidth), toWorldCoord(getRandom(sHeight / 3f, sHeight/3f))));// bottom laser
+			defObjects.add(new Laser(toWorldCoord(sWidth - sWidth / 2f), toWorldCoord(sHeight), toWorldCoord(laserWidth), toWorldCoord(getRandom(sHeight / 3f, sHeight / 2f))));// top laser
+			defObjects.add(new Laser(toWorldCoord(sWidth - sWidth / 3.5f), toWorldCoord(0), toWorldCoord(laserWidth), toWorldCoord(getRandom(sHeight / 3f, sHeight / 3f))));// bottom laser
 		} else if (id == LEVEL_ID_7)
 		{
-
+			defObjects.add(new Laser(toWorldCoord(sWidth - sWidth / 2.5f), toWorldCoord(sHeight / 2f), toWorldCoord(laserWidth), toWorldCoord(sHeight / 3f)));// centered right laser
 		} else if (id == LEVEL_ID_8)
 		{
-
+			defObjects.add(new Laser(toWorldCoord(sWidth - sWidth / 4f), toWorldCoord(sHeight - sHeight / 3.5f), toWorldCoord(laserWidth), toWorldCoord(sHeight / 4f)));// top right laser
+			defObjects.add(new Laser(toWorldCoord(sWidth - sWidth / 2f), toWorldCoord(sHeight / 3.5f), toWorldCoord(laserWidth), toWorldCoord(sHeight / 4f)));// bottom left laser
 		} else if (id == LEVEL_ID_9)
 		{
-
+			defObjects.add(new Laser(toWorldCoord(sWidth - sWidth / 4f), toWorldCoord(sHeight - sHeight / 4f), toWorldCoord(laserWidth), toWorldCoord(sHeight / 6f)));// top right laser
+			defObjects.add(new Laser(toWorldCoord(sWidth - sWidth / 4f), toWorldCoord(sHeight / 4f), toWorldCoord(laserWidth), toWorldCoord(sHeight / 6f)));// bottom left laser
+			defObjects.add(new Obstacle(toWorldCoord(sWidth / 2f), toWorldCoord(sHeight / 2f), toWorldCoord(sHeight / 6f), toWorldCoord(sHeight / 4f), false));// centered obstacle
 		}
 
 		// initialize ever existing GameObjects
@@ -295,7 +298,7 @@ public class Level implements Asset
 	public void draw(SpriteBatch spriteBatch, float delta)
 	{
 		runTime += delta;
-		skin.getDrawable("goal4Big").draw(spriteBatch, game.getWidth()-40, toBoxCoord(goal.getPosY() - goal.getHeight() / 2f), 60, toBoxCoord(goal.getHeight()));
+		skin.getDrawable("goal4Big").draw(spriteBatch, game.getWidth() - 40, toBoxCoord(goal.getPosY() - goal.getHeight() / 2f), 60, toBoxCoord(goal.getHeight()));
 		for (Obstacle l : defObjects)
 		{
 			if (l instanceof Laser)
@@ -325,7 +328,7 @@ public class Level implements Asset
 	{
 		camera.viewportWidth = width;
 		camera.viewportHeight = height;
-		camera.position.set(camera.viewportWidth*0.5f, camera.viewportHeight*0.5f, 0f);
+		camera.position.set(camera.viewportWidth * 0.5f, camera.viewportHeight * 0.5f, 0f);
 		camera.update();
 	}
 }

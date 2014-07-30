@@ -11,7 +11,7 @@ public class DesktopLauncher
 		LwjglApplicationConfiguration config = new LwjglApplicationConfiguration();
 		config.width = AURISGame.PROJECTOR_SIZE.width;
 		config.height = AURISGame.PROJECTOR_SIZE.height;
-		//				config.fullscreen = true;
+//		config.fullscreen = true;
 		new LwjglApplication(new AURISGame(), config);
 	}
 }
